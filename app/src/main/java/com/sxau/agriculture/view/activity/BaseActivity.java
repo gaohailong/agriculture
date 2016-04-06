@@ -1,15 +1,14 @@
-package com.sxau.agriculture;
+package com.sxau.agriculture.view.activity;
 
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
 import com.sxau.agriculture.agriculture.R;
 
-public class Main2Activity extends AppCompatActivity {
+public class BaseActivity extends FragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main2);
     }
 }
