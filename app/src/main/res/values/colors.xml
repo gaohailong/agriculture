@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--主题颜色-->
     <color name="colorPrimary">#4CAF50</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="mainColor">#4CAF50</color>
+    <!--主色调-->
+    <color name="mainColor">#009688</color>
+    <color name="white">#ffffff</color>
 </resources>
