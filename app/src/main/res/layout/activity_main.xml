@@ -24,7 +24,11 @@
               android:layout_weight="0" />
 
       </android.support.v4.app.FragmentTabHost>
-
+    <Button
+        android:id="@+id/btn_intent_personal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="跳转到personal"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
