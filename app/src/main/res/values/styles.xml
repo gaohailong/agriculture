@@ -7,12 +7,12 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
-
+    <!--底部导航栏-->
     <style name="RadioButtonBottomTab">
         <item name="android:layout_weight">1</item>
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">match_parent</item>
-        <item name="android:layout_marginTop">3dp</item>
+        <item name="android:layout_marginTop">2dp</item>
         <item name="android:layout_marginBottom">2dp</item>
         <item name="android:padding">2dp</item>
         <item name="android:button">@null</item>
@@ -22,6 +22,16 @@
         <item name="android:gravity">center</item>
         <item name="android:background">#ffffff</item>
     </style>
+    <!--顶部导航栏-->
+    <declare-styleable name="Topbar">
+        <attr name="titleContent" format="string"/>
+        <attr name="titleTextSize" format="dimension"/>
+        <attr name="titleTextColorDefine" format="color"/>
+
+        <attr name="rightImageWidth" format="dimension"/>
+        <attr name="rightImageHeight" format="dimension"/>
+    </declare-styleable>
+
     <!--圆角图片-->
     <declare-styleable name="RoundImageView">
         <attr name="borderThickness" format="integer" />
