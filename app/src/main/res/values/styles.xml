@@ -18,7 +18,7 @@
         <item name="android:button">@null</item>
         <item name="android:textSize">@dimen/font_size</item>
         <item name="android:textColor">@color/mainColor</item>
-      <!--  <item name="android:textColor">@drawable/txtcolor_gray2green_sel</item>-->
+        <!--  <item name="android:textColor">@drawable/txtcolor_gray2green_sel</item>-->
         <item name="android:gravity">center</item>
         <item name="android:background">#ffffff</item>
     </style>
@@ -38,4 +38,9 @@
         <attr name="borderInsideColor" format="color" />
         <attr name="borderOutsideColor" format="color"/>
     </declare-styleable>
+
+    <style name="AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
 </resources>

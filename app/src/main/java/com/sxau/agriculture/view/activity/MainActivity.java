@@ -1,7 +1,10 @@
 package com.sxau.agriculture.view.activity;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentTabHost;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.RadioGroup;
 import android.widget.TabHost;
 import android.widget.Toast;
@@ -16,6 +19,7 @@ import com.sxau.agriculture.view.fragment.QuestionFragment;
 public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener {
     private FragmentTabHost fragmentTabHost;
     private RadioGroup radioGroup;
+    private Button button;//测试跳转
     private long currentBackPressedTime = 0;
     private static final int BACK_PRESSED_INTERVAL = 2000;
     private final Class[] fragments = {HomeFragment.class, QuestionFragment.class, InfoFragment.class, MessageFragment.class};
@@ -25,7 +29,9 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         iniTitle();
+
         initView();
     }
 
@@ -49,7 +55,9 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         topBar.setOnTopbarClickListener(new TopBarUtil.TopbarClickListner() {
             @Override
             public void onClickLeftRoundImage() {
-                Toast.makeText(MainActivity.this, "天哪", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent();
+                intent.setClass(MainActivity.this,PresonalCenterActivity.class);
+                startActivity(intent);
             }
 
             @Override

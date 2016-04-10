@@ -21,6 +21,8 @@
             </intent-filter>
         </activity>
         <activity android:name="com.sxau.agriculture.view.activity.BaseActivity" />
+        <activity android:name="com.sxau.agriculture.view.activity.PresonalCenterActivity" />
+
     </application>
 
 </manifest>
