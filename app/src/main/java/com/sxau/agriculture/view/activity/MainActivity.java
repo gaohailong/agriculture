@@ -1,5 +1,6 @@
 package com.sxau.agriculture.view.activity;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentTabHost;
 import android.os.Bundle;
 import android.widget.RadioGroup;
@@ -66,7 +67,10 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
                 fragmentTabHost.setCurrentTab(2);
                 break;
             case R.id.rb_message:
-                fragmentTabHost.setCurrentTab(3);
+                Intent intent=new Intent(this,TabTestActivity.class);
+                startActivity(intent);
+
+//                fragmentTabHost.setCurrentTab(3);
                 break;
             default:
                 break;
