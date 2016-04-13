@@ -41,6 +41,7 @@ public class InfoListViewFragment extends BaseFragment {
         infoDatas[0].setDistance("山西");
         infoDatas[0].setTitle("收购苹果两万斤");
         infoDatas[0].setIbDingwei(R.drawable.dingwei);
+        infoDatas[0].setIbCollection(R.drawable.head);
         infoDatas[0].setContent("对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于");
 
         infoDatas[1]=new InfoData();
@@ -49,8 +50,8 @@ public class InfoListViewFragment extends BaseFragment {
         infoDatas[1].setDate("2013.06.22");
         infoDatas[1].setDistance("山西");
         infoDatas[1].setTitle("收购苹果两万斤");
+        infoDatas[1].setIbCollection(R.drawable.head);
         infoDatas[1].setIbDingwei(R.drawable.dingwei);
-
         infoDatas[1].setContent("对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于");
 
         infoDatas[2]=new InfoData();
@@ -59,27 +60,27 @@ public class InfoListViewFragment extends BaseFragment {
         infoDatas[2].setDate("2013.06.22");
         infoDatas[2].setDistance("山西");
         infoDatas[2].setTitle("收购苹果两万斤");
+        infoDatas[2].setIbCollection(R.drawable.head);
         infoDatas[2].setIbDingwei(R.drawable.dingwei);
-
         infoDatas[2].setContent("对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于");
 
         infoDatas[3]=new InfoData();
+        infoDatas[3].setIbCollection(R.drawable.head);
         infoDatas[3].setIbHead(R.drawable.touxiang);
         infoDatas[3].setName("天和集团");
         infoDatas[3].setDate("2013.06.22");
         infoDatas[3].setDistance("山西");
         infoDatas[3].setTitle("收购苹果两万斤");
         infoDatas[3].setIbDingwei(R.drawable.dingwei);
-
         infoDatas[3].setContent("对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于");
 
         infoDatas[4]=new InfoData();
+        infoDatas[4].setIbCollection(R.drawable.head);
         infoDatas[4].setIbHead(R.drawable.touxiang);
         infoDatas[4].setName("天和集团");
         infoDatas[4].setDate("2013.06.22");
         infoDatas[4].setDistance("山西");
         infoDatas[4].setIbDingwei(R.drawable.dingwei);
-
         infoDatas[4].setTitle("收购苹果两万斤");
         infoDatas[4].setContent("对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于");
 
