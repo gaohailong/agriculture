@@ -1,5 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">Agriculture</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="no_answer">暂无回答</string>
+    <string name="title_activity_presonal_center_acivity">PresonalCenterAcivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_presonal_centerfragment">PresonalCenterfragment</string>
+
 </resources>
