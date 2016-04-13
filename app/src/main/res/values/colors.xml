@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--主题颜色-->
     <color name="colorPrimary">#4CAF50</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
@@ -13,5 +14,18 @@
 
     <color name="text_enabled">#FFFFFFFF</color>
     <color name="text_disabled">#4DFFFFFF</color>
+
+    <color name="colorwhite">#FFFFFF</color>
+
+    <!--主色调-->
+    <color name="mainColors">#009688</color>
+    <color name="white">#ffffff</color>
+
+    <!--橘黄色-->
+    <color name="croci">#FF6446</color>
+    <!--金黄色-->
+    <color name="yellow">#F9BE00</color>
+
+
 
 </resources>

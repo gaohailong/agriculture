@@ -1,8 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">Agriculture</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="supply">供应</string>
     <string name="demand">需求</string>
+
+    <string name="no_answer">暂无回答</string>
+    <string name="title_activity_presonal_center_acivity">PresonalCenterAcivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="titleA">我的问题</string>
+    <string name="titleB">交易信息</string>
+    <string name="titleC">收藏夹</string>
+
+
+
+
 </resources>

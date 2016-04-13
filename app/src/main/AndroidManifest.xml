@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.sxau.agriculture.agriculture">
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name="com.sxau.agriculture.AgricultureApplication"
         android:allowBackup="true"
@@ -17,6 +21,10 @@
             </intent-filter>
         </activity>
         <activity android:name="com.sxau.agriculture.view.activity.BaseActivity" />
+        <activity android:name="com.sxau.agriculture.view.activity.TabTestActivity"></activity>
+        <activity android:name="com.sxau.agriculture.view.activity.PresonalCenterActivity" />
+        <activity android:name="com.sxau.agriculture.view.activity.PresonalComplite"/>
+
     </application>
 
 </manifest>

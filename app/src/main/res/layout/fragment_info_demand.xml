@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/rl_demand_lefttop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:id="@+id/rl_demand"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageButton
+                android:id="@+id/ib_demand_head"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/search" />
+
+            <TextView
+                android:id="@+id/tv_demand_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/ib_demand_head"
+                android:layout_marginLeft="15dp"
+                android:layout_toRightOf="@+id/ib_demand_head"
+                android:text="天和集团"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/tv_demand_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/tv_demand_name"
+                android:layout_marginLeft="100dp"
+                android:layout_toRightOf="@+id/tv_demand_name"
+                android:text="2013.06.22"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/tv_demand_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/ib_demand_head"
+                android:layout_below="@+id/ib_demand_head"
+                android:layout_marginTop="10dp"
+                android:text="收购苹果两万斤"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/tv_demand_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/tv_demand_title"
+                android:layout_alignRight="@+id/tv_demand_date"
+                android:layout_below="@+id/tv_demand_title"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="20dp"
+                android:text="对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于"
+                android:textSize="10sp" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_alignTop="@+id/rl_demand"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/rl_demand"
+            android:layout_toRightOf="@+id/rl_demand">
+
+            <RelativeLayout
+                android:id="@+id/rl_demand_righttop"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                >
+
+                <ImageButton
+                    android:id="@+id/ib_demand_dingwei"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginLeft="35dp"
+                    android:layout_marginTop="4dp"
+                    android:background="#00000000"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/dingwei" />
+
+                <TextView
+                    android:id="@+id/tv_demand_distance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="65dp"
+                    android:layout_marginTop="18dp"
+                    android:text="山西"
+                    android:textSize="10sp" />
+            </RelativeLayout>
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/rl_demand_righttop"
+    android:layout_marginTop="60dp"
+    android:layout_alignParentBottom="true"
+    >
+
+    <ImageButton
+        android:id="@+id/ib_demand_collection"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="45dp"
+        android:background="#00000000"
+        android:scaleType="centerCrop"
+        android:src="@drawable/head" />
+
+</RelativeLayout>
+
+
+</RelativeLayout>
+
+
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+
+
