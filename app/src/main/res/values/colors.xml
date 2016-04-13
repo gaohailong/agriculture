@@ -10,13 +10,13 @@
     <!--主色调-->
     <color name="mainColors">#009688</color>
     <color name="white">#ffffff</color>
-<<<<<<< HEAD
+
     <!--橘黄色-->
     <color name="croci">#FF6446</color>
     <!--金黄色-->
     <color name="yellow">#F9BE00</color>
-=======
-    <color name="croci">#FF6446</color>
 
->>>>>>> c8c7ff985bf320f8eef39b4d2557b6d737dbffdb
+
+
+
 </resources>

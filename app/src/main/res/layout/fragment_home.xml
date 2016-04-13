@@ -1,13 +1,34 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.sxau.agriculture.view.fragment.HomeFragment">
-
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom">
+            <TextView
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:text="巴拉巴拉巴拉白斑病白斑病白斑病白斑病白斑病白斑病白斑病白斑病"
+                android:textSize="15dp"
+                android:singleLine="true"
+                />
+        </RelativeLayout>
+    </FrameLayout>
     <ListView
         android:id="@+id/lv_push"
         android:layout_width="wrap_content"
         android:layout_height="320dp"
-        android:layout_marginTop="200dp"
-        ></ListView>
-</FrameLayout>
+        android:layout_marginTop="200dp" />
+
+</RelativeLayout>
