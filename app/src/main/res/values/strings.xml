@@ -4,14 +4,22 @@
     <string name="app_name">Agriculture</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
+<<<<<<< HEAD
 
 
     <string name="no_answer">暂无回答</string>
 
+=======
+
+    <string name="no_answer">暂无回答</string>
+>>>>>>> c2c7d4c776626ea62ccd11c2990b1825c7a9f5aa
     <string name="title_activity_presonal_center_acivity">PresonalCenterAcivity</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_presonal_centerfragment">PresonalCenterfragment</string>
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> c2c7d4c776626ea62ccd11c2990b1825c7a9f5aa
 </resources>

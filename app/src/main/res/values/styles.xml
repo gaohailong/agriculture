@@ -22,6 +22,19 @@
         <item name="android:gravity">center</item>
         <item name="android:background">#ffffff</item>
     </style>
+    <style name="RadioButtonInfo">
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:padding">2dp</item>
+        <item name="android:button">@null</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:textColor">@color/InfoTopColor</item>
+        <!--  <item name="android:textColor">@drawable/txtcolor_gray2green_sel</item>-->
+        <item name="android:gravity">center</item>
+        <item name="android:background">#4CAF50</item>
+    </style>
+
     <!--顶部导航栏-->
     <declare-styleable name="Topbar">
         <attr name="titleContent" format="string"/>
