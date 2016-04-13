@@ -1,19 +1,23 @@
 package com.sxau.agriculture.view.fragment;
 
-
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.PagerTabStrip;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ogaclejapan.smarttablayout.SmartTabLayout;
+import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
+import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 import com.sxau.agriculture.agriculture.R;
 
 import java.util.ArrayList;
@@ -43,31 +47,20 @@ public class InfoFragment extends Fragment {
 
     private void initView(View convertView){
 
-//        view1 = (TextView)convertView.findViewById(R.id.tv_supply);
-//        view2 = (TextView)convertView.findViewById(R.id.tv_demand);
+        FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(
+                getChildFragmentManager(), FragmentPagerItems.with(getContext())
+                .add(R.string.supply, InfoSupplyFragment.class)
+                .add(R.string.demand, InfoDemandFragment.class)
+                .create());
 
-//        view1.setOnClickListener(new txListener(0));
-//        view2.setOnClickListener(new txListener(1));
+        ViewPager viewPager = (ViewPager)convertView.findViewById(R.id.viewpager);
+        viewPager.setAdapter(adapter);
 
-        rbDemand = (RadioButton) convertView.findViewById(R.id.rb_demand);
-        rbSupply = (RadioButton) convertView.findViewById(R.id.rb_supply);
+        SmartTabLayout viewPagerTab = (SmartTabLayout) convertView.findViewById(R.id.viewpagertab);
 
-        rbDemand.setOnClickListener(new txListener(0));
-        rbSupply.setOnClickListener(new txListener(1));
+        viewPagerTab.setCustomTabView(R.layout.custom_tab_icon_and_text,R.id.custom_tab_text);
 
-        mPager = (ViewPager)convertView.findViewById(R.id.viewpager);
-        fragmentList = new ArrayList<Fragment>();
-        Fragment infoSupplyFragment = InfoSupplyFragment.newInstance("this is second fragment");
-        Fragment infoDemandFragment = InfoDemandFragment.newInstance("this is third fragment");
-
-
-        fragmentList.add(infoSupplyFragment);
-        fragmentList.add(infoDemandFragment);
-
-        //给ViewPager设置适配器
-        mPager.setAdapter(new MyFragmentPagerAdapter(getChildFragmentManager(), fragmentList));
-        mPager.setCurrentItem(0);//设置当前显示标签页为第一页
-        mPager.setOnPageChangeListener(new MyOnPageChangeListener());//页面变化时的监听器
+        viewPagerTab.setViewPager(viewPager);
 
     }
 

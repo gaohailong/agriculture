@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/custom_tab_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="2dp"
+        android:maxLines="1"
+        android:textColor="#fff"
+        android:text="hello"
+        android:textSize="15sp" />
+
+    <android.support.v4.widget.Space
+        android:id="@+id/center_anchor"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_below="@id/custom_tab_text"
+        android:layout_centerInParent="false" />
+
+    <com.sxau.agriculture.view.fragment.TintableImageView
+        android:id="@+id/custom_tab_icon"
+        android:layout_centerHorizontal="true"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        android:layout_above="@id/center_anchor"
+        android:layout_alignParentBottom="true"
+        android:scaleType="center"
+        android:src="@drawable/ic_underline_48dp"
+        app:tint="@color/custom_tab_icon" />
+
+
+</RelativeLayout>

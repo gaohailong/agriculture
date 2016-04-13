@@ -2,88 +2,148 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/mainColor"
     android:orientation="vertical">
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="30dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="20dp"
+        android:background="@drawable/background_shape"
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tv_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="天河集团" />
 
-        <ImageView
-            android:id="@+id/iv_add"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_launc" />
-    </LinearLayout>
-    <TextView
-        android:id="@+id/tv_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="收购苹果两万斤"
-        android:textSize="40sp"/>
-    <TextView
-        android:id="@+id/tv_info"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="收购苹果两万金收购苹果两万金收购苹果两万金收购苹果两万金收购苹果两万金收购苹果两万金收购苹果两万金收购苹果两万金收购苹果两万金收购苹果两万金收购苹果两万金"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:orientation="horizontal">
-        <TextView
-            android:id="@+id/tv_attentionNum"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="关注人数：1000+"/>
-        <ImageView
-            android:id="@+id/iv_humIcon"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </LinearLayout>
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:orientation="horizontal">
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="天河集团" />
+
+            <ImageView
+                android:id="@+id/iv_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_launc" />
+        </LinearLayout>
+
         <TextView
-            android:id="@+id/tv_timeStart"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="2016.03.22"/>
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="收购苹果两万斤"
+            android:textSize="22sp"
+            android:layout_marginBottom="5dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/devideLine"/>
+
         <TextView
-            android:id="@+id/tv_timeEnd"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="-2016.04.22"/>
-        <ImageView
-            android:id="@+id/iv_location"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
+            android:layout_marginTop="5dp"
+            android:id="@+id/tv_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minLines="5"
+            android:textSize="14sp"
+            android:text="收购苹果两万金收购苹果两万金收购苹果两万金收购苹果两万金收购苹果两万金收购苹果两万金收购苹果两万金收购苹果两万金收购苹果两万金收购苹果两万金收购苹果两万金" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/devideLine"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_attentionNum"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="关注人数：1000+" />
+
+            <ImageView
+                android:id="@+id/iv_humIcon"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/devideLine"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="5dp"
+            android:layout_height="20dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_timeStart"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="2016.03.22" />
+
+            <TextView
+                android:id="@+id/tv_timeEnd"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="-2016.04.22" />
+
+            <ImageView
+                android:id="@+id/iv_location"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/tv_distance"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="12km" />
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/devideLine"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp">
+
+            <TextView
+                android:id="@+id/tv_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="800-820-2232" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/devideLine"/>
+
         <TextView
-            android:id="@+id/tv_distance"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="12km"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:orientation="horizontal">
-        <TextView
-            android:id="@+id/tv_phone"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="800-820-2232"/>
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
+            android:layout_width="match_parent"
+            android:layout_height="20dp" />
     </LinearLayout>
 </LinearLayout>

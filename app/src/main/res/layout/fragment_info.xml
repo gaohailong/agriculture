@@ -1,71 +1,49 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.sxau.agriculture.view.fragment.InfoFragment">
 
-    <LinearLayout
+
+    <com.ogaclejapan.smarttablayout.SmartTabLayout
+        android:background="@color/mainColor"
+        android:id="@+id/viewpagertab"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="48dp"
+        app:stl_indicatorAlwaysInCenter="false"
+        app:stl_indicatorWithoutPadding="false"
+        app:stl_indicatorInFront="true"
+        app:stl_indicatorInterpolation="linear"
+        app:stl_indicatorGravity="bottom"
+        app:stl_indicatorColor="#999999"
+        app:stl_indicatorThickness="0dp"
+        app:stl_indicatorWidth="auto"
+        app:stl_indicatorCornerRadius="2dp"
+        app:stl_overlineColor="#FFFFFF"
+        app:stl_overlineThickness="0dp"
+        app:stl_underlineColor="#FFFFFF"
+        app:stl_underlineThickness="1dp"
+        app:stl_dividerColor="#FFFFFF"
+        app:stl_dividerThickness="1dp"
+        app:stl_defaultTabBackground="@color/mainColor"
+        app:stl_defaultTabTextAllCaps="true"
+        app:stl_defaultTabTextColor="#FFFFFF"
+        app:stl_defaultTabTextSize="16sp"
+        app:stl_defaultTabTextHorizontalPadding="16dp"
+        app:stl_defaultTabTextMinWidth="0dp"
+        app:stl_distributeEvenly="true"
+        app:stl_clickable="true"
+        app:stl_titleOffset="auto_center"
+        app:stl_drawDecorationAfterTab="true"
+        />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:background="#4CAF50">
 
-            <ImageButton
-                android:id="@+id/ib_head"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_margin="10dp"
-                android:background="#00000000"
-                android:scaleType="centerCrop"
-                android:src="@mipmap/favorite_red_48" />
-
-            <ImageButton
-                android:id="@+id/ib_search"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_alignParentRight="true"
-                android:layout_margin="10dp"
-                android:background="#00000000"
-                android:scaleType="centerCrop"
-                android:src="@mipmap/find_24" />
-        </RelativeLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:id="@+id/rb_supply"
-                style="@style/RadioButtonInfo"
-
-                android:text="供应" />
-
-            <RadioButton
-                android:id="@+id/rb_demand"
-                style="@style/RadioButtonInfo"
-
-                android:text="需求" />
-
-        </LinearLayout>
-
-    </LinearLayout>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewpager"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        <android.support.v4.view.PagerTabStrip
-            android:id="@+id/tabstrip"
-            android:layout_width="wrap_content"
-            android:layout_height="2dp"></android.support.v4.view.PagerTabStrip>
-
-    </android.support.v4.view.ViewPager>
-
-</LinearLayout>
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/viewpagertab"
+        />
+</RelativeLayout>
