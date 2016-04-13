@@ -14,7 +14,6 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -36,11 +35,7 @@ dependencies {
     //Optional: see how to use the utility.
 
     compile 'com.android.support:support-v4:23.1.0'
-
     compile 'com.ogaclejapan.smarttablayout:library:1.6.0@aar'
-
     compile 'com.ogaclejapan.smarttablayout:utils-v4:1.6.0@aar'
-
-
     compile 'com.android.support:design:23.1.0'
 }

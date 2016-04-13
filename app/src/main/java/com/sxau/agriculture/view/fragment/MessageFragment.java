@@ -16,20 +16,9 @@ import com.sxau.agriculture.view.activity.MainActivity;
 
 
 public class MessageFragment extends Fragment {
-    private MainActivity mainActivity;
+
 
     public MessageFragment() {
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        mainActivity = (MainActivity) activity;
     }
 
     @Override

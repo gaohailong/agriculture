@@ -6,6 +6,7 @@ import android.widget.ImageButton;
  * Created by Administrator on 2016/4/9.
  */
 public class InfoData {
+    private  int ibCollection;
     private int ibHead;
     private String name;
     private String date;
@@ -13,6 +14,16 @@ public class InfoData {
     private String title;
     private String content;
     private int ibDingwei;
+
+
+
+    public int getIbCollection() {
+        return ibCollection;
+    }
+
+    public void setIbCollection(int ibCollection) {
+        this.ibCollection = ibCollection;
+    }
 
     public int getIbDingwei() {
         return ibDingwei;

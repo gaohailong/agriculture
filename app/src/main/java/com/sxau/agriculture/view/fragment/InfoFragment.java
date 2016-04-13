@@ -19,7 +19,7 @@ import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 import java.util.ArrayList;
 
-public class InfoFragment extends Fragment {
+public class InfoFragment extends BaseFragment{
 
     private TextView view1, view2;
     private RadioButton rbSupply, rbDemand;
@@ -97,6 +97,4 @@ public class InfoFragment extends Fragment {
             mPager.setCurrentItem(index);
         }
     }
-
-
 }

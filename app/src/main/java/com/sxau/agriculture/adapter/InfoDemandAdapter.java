@@ -18,6 +18,7 @@ import com.sxau.agriculture.bean.InfoData;
 public class InfoDemandAdapter extends BaseAdapter implements View.OnClickListener{
     private Context context;
     private InfoData datas[];
+    ViewHolder holder;
 
     public InfoDemandAdapter(Context context, InfoData[] datas) {
         this.context = context;
@@ -41,7 +42,7 @@ public class InfoDemandAdapter extends BaseAdapter implements View.OnClickListen
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
+
         if (convertView == null) {
             LayoutInflater inflater = LayoutInflater.from(context);
             convertView = inflater.inflate(R.layout.fragment_info_demand, null);
@@ -53,6 +54,7 @@ public class InfoDemandAdapter extends BaseAdapter implements View.OnClickListen
             holder.title = (TextView) convertView.findViewById(R.id.tv_demand_title);
             holder.content = (TextView) convertView.findViewById(R.id.tv_demand_content);
             holder.ibDingwei = (ImageButton) convertView.findViewById(R.id.ib_demand_dingwei);
+            holder.ibCollection= (ImageButton) convertView.findViewById(R.id.ib_demand_collection);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -66,6 +68,7 @@ public class InfoDemandAdapter extends BaseAdapter implements View.OnClickListen
         holder.title.setText(infoData.getTitle());
         holder.content.setText(infoData.getContent());
         holder.ibDingwei.setImageResource(infoData.getIbDingwei());
+        holder.ibCollection.setImageResource(infoData.getIbCollection());
 
         ImageButton ibDemandCollection= (ImageButton) convertView.findViewById(R.id.ib_demand_collection);
         ibDemandCollection.setOnClickListener(this);
@@ -76,14 +79,14 @@ public class InfoDemandAdapter extends BaseAdapter implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.ib_demand_collection:
-
                 Toast.makeText(context,"111",Toast.LENGTH_SHORT).show();
-
+holder.         ibCollection.setImageResource(R.drawable.collection);
                 break;
         }
     }
 
     public class ViewHolder {
+        ImageButton ibCollection;
         ImageButton ibHead;
         TextView name;
         TextView date;
