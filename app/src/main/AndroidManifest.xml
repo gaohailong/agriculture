@@ -23,6 +23,7 @@
         <activity android:name="com.sxau.agriculture.view.activity.BaseActivity" />
         <activity android:name="com.sxau.agriculture.view.activity.TabTestActivity"></activity>
         <activity android:name="com.sxau.agriculture.view.activity.PresonalCenterActivity" />
+        <activity android:name="com.sxau.agriculture.view.activity.PresonalComplite"/>
     </application>
 
 </manifest>

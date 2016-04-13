@@ -1,70 +1,73 @@
 package com.sxau.agriculture.view.activity;
 
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.Button;
+import android.widget.ImageButton;
 
+import com.ogaclejapan.smarttablayout.SmartTabLayout;
+import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
+import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 import com.sxau.agriculture.agriculture.R;
+import com.sxau.agriculture.view.fragment.PersonalQuestionFragment;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Administrator on 2016/4/9.
  */
-public class PresonalCenterActivity extends FragmentActivity {
-    private ViewPager vPager = null;
-    private TextView text1,text2;
+public class PresonalCenterActivity extends AppCompatActivity implements View.OnClickListener {
+    private ViewPager vPager = null,vTitlePaper;
     private List<View> viewlist;
-    private View MyQusetionView,TradeInfoView;
+    private View MyQusetionView, TradeInfoView;
+    private ImageButton imageButtonBack;
+    private Button buttonCompile;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_presonal_center);
-        vPager = (ViewPager) findViewById(R.id.vPager);
-        LayoutInflater inflater = getLayoutInflater();
-        text1 = (TextView) this.findViewById(R.id.text1);
-        text2 = (TextView) this.findViewById(R.id.text2);
-        MyQusetionView = inflater.inflate(R.layout.frament_personal_myquestion,null);
-        TradeInfoView = inflater.inflate(R.layout.frament_personal_tradeinfo,null);
 
-        viewlist = new ArrayList<View>();
-        viewlist.add(MyQusetionView);
-        viewlist.add(TradeInfoView);
+        initView();
 
-        PagerAdapter pagerAdapter = new PagerAdapter() {
+       FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(getSupportFragmentManager(), FragmentPagerItems.with(this)
+               .add(R.string.titleA,PersonalQuestionFragment.class)
+               .add(R.string.titleB,PersonalQuestionFragment.class)
+               .add(R.string.titleC,PersonalQuestionFragment.class)
+               .create() );
+        vTitlePaper  = (ViewPager) findViewById(R.id.viewpager);
+        vTitlePaper.setAdapter(adapter);
 
+        SmartTabLayout viewPagerTab = (SmartTabLayout) findViewById(R.id.viewpagertab);
+        viewPagerTab.setViewPager(vTitlePaper);
 
-            @Override
-            public int getCount() {
-                return viewlist.size();
-            }
+    }
+    private void  initView(){
+        imageButtonBack = (ImageButton) this.findViewById(R.id.ib_back);
+        buttonCompile = (Button) this.findViewById(R.id.btn_compile);
+        imageButtonBack.setOnClickListener(this);
+        buttonCompile.setOnClickListener(this);
 
-            @Override
-            public boolean isViewFromObject(View view, Object object) {
-                return view == object;
-            }
-            @Override
-            public void destroyItem(ViewGroup container, int position,
-                                    Object object) {
-                // TODO Auto-generated method stub
-                container.removeView(viewlist.get(position));
-            }
-            @Override
-            public Object instantiateItem(ViewGroup container, int position) {
-                // TODO Auto-generated method stub
-                container.addView(viewlist.get(position));
-                return viewlist.get(position);
-            }
-        };
-        vPager.setAdapter(pagerAdapter);
+    }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.ib_back:
+                Intent intent1 = new Intent();
+                intent1.setClass(PresonalCenterActivity.this,MainActivity.class);
+                startActivity(intent1);
+                break;
+            case R.id.btn_compile:
+                Intent intent2 = new Intent();
+                intent2.setClass(PresonalCenterActivity.this,PresonalComplite.class);
+                startActivity(intent2);
+                break;
+            default:
+        }
     }
 }

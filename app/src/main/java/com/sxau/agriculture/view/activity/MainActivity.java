@@ -19,7 +19,6 @@ import com.sxau.agriculture.view.fragment.QuestionFragment;
 public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener {
     private FragmentTabHost fragmentTabHost;
     private RadioGroup radioGroup;
-    private Button button;//测试跳转
     private long currentBackPressedTime = 0;
     private static final int BACK_PRESSED_INTERVAL = 2000;
     private final Class[] fragments = {HomeFragment.class, QuestionFragment.class, InfoFragment.class, MessageFragment.class};

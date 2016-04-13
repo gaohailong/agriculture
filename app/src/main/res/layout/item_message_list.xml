@@ -82,7 +82,7 @@
                 android:layout_gravity="center_horizontal|center_vertical"
                 android:layout_margin="10dp"
                 android:src="@mipmap/right"
-                android:visibility="gone" />
+                android:visibility="visible" />
 
             <TextView
                 android:id="@+id/tv_no_answer"
