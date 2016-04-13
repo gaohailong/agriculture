@@ -21,12 +21,8 @@
             </intent-filter>
         </activity>
         <activity android:name="com.sxau.agriculture.view.activity.BaseActivity" />
-<<<<<<< HEAD
         <activity android:name="com.sxau.agriculture.view.activity.TabTestActivity"></activity>
-=======
         <activity android:name="com.sxau.agriculture.view.activity.PresonalCenterActivity" />
-
->>>>>>> 620cc1f74e4fd29df4c3fbc928f5f5dcb4df6d1a
     </application>
 
 </manifest>

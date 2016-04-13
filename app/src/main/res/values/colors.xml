@@ -4,13 +4,10 @@
     <color name="colorPrimary">#4CAF50</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-<<<<<<< HEAD
     <color name="InfoTopColor">#ffffff</color>
-=======
     <color name="mainColor">#4CAF50</color>
     <color name="colorwhite">#FFFFFF</color>
 
->>>>>>> 620cc1f74e4fd29df4c3fbc928f5f5dcb4df6d1a
     <!--主色调-->
     <color name="mainColors">#009688</color>
     <color name="white">#ffffff</color>
@@ -18,5 +15,4 @@
     <color name="croci">#FF6446</color>
     <!--金黄色-->
     <color name="yellow">#F9BE00</color>
-
 </resources>
