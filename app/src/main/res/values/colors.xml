@@ -11,18 +11,9 @@
     <!--主色调-->
     <color name="mainColors">#009688</color>
     <color name="white">#ffffff</color>
-<<<<<<< HEAD
 
-=======
->>>>>>> 559b4c5bfe34ebea6d97c291484cbb1e9d73fd4c
     <!--橘黄色-->
     <color name="croci">#FF6446</color>
     <!--金黄色-->
     <color name="yellow">#F9BE00</color>
-<<<<<<< HEAD
-
-
-
-=======
->>>>>>> 559b4c5bfe34ebea6d97c291484cbb1e9d73fd4c
 </resources>
