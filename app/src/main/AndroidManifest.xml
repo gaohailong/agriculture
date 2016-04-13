@@ -21,9 +21,13 @@
             </intent-filter>
         </activity>
         <activity android:name="com.sxau.agriculture.view.activity.BaseActivity" />
+        <activity android:name="com.sxau.agriculture.view.activity.TabTestActivity"></activity>
         <activity android:name="com.sxau.agriculture.view.activity.PresonalCenterActivity" />
+<<<<<<< HEAD
         <activity android:name="com.sxau.agriculture.view.activity.PresonalComplite"/>
 
+=======
+>>>>>>> 559b4c5bfe34ebea6d97c291484cbb1e9d73fd4c
     </application>
 
 </manifest>

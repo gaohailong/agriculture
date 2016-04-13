@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     tools:context="com.sxau.agriculture.view.fragment.MessageFragment">
 
+
    <ListView
        android:id="@+id/lv_message"
        android:layout_width="match_parent"

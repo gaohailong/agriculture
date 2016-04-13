@@ -106,6 +106,10 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
                 iniTitle();
                 break;
             case R.id.rb_message:
+                Intent intent=new Intent(this,TabTestActivity.class);
+                startActivity(intent);
+
+//                fragmentTabHost.setCurrentTab(3);
                 fragmentTabHost.setCurrentTab(3);
                 flag = 3;
                 iniTitle();

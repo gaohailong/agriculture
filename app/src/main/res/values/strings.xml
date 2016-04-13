@@ -6,6 +6,10 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string name="no_answer">暂无回答</string>
+<<<<<<< HEAD
+=======
+    <string name="title_activity_presonal_center_acivity">PresonalCenterAcivity</string>
+>>>>>>> 559b4c5bfe34ebea6d97c291484cbb1e9d73fd4c
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="titleA">我的问题</string>
