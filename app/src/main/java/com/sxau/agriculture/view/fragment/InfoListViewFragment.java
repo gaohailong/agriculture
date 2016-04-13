@@ -8,7 +8,9 @@ import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
+import com.sxau.agriculture.adapter.InfoDemandAdapter;
 import com.sxau.agriculture.agriculture.R;
+import com.sxau.agriculture.bean.InfoData;
 
 /**
  * Created by Administrator on 2016/4/12.

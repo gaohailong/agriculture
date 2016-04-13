@@ -1,7 +1,6 @@
-package com.sxau.agriculture.view.fragment;
+package com.sxau.agriculture.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sxau.agriculture.agriculture.R;
-
-import java.util.zip.Inflater;
+import com.sxau.agriculture.bean.InfoData;
 
 /**
  * Created by Administrator on 2016/4/9.

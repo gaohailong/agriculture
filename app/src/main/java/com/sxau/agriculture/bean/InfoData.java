@@ -1,4 +1,4 @@
-package com.sxau.agriculture.view.fragment;
+package com.sxau.agriculture.bean;
 
 import android.widget.ImageButton;
 
