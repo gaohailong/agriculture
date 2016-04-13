@@ -2,12 +2,6 @@ package com.sxau.agriculture.view.fragment;
 
 import com.sxau.agriculture.agriculture.R;
 
-import android.content.res.Resources;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.PagerAdapter;
-
-import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -16,26 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
-import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
-
-import android.widget.BaseAdapter;
-import android.widget.ImageButton;
-import android.widget.ListView;
-import android.widget.TextView;
-
-import com.ogaclejapan.smarttablayout.SmartTabLayout;
-import com.ogaclejapan.smarttablayout.utils.ViewPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
-import com.sxau.agriculture.agriculture.R;
-
 import java.util.ArrayList;
-import java.util.List;
 
 public class InfoFragment extends Fragment {
 
@@ -46,14 +28,6 @@ public class InfoFragment extends Fragment {
     private int currIndex;//当前页卡编号
     private int bmpW;//横线图片宽度
     private int offset;//图片移动的偏移量
-
-//
-//public class InfoFragment extends Fragment {
-//    private  View mview;
-//
-//    private ViewPager viewpager;
-//    public InfoFragment() {
-//    }
 
 
     @Override
@@ -68,8 +42,8 @@ public class InfoFragment extends Fragment {
 
         FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(
                 getChildFragmentManager(), FragmentPagerItems.with(getContext())
-                .add(R.string.supply, InfoSupplyFragment.class)
-                .add(R.string.demand, InfoDemandFragment.class)
+                .add(R.string.supply, InfoListViewFragment.class)
+                .add(R.string.demand, InfoListViewFragment.class)
                 .create());
 
         ViewPager viewPager = (ViewPager) convertView.findViewById(R.id.viewpager);
@@ -105,7 +79,6 @@ public class InfoFragment extends Fragment {
             currIndex = arg0;
             animation.setFillAfter(true);//动画终止时停留在最后一帧，不然会回到没有执行前的状态
             animation.setDuration(200);//动画持续时间0.2秒
-            // image.startAnimation(animation);//是用ImageView来显示动画的
             int i = currIndex + 1;
             Toast.makeText(getContext(), "您选择了第" + i + "个页卡", Toast.LENGTH_SHORT).show();
         }
@@ -123,27 +96,6 @@ public class InfoFragment extends Fragment {
             // TODO Auto-generated method stub
             mPager.setCurrentItem(index);
         }
-//@Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-//                             Bundle savedInstanceState) {
-//
-//        mview=inflater.inflate(R.layout.fragment_info, container, false);
-//
-//
-//        viewpager= (ViewPager) mview.findViewById(R.id.vp_infoSupplyOrDemand);
-//        FragmentPagerItemAdapter fragmentadapter = new FragmentPagerItemAdapter(getChildFragmentManager()
-//            , FragmentPagerItems.with(getContext())
-//            .add("供应",InfoListViewFragment.class)
-//            .add("需求", InfoListViewFragment.class)
-//
-//            .create());
-//
-//
-//    viewpager.setAdapter(fragmentadapter);
-//    SmartTabLayout viewPagerTab = (SmartTabLayout) mview.findViewById(R.id.viewpagertab);
-//    viewPagerTab.setViewPager(viewpager);
-//    return mview;
-
     }
 
 

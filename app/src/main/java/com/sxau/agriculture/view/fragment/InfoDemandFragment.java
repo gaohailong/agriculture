@@ -36,9 +36,7 @@ public class InfoDemandFragment extends BaseFragment {
         Log.d(TAG, "TestFragment-----onCreateView");
         Bundle args = getArguments();
         hello = args != null ? args.getString("hello") : defaultHello;
-        View view = inflater.inflate(R.layout.infodemand, container, false);
-        TextView viewhello = (TextView) view.findViewById(R.id.tv_demand);
-        viewhello.setText(hello);
+        View view = inflater.inflate(R.layout.fragment_info_listview, container, false);
         return view;
     }
 

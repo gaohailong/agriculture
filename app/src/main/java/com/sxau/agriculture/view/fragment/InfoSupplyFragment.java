@@ -32,7 +32,7 @@ public class InfoSupplyFragment extends BaseFragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         Log.d(TAG, "TestFragment-----onCreateView");
         Bundle args = getArguments();
-        View view = inflater.inflate(R.layout.infosupply, container, false);
+        View view = inflater.inflate(R.layout.fragment_info_listview, container, false);
 
 
         Toast.makeText(getContext(),"aaa",Toast.LENGTH_LONG).show();

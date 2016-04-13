@@ -24,6 +24,7 @@
         <activity android:name="com.sxau.agriculture.view.activity.TabTestActivity"></activity>
         <activity android:name="com.sxau.agriculture.view.activity.PresonalCenterActivity" />
         <activity android:name="com.sxau.agriculture.view.activity.PresonalComplite"/>
+        <activity android:name="com.sxau.agriculture.view.activity.InfoContentActivity"/>
 
     </application>
 
