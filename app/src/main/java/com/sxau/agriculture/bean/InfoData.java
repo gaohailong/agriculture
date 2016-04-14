@@ -1,44 +1,42 @@
 package com.sxau.agriculture.bean;
 
-import android.widget.ImageButton;
-
 /**
  * Created by Administrator on 2016/4/9.
  */
 public class InfoData {
-    private  int ibCollection;
-    private int ibHead;
+    private  int lvCollection;
+    private int ivHead;
     private String name;
     private String date;
     private String distance;
     private String title;
     private String content;
-    private int ibDingwei;
+    private int ivLocation;
 
 
 
-    public int getIbCollection() {
-        return ibCollection;
+    public int getLvCollection() {
+        return lvCollection;
     }
 
-    public void setIbCollection(int ibCollection) {
-        this.ibCollection = ibCollection;
+    public void setLvCollection(int lvCollection) {
+        this.lvCollection = lvCollection;
     }
 
-    public int getIbDingwei() {
-        return ibDingwei;
+    public int getIvLocation() {
+        return ivLocation;
     }
 
-    public void setIbDingwei(int ibDingwei) {
-        this.ibDingwei = ibDingwei;
+    public void setIvLocation(int ivLocation) {
+        this.ivLocation = ivLocation;
     }
 
-    public int getIbHead() {
-        return ibHead;
+    public int getIvHead() {
+        return ivHead;
     }
 
-    public void setIbHead(int ibHead) {
-        this.ibHead = ibHead;
+    public void setIvHead(int ivHead) {
+        this.ivHead = ivHead;
     }
 
     public String getName() {

@@ -18,44 +18,37 @@ import com.ogaclejapan.smarttablayout.utils.ViewPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 import com.sxau.agriculture.agriculture.R;
+import com.sxau.agriculture.utils.TopBarUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class InfoFragment extends Fragment {
-    private  View mview;
-
+    private View mview;
     private ViewPager viewpager;
-//    private ImageButton ibHead;
-//    private TextView name;
-//    private TextView date;
-//    private TextView distance;
-//    private TextView title;
-//    private TextView content;
     public InfoFragment() {
     }
-@Override
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        mview=inflater.inflate(R.layout.fragment_info, container, false);
+        mview = inflater.inflate(R.layout.fragment_info, container, false);
 
 
-        viewpager= (ViewPager) mview.findViewById(R.id.vp_infoSupplyOrDemand);
+
+        viewpager = (ViewPager) mview.findViewById(R.id.vp_infoSupplyOrDemand);
         FragmentPagerItemAdapter fragmentadapter = new FragmentPagerItemAdapter(getChildFragmentManager()
-            , FragmentPagerItems.with(getContext())
-            .add("供应",InfoListViewFragment.class)
-            .add("需求", InfoListViewFragment.class)
-
-            .create());
-
-
-    viewpager.setAdapter(fragmentadapter);
-    SmartTabLayout viewPagerTab = (SmartTabLayout) mview.findViewById(R.id.viewpagertab);
-    viewPagerTab.setViewPager(viewpager);
-    return mview;
+                , FragmentPagerItems.with(getContext())
+                .add("供应", InfoListViewFragment.class)
+                .add("需求", InfoListViewFragment.class)
+                .create());
+        viewpager.setAdapter(fragmentadapter);
+        SmartTabLayout viewPagerTab = (SmartTabLayout) mview.findViewById(R.id.viewpagertab);
+        viewPagerTab.setViewPager(viewpager);
+        return mview;
 
     }
 
-    
+
 }
