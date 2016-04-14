@@ -2,17 +2,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="110dp"
-    android:orientation="horizontal">
-
+    android:orientation="horizontal"
+   >
     <View
         android:id="@+id/v_left"
         android:layout_width="5dp"
         android:layout_height="match_parent"
         android:background="@color/yellow" />
 
+
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        >
+
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -20,7 +24,8 @@
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
-            android:layout_toLeftOf="@+id/ll_right">
+            android:layout_toLeftOf="@+id/ll_right"
+            >
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -29,7 +34,7 @@
                 android:paddingLeft="10dp">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                     <com.sxau.agriculture.widgets.RoundImageView
@@ -64,6 +69,7 @@
                     android:textSize="18sp" />
 
                 <LinearLayout
+                    android:id="@+id/ll_answer"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginRight="10dp"
@@ -78,15 +84,14 @@
                         android:ellipsize="end"
                         android:gravity="center_vertical"
                         android:lines="2"
-                        android:text="放大镜沙发上看连发三道街发生的法律福建阿萨德理发师傅发动机发达省份克林顿" />
+                        android:text="放大理林顿asmhdfjsdfgsdfgsdfgsdfgsdfgsdfgsashdflkahsjdfkjas" />
                 </LinearLayout>
             </LinearLayout>
         </RelativeLayout>
-
         <LinearLayout
             android:id="@+id/ll_right"
             android:layout_width="60dp"
-            android:layout_height="match_parent"
+            android:layout_height="110dp"
             android:layout_alignParentRight="true"
             android:layout_marginLeft="10dp"
             android:orientation="vertical">
@@ -118,7 +123,7 @@
 
                 <ImageView
                     android:id="@+id/iv_quick"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:src="@mipmap/quick_true"
@@ -126,4 +131,5 @@
             </LinearLayout>
         </LinearLayout>
     </RelativeLayout>
+
 </LinearLayout>

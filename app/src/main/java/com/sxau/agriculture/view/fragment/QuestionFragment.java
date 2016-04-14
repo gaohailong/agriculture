@@ -1,46 +1,46 @@
 package com.sxau.agriculture.view.fragment;
 
+
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
+import android.support.v7.internal.view.menu.MenuView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.ogaclejapan.smarttablayout.SmartTabLayout;
+import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
+import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 import com.sxau.agriculture.agriculture.R;
 
 
 public class QuestionFragment extends BaseFragment {
+    private View mView;
+    private ViewPager vPager = null;
 
- /*   public static QuestionFragment newInstance(String param1, String param2) {
-        QuestionFragment fragment = new QuestionFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }*/
+    private FragmentPagerItems.Creator creater;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_question, container, false);
+        mView = inflater.inflate(R.layout.fragment_question, container, false);
+
+        vPager = (ViewPager) mView.findViewById(R.id.vp_question_viewpager);
+        //实现动态添加
+        String list[] = {"肥料", "果树", "花卉", "技术"};
+        creater = FragmentPagerItems.with(getContext());
+        for (int i=0;i<list.length;i++){
+            creater.add(list[i], QuestionListViewFragment.class);
+        }
+     FragmentPagerItemAdapter fragmentadapter = new FragmentPagerItemAdapter(getChildFragmentManager()
+                , creater.create());
+        vPager.setAdapter(fragmentadapter);
+        SmartTabLayout viewPagerTab = (SmartTabLayout) mView.findViewById(R.id.viewpager_question_title);
+        viewPagerTab.setViewPager(vPager);
+        return mView;
+
     }
 
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-    }
 
 }

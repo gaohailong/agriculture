@@ -1,28 +1,22 @@
 package com.sxau.agriculture.view.fragment;
 
 
-import android.app.FragmentManager;
+
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.ImageButton;
-import android.widget.ListView;
-import android.widget.TextView;
 
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
-import com.ogaclejapan.smarttablayout.utils.ViewPagerItemAdapter;
+
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 import com.sxau.agriculture.agriculture.R;
 
-import java.util.ArrayList;
-import java.util.List;
 
-public class InfoFragment extends Fragment {
+
+public class InfoFragment extends BaseFragment {
     private  View mview;
 
     private ViewPager viewpager;
@@ -46,7 +40,6 @@ public class InfoFragment extends Fragment {
             , FragmentPagerItems.with(getContext())
             .add("供应",InfoListViewFragment.class)
             .add("需求", InfoListViewFragment.class)
-
             .create());
 
 

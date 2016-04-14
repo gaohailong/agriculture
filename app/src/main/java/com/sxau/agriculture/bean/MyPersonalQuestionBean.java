@@ -1,4 +1,4 @@
-package com.sxau.agriculture.view.activity;
+package com.sxau.agriculture.bean;
 
 import android.widget.ImageView;
 
@@ -7,7 +7,7 @@ import java.util.Date;
 /**
  * Created by Administrator on 2016/4/9.
  */
-public class MyQuestionBean {
+public class MyPersonalQuestionBean {
     private Boolean State;
     private String Title,Context,NoAnswer,Date,Head;
     private ImageView Answer;

@@ -4,7 +4,6 @@ package com.sxau.agriculture.view.fragment;
 import android.os.Bundle;
 
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 
 import android.view.View;
@@ -18,10 +17,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.sxau.agriculture.agriculture.R;
-import com.sxau.agriculture.view.activity.MyQuestionBean;
+import com.sxau.agriculture.bean.MyPersonalQuestionBean;
 
 import java.util.ArrayList;
-import java.util.zip.Inflater;
 
 /**
  * Created by Administrator on 2016/4/10.
@@ -40,28 +38,28 @@ public class PersonalQuestionFragment extends Fragment {
         return myQuestionView;
     }
 
-    private ArrayList<MyQuestionBean> getDate() {
-        ArrayList<MyQuestionBean> list = new ArrayList<MyQuestionBean>();
-        MyQuestionBean myQuestionBean1 = new MyQuestionBean();
-        myQuestionBean1.setState(true);
-        myQuestionBean1.setDate("1111.11.11");
-        myQuestionBean1.setTitle("啦啦啦啦1");
-        myQuestionBean1.setContext("人的身份和书法家的护是大哥好地方挂机的高房价的高房价身符格式的风格是否退回");
+    private ArrayList<MyPersonalQuestionBean> getDate() {
+        ArrayList<MyPersonalQuestionBean> list = new ArrayList<MyPersonalQuestionBean>();
+        MyPersonalQuestionBean myPersonalQuestionBean1 = new MyPersonalQuestionBean();
+        myPersonalQuestionBean1.setState(true);
+        myPersonalQuestionBean1.setDate("1111.11.11");
+        myPersonalQuestionBean1.setTitle("啦啦啦啦1");
+        myPersonalQuestionBean1.setContext("人的身份和书法家的护是大哥好地方挂机的高房价的高房价身符格式的风格是否退回");
 
-        MyQuestionBean myQuestionBean2 = new MyQuestionBean();
-        myQuestionBean2.setState(false);
-        myQuestionBean2.setDate("2222.22.22");
-        myQuestionBean2.setTitle("啦啦啦啦2");
+        MyPersonalQuestionBean myPersonalQuestionBean2 = new MyPersonalQuestionBean();
+        myPersonalQuestionBean2.setState(false);
+        myPersonalQuestionBean2.setDate("2222.22.22");
+        myPersonalQuestionBean2.setTitle("啦啦啦啦2");
 
-        list.add(myQuestionBean1);
-        list.add(myQuestionBean2);
+        list.add(myPersonalQuestionBean1);
+        list.add(myPersonalQuestionBean2);
 
         return list;
     }
     public class MyAdapter extends BaseAdapter {
-        ArrayList<MyQuestionBean> list = new ArrayList<MyQuestionBean>();
+        ArrayList<MyPersonalQuestionBean> list = new ArrayList<MyPersonalQuestionBean>();
 
-        public MyAdapter(ArrayList<MyQuestionBean> list) {
+        public MyAdapter(ArrayList<MyPersonalQuestionBean> list) {
             this.list = list;
         }
 

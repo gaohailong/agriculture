@@ -21,9 +21,8 @@ import java.util.List;
  * Created by Administrator on 2016/4/9.
  */
 public class PresonalCenterActivity extends AppCompatActivity implements View.OnClickListener {
-    private ViewPager vPager = null,vTitlePaper;
-    private List<View> viewlist;
-    private View MyQusetionView, TradeInfoView;
+    private ViewPager vTitlePaper;
+
     private ImageButton imageButtonBack;
     private Button buttonCompile;
 
@@ -58,9 +57,7 @@ public class PresonalCenterActivity extends AppCompatActivity implements View.On
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.ib_back:
-                Intent intent1 = new Intent();
-                intent1.setClass(PresonalCenterActivity.this,MainActivity.class);
-                startActivity(intent1);
+                finish();
                 break;
             case R.id.btn_compile:
                 Intent intent2 = new Intent();
