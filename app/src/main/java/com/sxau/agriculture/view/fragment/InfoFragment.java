@@ -17,6 +17,25 @@ import android.widget.Toast;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
+<<<<<<< HEAD
+import com.sxau.agriculture.agriculture.R;
+import com.sxau.agriculture.utils.TopBarUtil;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class InfoFragment extends Fragment {
+    private View mview;
+    private ViewPager viewpager;
+    public InfoFragment() {
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+
+        mview = inflater.inflate(R.layout.fragment_info, container, false);
+=======
 import java.util.ArrayList;
 
 public class InfoFragment extends BaseFragment{
@@ -45,10 +64,24 @@ public class InfoFragment extends BaseFragment{
                 .add(R.string.supply, InfoListViewFragment.class)
                 .add(R.string.demand, InfoListViewFragment.class)
                 .create());
+>>>>>>> cbec1837745ed23b24f9ec30031acbae47219bc9
 
         ViewPager viewPager = (ViewPager) convertView.findViewById(R.id.viewpager);
         viewPager.setAdapter(adapter);
 
+<<<<<<< HEAD
+
+        viewpager = (ViewPager) mview.findViewById(R.id.vp_infoSupplyOrDemand);
+        FragmentPagerItemAdapter fragmentadapter = new FragmentPagerItemAdapter(getChildFragmentManager()
+                , FragmentPagerItems.with(getContext())
+                .add("供应", InfoListViewFragment.class)
+                .add("需求", InfoListViewFragment.class)
+                .create());
+        viewpager.setAdapter(fragmentadapter);
+        SmartTabLayout viewPagerTab = (SmartTabLayout) mview.findViewById(R.id.viewpagertab);
+        viewPagerTab.setViewPager(viewpager);
+        return mview;
+=======
         SmartTabLayout viewPagerTab = (SmartTabLayout) convertView.findViewById(R.id.viewpagertab);
 
         viewPagerTab.setCustomTabView(R.layout.custom_tab_icon_and_text, R.id.custom_tab_text);
@@ -69,6 +102,7 @@ public class InfoFragment extends BaseFragment{
         @Override
         public void onPageScrollStateChanged(int arg0) {
             // TODO Auto-generated method stub
+>>>>>>> cbec1837745ed23b24f9ec30031acbae47219bc9
 
         }
 
@@ -84,6 +118,9 @@ public class InfoFragment extends BaseFragment{
         }
     }
 
+<<<<<<< HEAD
+
+=======
     public class txListener implements View.OnClickListener {
         private int index = 0;
 
@@ -97,4 +134,5 @@ public class InfoFragment extends BaseFragment{
             mPager.setCurrentItem(index);
         }
     }
+>>>>>>> cbec1837745ed23b24f9ec30031acbae47219bc9
 }
