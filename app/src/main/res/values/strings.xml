@@ -8,13 +8,10 @@
     <string name="demand">需求</string>
 
     <string name="no_answer">暂无回答</string>
-<<<<<<< HEAD
-    <string name="title_activity_presonal_center_acivity">PresonalCenterAcivity</string>
-=======
+
 
     <string name="title_activity_presonal_center_acivity">PresonalCenterAcivity</string>
 
->>>>>>> a23e240de297b53af1c8b4838a2fec4b45b802a2
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="titleA">我的问题</string>
