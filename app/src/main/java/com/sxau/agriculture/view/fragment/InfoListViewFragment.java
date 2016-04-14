@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -12,6 +13,7 @@ import android.widget.ListView;
 import com.sxau.agriculture.adapter.InfoDemandAdapter;
 import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.bean.InfoData;
+import com.sxau.agriculture.view.activity.InfoContentActivity;
 
 /**
  * Created by Administrator on 2016/4/12.
@@ -24,11 +26,13 @@ public class InfoListViewFragment extends BaseFragment {
     }
 
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         mview=inflater.inflate(R.layout.fragment_info_listview, container, false);
+
         lv_Info= (ListView) mview.findViewById(R.id.lv_info);
         iv_collection= (ImageButton) mview.findViewById(R.id.ib_demand_collection);
 

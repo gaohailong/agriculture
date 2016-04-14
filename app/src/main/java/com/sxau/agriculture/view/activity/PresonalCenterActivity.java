@@ -20,7 +20,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/4/9.
  */
-public class PresonalCenterActivity extends AppCompatActivity implements View.OnClickListener {
+public class PresonalCenterActivity extends BaseActivity implements View.OnClickListener {
     private ViewPager vPager = null,vTitlePaper;
     private List<View> viewlist;
     private View MyQusetionView, TradeInfoView;

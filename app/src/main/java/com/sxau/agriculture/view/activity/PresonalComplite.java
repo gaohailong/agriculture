@@ -12,7 +12,7 @@ import com.sxau.agriculture.agriculture.R;
 /**
  * Created by Administrator on 2016/4/13.
  */
-public class PresonalComplite extends Activity{
+public class PresonalComplite extends BaseActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

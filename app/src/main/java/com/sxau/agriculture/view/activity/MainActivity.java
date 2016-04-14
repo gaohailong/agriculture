@@ -10,6 +10,7 @@ import android.widget.TabHost;
 import android.widget.Toast;
 
 import com.sxau.agriculture.agriculture.R;
+import com.sxau.agriculture.utils.ActivityCollectorUtil;
 import com.sxau.agriculture.utils.TopBarUtil;
 import com.sxau.agriculture.view.fragment.HomeFragment;
 import com.sxau.agriculture.view.fragment.InfoFragment;
@@ -124,6 +125,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
             currentBackPressedTime = System.currentTimeMillis();
             Toast.makeText(this, "再按一次返回键退出程序", Toast.LENGTH_SHORT).show();
         } else {
+            ActivityCollectorUtil.finishAll();
             finish();
         }
 

@@ -4,8 +4,17 @@
     <color name="colorPrimary">#4CAF50</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="InfoTopColor">#ffffff</color>
     <color name="mainColor">#4CAF50</color>
+    <color name="InfoTopColor">#FFFFFF</color>
+    <color name="devideLine">#BBB</color>
+    <color name="icon_enabled">#00ffffff</color>
+    <color name="icon_disabled">#4CAF50</color>
+
+
+
+    <color name="text_enabled">#FFFFFFFF</color>
+    <color name="text_disabled">#4DFFFFFF</color>
+
     <color name="colorwhite">#FFFFFF</color>
 
     <!--主色调-->
@@ -16,4 +25,10 @@
     <color name="croci">#FF6446</color>
     <!--金黄色-->
     <color name="yellow">#F9BE00</color>
+<<<<<<< HEAD
+
+
+
+=======
+>>>>>>> a23e240de297b53af1c8b4838a2fec4b45b802a2
 </resources>

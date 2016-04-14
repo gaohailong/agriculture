@@ -1,70 +1,63 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    tools:context="com.sxau.agriculture.view.fragment.InfoFragment">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-
-    <com.ogaclejapan.smarttablayout.SmartTabLayout
-
-        android:id="@+id/viewpagertab"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="@color/mainColor"
-        app:stl_indicatorAlwaysInCenter="false"
-        app:stl_indicatorWithoutPadding="false"
-        app:stl_indicatorInFront="false"
-        app:stl_indicatorInterpolation="smart"
-        app:stl_indicatorGravity="center"
-        app:stl_indicatorColor="#2d6629"
-        app:stl_indicatorThickness="25dp"
-        app:stl_indicatorWidth="auto"
-        app:stl_indicatorCornerRadius="13dp"
-        app:stl_overlineColor="#4D000000"
-        app:stl_overlineThickness="0dp"
-        app:stl_underlineColor="#4D000000"
-        app:stl_underlineThickness="1dp"
-        app:stl_dividerColor="#4D000000"
-        app:stl_dividerThickness="0dp"
-        app:stl_defaultTabBackground="?attr/selectableItemBackground"
-        app:stl_defaultTabTextAllCaps="true"
-        app:stl_defaultTabTextColor="#fff"
-        app:stl_defaultTabTextSize="16sp"
-        app:stl_defaultTabTextHorizontalPadding="16dp"
-        app:stl_defaultTabTextMinWidth="0dp"
-        app:stl_distributeEvenly="true"
-        app:stl_clickable="true"
-        app:stl_titleOffset="24dp"
-        app:stl_drawDecorationAfterTab="false"
-        />
-<android.support.v4.view.ViewPager
-    android:id="@+id/vp_infoSupplyOrDemand"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    >
-    <!--<LinearLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="50dp"-->
-        <!--android:orientation="horizontal">-->
-
-        <!--<RadioButton-->
-            <!--android:id="@+id/btn_supply"-->
-            <!--style="@style/RadioButtonInfo"-->
-
-            <!--android:text="供应" />-->
-
-        <!--<RadioButton-->
-            <!--android:id="@+id/btn_demand"-->
-            <!--style="@style/RadioButtonInfo"-->
-
-            <!--android:text="需求" />-->
-    <!--</LinearLayout>-->
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context="com.sxau.agriculture.view.fragment.InfoFragment">
 
 
-</android.support.v4.view.ViewPager>
+        <com.ogaclejapan.smarttablayout.SmartTabLayout
+            android:id="@+id/viewpagertab"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@color/mainColor"
+            app:stl_clickable="true"
+            app:stl_defaultTabBackground="@color/mainColor"
+            app:stl_defaultTabTextAllCaps="true"
+            app:stl_defaultTabTextColor="#FFFFFF"
+            app:stl_defaultTabTextHorizontalPadding="16dp"
+            app:stl_defaultTabTextMinWidth="0dp"
+            app:stl_defaultTabTextSize="16sp"
+            app:stl_distributeEvenly="true"
+            app:stl_dividerColor="#FFFFFF"
+            app:stl_dividerThickness="1dp"
+            app:stl_drawDecorationAfterTab="true"
+            app:stl_indicatorAlwaysInCenter="false"
+            app:stl_indicatorColor="#999999"
+            app:stl_indicatorCornerRadius="2dp"
+            app:stl_indicatorGravity="bottom"
+            app:stl_indicatorInFront="true"
+            app:stl_indicatorInterpolation="linear"
+            app:stl_indicatorThickness="0dp"
+            app:stl_indicatorWidth="auto"
+            app:stl_indicatorWithoutPadding="false"
+            app:stl_overlineColor="#FFFFFF"
+            app:stl_overlineThickness="0dp"
+            app:stl_titleOffset="auto_center"
+            app:stl_underlineColor="#FFFFFF"
+            app:stl_underlineThickness="1dp" />
 
 
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/viewpagertab" />
 
-</LinearLayout>
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vp_infoSupplyOrDemand"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+
+        </android.support.v4.view.ViewPager>
+
+
+    </LinearLayout>
+</RelativeLayout>
