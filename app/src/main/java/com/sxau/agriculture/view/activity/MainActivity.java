@@ -3,13 +3,12 @@ package com.sxau.agriculture.view.activity;
 import android.content.Intent;
 import android.support.v4.app.FragmentTabHost;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
 import android.widget.RadioGroup;
 import android.widget.TabHost;
 import android.widget.Toast;
 
 import com.sxau.agriculture.agriculture.R;
+import com.sxau.agriculture.utils.ActivityCollectorUtil;
 import com.sxau.agriculture.utils.TopBarUtil;
 import com.sxau.agriculture.view.fragment.HomeFragment;
 import com.sxau.agriculture.view.fragment.InfoFragment;
@@ -19,7 +18,6 @@ import com.sxau.agriculture.view.fragment.QuestionFragment;
 public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener {
     private FragmentTabHost fragmentTabHost;
     private RadioGroup radioGroup;
-    private Button button;//测试跳转
     private long currentBackPressedTime = 0;
     private static final int BACK_PRESSED_INTERVAL = 2000;
     private final Class[] fragments = {HomeFragment.class, QuestionFragment.class, InfoFragment.class, MessageFragment.class};
@@ -41,22 +39,22 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     private void iniTitle() {
         TopBarUtil topBar = (TopBarUtil) findViewById(R.id.topBar);
         topBar.setLeftRoundImageIsVisible(true);
-        topBar.setLeftRoundImage(R.mipmap.default_user_portrait);
+        topBar.setLeftRoundImage(R.mipmap.img_default_user_portrait_150px);
 
         topBar.setTitleIsVisible(true);
         topBar.setContent("文章");
         if (flag == 0) {
             topBar.setRightImageIsVisible(true);
-            topBar.setRightImage(R.mipmap.phone_white);
+            topBar.setRightImage(R.mipmap.ic_phone_white_96px);
         } else {
             topBar.setRightImageIsVisible(true);
-            topBar.setRightImage(R.mipmap.search);
+            topBar.setRightImage(R.mipmap.ic_search_48px);
         }
         topBar.setOnTopbarClickListener(new TopBarUtil.TopbarClickListner() {
             @Override
             public void onClickLeftRoundImage() {
                 Intent intent = new Intent();
-                intent.setClass(MainActivity.this,PresonalCenterActivity.class);
+                intent.setClass(MainActivity.this,PersonalCenterActivity.class);
                 startActivity(intent);
             }
 
@@ -107,8 +105,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
                 iniTitle();
                 break;
             case R.id.rb_message:
-                Intent intent=new Intent(this,TabTestActivity.class);
-                startActivity(intent);
+
 
 //                fragmentTabHost.setCurrentTab(3);
                 fragmentTabHost.setCurrentTab(3);
@@ -126,6 +123,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
             currentBackPressedTime = System.currentTimeMillis();
             Toast.makeText(this, "再按一次返回键退出程序", Toast.LENGTH_SHORT).show();
         } else {
+            ActivityCollectorUtil.finishAll();
             finish();
         }
 

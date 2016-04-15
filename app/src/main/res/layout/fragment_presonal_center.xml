@@ -4,101 +4,96 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.sxau.agriculture.view.activity.PresonalCenterActivity"
-    tools:showIn="@layout/fragment_presonal_center"
-    android:orientation="vertical">
+    tools:context="com.sxau.agriculture.view.activity.PersonalCenterActivity"
+    tools:showIn="@layout/fragment_presonal_center">
 
     <RelativeLayout
         android:id="@+id/rl_head_module"
         android:layout_width="match_parent"
         android:layout_height="220dp"
-        android:background="@mipmap/personalbackground">
+        android:background="@mipmap/img_personal_background_352px">
+
         <ImageButton
-            android:layout_width="50dip"
-            android:layout_height="50dip"
+            android:id="@+id/ib_back"
+            android:layout_width="30dip"
+            android:layout_height="30dip"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:background="#00000000"
             android:scaleType="centerCrop"
-            android:src="@mipmap/rollback"/>
+            android:src="@drawable/actionbar_back" />
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="50dp"
             android:layout_marginTop="70dp"
             android:orientation="vertical">
+
             <TextView
                 android:id="@+id/tv_personal_nickname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="给人民种口粮"
-                android:textColor="@color/colorwhite"
-                android:textSize="30sp"/>
+                android:textColor="@color/white"
+                android:textSize="30sp" />
 
             <Button
+                android:id="@+id/btn_compile"
                 android:layout_width="80dp"
                 android:layout_height="35dp"
                 android:layout_marginTop="30dp"
-                android:textColor="@color/colorwhite"
-                android:textSize="18sp"
+
+                android:background="@drawable/shape"
                 android:text="编辑"
-                android:background="@drawable/shape"/>
+                android:textColor="@color/white"
+                android:textSize="18sp" />
         </LinearLayout>
     </RelativeLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+
         android:orientation="vertical">
-        <RelativeLayout
-            android:id="@+id/linearLayout1"
+
+        <com.ogaclejapan.smarttablayout.SmartTabLayout
+            android:id="@+id/viewpagertab"
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="48dp"
             android:background="@color/mainColor"
-             >
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
+            app:stl_clickable="true"
+            app:stl_defaultTabBackground="?attr/selectableItemBackground"
+            app:stl_defaultTabTextAllCaps="true"
+            app:stl_defaultTabTextColor="#fff"
+            app:stl_defaultTabTextHorizontalPadding="16dp"
+            app:stl_defaultTabTextMinWidth="0dp"
+            app:stl_defaultTabTextSize="12sp"
+            app:stl_distributeEvenly="true"
+            app:stl_dividerColor="#4D000000"
+            app:stl_dividerThickness="0dp"
+            app:stl_drawDecorationAfterTab="false"
+            app:stl_indicatorAlwaysInCenter="false"
+            app:stl_indicatorColor="#2d6629"
+            app:stl_indicatorCornerRadius="13dp"
+            app:stl_indicatorGravity="center"
+            app:stl_indicatorInFront="false"
+            app:stl_indicatorInterpolation="smart"
+            app:stl_indicatorThickness="25dp"
+            app:stl_indicatorWidth="auto"
+            app:stl_indicatorWithoutPadding="false"
+            app:stl_overlineColor="#4D000000"
+            app:stl_overlineThickness="0dp"
+            app:stl_titleOffset="24dp"
+            app:stl_underlineColor="#4D000000"
+            app:stl_underlineThickness="1dp" />
 
-            <TextView
-                android:id="@+id/text1"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1.0"
-                android:gravity="center"
-                android:text="我的问题"
-                android:textColor="#000000"
-                android:textSize="22sp" />
-
-            <TextView
-                android:id="@+id/text2"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1.0"
-                android:gravity="center"
-                android:text="交易信息"
-                android:textColor="#000000"
-                android:textSize="22.0dip" />
-            </LinearLayout>
-            <ImageView
-                android:id="@+id/cursor"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:layout_alignParentBottom="true"
-                android:layout_marginLeft="90dp"
-                android:src="@mipmap/triangle_white" />
-        </RelativeLayout>
         <android.support.v4.view.ViewPager
-            android:id="@+id/vPager"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@color/colorwhite"
-            android:flipInterval="30"
-            android:persistentDrawingCache="animation"
-            />
-
-
-
-
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/viewpagertab" />
     </LinearLayout>
 </LinearLayout>
