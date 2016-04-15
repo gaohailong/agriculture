@@ -4,8 +4,11 @@
     <string name="app_name">Agriculture</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="supply">供应</string>
+    <string name="demand">需求</string>
 
     <string name="no_answer">暂无回答</string>
+
 
     <string name="title_activity_presonal_center_acivity">PresonalCenterAcivity</string>
 

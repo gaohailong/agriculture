@@ -42,14 +42,14 @@ public class QuestionListViewFragment extends BaseFragment {
 
         questionDate[0] = new Question();
         questionDate[0].setState(true);
-        questionDate[0].setHead(R.drawable.touxiang);
+        questionDate[0].setHead(R.mipmap.img_default_user_portrait_150px);
         questionDate[0].setName("帅子1");
         questionDate[0].setTitle("lalala");
         questionDate[0].setContent("的可能非公开多久");
 
         questionDate[1] = new Question();
         questionDate[1].setState(false);
-        questionDate[1].setHead(R.drawable.touxiang);
+        questionDate[1].setHead(R.mipmap.img_default_user_portrait_150px);
         questionDate[1].setName("帅子2");
         questionDate[1].setTitle("lalala2");
 
