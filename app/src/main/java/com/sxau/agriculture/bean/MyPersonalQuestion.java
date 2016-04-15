@@ -7,11 +7,14 @@ import java.util.Date;
 /**
  * Created by Administrator on 2016/4/9.
  */
-public class MyPersonalQuestionBean {
+public class MyPersonalQuestion {
     private Boolean State;
-    private String Title,Context,NoAnswer,Date,Head;
+    private String Title;
+    private String Context;
+    private String NoAnswer;
+    private String Date;
+    private String Head;
     private ImageView Answer;
-
 
 
     public Boolean getState() {

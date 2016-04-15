@@ -55,7 +55,7 @@
                     android:id="@+id/rv_head"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@mipmap/default_user_portrait" />
+                    android:src="@mipmap/img_default_user_portrait_150px" />
 
                 <TextView
                     android:id="@+id/tv_content"
@@ -81,7 +81,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center_horizontal|center_vertical"
                 android:layout_margin="10dp"
-                android:src="@mipmap/right"
+                android:src="@mipmap/ic_right_48px"
                 android:visibility="visible" />
 
             <TextView

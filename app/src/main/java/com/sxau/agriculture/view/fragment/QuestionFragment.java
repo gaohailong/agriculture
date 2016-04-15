@@ -19,7 +19,7 @@ public class QuestionFragment extends BaseFragment {
     private View mView;
     private ViewPager vPager = null;
 
-    private FragmentPagerItems.Creator creater;
+    private FragmentPagerItems.Creator creater;//对标题的动态添加
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -30,10 +30,10 @@ public class QuestionFragment extends BaseFragment {
         //实现动态添加
         String list[] = {"肥料", "果树", "花卉", "技术"};
         creater = FragmentPagerItems.with(getContext());
-        for (int i=0;i<list.length;i++){
+        for (int i = 0; i < list.length; i++) {
             creater.add(list[i], QuestionListViewFragment.class);
         }
-     FragmentPagerItemAdapter fragmentadapter = new FragmentPagerItemAdapter(getChildFragmentManager()
+        FragmentPagerItemAdapter fragmentadapter = new FragmentPagerItemAdapter(getChildFragmentManager()
                 , creater.create());
         vPager.setAdapter(fragmentadapter);
         SmartTabLayout viewPagerTab = (SmartTabLayout) mView.findViewById(R.id.viewpager_question_title);

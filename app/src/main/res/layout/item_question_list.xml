@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="110dp"
-    android:orientation="horizontal"
-   >
+    android:orientation="horizontal">
+
     <View
         android:id="@+id/v_left"
         android:layout_width="5dp"
@@ -24,8 +24,7 @@
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
-            android:layout_toLeftOf="@+id/ll_right"
-            >
+            android:layout_toLeftOf="@+id/ll_right">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -42,7 +41,7 @@
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:scaleType="centerCrop"
-                        android:src="@mipmap/default_user_portrait" />
+                        android:src="@mipmap/img_default_user_portrait_150px" />
 
                     <TextView
                         android:id="@+id/tv_name"
@@ -88,6 +87,7 @@
                 </LinearLayout>
             </LinearLayout>
         </RelativeLayout>
+
         <LinearLayout
             android:id="@+id/ll_right"
             android:layout_width="60dp"
@@ -109,7 +109,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:src="@mipmap/right"
+                    android:src="@mipmap/ic_right_48px"
                     android:visibility="visible" />
             </LinearLayout>
 
@@ -126,7 +126,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:src="@mipmap/quick_true"
+                    android:src="@mipmap/ic_quick_true_48px"
                     android:visibility="visible" />
             </LinearLayout>
         </LinearLayout>

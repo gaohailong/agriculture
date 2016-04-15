@@ -3,13 +3,19 @@ package com.sxau.agriculture.bean;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.security.PrivateKey;
+
 /**
  * Created by Administrator on 2016/4/13.
  */
-public class QuestionBean {
+public class Question {
     private boolean state;
-    private int head,fav,quick;
-    private String name,title,content;
+    private int head;
+    private int fav;
+    private int quick;
+    private String name;
+    private String title;
+    private String content;
 
 
     public boolean isState() {

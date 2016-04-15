@@ -16,9 +16,10 @@ import com.sxau.agriculture.bean.InfoData;
  * Created by Administrator on 2016/4/12.
  */
 public class InfoListViewFragment extends BaseFragment {
-    private  View mview;
+    private View mview;
     private ListView lv_Info;
     private ImageButton ib_collection;
+
     public InfoListViewFragment() {
     }
 
@@ -27,14 +28,14 @@ public class InfoListViewFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        mview=inflater.inflate(R.layout.fragment_info_listview, container, false);
-        lv_Info= (ListView) mview.findViewById(R.id.lv_info);
-        ib_collection= (ImageButton) mview.findViewById(R.id.ib_demand_collection);
+        mview = inflater.inflate(R.layout.fragment_info_listview, container, false);
+        lv_Info = (ListView) mview.findViewById(R.id.lv_info);
+        ib_collection = (ImageButton) mview.findViewById(R.id.ib_demand_collection);
 
 
-        InfoData[] infoDatas=new InfoData[5];
+        InfoData[] infoDatas = new InfoData[5];
 
-        infoDatas[0]=new InfoData();
+        infoDatas[0] = new InfoData();
         infoDatas[0].setIbHead(R.drawable.touxiang);
         infoDatas[0].setName("天和集团");
         infoDatas[0].setDate("2013.06.22");
@@ -43,7 +44,7 @@ public class InfoListViewFragment extends BaseFragment {
         infoDatas[0].setIbDingwei(R.drawable.dingwei);
         infoDatas[0].setContent("对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于");
 
-        infoDatas[1]=new InfoData();
+        infoDatas[1] = new InfoData();
         infoDatas[1].setIbHead(R.drawable.touxiang);
         infoDatas[1].setName("天和集团");
         infoDatas[1].setDate("2013.06.22");
@@ -53,7 +54,7 @@ public class InfoListViewFragment extends BaseFragment {
 
         infoDatas[1].setContent("对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于");
 
-        infoDatas[2]=new InfoData();
+        infoDatas[2] = new InfoData();
         infoDatas[2].setIbHead(R.drawable.touxiang);
         infoDatas[2].setName("天和集团");
         infoDatas[2].setDate("2013.06.22");
@@ -63,7 +64,7 @@ public class InfoListViewFragment extends BaseFragment {
 
         infoDatas[2].setContent("对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于");
 
-        infoDatas[3]=new InfoData();
+        infoDatas[3] = new InfoData();
         infoDatas[3].setIbHead(R.drawable.touxiang);
         infoDatas[3].setName("天和集团");
         infoDatas[3].setDate("2013.06.22");
@@ -73,7 +74,7 @@ public class InfoListViewFragment extends BaseFragment {
 
         infoDatas[3].setContent("对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于");
 
-        infoDatas[4]=new InfoData();
+        infoDatas[4] = new InfoData();
         infoDatas[4].setIbHead(R.drawable.touxiang);
         infoDatas[4].setName("天和集团");
         infoDatas[4].setDate("2013.06.22");
@@ -84,7 +85,7 @@ public class InfoListViewFragment extends BaseFragment {
         infoDatas[4].setContent("对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于");
 
 
-        BaseAdapter adapter=new InfoDemandAdapter(InfoListViewFragment.this.getActivity(),infoDatas);
+        BaseAdapter adapter = new InfoDemandAdapter(InfoListViewFragment.this.getActivity(), infoDatas);
         lv_Info.setAdapter(adapter);
         return mview;
     }

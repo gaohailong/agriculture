@@ -1,7 +1,6 @@
 package com.sxau.agriculture.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,23 +10,23 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.sxau.agriculture.agriculture.R;
-import com.sxau.agriculture.bean.QuestionBean;
+import com.sxau.agriculture.bean.Question;
 
 /**
  * Created by Administrator on 2016/4/13.
  */
 public class QuestionAdapter extends BaseAdapter{
     private Context context;
-    private QuestionBean questionBean[];
+    private Question question[];
 
-    public QuestionAdapter(Context context, QuestionBean[] questionBean) {
+    public QuestionAdapter(Context context, Question[] question) {
         this.context = context;
-        this.questionBean = questionBean;
+        this.question = question;
     }
 
     @Override
     public int getCount() {
-        return questionBean.length;
+        return question.length;
     }
 
     @Override
@@ -59,7 +58,7 @@ public class QuestionAdapter extends BaseAdapter{
         }else {
             holder = (ViewHolder) convertView.getTag();
         }
-        QuestionBean questionDate = questionBean[position];
+        Question questionDate = question[position];
         holder.head.setImageResource(questionDate.getHead());
         holder.name.setText(questionDate.getName());
         if(questionDate.isState()){
@@ -72,8 +71,12 @@ public class QuestionAdapter extends BaseAdapter{
     }
     private class ViewHolder{
         private boolean state;
-        private ImageView head,fav,quick;
-        private TextView name,title,content;
+        private ImageView head;
+        private ImageView fav;
+        private ImageView quick;
+        private TextView name;
+        private TextView title;
+        private TextView content;
         private LinearLayout answer;
     }
 }
