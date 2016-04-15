@@ -4,17 +4,16 @@
     android:layout_height="match_parent"
     tools:context="com.sxau.agriculture.view.fragment.MessageFragment">
 
-<<<<<<< HEAD
+
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="Hello World" />
 
-=======
    <ListView
        android:id="@+id/lv_message"
        android:layout_width="match_parent"
        android:layout_height="match_parent"/>
->>>>>>> 620cc1f74e4fd29df4c3fbc928f5f5dcb4df6d1a
+
 </FrameLayout>

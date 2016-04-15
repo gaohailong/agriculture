@@ -1,4 +1,4 @@
-package com.sxau.agriculture.view.activity;
+package com.sxau.agriculture.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -50,7 +50,7 @@ public class HomePushAdapter extends BaseAdapter{
         ViewHolder holder=new ViewHolder();
 
         if (convertView==null){
-            convertView= LayoutInflater.from(context).inflate(R.layout.homeitem_listview,null);
+            convertView= LayoutInflater.from(context).inflate(R.layout.home_listview_item,null);
             holder.iv_news= (ImageView) convertView.findViewById(R.id.iv_news);
             holder.tv_title= (TextView) convertView.findViewById(R.id.tv_title);
             holder.tv_time= (TextView) convertView.findViewById(R.id.tv_time);
