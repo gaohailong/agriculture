@@ -17,11 +17,10 @@ import com.sxau.agriculture.bean.InfoData;
 /**
  * Created by Administrator on 2016/4/12.
  */
-public class InfoListViewFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener{
+public class InfoListViewFragment extends BaseFragment {
     private  View mview;
     private ListView lv_Info;
     private ImageButton ib_collection;
-    private SwipeRefreshLayout srl_refresh;
     private Handler handler;
     public InfoListViewFragment() {
     }
@@ -34,9 +33,7 @@ public class InfoListViewFragment extends BaseFragment implements SwipeRefreshLa
         mview=inflater.inflate(R.layout.fragment_info_listview, container, false);
         lv_Info= (ListView) mview.findViewById(R.id.lv_info);
         ib_collection= (ImageButton) mview.findViewById(R.id.ib_demand_collection);
-        srl_refresh= (SwipeRefreshLayout) mview.findViewById(R.id.srl_refresh);
         handler=new Handler();
-        srl_refresh.setOnRefreshListener(this);
 
         InfoData[] infoDatas=new InfoData[5];
 
@@ -95,15 +92,4 @@ public class InfoListViewFragment extends BaseFragment implements SwipeRefreshLa
         return mview;
     }
 
-    @Override
-    public void onRefresh() {
-        srl_refresh.setRefreshing(true);
-
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-              srl_refresh.setRefreshing(false);
-            }
-        },2000);
-    }
 }
