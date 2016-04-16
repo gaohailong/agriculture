@@ -26,4 +26,7 @@
     <color name="croci">#FF6446</color>
     <!--金黄色-->
     <color name="yellow">#F9BE00</color>
+    <!--标题栏过度色-->
+    <color name="black_20">#33000000</color>
+    <color name="transparent">#00000000</color>
 </resources>
