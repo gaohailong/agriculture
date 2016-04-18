@@ -32,7 +32,7 @@ public class InfoListViewFragment extends BaseFragment {
                 mview=inflater.inflate(R.layout.fragment_info_listview, container, false);
 
                 lv_Info= (ListView) mview.findViewById(R.id.lv_info);
-                iv_collection= (ImageButton) mview.findViewById(R.id.ib_demand_collection);
+                iv_collection= (ImageButton) mview.findViewById(R.id.);
 
 
                 InfoData[] infoDatas=new InfoData[5];
@@ -53,7 +53,7 @@ public class InfoListViewFragment extends BaseFragment {
                 infoDatas[1].setDate("2013.06.22");
                 infoDatas[1].setDistance("山西");
                 infoDatas[1].setTitle("收购苹果两万斤");
-                infoDatas[1].setLvCollection(R.drawable.ic_collect_not_48dp);
+                infoDatas[1].setLvCollection(R.drawable.ic_collect_nothave_48dp);
                 infoDatas[1].setIvLocation(R.drawable.ic_location_48dp);
                 infoDatas[1].setContent("对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于");
 

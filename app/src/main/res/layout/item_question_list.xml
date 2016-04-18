@@ -27,6 +27,7 @@
             android:layout_toLeftOf="@+id/ll_right">
 
             <LinearLayout
+                android:id="@+id/ll_subject_skip"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
@@ -101,15 +102,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:background="@color/croci"
+                android:background="@drawable/question_button_linear_selector"
                 android:gravity="center_horizontal|center_vertical">
 
-                <ImageView
-                    android:id="@+id/iv_fav"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <ImageButton
+                    android:id="@+id/ib_fav"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_margin="10dp"
-                    android:src="@mipmap/ic_right_48px"
+                    android:background="@drawable/question_button_selector"
                     android:visibility="visible" />
             </LinearLayout>
 
