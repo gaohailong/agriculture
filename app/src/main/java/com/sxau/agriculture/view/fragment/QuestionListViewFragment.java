@@ -12,17 +12,26 @@ import android.widget.ListView;
 import com.sxau.agriculture.adapter.QuestionAdapter;
 import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.bean.Question;
+import com.sxau.agriculture.presenter.fragment_presenter.QuestionListViewPresenter;
+import com.sxau.agriculture.presenter.fragment_presenter_interface.IQuestionListViewPresenter;
+import com.sxau.agriculture.view.fragment_interface.IQuestionListViewFragment;
 
 /**
  * Created by Administrator on 2016/4/13.
  */
-public class QuestionListViewFragment extends BaseFragment {
+public class QuestionListViewFragment extends BaseFragment implements IQuestionListViewFragment{
     private View mView;
     private ListView lvQuestionList;
+
+    private IQuestionListViewPresenter iQuestionListViewPresenter;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        //将QuestionLvFragment与QuestionLvPresenter绑定
+        iQuestionListViewPresenter = new QuestionListViewPresenter(QuestionListViewFragment.this);
+
 
         mView = inflater.inflate(R.layout.fragment_question_list, container, false);
         lvQuestionList = (ListView) mView.findViewById(R.id.lv_question);
@@ -55,4 +64,38 @@ public class QuestionListViewFragment extends BaseFragment {
 
         return questionDate;
     }
+
+//------------------接口方法----------------
+    @Override
+    public void updateView() {
+
+    }
+
+    @Override
+    public void changeItemView() {
+
+    }
+
+    /**
+     * 获取催一下的状态
+     * 1 为已经催
+     * 0 为没有催
+     * @return
+     */
+    @Override
+    public int getUrgeState() {
+        return 0;
+    }
+
+    /**
+     * 获取收藏状态（赞一下）
+     * 1 为已经收藏
+     * 0 为没有收藏
+     * @return
+     */
+    @Override
+    public int getFavState() {
+        return 0;
+    }
+//--------------接口方法结束---------------
 }

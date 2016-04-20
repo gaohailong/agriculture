@@ -1,6 +1,6 @@
-package com.sxau.agriculture.presenter;
+package com.sxau.agriculture.presenter.acitivity_presenter;
 
-import com.sxau.agriculture.presenter.presenter_interface.ILoginPresenter;
+import com.sxau.agriculture.presenter.activity_presenter_interface.ILoginPresenter;
 import com.sxau.agriculture.view.activity_interface.ILoginActivty;
 
 /**

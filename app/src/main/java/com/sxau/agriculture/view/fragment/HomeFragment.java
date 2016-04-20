@@ -9,34 +9,27 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.sxau.agriculture.agriculture.R;
+import com.sxau.agriculture.presenter.fragment_presenter.HomePresenter;
+import com.sxau.agriculture.presenter.fragment_presenter_interface.IHomePresenter;
+import com.sxau.agriculture.view.fragment_interface.IHomeFragment;
 
-public class HomeFragment extends BaseFragment {
+public class HomeFragment extends BaseFragment implements IHomeFragment {
 
-/*
-
-
-    public static HomeFragment newInstance(String param1, String param2) {
-        HomeFragment fragment = new HomeFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }*/
-
-   /* @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-       *//* if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }*//*
-    }*/
+    private IHomePresenter iHomePresenter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        //将HomeFragment与HomePresenter绑定起来
+        iHomePresenter = new HomePresenter(HomeFragment.this);
+
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
+//----------------------接口方法----------------------------
+    @Override
+    public void updateView() {
 
+    }
+//----------------------接口方法结束------------------------
 }

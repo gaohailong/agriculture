@@ -26,6 +26,8 @@
         <activity android:name="com.sxau.agriculture.view.activity.InfoContentActivity" />
         <activity android:name="com.sxau.agriculture.view.activity.LoginActivity" >
         </activity>
+        <activity android:name="com.sxau.agriculture.view.activity.RegisterActivity" >
+        </activity>
     </application>
 
 </manifest>
