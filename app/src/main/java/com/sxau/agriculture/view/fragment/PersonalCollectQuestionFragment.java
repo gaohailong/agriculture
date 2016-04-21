@@ -1,20 +1,12 @@
 package com.sxau.agriculture.view.fragment;
 
-
 import android.os.Bundle;
-
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
-
 import android.view.View;
 import android.view.ViewGroup;
-
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
-
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.sxau.agriculture.adapter.PersonalQuestionAdapter;
 import com.sxau.agriculture.agriculture.R;
@@ -24,26 +16,23 @@ import com.sxau.agriculture.view.activity.DetailQuestion;
 import java.util.ArrayList;
 
 /**
- * Created by Administrator on 2016/4/10.
+ * Created by Administrator on 2016/4/21.
  */
-public class PersonalQuestionFragment extends BaseFragment {
+public class PersonalCollectQuestionFragment  extends BaseFragment{
     private ListView listView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View myQuestionView = inflater.inflate(R.layout.frament_personal_myquestion, null);
         listView = (ListView) myQuestionView.findViewById(R.id.lv_MyQuestionListView);
-        PersonalQuestionAdapter adapter = new PersonalQuestionAdapter(PersonalQuestionFragment.this.getActivity(),getDate());
+        PersonalQuestionAdapter adapter = new PersonalQuestionAdapter(PersonalCollectQuestionFragment.this.getActivity(),getDate());
         listView.setAdapter(adapter);
-
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                DetailQuestion.actionStart(PersonalQuestionFragment.this.getActivity(),position);
+                DetailQuestion.actionStart(PersonalCollectQuestionFragment.this.getActivity(),position);
             }
         });
-
-
         return myQuestionView;
     }
 

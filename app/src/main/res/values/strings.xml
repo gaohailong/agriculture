@@ -14,9 +14,10 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="titleA">我的问题</string>
-    <string name="titleB">交易信息</string>
-    <string name="titleC">收藏夹</string>
+    <string name="MyQuestion">我的问题</string>
+    <string name="TradeInfo">交易信息</string>
+    <string name="CollectQuestion">收藏的问题</string>
+    <string name="CollectTrade">收藏的交易</string>
     <!--personal_information-->
     <string name="personal_information">个人信息</string>
     <string name="head_portrait">头像</string>
@@ -27,7 +28,6 @@
     <string name="common_user">普通用户</string>
     <string name="expert_user">专家用户</string>
     <string name="finish">完成</string>
-
 
 
 </resources>

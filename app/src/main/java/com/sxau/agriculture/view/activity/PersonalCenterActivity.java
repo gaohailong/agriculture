@@ -12,7 +12,10 @@ import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 import com.sxau.agriculture.agriculture.R;
+import com.sxau.agriculture.view.fragment.PersonalCollectQuestionFragment;
+import com.sxau.agriculture.view.fragment.PersonalCollectTradeFragment;
 import com.sxau.agriculture.view.fragment.PersonalQuestionFragment;
+import com.sxau.agriculture.view.fragment.PersonalTradeInfoFragment;
 
 import java.util.List;
 
@@ -34,9 +37,10 @@ public class PersonalCenterActivity extends BaseActivity implements View.OnClick
         initView();
 
        FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(getSupportFragmentManager(), FragmentPagerItems.with(this)
-               .add(R.string.titleA,PersonalQuestionFragment.class)
-               .add(R.string.titleB,PersonalQuestionFragment.class)
-               .add(R.string.titleC,PersonalQuestionFragment.class)
+               .add(R.string.MyQuestion,PersonalQuestionFragment.class)
+               .add(R.string.TradeInfo,PersonalTradeInfoFragment.class)
+               .add(R.string.CollectQuestion,PersonalCollectQuestionFragment.class)
+               .add(R.string.CollectTrade,PersonalCollectTradeFragment.class)
                .create() );
         vTitlePaper  = (ViewPager) findViewById(R.id.viewpager);
         vTitlePaper.setAdapter(adapter);

@@ -32,7 +32,7 @@ public class InfoListViewFragment extends BaseFragment {
                 mview=inflater.inflate(R.layout.fragment_info_listview, container, false);
 
                 lv_Info= (ListView) mview.findViewById(R.id.lv_info);
-                iv_collection= (ImageButton) mview.findViewById(R.id.);
+                iv_collection= (ImageView) mview.findViewById(R.id.ib_demand_collection);
 
 
                 InfoData[] infoDatas=new InfoData[5];

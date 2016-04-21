@@ -1,17 +1,19 @@
 package com.sxau.agriculture.view.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 
 import com.sxau.agriculture.adapter.QuestionAdapter;
 import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.bean.Question;
+import com.sxau.agriculture.view.activity.DetailQuestion;
 
 /**
  * Created by Administrator on 2016/4/13.
@@ -20,7 +22,6 @@ public class QuestionListViewFragment extends BaseFragment {
     private View mView;
     private ListView lvQuestionList;
 
-    @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -28,6 +29,16 @@ public class QuestionListViewFragment extends BaseFragment {
         lvQuestionList = (ListView) mView.findViewById(R.id.lv_question);
 
         BaseAdapter adapter = new QuestionAdapter(QuestionListViewFragment.this.getActivity(), initDate());
+        lvQuestionList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                DetailQuestion.actionStart(getContext(),position);
+//                Intent intent = new Intent();
+//                intent.setClass(QuestionListViewFragment.this.getActivity(), DetailQuestion.class);
+//                intent.putExtra("indexPosition",position);
+//                startActivity(intent);
+            }
+        });
         lvQuestionList.setAdapter(adapter);
         return mView;
     }

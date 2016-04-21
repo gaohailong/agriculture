@@ -21,12 +21,11 @@
             </intent-filter>
         </activity>
         <activity android:name="com.sxau.agriculture.view.activity.BaseActivity" />
-
         <activity android:name="com.sxau.agriculture.view.activity.PersonalCenterActivity" />
-        <activity android:name="com.sxau.agriculture.view.activity.PersonalCompile"/>
-
-        <activity android:name="com.sxau.agriculture.view.activity.InfoContentActivity"/>
-
+        <activity android:name="com.sxau.agriculture.view.activity.PersonalCompile" />
+        <activity android:name="com.sxau.agriculture.view.activity.InfoContentActivity" />
+        <activity android:name="com.sxau.agriculture.view.activity.DetailQuestion" />
+        <activity android:name="com.sxau.agriculture.view.activity.ExpertAnswerActivity"></activity>
     </application>
 
 </manifest>

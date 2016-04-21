@@ -1,6 +1,7 @@
 package com.sxau.agriculture.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 
 import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.bean.Question;
+import com.sxau.agriculture.view.activity.DetailQuestion;
 
 /**
  * Created by Administrator on 2016/4/13.
@@ -72,7 +74,7 @@ public class QuestionAdapter extends BaseAdapter implements View.OnClickListener
 
         holder.fav.setOnClickListener(this);
         holder.ll_FavBackground.setOnClickListener(this);
-        holder.ll_SubjectSkip.setOnClickListener(this);
+       // holder.ll_SubjectSkip.setOnClickListener(this);
 
         return convertView;
     }
@@ -88,9 +90,12 @@ public class QuestionAdapter extends BaseAdapter implements View.OnClickListener
             case R.id.ll_fav_background:
                 Toast.makeText(v.getContext(),"ll",Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.ll_subject_skip:
-                Toast.makeText(v.getContext(),"跳转",Toast.LENGTH_SHORT).show();
-                break;
+      //      case R.id.ll_subject_skip:
+//                                Intent intent = new Intent();
+//                intent.setClass(context,DetailQuestion.class);
+//                context.startActivity(intent);
+
+         //       break;
         }
 
     }
