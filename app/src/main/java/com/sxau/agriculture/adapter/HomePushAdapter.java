@@ -61,10 +61,10 @@ public class HomePushAdapter extends BaseAdapter{
             holder= (ViewHolder) convertView.getTag();
         }
         PushBean pushBean=data[position];
-        holder.iv_news.setImageResource(R.drawable.dialsmall);
+        holder.iv_news.setImageResource(R.drawable.phone_48dp);
         holder.tv_title.setText(pushBean.getTitle());
         holder.tv_time.setText(pushBean.getTime());
-        holder.iv_browse.setImageResource(R.drawable.browse);
+        holder.iv_browse.setImageResource(R.drawable.ic_read_48px);
         holder.tv_read.setText(pushBean.getRead());
 
         return convertView;

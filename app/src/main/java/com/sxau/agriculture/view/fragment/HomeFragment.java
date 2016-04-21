@@ -59,7 +59,10 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
     private SwipeRefreshLayout srl_refresh;
     private Handler handlerForBanner = new Handler();
     private Handler handlerForRefresh;
-//    private Runnable runnableForRefresh;
+
+    /*
+    设置轮播时间间隔
+     */
     private Runnable runnableForBanner = new Runnable() {
         @Override
         public void run() {
@@ -89,43 +92,43 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
         PushBean[] pushs = new PushBean[6];
         pushs[0] = new PushBean();
         pushs[0].setRead("12万");
-        pushs[0].setBrowseid(R.drawable.browse);
-        pushs[0].setNewsid(R.drawable.dialsmall);
+        pushs[0].setBrowseid(R.drawable.ic_read_48px);
+        pushs[0].setNewsid(R.drawable.phone_48dp);
         pushs[0].setTime("2016.4.9");
         pushs[0].setTitle("全面推动“三品一标”工作再上新台阶");
 
         pushs[1] = new PushBean();
         pushs[1].setRead("12万");
-        pushs[1].setBrowseid(R.drawable.browse);
-        pushs[1].setNewsid(R.drawable.dialsmall);
+        pushs[1].setBrowseid(R.drawable.ic_read_48px);
+        pushs[1].setNewsid(R.drawable.phone_48dp);
         pushs[1].setTime("2016.4.9");
         pushs[1].setTitle("全面推动“三品一标”工作啦啦啦再上新台阶");
 
         pushs[2] = new PushBean();
         pushs[2].setRead("12万");
-        pushs[2].setBrowseid(R.drawable.browse);
-        pushs[2].setNewsid(R.drawable.dialsmall);
+        pushs[2].setBrowseid(R.drawable.ic_read_48px);
+        pushs[2].setNewsid(R.drawable.phone_48dp);
         pushs[2].setTime("2016.4.9");
         pushs[2].setTitle("帅子是煞笔");
 
         pushs[3] = new PushBean();
         pushs[3].setRead("12万");
-        pushs[3].setBrowseid(R.drawable.browse);
-        pushs[3].setNewsid(R.drawable.dialsmall);
+        pushs[3].setBrowseid(R.drawable.ic_read_48px);
+        pushs[3].setNewsid(R.drawable.phone_48dp);
         pushs[3].setTime("2016.4.9");
         pushs[3].setTitle("全面推动“三品一标”工作再上新台阶");
 
         pushs[4] = new PushBean();
         pushs[4].setRead("12万");
-        pushs[4].setBrowseid(R.drawable.browse);
-        pushs[4].setNewsid(R.drawable.dialsmall);
+        pushs[4].setBrowseid(R.drawable.ic_read_48px);
+        pushs[4].setNewsid(R.drawable.phone_48dp);
         pushs[4].setTime("2016.4.9");
         pushs[4].setTitle("全面推动“三品一标”工作再上新台阶");
 
         pushs[5] = new PushBean();
         pushs[5].setRead("12万");
-        pushs[5].setBrowseid(R.drawable.browse);
-        pushs[5].setNewsid(R.drawable.dialsmall);
+        pushs[5].setBrowseid(R.drawable.ic_read_48px);
+        pushs[5].setNewsid(R.drawable.phone_48dp);
         pushs[5].setTime("2016.4.9");
         pushs[5].setTitle("全面推动“三品一标”工作再上新台阶");
 
@@ -140,11 +143,13 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
         super.onDestroy();
         handlerForBanner.removeCallbacks(runnableForBanner);
     }
-
+    /*
+    加载图片与小圆点
+     */
     public void initView() {
         vp_viewpager = (ViewPager) mView.findViewById(R.id.vp_viewpager);
         ll_point = (LinearLayout) mView.findViewById(R.id.ll_point);
-        imagePath = new int[]{R.drawable.banner_red, R.drawable.banner_white, R.drawable.banner_red, R.drawable.banner_white, R.drawable.banner_red};
+        imagePath = new int[]{R.drawable.img_banner_red, R.drawable.img_banner_white,R.drawable.img_banner_red, R.drawable.img_banner_white, R.drawable.img_banner_red};
         views = new ArrayList<ImageView>();
 
         for (int i = 0; i < imagePath.length; i++) {
@@ -153,10 +158,12 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
             views.add(img);
             //圈
             ImageView imgCircle = new ImageView(context);
-            imgCircle.setImageResource(R.drawable.banner_white);//默认不中
+            imgCircle.setImageResource(R.drawable.img_banner_white);//默认不中
             imgCircle.setPadding(10, 5, 10, 5);
             ll_point.addView(imgCircle);
         }
+
+
         bannerAdapter = new BannerAdapter(views, context);
         vp_viewpager.setAdapter(bannerAdapter);
         vp_viewpager.setCurrentItem(300);
@@ -168,7 +175,9 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
     }
-
+    /*
+    得到当前图片并记录当前时间
+     */
     @Override
     public void onPageSelected(int position) {
         currentIndex = position;
@@ -182,28 +191,22 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
     public void onPageScrollStateChanged(int state) {
 
     }
-
+    /*
+    设置小圆点的变色
+     */
     public void setCurrentSelector(int index) {
         for (int i = 0; i < ll_point.getChildCount(); i++) {
             ImageView child = (ImageView) ll_point.getChildAt(i);
             if (i == index) {
-                child.setImageResource(R.drawable.banner_red);
+                child.setImageResource(R.drawable.img_banner_red);
             } else {
-                child.setImageResource(R.drawable.banner_white);
+                child.setImageResource(R.drawable.img_banner_white);
             }
         }
     }
-//    private void refreshContent(){
-//
-//
-//        srl_refresh.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                srl_refresh.setRefreshing(false);
-//            }
-//
-//        },2000);
-//    }
+    /*
+    下拉刷新
+     */
 
     @Override
     public void onRefresh() {
