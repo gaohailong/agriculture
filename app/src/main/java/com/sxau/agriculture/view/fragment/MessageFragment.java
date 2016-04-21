@@ -12,11 +12,16 @@ import android.view.ViewGroup;
 import android.widget.RadioGroup;
 
 import com.sxau.agriculture.agriculture.R;
+import com.sxau.agriculture.presenter.fragment_presenter.MessagePresenter;
+import com.sxau.agriculture.presenter.fragment_presenter_interface.IMessagePresenter;
 import com.sxau.agriculture.view.activity.MainActivity;
+import com.sxau.agriculture.view.fragment_interface.IMessageFragment;
 
 
-public class MessageFragment extends Fragment {
+public class MessageFragment extends BaseFragment implements IMessageFragment {
 
+
+    private IMessagePresenter iMessagePresenter;
 
     public MessageFragment() {
     }
@@ -24,7 +29,17 @@ public class MessageFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        //将MessageFragment与MessagePresenter绑定
+        iMessagePresenter = new MessagePresenter(MessageFragment.this);
+
         View view = inflater.inflate(R.layout.fragment_message, container, false);
         return view;
     }
+
+//-------------------接口方法----------------
+    @Override
+    public void updateView() {
+
+    }
+//-------------------接口方法结束--------------
 }

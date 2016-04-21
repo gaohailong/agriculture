@@ -52,8 +52,6 @@ public class InfoFragment extends BaseFragment{
 
         SmartTabLayout viewPagerTab = (SmartTabLayout) convertView.findViewById(R.id.viewpagertab);
 
-       // viewPagerTab.setCustomTabView(R.layout.custom_tab_icon_and_text, R.id.custom_tab_text);
-
         viewPagerTab.setViewPager(viewPager);
 
     }

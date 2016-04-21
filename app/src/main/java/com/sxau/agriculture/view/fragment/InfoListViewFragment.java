@@ -5,21 +5,27 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.sxau.agriculture.adapter.InfoDemandAdapter;
 import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.bean.InfoData;
+import com.sxau.agriculture.presenter.fragment_presenter.InfoListViewPresenter;
+import com.sxau.agriculture.presenter.fragment_presenter_interface.IInfoListViewPresenter;
+import com.sxau.agriculture.view.fragment_interface.IInfoListViewFragment;
 
 /**
  * Created by Administrator on 2016/4/12.
  */
-public class InfoListViewFragment extends BaseFragment {
+public class InfoListViewFragment extends BaseFragment implements IInfoListViewFragment {
         private  View mview;
         private ListView lv_Info;
         private ImageView iv_collection;
+
+        private IInfoListViewPresenter iInfoListViewPresenter;
+
+
         public InfoListViewFragment() {
         }
 
@@ -28,6 +34,10 @@ public class InfoListViewFragment extends BaseFragment {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
+
+                //将InfoLvFragment与InfolvPresenter绑定
+                iInfoListViewPresenter = new InfoListViewPresenter(InfoListViewFragment.this);
+
 
                 mview=inflater.inflate(R.layout.fragment_info_listview, container, false);
 
@@ -92,4 +102,25 @@ public class InfoListViewFragment extends BaseFragment {
                 lv_Info.setAdapter(adapter);
                 return mview;
         }
+//------------------接口方法-------------------
+        @Override
+        public void updateView() {
+
+        }
+
+        @Override
+        public void changeItemView() {
+
+        }
+
+        /**
+         * 获取收藏的状态，是否已经收藏
+         * 1代表已经收藏
+         * 2代表没有收藏
+         */
+        @Override
+        public int getCollectState() {
+                return 0;
+        }
+//----------------接口方法结束-------------------
 }
