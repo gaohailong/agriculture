@@ -1,7 +1,6 @@
 package com.sxau.agriculture.view.fragment;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,18 +10,27 @@ import android.widget.ListView;
 import com.sxau.agriculture.adapter.PersonalQuestionAdapter;
 import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.bean.MyPersonalQuestion;
+import com.sxau.agriculture.presenter.fragment_presenter.PersonalCollectionPresenter;
+import com.sxau.agriculture.presenter.fragment_presenter_interface.IPersonalCollectQuestionPresenter;
 import com.sxau.agriculture.view.activity.DetailQuestion;
+import com.sxau.agriculture.view.fragment_interface.IPresonalCollectQuestionFragment;
 
 import java.util.ArrayList;
 
 /**
  * Created by Administrator on 2016/4/21.
  */
-public class PersonalCollectQuestionFragment  extends BaseFragment{
+public class PersonalCollectQuestionFragment  extends BaseFragment implements IPresonalCollectQuestionFragment{
     private ListView listView;
+
+    private IPersonalCollectQuestionPresenter iPersonalCollectQuestionPresenter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        //将Fragment对象与Presenter对象绑定
+        iPersonalCollectQuestionPresenter = new PersonalCollectionPresenter(PersonalCollectQuestionFragment.this);
+
         View myQuestionView = inflater.inflate(R.layout.frament_personal_myquestion, null);
         listView = (ListView) myQuestionView.findViewById(R.id.lv_MyQuestionListView);
         PersonalQuestionAdapter adapter = new PersonalQuestionAdapter(PersonalCollectQuestionFragment.this.getActivity(),getDate());
@@ -59,5 +67,10 @@ public class PersonalCollectQuestionFragment  extends BaseFragment{
 
         return list;
     }
+//-------------------接口方法-------------
+    @Override
+    public void updateView() {
 
+    }
+//----------------接口方法结束---------------
 }

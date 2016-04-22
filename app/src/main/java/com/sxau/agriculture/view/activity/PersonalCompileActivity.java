@@ -1,24 +1,22 @@
 
 package com.sxau.agriculture.view.activity;
 
-        import android.app.Activity;
-
-        import android.content.Context;
-        import android.content.DialogInterface;
         import android.os.Bundle;
-        import android.util.AttributeSet;
         import android.view.View;
         import android.widget.ImageButton;
         import android.widget.TextView;
         import android.widget.Toast;
 
         import com.sxau.agriculture.agriculture.R;
+        import com.sxau.agriculture.presenter.acitivity_presenter.PersonalCompilePresenter;
+        import com.sxau.agriculture.presenter.activity_presenter_interface.IPersonalCompilePresenter;
+        import com.sxau.agriculture.view.activity_interface.IPersonalCompileActivity;
         import com.sxau.agriculture.widgets.RoundImageView;
 
 /**
  * Created by Administrator on 2016/4/13.
  */
-public class PersonalCompile extends BaseActivity implements View.OnClickListener {
+public class PersonalCompileActivity extends BaseActivity implements View.OnClickListener ,IPersonalCompileActivity {
     private ImageButton ib_Back;
     private RoundImageView rw_Head;
     private TextView tv_HeadPortrait;
@@ -31,10 +29,16 @@ public class PersonalCompile extends BaseActivity implements View.OnClickListene
     private TextView tv_Identity;
     private TextView tv_UserIdentity;
 
+    private IPersonalCompilePresenter iPersonalCompilePresenter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_persional_compile);
+
+        //将Activity与Presenter进行绑定
+        iPersonalCompilePresenter = new PersonalCompilePresenter(PersonalCompileActivity.this);
+
         initView();
     }
 
@@ -67,23 +71,75 @@ public class PersonalCompile extends BaseActivity implements View.OnClickListene
                 finish();
                 break;
             case R.id.rw_head:
-                Toast.makeText(PersonalCompile.this,"1",Toast.LENGTH_SHORT).show();
+                Toast.makeText(PersonalCompileActivity.this,"1",Toast.LENGTH_SHORT).show();
                 break;
             case R.id.tv_user_nick:
-                Toast.makeText(PersonalCompile.this,"2",Toast.LENGTH_SHORT).show();
+                Toast.makeText(PersonalCompileActivity.this,"2",Toast.LENGTH_SHORT).show();
 
                 break;
             case R.id.tv_phone_number:
-                Toast.makeText(PersonalCompile.this,"3",Toast.LENGTH_SHORT).show();
+                Toast.makeText(PersonalCompileActivity.this,"3",Toast.LENGTH_SHORT).show();
                 break;
             case R.id.tv_user_address:
-                Toast.makeText(PersonalCompile.this,"4",Toast.LENGTH_SHORT).show();
+                Toast.makeText(PersonalCompileActivity.this,"4",Toast.LENGTH_SHORT).show();
                 break;
             case R.id.tv_user_identity:
-                Toast.makeText(PersonalCompile.this,"5",Toast.LENGTH_SHORT).show();
+                Toast.makeText(PersonalCompileActivity.this,"5",Toast.LENGTH_SHORT).show();
                 break;
             default:
         }
 
     }
+
+//--------------------接口方法--------------------
+    @Override
+    public void setHead() {
+
+    }
+
+    @Override
+    public void setNickName() {
+
+    }
+
+    @Override
+    public void setPhone() {
+
+    }
+
+    @Override
+    public void setUserPosition() {
+
+    }
+
+    @Override
+    public void setIdentity() {
+
+    }
+
+    @Override
+    public String getHead() {
+        return null;
+    }
+
+    @Override
+    public String getNickName() {
+        return null;
+    }
+
+    @Override
+    public String getPhone() {
+        return null;
+    }
+
+    @Override
+    public String getUserPosition() {
+        return null;
+    }
+
+    @Override
+    public String getIdentity() {
+        return null;
+    }
+//---------------------接口方法结束--------------------
 }
