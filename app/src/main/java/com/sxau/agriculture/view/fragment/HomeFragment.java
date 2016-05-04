@@ -13,6 +13,9 @@ import com.sxau.agriculture.presenter.fragment_presenter.HomePresenter;
 import com.sxau.agriculture.presenter.fragment_presenter_interface.IHomePresenter;
 import com.sxau.agriculture.view.fragment_interface.IHomeFragment;
 
+/**
+ * 主界面的Fragment
+ */
 public class HomeFragment extends BaseFragment implements IHomeFragment {
 
     private IHomePresenter iHomePresenter;

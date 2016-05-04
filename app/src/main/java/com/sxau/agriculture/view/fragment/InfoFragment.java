@@ -20,6 +20,9 @@ import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 
 import java.util.ArrayList;
 
+/**
+ * 信息的Fragment
+ */
 public class InfoFragment extends BaseFragment{
 
     private TextView view1, view2;

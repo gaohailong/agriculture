@@ -17,7 +17,10 @@ import com.sxau.agriculture.presenter.fragment_presenter_interface.IMessagePrese
 import com.sxau.agriculture.view.activity.MainActivity;
 import com.sxau.agriculture.view.fragment_interface.IMessageFragment;
 
-
+/**
+ * 消息的Fragment
+ * @author 高海龙
+ */
 public class MessageFragment extends BaseFragment implements IMessageFragment {
 
 

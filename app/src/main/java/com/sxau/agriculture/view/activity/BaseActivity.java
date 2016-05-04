@@ -5,7 +5,9 @@ import android.os.Bundle;
 
 import com.sxau.agriculture.utils.ActivityCollectorUtil;
 
-
+/**
+ * 基本的activity
+ */
 public class BaseActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
