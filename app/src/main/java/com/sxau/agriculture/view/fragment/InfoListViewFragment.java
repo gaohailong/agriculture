@@ -25,7 +25,8 @@ import com.sxau.agriculture.presenter.fragment_presenter_interface.IInfoListView
 import com.sxau.agriculture.view.fragment_interface.IInfoListViewFragment;
 
 /**
- * Created by Administrator on 2016/4/12.
+ * 信息专区ListView
+ * @author 田帅
  */
 
 

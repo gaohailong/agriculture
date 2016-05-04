@@ -15,6 +15,10 @@ import com.sxau.agriculture.view.fragment.InfoFragment;
 import com.sxau.agriculture.view.fragment.MessageFragment;
 import com.sxau.agriculture.view.fragment.QuestionFragment;
 
+/**
+ * 主界面的activity
+ * @author 高海龙
+ */
 public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener {
     private FragmentTabHost fragmentTabHost;
     private RadioGroup radioGroup;
@@ -126,6 +130,5 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
             ActivityCollectorUtil.finishAll();
             finish();
         }
-
     }
 }

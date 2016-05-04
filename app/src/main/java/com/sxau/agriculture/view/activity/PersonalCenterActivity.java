@@ -37,7 +37,7 @@ public class PersonalCenterActivity extends BaseActivity implements View.OnClick
         initView();
 
        FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(getSupportFragmentManager(), FragmentPagerItems.with(this)
-               .add(R.string.MyQuestion,PersonalQuestionFragment.class)
+               .add(R.string.MyQuestion, PersonalQuestionFragment.class)
                .add(R.string.TradeInfo,PersonalTradeInfoFragment.class)
                .add(R.string.CollectQuestion,PersonalCollectQuestionFragment.class)
                .add(R.string.CollectTrade,PersonalCollectTradeFragment.class)
@@ -67,7 +67,7 @@ public class PersonalCenterActivity extends BaseActivity implements View.OnClick
                 break;
             case R.id.btn_compile:
                 Intent intent2 = new Intent();
-                intent2.setClass(PersonalCenterActivity.this,PersonalCompile.class);
+                intent2.setClass(PersonalCenterActivity.this,PersonalCompileActivity.class);
                 startActivity(intent2);
                 break;
             default:

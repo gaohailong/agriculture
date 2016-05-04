@@ -11,18 +11,26 @@ import android.widget.ListView;
 import com.sxau.agriculture.adapter.PersonalTradeInfoAdapter;
 import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.bean.MyPersonalTrade;
+import com.sxau.agriculture.presenter.fragment_presenter.PersonalCollectTradePresenter;
+import com.sxau.agriculture.presenter.fragment_presenter_interface.IPersonalCollectTradePresenter;
 import com.sxau.agriculture.view.activity.InfoContentActivity;
+import com.sxau.agriculture.view.fragment_interface.IPersonalCollectTradeFragment;
 
 import java.util.ArrayList;
 
 /**
  * Created by Administrator on 2016/4/21.
  */
-public class PersonalCollectTradeFragment extends BaseFragment{
+public class PersonalCollectTradeFragment extends BaseFragment implements IPersonalCollectTradeFragment{
     private ListView listView;
+    private IPersonalCollectTradePresenter iPersonalCollectTradePresenter;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        //将Fragment对象与Presenter对象绑定
+        iPersonalCollectTradePresenter = new PersonalCollectTradePresenter(PersonalCollectTradeFragment.this);
+
         View TradeInfoView = inflater.inflate(R.layout.frament_personal_tradeinfo,null);
         listView  = (ListView) TradeInfoView.findViewById(R.id.lv_tradeInfo);
 
@@ -86,5 +94,10 @@ public class PersonalCollectTradeFragment extends BaseFragment{
         list.add(myPersonalTrade5);
         return list;
     }
+//---------------------接口方法-----------------
+    @Override
+    public void updateView() {
 
+    }
+//-------------------接口方法结束-----------------
 }
