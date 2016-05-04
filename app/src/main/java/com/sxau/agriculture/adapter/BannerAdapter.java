@@ -10,7 +10,8 @@ import android.widget.ImageView;
 import java.util.ArrayList;
 
 /**
- * Created by czz on 2016/4/13.
+ * 图片轮播的adapter
+ * @author 崔志泽
  */
 public class BannerAdapter extends PagerAdapter {
     private ArrayList<ImageView> views;

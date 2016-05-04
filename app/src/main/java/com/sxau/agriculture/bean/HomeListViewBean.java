@@ -1,9 +1,9 @@
-package com.sxau.agriculture.view.fragment;
+package com.sxau.agriculture.bean;
 
 /**
  * Created by czz on 2016/4/9.
  */
-public class PushBean {
+public class HomeListViewBean {
     private String title;
     private String time;
     private String read;

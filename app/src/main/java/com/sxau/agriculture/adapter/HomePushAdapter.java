@@ -9,23 +9,26 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.sxau.agriculture.agriculture.R;
-import com.sxau.agriculture.view.fragment.PushBean;
+import com.sxau.agriculture.bean.HomeListViewBean;
+
+import java.util.ArrayList;
 
 /**
- * Created by czz on 2016/4/8.
+ * 首页listview的adapter
+ * @author 崔志泽
  */
 public class HomePushAdapter extends BaseAdapter{
-    PushBean data[];
+    ArrayList<HomeListViewBean> data;
     private Context context;
 
-    public HomePushAdapter(PushBean[] data, Context context) {
+    public HomePushAdapter(ArrayList<HomeListViewBean> data, Context context) {
         this.data = data;
         this.context = context;
     }
 
     @Override
     public int getCount() {
-        return data.length;
+        return data.size();
     }
 
     @Override
@@ -60,12 +63,12 @@ public class HomePushAdapter extends BaseAdapter{
         }else{
             holder= (ViewHolder) convertView.getTag();
         }
-        PushBean pushBean=data[position];
+        HomeListViewBean homeListViewBean =data.get(position);
         holder.iv_news.setImageResource(R.drawable.phone_48dp);
-        holder.tv_title.setText(pushBean.getTitle());
-        holder.tv_time.setText(pushBean.getTime());
+        holder.tv_title.setText(homeListViewBean.getTitle());
+        holder.tv_time.setText(homeListViewBean.getTime());
         holder.iv_browse.setImageResource(R.drawable.ic_read_48px);
-        holder.tv_read.setText(pushBean.getRead());
+        holder.tv_read.setText(homeListViewBean.getRead());
 
         return convertView;
     }
