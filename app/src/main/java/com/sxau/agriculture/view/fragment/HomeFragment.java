@@ -24,14 +24,8 @@ import com.sxau.agriculture.presenter.fragment_presenter.HomePresenter;
 import com.sxau.agriculture.presenter.fragment_presenter_interface.IHomePresenter;
 import com.sxau.agriculture.view.fragment_interface.IHomeFragment;
 
-<<<<<<< HEAD
+
 import java.util.ArrayList;
-=======
-/**
- * 主界面的Fragment
- */
-public class HomeFragment extends BaseFragment implements IHomeFragment {
->>>>>>> 79e1614f368dde270ecc315d26373103ac2e5989
 
 /**
  * 首页Fragment

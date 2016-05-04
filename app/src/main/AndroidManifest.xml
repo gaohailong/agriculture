@@ -23,15 +23,11 @@
         <activity android:name="com.sxau.agriculture.view.activity.BaseActivity" />
 
         <activity android:name="com.sxau.agriculture.view.activity.PersonalCenterActivity" />
-<<<<<<< HEAD
 
 
 
 
-        <activity android:name="com.sxau.agriculture.view.activity.PersonalCompile" />
-=======
         <activity android:name="com.sxau.agriculture.view.activity.PersonalCompileActivity" />
->>>>>>> 79e1614f368dde270ecc315d26373103ac2e5989
         <activity android:name="com.sxau.agriculture.view.activity.InfoContentActivity" />
 
         <activity android:name="com.sxau.agriculture.view.activity.DetailQuestion" />
