@@ -1,29 +1,22 @@
 package com.sxau.agriculture.view.fragment;
 
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.sxau.agriculture.adapter.MessageAdapter;
-import com.sxau.agriculture.adapter.PersonalQuestionAdapter;
 import com.sxau.agriculture.agriculture.R;
-import com.sxau.agriculture.api.GetMessageList;
+import com.sxau.agriculture.api.IGetMessageList;
 import com.sxau.agriculture.bean.MessageInfo;
 import com.sxau.agriculture.bean.MessageList;
 import com.sxau.agriculture.presenter.fragment_presenter.MessagePresenter;
 import com.sxau.agriculture.presenter.fragment_presenter_interface.IMessagePresenter;
-import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.RetrofitUtil;
 import com.sxau.agriculture.view.fragment_interface.IMessageFragment;
 
@@ -33,7 +26,6 @@ import java.util.List;
 
 import retrofit.Call;
 import retrofit.Callback;
-import retrofit.GsonConverterFactory;
 import retrofit.Response;
 import retrofit.Retrofit;
 
@@ -66,13 +58,12 @@ public class MessageFragment extends BaseFragment implements IMessageFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        statues();
-//        initView();
+        initListView();
         handler.sendEmptyMessage(0);
     }
 
-    public void statues() {
-        Call<MessageList> call = RetrofitUtil.test().create(GetMessageList.class).getResult();
+    public void initListView() {
+        Call<MessageList> call = RetrofitUtil.getRetrofit().create(IGetMessageList.class).getResult();
         call.enqueue(new Callback<MessageList>() {
             @Override
             public void onResponse(Response<MessageList> response, Retrofit retrofit) {
