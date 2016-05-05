@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -28,15 +29,16 @@ import com.sxau.agriculture.view.fragment_interface.IHomeFragment;
 import java.util.ArrayList;
 
 /**
-<<<<<<< HEAD
+ * <<<<<<< HEAD
  * 主界面的Fragment
+ *
  * @author 高海龙
-=======
- * 首页Fragment
+ *         =======
+ *         首页Fragment
  * @author 崔志泽
->>>>>>> 15e48df8d091c9641a4022c8cbefa6a04ebe488f
+ *         >>>>>>> 15e48df8d091c9641a4022c8cbefa6a04ebe488f
  */
-public class HomeFragment extends BaseFragment implements ViewPager.OnPageChangeListener, SwipeRefreshLayout.OnRefreshListener, IHomeFragment,AdapterView.OnItemClickListener {
+public class HomeFragment extends BaseFragment implements ViewPager.OnPageChangeListener, SwipeRefreshLayout.OnRefreshListener, IHomeFragment, AdapterView.OnItemClickListener, View.OnTouchListener {
     private IHomePresenter iHomePresenter;
 
     private BannerAdapter bannerAdapter;
@@ -45,14 +47,16 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
     private HomePushAdapter adapter;
     private ViewPager vp_viewpager;
     private LinearLayout ll_point;
+    private SwipeRefreshLayout srl_refresh;
+    private Context context;
+
     private int[] imagePath;
     private int[] pointPath;
     private ArrayList<HomeListViewBean> homeListViewBeans;
-    private int currentIndex = 300;
     private ArrayList<ImageView> views;
-    private Context context;
+    private int currentIndex = 300;
     private long lastTime;
-    private SwipeRefreshLayout srl_refresh;
+
     private Handler handlerForBanner;
     private Handler handlerForRefresh;
 
@@ -81,7 +85,7 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
         lv_push = (ListView) mView.findViewById(R.id.lv_push);
         srl_refresh = (SwipeRefreshLayout) mView.findViewById(R.id.srl_refresh);
         handlerForRefresh = new Handler();
-        handlerForBanner= new Handler();
+        handlerForBanner = new Handler();
         context = HomeFragment.this.getActivity();
 
         srl_refresh.setOnRefreshListener(this);
@@ -94,7 +98,7 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
     }
 
     public void initListData() {
-        homeListViewBeans =new ArrayList<HomeListViewBean>();
+        homeListViewBeans = new ArrayList<HomeListViewBean>();
 
         HomeListViewBean[] pushs = new HomeListViewBean[6];
         pushs[0] = new HomeListViewBean();
@@ -179,6 +183,7 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
 
 
         bannerAdapter = new BannerAdapter(views, context);
+        vp_viewpager.setOnTouchListener(this);
         vp_viewpager.setAdapter(bannerAdapter);
         vp_viewpager.setCurrentItem(300);
         vp_viewpager.setOnPageChangeListener(this);
@@ -239,6 +244,22 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Toast.makeText(context, homeListViewBeans.get(position).getTitle(),Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, homeListViewBeans.get(position).getTitle(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_MOVE:
+                srl_refresh.setEnabled(false);
+                break;
+            case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_CANCEL:
+                srl_refresh.setEnabled(true);
+                break;
+            default:
+                break;
+        }
+        return false;
     }
 }
