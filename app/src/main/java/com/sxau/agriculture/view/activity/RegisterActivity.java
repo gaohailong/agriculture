@@ -9,6 +9,10 @@ import com.sxau.agriculture.presenter.acitivity_presenter.RegisterPresenter;
 import com.sxau.agriculture.presenter.activity_presenter_interface.IRegisterPresenter;
 import com.sxau.agriculture.view.activity_interface.IRegisterActivity;
 
+/**
+ *注册的activity
+ *@author yawen_li
+ */
 public class RegisterActivity extends BaseActivity implements IRegisterActivity {
 
     private EditText etUsername;
