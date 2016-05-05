@@ -75,12 +75,8 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-<<<<<<< HEAD
         //将HomeFragment与HomePresenter绑定起来
         iHomePresenter = new HomePresenter(HomeFragment.this);
-        return inflater.inflate(R.layout.fragment_home, container, false);
-=======
-
         mView = inflater.inflate(R.layout.fragment_home, container, false);
         lv_push = (ListView) mView.findViewById(R.id.lv_push);
         srl_refresh = (SwipeRefreshLayout) mView.findViewById(R.id.srl_refresh);
@@ -92,16 +88,9 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
         lv_push.setOnItemClickListener(this);
         //将HomeFragment与HomePresenter绑定起来
         iHomePresenter = new HomePresenter(HomeFragment.this);
-
         initView();
         initListData();
-
-
-
         return mView;
-
-
->>>>>>> 15e48df8d091c9641a4022c8cbefa6a04ebe488f
     }
 
     public void initListData() {
