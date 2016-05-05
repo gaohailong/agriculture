@@ -9,6 +9,10 @@ import com.sxau.agriculture.presenter.acitivity_presenter.LoginPresenter;
 import com.sxau.agriculture.presenter.activity_presenter_interface.ILoginPresenter;
 import com.sxau.agriculture.view.activity_interface.ILoginActivty;
 
+/**
+ * 登录的activity
+ * @author yawen_li
+ */
 public class LoginActivity extends BaseActivity implements ILoginActivty{
 
     private EditText etUsername;
