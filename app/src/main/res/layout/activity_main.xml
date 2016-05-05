@@ -10,7 +10,6 @@
         android:layout_width="fill_parent"
         android:layout_height="50dp"
         android:paddingBottom="10dp"
-        android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:paddingTop="10dp"
         custom:titleContent="体呢"
@@ -30,8 +29,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone">
-
-
     </android.support.v4.app.FragmentTabHost>
 
     <LinearLayout

@@ -15,6 +15,7 @@ import com.sxau.agriculture.view.fragment_interface.IHomeFragment;
 
 /**
  * 主界面的Fragment
+ * @author 高海龙
  */
 public class HomeFragment extends BaseFragment implements IHomeFragment {
 
@@ -23,10 +24,8 @@ public class HomeFragment extends BaseFragment implements IHomeFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         //将HomeFragment与HomePresenter绑定起来
         iHomePresenter = new HomePresenter(HomeFragment.this);
-
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
 //----------------------接口方法----------------------------
