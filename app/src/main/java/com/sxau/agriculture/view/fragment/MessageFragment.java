@@ -45,7 +45,7 @@ import retrofit.Retrofit;
 public class MessageFragment extends BaseFragment implements IMessageFragment {
     private ListView lv_message;
     private List<MessageInfo> messageInfos;
-    private Context context=getActivity();
+    private Context context = getActivity();
     private IMessagePresenter iMessagePresenter;
     private MessageAdapter messageAdapter;
 
@@ -57,7 +57,6 @@ public class MessageFragment extends BaseFragment implements IMessageFragment {
                              Bundle savedInstanceState) {
         //将MessageFragment与MessagePresenter绑定
         iMessagePresenter = new MessagePresenter(MessageFragment.this);
-
         View view = inflater.inflate(R.layout.fragment_message, container, false);
         lv_message = (ListView) view.findViewById(R.id.lv_message);
         messageInfos = new ArrayList<MessageInfo>();
@@ -72,8 +71,8 @@ public class MessageFragment extends BaseFragment implements IMessageFragment {
         handler.sendEmptyMessage(0);
     }
 
-    public void statues(){
-        Call<MessageList> call =  RetrofitUtil.test().create(GetMessageList.class).getResult();
+    public void statues() {
+        Call<MessageList> call = RetrofitUtil.test().create(GetMessageList.class).getResult();
         call.enqueue(new Callback<MessageList>() {
             @Override
             public void onResponse(Response<MessageList> response, Retrofit retrofit) {
@@ -85,6 +84,7 @@ public class MessageFragment extends BaseFragment implements IMessageFragment {
                     }
                 }
             }
+
             @Override
             public void onFailure(Throwable t) {
 
@@ -94,11 +94,14 @@ public class MessageFragment extends BaseFragment implements IMessageFragment {
 
 
     private MyHandler handler = new MyHandler(MessageFragment.this);
+
     private class MyHandler extends Handler {
         WeakReference<MessageFragment> weakReference;
+
         public MyHandler(MessageFragment activity) {
             weakReference = new WeakReference<MessageFragment>(activity);
         }
+
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);

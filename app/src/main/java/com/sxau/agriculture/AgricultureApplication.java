@@ -3,7 +3,8 @@ package com.sxau.agriculture;
 import android.app.Application;
 
 /**
- * Created by gaohailong on 2016/4/6.
+ * 全局的application
+ * @author 高海龙
  */
 public class AgricultureApplication extends Application {
 }

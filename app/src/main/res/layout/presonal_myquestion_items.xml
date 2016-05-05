@@ -68,7 +68,7 @@
                     android:ellipsize="end"
                     android:layout_marginLeft="5dp"
                     android:gravity="center_vertical"
-                    android:lines="2"
+                    android:lines="3"
                     android:minLines="2"
                     android:text="放傅份国"
                     android:textSize="13sp" />
