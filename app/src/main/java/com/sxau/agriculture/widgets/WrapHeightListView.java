@@ -8,7 +8,8 @@ import android.view.View;
 import android.widget.ListView;
 
 /**
- * Created by czz on 2016/4/14.
+ * 自定义适应高度的listview控件
+ * @author 崔志泽
  */
 public class WrapHeightListView extends ListView {
     public WrapHeightListView(Context context) {
