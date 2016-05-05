@@ -58,7 +58,7 @@ public class InfoDemandAdapter extends BaseAdapter {
             holder.title = (TextView) convertView.findViewById(R.id.tv_demand_title);
             holder.content = (TextView) convertView.findViewById(R.id.tv_demand_content);
             holder.ivLocation = (ImageView) convertView.findViewById(R.id.iv_demand_location);
-            holder.ivCollection= (ImageView) convertView.findViewById(R.id.ib_demand_collection);
+            holder.ivCollection= (ImageView) convertView.findViewById(R.id.iv_demand_collection);
 
             convertView.setTag(holder);
         } else {

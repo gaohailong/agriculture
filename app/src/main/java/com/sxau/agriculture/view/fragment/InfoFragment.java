@@ -21,7 +21,8 @@ import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 import java.util.ArrayList;
 
 /**
- * 信息的Fragment
+ * 信息专区的Fragment
+ * @author 田帅
  */
 public class InfoFragment extends BaseFragment{
 

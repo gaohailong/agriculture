@@ -7,7 +7,11 @@
     <string name="supply">供应</string>
     <string name="demand">需求</string>
 
+
+
     <string name="no_answer">暂无回答</string>
+
+
 
 
     <string name="title_activity_presonal_center_acivity">PresonalCenterAcivity</string>
@@ -28,6 +32,7 @@
     <string name="common_user">普通用户</string>
     <string name="expert_user">专家用户</string>
     <string name="finish">完成</string>
+
 
 
 </resources>
