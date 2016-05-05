@@ -13,6 +13,10 @@ import android.widget.Toast;
 import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.bean.Question;
 
+/**
+ * 问题详细信息页面
+ * 李秉龙
+ */
 public class DetailQuestion extends BaseActivity implements View.OnClickListener{
     private ImageButton ib_Back;
     private ImageButton ib_Fav;

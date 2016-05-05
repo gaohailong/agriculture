@@ -24,7 +24,8 @@ import com.sxau.agriculture.view.activity.DetailQuestion;
 import java.util.ArrayList;
 
 /**
- * Created by Administrator on 2016/4/10.
+ * 个人中心问题的listView的fragment
+ * 李秉龙
  */
 public class PersonalQuestionFragment extends BaseFragment {
     private ListView listView;

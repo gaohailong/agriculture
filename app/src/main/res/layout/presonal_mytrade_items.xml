@@ -13,7 +13,7 @@
     <LinearLayout
         android:id="@+id/ll_left"
         android:layout_width="wrap_content"
-        android:layout_height="150dp"
+        android:layout_height="match_parent"
         android:layout_marginLeft="10dp"
         android:layout_toLeftOf="@id/v_left"
         android:layout_marginRight="20dp"
@@ -22,20 +22,19 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_margin="3dp"
-            android:layout_height="35dp">
+            android:layout_height="30dp">
 
             <com.sxau.agriculture.widgets.RoundImageView
                 android:id="@+id/rv_info_head"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:src="@mipmap/img_default_user_portrait_150px" />
 
             <TextView
                 android:id="@+id/tv_trade_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_marginBottom="10dp"
+                android:layout_centerVertical="true"
                 android:layout_marginLeft="5dp"
                 android:layout_toRightOf="@+id/rv_info_head"
                 android:text="天和集团"
@@ -43,8 +42,7 @@
             <TextView
                 android:id="@+id/tv_trade_address"
                 android:layout_toRightOf="@+id/tv_trade_name"
-                android:layout_alignParentBottom="true"
-                android:layout_marginBottom="10dp"
+                android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -55,9 +53,8 @@
                 android:id="@+id/tv_trade_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
+                android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
-                android:layout_marginBottom="10dp"
                 android:text="2016.03.22"
                 android:textSize="12sp"/>
         </RelativeLayout>
@@ -77,8 +74,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginTop="5dp"
             android:ellipsize="end"
             android:lines="3"
             android:text="我的他的你的我的他的你的我的他的你的我的他的你的我的他的你的我的他的你的我的他的你的我的他的你的我的他的你的我的他的你的我的他的你的"

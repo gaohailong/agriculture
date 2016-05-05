@@ -16,7 +16,8 @@ import com.sxau.agriculture.view.activity.DetailQuestion;
 import java.util.ArrayList;
 
 /**
- * Created by Administrator on 2016/4/21.
+ * 个人中心我的问题的listView的fragment
+ * 李秉龙
  */
 public class PersonalCollectQuestionFragment  extends BaseFragment{
     private ListView listView;

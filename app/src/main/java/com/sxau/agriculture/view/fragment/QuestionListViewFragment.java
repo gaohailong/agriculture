@@ -19,7 +19,8 @@ import com.sxau.agriculture.presenter.fragment_presenter_interface.IQuestionList
 import com.sxau.agriculture.view.fragment_interface.IQuestionListViewFragment;
 
 /**
- * Created by Administrator on 2016/4/13.
+ * 问答页面的listView的fragment
+ * 李秉龙
  */
 public class QuestionListViewFragment extends BaseFragment implements IQuestionListViewFragment{
     private View mView;

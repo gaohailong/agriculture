@@ -19,7 +19,8 @@ import java.util.ArrayList;
 import java.util.zip.Inflater;
 
 /**
- * Created by Administrator on 2016/4/12.
+ * 个人中心交易的listView的fragment
+ * 李秉龙
  */
 public class PersonalTradeInfoFragment extends BaseFragment {
     private ListView listView;

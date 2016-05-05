@@ -29,4 +29,5 @@
     <!--标题栏过度色-->
     <color name="black_20">#33000000</color>
     <color name="transparent">#00000000</color>
+
 </resources>

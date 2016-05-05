@@ -15,7 +15,8 @@ import com.sxau.agriculture.bean.MyPersonalQuestion;
 import java.util.ArrayList;
 
 /**
- * Created by Administrator on 2016/4/21.
+ * 个人中心问题adapter
+ * 李秉龙
  */
 public class PersonalQuestionAdapter extends BaseAdapter {
     private Context context;

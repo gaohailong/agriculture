@@ -70,7 +70,7 @@
             app:stl_defaultTabTextColor="#fff"
             app:stl_defaultTabTextHorizontalPadding="16dp"
             app:stl_defaultTabTextMinWidth="0dp"
-            app:stl_defaultTabTextSize="10sp"
+            app:stl_defaultTabTextSize="11sp"
             app:stl_distributeEvenly="true"
             app:stl_dividerColor="#4D000000"
             app:stl_dividerThickness="0dp"
