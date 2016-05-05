@@ -28,8 +28,13 @@ import com.sxau.agriculture.view.fragment_interface.IHomeFragment;
 import java.util.ArrayList;
 
 /**
+<<<<<<< HEAD
+ * 主界面的Fragment
+ * @author 高海龙
+=======
  * 首页Fragment
  * @author 崔志泽
+>>>>>>> 15e48df8d091c9641a4022c8cbefa6a04ebe488f
  */
 public class HomeFragment extends BaseFragment implements ViewPager.OnPageChangeListener, SwipeRefreshLayout.OnRefreshListener, IHomeFragment,AdapterView.OnItemClickListener {
     private IHomePresenter iHomePresenter;
@@ -70,7 +75,8 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
+        //将HomeFragment与HomePresenter绑定起来
+        iHomePresenter = new HomePresenter(HomeFragment.this);
         mView = inflater.inflate(R.layout.fragment_home, container, false);
         lv_push = (ListView) mView.findViewById(R.id.lv_push);
         srl_refresh = (SwipeRefreshLayout) mView.findViewById(R.id.srl_refresh);
@@ -82,15 +88,9 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
         lv_push.setOnItemClickListener(this);
         //将HomeFragment与HomePresenter绑定起来
         iHomePresenter = new HomePresenter(HomeFragment.this);
-
         initView();
         initListData();
-
-
-
         return mView;
-
-
     }
 
     public void initListData() {

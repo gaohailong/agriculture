@@ -2,6 +2,7 @@ package com.sxau.agriculture.utils;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -15,7 +16,8 @@ import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.widgets.RoundImageView;
 
 /**
- * Created by gaohailong on 2016/4/8.
+ * 顶部标题栏的Util
+ * @author 高海龙
  */
 public class TopBarUtil extends RelativeLayout {
     //文本
@@ -66,8 +68,8 @@ public class TopBarUtil extends RelativeLayout {
         titleTextColor = ta.getColor(R.styleable.Topbar_titleTextColorDefine, 0);
 
         //右边的图片
-        rightImageWidth= (int) ta.getDimension(R.styleable.Topbar_rightImageWidth, 0);
-        rightImageHeight= (int) ta.getDimension(R.styleable.Topbar_rightImageHeight,0);
+        rightImageWidth = (int) ta.getDimension(R.styleable.Topbar_rightImageWidth, 0);
+        rightImageHeight = (int) ta.getDimension(R.styleable.Topbar_rightImageHeight, 0);
         ta.recycle();
 
         //左边的图片
@@ -177,6 +179,15 @@ public class TopBarUtil extends RelativeLayout {
     public void setLeftRoundImage(int id) {
         if (id > 0) {
             leftRoundImage.setImageResource(id);
+        } else {
+            leftRoundImage.setVisibility(View.GONE);
+        }
+    }
+
+    //设置左边圆形图片位图
+    public void setLeftRoundBitmapImage(Bitmap bitmap) {
+        if (bitmap != null) {
+            leftRoundImage.setImageBitmap(bitmap);
         } else {
             leftRoundImage.setVisibility(View.GONE);
         }

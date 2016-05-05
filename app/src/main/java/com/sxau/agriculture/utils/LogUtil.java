@@ -3,7 +3,8 @@ package com.sxau.agriculture.utils;
 import android.util.Log;
 
 /**
- * Created by Yawen_Li on 2016/4/14.
+ * 日志打印的Util
+ * @author Yawen_li
  */
 public class LogUtil {
     public static final int VERBOSE = 1;
