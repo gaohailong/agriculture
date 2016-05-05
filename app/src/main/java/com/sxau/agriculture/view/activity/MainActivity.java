@@ -1,6 +1,7 @@
 package com.sxau.agriculture.view.activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.support.v4.app.FragmentTabHost;
 import android.os.Bundle;
 import android.widget.RadioGroup;
@@ -9,6 +10,7 @@ import android.widget.Toast;
 
 import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.utils.ActivityCollectorUtil;
+import com.sxau.agriculture.utils.BitmapUtil;
 import com.sxau.agriculture.utils.TopBarUtil;
 import com.sxau.agriculture.view.fragment.HomeFragment;
 import com.sxau.agriculture.view.fragment.InfoFragment;
@@ -43,7 +45,8 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     private void iniTitle() {
         TopBarUtil topBar = (TopBarUtil) findViewById(R.id.topBar);
         topBar.setLeftRoundImageIsVisible(true);
-        topBar.setLeftRoundImage(R.mipmap.img_default_user_portrait_150px);
+        Bitmap leftRoundBitmapImage= BitmapUtil.decodedBitmapFromResource(getResources(),R.mipmap.img_default_user_portrait_150px,40,40);
+        topBar.setLeftRoundBitmapImage(leftRoundBitmapImage);
 
         topBar.setTitleIsVisible(true);
         topBar.setContent("文章");
@@ -109,9 +112,6 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
                 iniTitle();
                 break;
             case R.id.rb_message:
-
-
-//                fragmentTabHost.setCurrentTab(3);
                 fragmentTabHost.setCurrentTab(3);
                 flag = 3;
                 iniTitle();
