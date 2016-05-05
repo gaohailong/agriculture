@@ -28,13 +28,8 @@ import com.sxau.agriculture.view.fragment_interface.IHomeFragment;
 import java.util.ArrayList;
 
 /**
-<<<<<<< HEAD
- * 主界面的Fragment
- * @author 高海龙
-=======
  * 首页Fragment
  * @author 崔志泽
->>>>>>> 15e48df8d091c9641a4022c8cbefa6a04ebe488f
  */
 public class HomeFragment extends BaseFragment implements ViewPager.OnPageChangeListener, SwipeRefreshLayout.OnRefreshListener, IHomeFragment,AdapterView.OnItemClickListener {
     private IHomePresenter iHomePresenter;
