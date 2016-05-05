@@ -1,7 +1,8 @@
 package com.sxau.agriculture.bean;
 
 /**
- * Created by czz on 2016/4/9.
+ * 首页listview的实体类
+ * @author 崔志泽
  */
 public class HomeListViewBean {
     private String title;
