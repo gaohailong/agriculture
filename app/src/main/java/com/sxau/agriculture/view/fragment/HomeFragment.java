@@ -37,26 +37,11 @@ import retrofit.Response;
 import retrofit.Retrofit;
 
 /**
-<<<<<<< HEAD
- * <<<<<<< HEAD
  * 主界面的Fragment
  *
- * @author 高海龙
- *         =======
- *         首页Fragment
  * @author 崔志泽
- *         >>>>>>> 15e48df8d091c9641a4022c8cbefa6a04ebe488f
-=======
- * 首页Fragment
- *
- * @author 崔志泽
->>>>>>> 22b636c64bb6d557f81fb80a446b2fcf1a96a160
  */
-<<<<<<< HEAD
-public class HomeFragment extends BaseFragment implements ViewPager.OnPageChangeListener, SwipeRefreshLayout.OnRefreshListener, IHomeFragment, AdapterView.OnItemClickListener {
-=======
 public class HomeFragment extends BaseFragment implements ViewPager.OnPageChangeListener, SwipeRefreshLayout.OnRefreshListener, IHomeFragment, AdapterView.OnItemClickListener, View.OnTouchListener {
->>>>>>> 191c6b3d66869a39634014e8597fb7d643371ba8
     private IHomePresenter iHomePresenter;
     private HomeRotatePicture homeRotatePicture;
     private BannerAdapter bannerAdapter;
@@ -199,7 +184,6 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
             ll_point.addView(imgCircle);
         }
 
-
         bannerAdapter = new BannerAdapter(views, context);
         vp_viewpager.setOnTouchListener(this);
         vp_viewpager.setAdapter(bannerAdapter);
@@ -259,13 +243,27 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
         }, 2000);
     }
 
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_MOVE:
+                srl_refresh.setEnabled(false);
+                break;
+            case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_CANCEL:
+                srl_refresh.setEnabled(true);
+                break;
+            default:
+                break;
+        }
+        return false;
+    }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Toast.makeText(context, homeListViewBeans.get(position).getTitle(), Toast.LENGTH_SHORT).show();
     }
 
-<<<<<<< HEAD
     //网络请求的方法
     public void initRotatePicture() {
         Call<HomeRotatePicture> call = RetrofitUtil.getRetrofit().create(IHomeRotatePicture.class).getResult();
@@ -285,21 +283,5 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
 
             }
         });
-=======
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_MOVE:
-                srl_refresh.setEnabled(false);
-                break;
-            case MotionEvent.ACTION_UP:
-            case MotionEvent.ACTION_CANCEL:
-                srl_refresh.setEnabled(true);
-                break;
-            default:
-                break;
-        }
-        return false;
->>>>>>> 191c6b3d66869a39634014e8597fb7d643371ba8
     }
 }
