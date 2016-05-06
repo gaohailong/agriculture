@@ -36,7 +36,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     private static final int BACK_PRESSED_INTERVAL = 2000;
     private final Class[] fragments = {HomeFragment.class, QuestionFragment.class, InfoFragment.class, MessageFragment.class};
     private int flag = 0;
-    String number;
+    String phoneNumber;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,13 +114,12 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_agriculture:
-                number="tel:0351-7537092";
-                callPhone(v,number);
+                phoneNumber="tel:0351-7537092";
+                callPhone(v,phoneNumber);
                 break;
             case R.id.ll_healthy:
-                //TODO 电话要改
-                number="tel:0791-86665536";
-                callPhone(v,number);
+                phoneNumber="tel:0791-86665536";
+                callPhone(v,phoneNumber);
                 break;
             default:
                 break;

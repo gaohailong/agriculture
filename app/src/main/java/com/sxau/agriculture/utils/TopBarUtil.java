@@ -141,7 +141,7 @@ public class TopBarUtil extends RelativeLayout {
         textView.setVisibility(View.GONE);
         rightImageView.setVisibility(View.GONE);
         //TODO 将图片换做网络图片
-        Bitmap leftRoundBitmapImage= BitmapUtil.decodedBitmapFromResource(getResources(),R.mipmap.img_default_user_portrait_150px,45,45);
+       // Bitmap leftRoundBitmapImage= BitmapUtil.decodedBitmapFromResource(getResources(),R.mipmap.img_default_user_portrait_150px,45,45);
         Picasso.with(context).load(R.mipmap.img_default_user_portrait_150px)
                 .placeholder(R.mipmap.img_default_user_portrait_150px).resize(50, 50).centerCrop().into(leftRoundImage);
     }
