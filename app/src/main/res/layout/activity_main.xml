@@ -11,8 +11,8 @@
         android:id="@+id/topBar"
         android:layout_width="fill_parent"
         android:layout_height="50dp"
-        android:paddingBottom="10dp"
-        android:paddingTop="10dp"
+        android:paddingBottom="2dp"
+        android:paddingTop="2dp"
         custom:titleTextColor="#080707"
         custom:titleTextSize="25sp" />
 

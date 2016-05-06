@@ -7,8 +7,9 @@ import retrofit.http.GET;
 
 /**
  * 消息界面的api
+ * @author 高海龙
  */
-public interface GetMessageList {
+public interface IGetMessageList {
     @GET("/JsonTest/messageServlet?")
     Call<MessageList> getResult();
 

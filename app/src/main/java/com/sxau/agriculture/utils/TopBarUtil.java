@@ -80,6 +80,7 @@ public class TopBarUtil extends RelativeLayout {
         //右边的图片
         rightImageView = new ImageView(context);
 
+
         setBackgroundColor(getResources().getColor(R.color.mainColor));
         //设置文本
         textView.setTextColor(titleTextColor);
@@ -91,10 +92,10 @@ public class TopBarUtil extends RelativeLayout {
         rightImageView.setScaleType(ImageView.ScaleType.CENTER);
         rightImageView.setMaxWidth(rightImageWidth);
         rightImageView.setMaxHeight(rightImageHeight);
-
         //左边圆形图片
         leftParams = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         leftParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT, TRUE); //true是一个常量
+        leftParams.addRule(RelativeLayout.CENTER_VERTICAL, TRUE);
         addView(leftRoundImage, leftParams);
         //左边正常图片
         leftParams = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
@@ -107,7 +108,7 @@ public class TopBarUtil extends RelativeLayout {
         addView(textView, titleParams);
         //右边的图片
         rightParams = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-        leftParams.addRule(RelativeLayout.CENTER_VERTICAL, TRUE);
+        rightParams.addRule(RelativeLayout.CENTER_VERTICAL, TRUE);
         rightParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, TRUE);
         addView(rightImageView, rightParams);
 

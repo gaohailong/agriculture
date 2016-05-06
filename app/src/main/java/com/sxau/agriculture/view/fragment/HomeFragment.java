@@ -20,32 +20,30 @@ import com.sxau.agriculture.adapter.BannerAdapter;
 import com.sxau.agriculture.agriculture.R;
 
 import com.sxau.agriculture.adapter.HomePushAdapter;
+import com.sxau.agriculture.api.IHomeRotatePicture;
 import com.sxau.agriculture.bean.HomeListViewBean;
+import com.sxau.agriculture.bean.HomeRotatePicture;
 import com.sxau.agriculture.presenter.fragment_presenter.HomePresenter;
 import com.sxau.agriculture.presenter.fragment_presenter_interface.IHomePresenter;
+import com.sxau.agriculture.utils.RetrofitUtil;
 import com.sxau.agriculture.view.fragment_interface.IHomeFragment;
 
 
 import java.util.ArrayList;
 
+import retrofit.Call;
+import retrofit.Callback;
+import retrofit.Response;
+import retrofit.Retrofit;
+
 /**
-<<<<<<< HEAD
- * <<<<<<< HEAD
  * 主界面的Fragment
  *
- * @author 高海龙
- *         =======
- *         首页Fragment
  * @author 崔志泽
- *         >>>>>>> 15e48df8d091c9641a4022c8cbefa6a04ebe488f
-=======
- * 首页Fragment
- * @author 崔志泽
->>>>>>> 22b636c64bb6d557f81fb80a446b2fcf1a96a160
  */
 public class HomeFragment extends BaseFragment implements ViewPager.OnPageChangeListener, SwipeRefreshLayout.OnRefreshListener, IHomeFragment, AdapterView.OnItemClickListener, View.OnTouchListener {
     private IHomePresenter iHomePresenter;
-
+    private HomeRotatePicture homeRotatePicture;
     private BannerAdapter bannerAdapter;
     private ListView lv_push;
     private View mView;
@@ -186,7 +184,6 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
             ll_point.addView(imgCircle);
         }
 
-
         bannerAdapter = new BannerAdapter(views, context);
         vp_viewpager.setOnTouchListener(this);
         vp_viewpager.setAdapter(bannerAdapter);
@@ -246,12 +243,6 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
         }, 2000);
     }
 
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Toast.makeText(context, homeListViewBeans.get(position).getTitle(), Toast.LENGTH_SHORT).show();
-    }
-
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         switch (event.getAction()) {
@@ -266,5 +257,31 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
                 break;
         }
         return false;
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Toast.makeText(context, homeListViewBeans.get(position).getTitle(), Toast.LENGTH_SHORT).show();
+    }
+
+    //网络请求的方法
+    public void initRotatePicture() {
+        Call<HomeRotatePicture> call = RetrofitUtil.getRetrofit().create(IHomeRotatePicture.class).getResult();
+        call.enqueue(new Callback<HomeRotatePicture>() {
+            @Override
+            public void onResponse(Response<HomeRotatePicture> response, Retrofit retrofit) {
+                if (response.isSuccess()) {
+                    homeRotatePicture = response.body();
+                    if (homeRotatePicture != null) {
+                        handlerForBanner.sendEmptyMessage(0);//待定
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+
+            }
+        });
     }
 }
