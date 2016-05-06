@@ -15,7 +15,7 @@ import com.sxau.agriculture.bean.MyPersonalTrade;
 import java.util.ArrayList;
 
 /**
- * Created by Administrator on 2016/4/21.
+ * 个人中心交易信息适配器
  */
 public class PersonalTradeInfoAdapter extends BaseAdapter{
     private Context context;

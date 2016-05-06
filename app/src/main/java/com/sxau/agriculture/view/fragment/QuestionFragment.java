@@ -14,7 +14,10 @@ import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 import com.sxau.agriculture.agriculture.R;
 
-
+/**
+ * 问答页面
+ * 李秉龙
+ */
 public class QuestionFragment extends BaseFragment {
     private View mView;
     private ViewPager vPager = null;

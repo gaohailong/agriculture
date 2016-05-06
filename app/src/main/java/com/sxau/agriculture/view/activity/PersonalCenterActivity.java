@@ -20,7 +20,8 @@ import com.sxau.agriculture.view.fragment.PersonalTradeInfoFragment;
 import java.util.List;
 
 /**
- * Created by Administrator on 2016/4/9.
+ * 个人中心
+ * 李秉龙
  */
 public class PersonalCenterActivity extends BaseActivity implements View.OnClickListener {
     private ViewPager vPager = null,vTitlePaper;

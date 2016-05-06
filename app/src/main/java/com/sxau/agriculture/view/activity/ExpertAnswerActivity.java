@@ -19,7 +19,6 @@ public class ExpertAnswerActivity extends BaseActivity implements View.OnClickLi
     private ImageButton ib_Back;
     private TextView tv_Question;
     private Button btn_Submit;
-
     private String updateQuestion;//更新问题
 
     private IExpertAnswerPresenter iExpertAnswerPresenter;
