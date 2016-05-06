@@ -53,7 +53,7 @@ public class HomePushAdapter extends BaseAdapter{
         ViewHolder holder=new ViewHolder();
 
         if (convertView==null){
-            convertView= LayoutInflater.from(context).inflate(R.layout.home_listview_item,null);
+            convertView= LayoutInflater.from(context).inflate(R.layout.item_home_list,null);
             holder.iv_news= (ImageView) convertView.findViewById(R.id.iv_news);
             holder.tv_title= (TextView) convertView.findViewById(R.id.tv_title);
             holder.tv_time= (TextView) convertView.findViewById(R.id.tv_time);
