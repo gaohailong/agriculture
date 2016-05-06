@@ -11,17 +11,24 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sxau.agriculture.agriculture.R;
+import com.sxau.agriculture.presenter.acitivity_presenter.ExpertAnswerPresenter;
+import com.sxau.agriculture.presenter.activity_presenter_interface.IExpertAnswerPresenter;
+import com.sxau.agriculture.view.activity_interface.IExpertAnswerActivity;
 
-public class ExpertAnswerActivity extends AppCompatActivity implements View.OnClickListener {
+public class ExpertAnswerActivity extends BaseActivity implements View.OnClickListener ,IExpertAnswerActivity{
     private ImageButton ib_Back;
     private TextView tv_Question;
     private Button btn_Submit;
-
     private String updateQuestion;//更新问题
+
+    private IExpertAnswerPresenter iExpertAnswerPresenter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_expert_answer);
+
+        //将ExpertAnswerActivity 与 ExpertAnswerPresenter绑定
+        iExpertAnswerPresenter = new ExpertAnswerPresenter(ExpertAnswerActivity.this);
 
         initView();
     }
@@ -63,4 +70,28 @@ public class ExpertAnswerActivity extends AppCompatActivity implements View.OnCl
 
         }
     }
+//------------------------接口方法-----------------
+
+    /**
+     * 获取催一下状态
+     * 0 为没有催
+     * 1 为已经催
+     * @return
+     */
+    @Override
+    public int getUrgeState() {
+        return 0;
+    }
+
+    /**
+     * 获取赞一下状态（收藏状态）
+     * 0 为没有赞
+     * 1 为已经赞
+     * @return
+     */
+    @Override
+    public int getFavState() {
+        return 0;
+    }
+//----------------------接口方法结束------------------
 }

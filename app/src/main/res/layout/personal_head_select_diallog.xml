@@ -6,14 +6,14 @@
     android:background="@color/white"
     android:gravity="bottom"
     android:orientation="vertical"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp">
+>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@drawable/album_dialog_shape">
 
         <TextView
             android:id="@+id/tv_personal_photo_graph"
@@ -25,7 +25,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/mainColors"/>
+            android:background="@color/mainColor"/>
 
         <TextView
             android:id="@+id/tv_personal_photo_album"
@@ -37,7 +37,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/mainColors"/>
+            android:background="@color/mainColor"/>
         <TextView
             android:id="@+id/tv_cancel"
             android:layout_width="wrap_content"

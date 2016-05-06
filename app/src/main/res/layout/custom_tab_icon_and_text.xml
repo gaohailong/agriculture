@@ -24,7 +24,7 @@
         android:layout_below="@id/custom_tab_text"
         android:layout_centerInParent="false" />
 
-    <com.sxau.agriculture.view.fragment.TintableImageView
+    <com.sxau.agriculture.widgets.TintableImageView
         android:id="@+id/custom_tab_icon"
         android:layout_centerHorizontal="true"
         android:layout_width="12dp"

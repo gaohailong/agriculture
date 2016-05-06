@@ -2,6 +2,7 @@ package com.sxau.agriculture.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import com.sxau.agriculture.view.activity.DetailQuestion;
 public class QuestionAdapter extends BaseAdapter implements View.OnClickListener{
     private Context context;
     private Question question[];
+    private int favIndex = 0;//判断是否收藏0：没有收藏；1：以收藏
 
     public QuestionAdapter(Context context, Question[] question) {
         this.context = context;
@@ -58,7 +60,7 @@ public class QuestionAdapter extends BaseAdapter implements View.OnClickListener
             holder.content = (TextView) convertView.findViewById(R.id.tv_content);
             holder.answer = (LinearLayout) convertView.findViewById(R.id.ll_answer);
             holder.ll_FavBackground  = (LinearLayout) convertView.findViewById(R.id.ll_fav_background);
-            holder.ll_SubjectSkip = (LinearLayout) convertView.findViewById(R.id.ll_subject_skip);
+            holder.v_left = convertView.findViewById(R.id.v_left);
             convertView.setTag(holder);
 
         }else {
@@ -69,6 +71,7 @@ public class QuestionAdapter extends BaseAdapter implements View.OnClickListener
         holder.name.setText(questionDate.getName());
         if(questionDate.isState()){
         holder.content.setText(questionDate.getContent());
+        holder.v_left.setBackgroundColor(Color.parseColor("#009688"));
         }else {
             holder.answer.setVisibility(View.GONE);
         }
@@ -76,6 +79,7 @@ public class QuestionAdapter extends BaseAdapter implements View.OnClickListener
         holder.fav.setOnClickListener(this);
         holder.ll_FavBackground.setOnClickListener(this);
        // holder.ll_SubjectSkip.setOnClickListener(this);
+        holder.quick.setOnClickListener(this);
 
         return convertView;
     }
@@ -84,19 +88,20 @@ public class QuestionAdapter extends BaseAdapter implements View.OnClickListener
     public void onClick(View v) {
         ViewHolder holder = new ViewHolder();
         holder.fav = (ImageView) v.findViewById(R.id.ib_fav);
+        holder.quick = (ImageView) v.findViewById(R.id.ib_quick);
         switch (v.getId()){
             case R.id.ib_fav:
-                holder.fav.setImageResource(R.drawable.ic_praise_48px);
+                if (favIndex==0){
+                    holder.fav.setImageResource(R.drawable.ic_praise_48px);
+                    favIndex=1;
+                }else {
+                    holder.fav.setImageResource(R.drawable.ic_no_praise_48px);
+                    favIndex=0;
+                }
                 break;
-            case R.id.ll_fav_background:
-                Toast.makeText(v.getContext(),"ll",Toast.LENGTH_SHORT).show();
+            case R.id.iv_quick:
+               Toast.makeText(context,"sss",Toast.LENGTH_SHORT).show();
                 break;
-      //      case R.id.ll_subject_skip:
-//                                Intent intent = new Intent();
-//                intent.setClass(context,DetailQuestion.class);
-//                context.startActivity(intent);
-
-         //       break;
         }
 
     }
@@ -111,6 +116,7 @@ public class QuestionAdapter extends BaseAdapter implements View.OnClickListener
         private TextView content;
         private LinearLayout answer;
         private LinearLayout ll_FavBackground;//收藏的linearlayout
-        private LinearLayout ll_SubjectSkip;
+        private View v_left;
+
     }
 }

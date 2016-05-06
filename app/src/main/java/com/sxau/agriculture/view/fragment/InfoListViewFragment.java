@@ -1,9 +1,14 @@
 package com.sxau.agriculture.view.fragment;
 
+import android.content.Intent;
+import android.support.v4.app.FragmentManager;
+import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -11,14 +16,22 @@ import android.widget.ListView;
 import com.sxau.agriculture.adapter.InfoDemandAdapter;
 import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.bean.InfoData;
+
+import com.sxau.agriculture.view.activity.InfoContentActivity;
+import com.sxau.agriculture.view.activity.MainActivity;
+
 import com.sxau.agriculture.presenter.fragment_presenter.InfoListViewPresenter;
 import com.sxau.agriculture.presenter.fragment_presenter_interface.IInfoListViewPresenter;
 import com.sxau.agriculture.view.fragment_interface.IInfoListViewFragment;
 
 /**
- * Created by Administrator on 2016/4/12.
+ * 信息专区ListView
+ * @author 田帅
  */
-public class InfoListViewFragment extends BaseFragment implements IInfoListViewFragment {
+
+
+
+public class InfoListViewFragment extends BaseFragment implements IInfoListViewFragment,AdapterView.OnItemClickListener {
         private  View mview;
         private ListView lv_Info;
         private ImageView iv_collection;
@@ -42,7 +55,7 @@ public class InfoListViewFragment extends BaseFragment implements IInfoListViewF
                 mview=inflater.inflate(R.layout.fragment_info_listview, container, false);
 
                 lv_Info= (ListView) mview.findViewById(R.id.lv_info);
-                iv_collection= (ImageView) mview.findViewById(R.id.ib_demand_collection);
+                iv_collection= (ImageView) mview.findViewById(R.id.iv_demand_collection);
 
 
                 InfoData[] infoDatas=new InfoData[5];
@@ -102,6 +115,14 @@ public class InfoListViewFragment extends BaseFragment implements IInfoListViewF
                 lv_Info.setAdapter(adapter);
                 return mview;
         }
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Intent intent = new Intent(InfoListViewFragment.this.getActivity(), InfoContentActivity.class);
+        startActivity(intent);
+//        Toast.makeText(InfoListViewFragment.this.getActivity(),"position:"+position+"id:"+id,Toast.LENGTH_SHORT).show();
+//       InfoSupplyFragment infoSupplyFragment=new InfoSupplyFragment();
+//        getFragmentManager().beginTransaction().replace(R.id.,infoSupplyFragment).commit();
+    }
 //------------------接口方法-------------------
         @Override
         public void updateView() {

@@ -8,6 +8,7 @@ import android.widget.Toast;
 import com.sxau.agriculture.agriculture.R;
 
 /**
+ * 具体问题、内容的详情activity
  * Created by Yawen_Li on 2016/4/13.
  */
 public class InfoContentActivity extends BaseActivity {

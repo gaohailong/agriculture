@@ -2,6 +2,7 @@
 package com.sxau.agriculture.view.activity;
 
 
+
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
@@ -24,11 +25,23 @@ import com.sxau.agriculture.widgets.RoundImageView;
 
 import java.io.File;
 
+        import android.os.Bundle;
+        import android.view.View;
+        import android.widget.ImageButton;
+        import android.widget.TextView;
+        import android.widget.Toast;
+
+        import com.sxau.agriculture.agriculture.R;
+        import com.sxau.agriculture.presenter.acitivity_presenter.PersonalCompilePresenter;
+        import com.sxau.agriculture.presenter.activity_presenter_interface.IPersonalCompilePresenter;
+        import com.sxau.agriculture.view.activity_interface.IPersonalCompileActivity;
+        import com.sxau.agriculture.widgets.RoundImageView;
+
 /**
  * 修改个人信息
  * 李秉龙
  */
-public class PersonalCompile extends BaseActivity implements View.OnClickListener {
+public class PersonalCompileActivity extends BaseActivity implements View.OnClickListener ,IPersonalCompileActivity {
     private ImageButton ib_Back;
     private RoundImageView rw_Head;
     private TextView tv_HeadPortrait;
@@ -50,11 +63,15 @@ public class PersonalCompile extends BaseActivity implements View.OnClickListene
     private File photoFile;
     private Bitmap photoBitmap;
 
-
+    private IPersonalCompilePresenter iPersonalCompilePresenter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_persional_compile);
+
+        //将Activity与Presenter进行绑定
+        iPersonalCompilePresenter = new PersonalCompilePresenter(PersonalCompileActivity.this);
+
         initView();
     }
 
@@ -90,16 +107,17 @@ public class PersonalCompile extends BaseActivity implements View.OnClickListene
                 showDialog();
                 break;
             case R.id.tv_user_nick:
-                Toast.makeText(PersonalCompile.this, "2", Toast.LENGTH_SHORT).show();
+                Toast.makeText(PersonalCompileActivity.this,"2",Toast.LENGTH_SHORT).show();
+
                 break;
             case R.id.tv_phone_number:
-                Toast.makeText(PersonalCompile.this, "3", Toast.LENGTH_SHORT).show();
+                Toast.makeText(PersonalCompileActivity.this,"3",Toast.LENGTH_SHORT).show();
                 break;
             case R.id.tv_user_address:
-                Toast.makeText(PersonalCompile.this, "4", Toast.LENGTH_SHORT).show();
+                Toast.makeText(PersonalCompileActivity.this,"4",Toast.LENGTH_SHORT).show();
                 break;
             case R.id.tv_user_identity:
-                Toast.makeText(PersonalCompile.this, "5", Toast.LENGTH_SHORT).show();
+                Toast.makeText(PersonalCompileActivity.this,"5",Toast.LENGTH_SHORT).show();
                 break;
             default:
                 break;
@@ -110,7 +128,7 @@ public class PersonalCompile extends BaseActivity implements View.OnClickListene
     //显示Dialog选择拍照还是从相册选择
     private void showDialog() {
         final Dialog dialog = new Dialog(this, R.style.PhotoDialog);
-        final View view = LayoutInflater.from(PersonalCompile.this).inflate(R.layout.personal_head_select_diallog, null);
+        final View view = LayoutInflater.from(PersonalCompileActivity.this).inflate(R.layout.personal_head_select_diallog, null);
         dialog.setContentView(view);
         TextView tv_PhotoGraph = (TextView) view.findViewById(R.id.tv_personal_photo_graph);
         TextView tv_PhotoAlbum = (TextView) view.findViewById(R.id.tv_personal_photo_album);
@@ -234,5 +252,55 @@ public class PersonalCompile extends BaseActivity implements View.OnClickListene
 
 
 
+//--------------------接口方法--------------------
+    @Override
+    public void setHead() {
 
+    }
+
+    @Override
+    public void setNickName() {
+
+    }
+
+    @Override
+    public void setPhone() {
+
+    }
+
+    @Override
+    public void setUserPosition() {
+
+    }
+
+    @Override
+    public void setIdentity() {
+
+    }
+
+    @Override
+    public String getHead() {
+        return null;
+    }
+
+    @Override
+    public String getNickName() {
+        return null;
+    }
+
+    @Override
+    public String getPhone() {
+        return null;
+    }
+
+    @Override
+    public String getUserPosition() {
+        return null;
+    }
+
+    @Override
+    public String getIdentity() {
+        return null;
+    }
+//---------------------接口方法结束--------------------
 }

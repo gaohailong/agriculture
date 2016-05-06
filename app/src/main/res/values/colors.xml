@@ -4,30 +4,24 @@
     <color name="colorPrimary">#4CAF50</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="mainColor">#4CAF50</color>
-
-    <color name="InfoTopColor">#FFFFFF</color>
-    <color name="devideLine">#BBB</color>
-    <color name="icon_enabled">#00ffffff</color>
-    <color name="icon_disabled">#4CAF50</color>
-
-
-
-    <color name="text_enabled">#FFFFFFFF</color>
-    <color name="text_disabled">#4DFFFFFF</color>
-
-    <color name="colorwhite">#FFFFFF</color>
+    <color name="InfoTopColor">#ffffff</color>
 
     <!--主色调-->
-    <color name="mainColors">#009688</color>
+    <color name="mainColor">#009688</color>
     <color name="white">#ffffff</color>
 
     <!--橘黄色-->
     <color name="croci">#FF6446</color>
     <!--金黄色-->
     <color name="yellow">#F9BE00</color>
+
     <!--标题栏过度色-->
     <color name="black_20">#33000000</color>
     <color name="transparent">#00000000</color>
-
+    <color name="devideLine">#BBB</color>
+    <color name="icon_enabled">#00ffffff</color>
+    <color name="icon_disabled">#4CAF50</color>
+    <color name="text_enabled">#FFFFFFFF</color>
+    <color name="text_disabled">#4DFFFFFF</color>
+    <color name="colorwhite">#FFFFFF</color>
 </resources>

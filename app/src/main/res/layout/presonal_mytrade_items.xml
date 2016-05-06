@@ -2,12 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="110dp"
+    android:background="@color/white"
     android:orientation="horizontal">
     <View
         android:id="@+id/v_left"
         android:layout_width="5dp"
         android:layout_height="match_parent"
-        android:background="@color/croci">
+        android:background="@color/mainColor">
 
     </View>
     <LinearLayout

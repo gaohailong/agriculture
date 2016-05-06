@@ -6,7 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 销毁所有的activity
+ * 销毁所有的activity的Util
+ * @author 高海龙
  */
 public class ActivityCollectorUtil {
     public static List<Activity> activities = new ArrayList<Activity>();

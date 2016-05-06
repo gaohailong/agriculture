@@ -11,7 +11,10 @@ import android.widget.ListView;
 import com.sxau.agriculture.adapter.PersonalTradeInfoAdapter;
 import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.bean.MyPersonalTrade;
+import com.sxau.agriculture.presenter.fragment_presenter.PersonalCollectTradePresenter;
+import com.sxau.agriculture.presenter.fragment_presenter_interface.IPersonalCollectTradePresenter;
 import com.sxau.agriculture.view.activity.InfoContentActivity;
+import com.sxau.agriculture.view.fragment_interface.IPersonalCollectTradeFragment;
 
 import java.util.ArrayList;
 
@@ -19,11 +22,16 @@ import java.util.ArrayList;
  * 个人中心我的交易的listView的fragment
  * 李秉龙
  */
-public class PersonalCollectTradeFragment extends BaseFragment{
+public class PersonalCollectTradeFragment extends BaseFragment implements IPersonalCollectTradeFragment{
     private ListView listView;
+    private IPersonalCollectTradePresenter iPersonalCollectTradePresenter;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        //将Fragment对象与Presenter对象绑定
+        iPersonalCollectTradePresenter = new PersonalCollectTradePresenter(PersonalCollectTradeFragment.this);
+
         View TradeInfoView = inflater.inflate(R.layout.frament_personal_tradeinfo,null);
         listView  = (ListView) TradeInfoView.findViewById(R.id.lv_tradeInfo);
 
@@ -42,7 +50,7 @@ public class PersonalCollectTradeFragment extends BaseFragment{
 
         MyPersonalTrade myPersonalTrade1 = new MyPersonalTrade();
         myPersonalTrade1.setRv_InfoHead(R.drawable.ic_launc);
-        myPersonalTrade1.setTv_TradeName("田帅");
+        myPersonalTrade1.setTv_TradeName("小明1");
         myPersonalTrade1.setTv_TradeAddress("家里蹲");
         myPersonalTrade1.setTv_TradeDate("1111,11,11");
         myPersonalTrade1.setTv_TradeTitle("买西瓜");
@@ -50,7 +58,7 @@ public class PersonalCollectTradeFragment extends BaseFragment{
 
         MyPersonalTrade myPersonalTrade2 = new MyPersonalTrade();
         myPersonalTrade2.setRv_InfoHead(R.drawable.ic_launc);
-        myPersonalTrade2.setTv_TradeName("田帅");
+        myPersonalTrade2.setTv_TradeName("小明2");
         myPersonalTrade2.setTv_TradeAddress("家里蹲");
         myPersonalTrade2.setTv_TradeDate("1111,11,11");
         myPersonalTrade2.setTv_TradeTitle("买西瓜");
@@ -58,7 +66,7 @@ public class PersonalCollectTradeFragment extends BaseFragment{
 
         MyPersonalTrade myPersonalTrade3 = new MyPersonalTrade();
         myPersonalTrade3.setRv_InfoHead(R.drawable.ic_launc);
-        myPersonalTrade3.setTv_TradeName("田帅");
+        myPersonalTrade3.setTv_TradeName("小明3");
         myPersonalTrade3.setTv_TradeAddress("家里蹲");
         myPersonalTrade3.setTv_TradeDate("1111,11,11");
         myPersonalTrade3.setTv_TradeTitle("买西瓜");
@@ -66,7 +74,7 @@ public class PersonalCollectTradeFragment extends BaseFragment{
 
         MyPersonalTrade myPersonalTrade4 = new MyPersonalTrade();
         myPersonalTrade4.setRv_InfoHead(R.drawable.ic_launc);
-        myPersonalTrade4.setTv_TradeName("田帅");
+        myPersonalTrade4.setTv_TradeName("小明4");
         myPersonalTrade4.setTv_TradeAddress("家里蹲");
         myPersonalTrade4.setTv_TradeDate("1111,11,11");
         myPersonalTrade4.setTv_TradeTitle("买西瓜");
@@ -74,7 +82,7 @@ public class PersonalCollectTradeFragment extends BaseFragment{
 
         MyPersonalTrade myPersonalTrade5 = new MyPersonalTrade();
         myPersonalTrade5.setRv_InfoHead(R.drawable.ic_launc);
-        myPersonalTrade5.setTv_TradeName("田帅");
+        myPersonalTrade5.setTv_TradeName("小明5");
         myPersonalTrade5.setTv_TradeAddress("家里蹲");
         myPersonalTrade5.setTv_TradeDate("1111,11,11");
         myPersonalTrade5.setTv_TradeTitle("买西瓜");
@@ -87,5 +95,10 @@ public class PersonalCollectTradeFragment extends BaseFragment{
         list.add(myPersonalTrade5);
         return list;
     }
+//---------------------接口方法-----------------
+    @Override
+    public void updateView() {
 
+    }
+//-------------------接口方法结束-----------------
 }

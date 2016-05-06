@@ -13,7 +13,10 @@ import com.sxau.agriculture.adapter.PersonalTradeInfoAdapter;
 import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.bean.MyPersonalQuestion;
 import com.sxau.agriculture.bean.MyPersonalTrade;
+import com.sxau.agriculture.presenter.fragment_presenter.PersonalTradeInfoPresenter;
+import com.sxau.agriculture.presenter.fragment_presenter_interface.IPersonalTradeInfoPresenter;
 import com.sxau.agriculture.view.activity.InfoContentActivity;
+import com.sxau.agriculture.view.fragment_interface.IPersonalTradeInfoFragment;
 
 import java.util.ArrayList;
 import java.util.zip.Inflater;
@@ -22,11 +25,19 @@ import java.util.zip.Inflater;
  * 个人中心交易的listView的fragment
  * 李秉龙
  */
-public class PersonalTradeInfoFragment extends BaseFragment {
+public class PersonalTradeInfoFragment extends BaseFragment implements IPersonalTradeInfoFragment{
     private ListView listView;
+
+    private IPersonalTradeInfoPresenter iPersonalTradeInfoPresenter;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        //将Fragment与Presenter绑定
+        iPersonalTradeInfoPresenter = new PersonalTradeInfoPresenter(PersonalTradeInfoFragment.this);
+
+
         View TradeInfoView = inflater.inflate(R.layout.frament_personal_tradeinfo,null);
         listView  = (ListView) TradeInfoView.findViewById(R.id.lv_tradeInfo);
 
@@ -90,5 +101,10 @@ public class PersonalTradeInfoFragment extends BaseFragment {
         list.add(myPersonalTrade5);
         return list;
     }
+//----------------------接口方法---------------------
+    @Override
+    public void updateView() {
 
+    }
+//---------------------接口方法结束----------------------
 }

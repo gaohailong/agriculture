@@ -20,7 +20,7 @@
             android:layout_height="30dip"
             android:scaleType="centerCrop"
             android:background="#00000000"
-            android:src="@drawable/actionbar_back" />
+            android:src="@drawable/ic_actionbar_back_48px" />
 
     </LinearLayout>
 

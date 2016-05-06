@@ -19,19 +19,33 @@ import android.widget.TextView;
 import com.sxau.agriculture.adapter.PersonalQuestionAdapter;
 import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.bean.MyPersonalQuestion;
+import com.sxau.agriculture.presenter.fragment_presenter.PersonalQuestionPresenter;
+import com.sxau.agriculture.presenter.fragment_presenter_interface.IPersonalQuestionPresenter;
 import com.sxau.agriculture.view.activity.DetailQuestion;
+import com.sxau.agriculture.view.fragment_interface.IPersonalQuestionFragment;
 
 import java.util.ArrayList;
 
 /**
+<<<<<<< HEAD
  * 个人中心问题的listView的fragment
  * 李秉龙
+=======
+ * Created by Administrator on 2016/4/10.
+ * @author
+>>>>>>> 191c6b3d66869a39634014e8597fb7d643371ba8
  */
-public class PersonalQuestionFragment extends BaseFragment {
+public class PersonalQuestionFragment extends BaseFragment implements IPersonalQuestionFragment{
     private ListView listView;
+
+    private IPersonalQuestionPresenter iPersonalQuestionPresenter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        //将Fragment与Presenter绑定
+        iPersonalQuestionPresenter = new PersonalQuestionPresenter(PersonalQuestionFragment.this);
+
         View myQuestionView = inflater.inflate(R.layout.frament_personal_myquestion, null);
         listView = (ListView) myQuestionView.findViewById(R.id.lv_MyQuestionListView);
         PersonalQuestionAdapter adapter = new PersonalQuestionAdapter(PersonalQuestionFragment.this.getActivity(),getDate());
@@ -40,7 +54,7 @@ public class PersonalQuestionFragment extends BaseFragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                DetailQuestion.actionStart(PersonalQuestionFragment.this.getActivity(),position);
+                DetailQuestion.actionStart(PersonalQuestionFragment.this.getActivity(), position);
             }
         });
 
@@ -66,10 +80,42 @@ public class PersonalQuestionFragment extends BaseFragment {
         myPersonalQuestion2.setDate("2222.22.22");
         myPersonalQuestion2.setTitle("啦啦啦啦2");
 
+        MyPersonalQuestion myPersonalQuestion3 = new MyPersonalQuestion();
+        myPersonalQuestion3.setState(true);
+        myPersonalQuestion3.setDate("1111.11.11");
+        myPersonalQuestion3.setTitle("啦啦啦啦1");
+        myPersonalQuestion3.setContext("人的身份和书法家的护是大哥好地方挂机的高房价的高房价身符格式的风格是否退回");
+
+        MyPersonalQuestion myPersonalQuestion4 = new MyPersonalQuestion();
+        myPersonalQuestion4.setState(false);
+        myPersonalQuestion4.setDate("2222.22.22");
+        myPersonalQuestion4.setTitle("啦啦啦啦2");
+
+        MyPersonalQuestion myPersonalQuestion5 = new MyPersonalQuestion();
+        myPersonalQuestion5.setState(true);
+        myPersonalQuestion5.setDate("1111.11.11");
+        myPersonalQuestion5.setTitle("啦啦啦啦1");
+        myPersonalQuestion5.setContext("人的身份和书法家的护是大哥好地方挂机的高房价的高房价身符格式的风格是否退回");
+
+        MyPersonalQuestion myPersonalQuestion6 = new MyPersonalQuestion();
+        myPersonalQuestion6.setState(false);
+        myPersonalQuestion6.setDate("2222.22.22");
+        myPersonalQuestion6.setTitle("啦啦啦啦2");
+
+
         list.add(myPersonalQuestion1);
         list.add(myPersonalQuestion2);
+        list.add(myPersonalQuestion3);
+        list.add(myPersonalQuestion4);
+        list.add(myPersonalQuestion5);
+        list.add(myPersonalQuestion6);
 
         return list;
     }
+//-----------------接口方法----------------
+    @Override
+    public void updateView() {
 
+    }
+//----------------接口方法结束------------------
 }
