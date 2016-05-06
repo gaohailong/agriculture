@@ -12,11 +12,13 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.widgets.RoundImageView;
 
 /**
  * 顶部标题栏的Util
+ *
  * @author 高海龙
  */
 public class TopBarUtil extends RelativeLayout {
@@ -138,6 +140,10 @@ public class TopBarUtil extends RelativeLayout {
         leftRoundImage.setVisibility(View.GONE);
         textView.setVisibility(View.GONE);
         rightImageView.setVisibility(View.GONE);
+        //TODO 将图片换做网络图片
+        Bitmap leftRoundBitmapImage= BitmapUtil.decodedBitmapFromResource(getResources(),R.mipmap.img_default_user_portrait_150px,45,45);
+        Picasso.with(context).load(R.mipmap.img_default_user_portrait_150px)
+                .placeholder(R.mipmap.img_default_user_portrait_150px).resize(50, 50).centerCrop().into(leftRoundImage);
     }
 
     //设置左边圆角图片是否可见
@@ -186,13 +192,13 @@ public class TopBarUtil extends RelativeLayout {
     }
 
     //设置左边圆形图片位图
-    public void setLeftRoundBitmapImage(Bitmap bitmap) {
+/*    public void setLeftRoundBitmapImage(Bitmap bitmap) {
         if (bitmap != null) {
             leftRoundImage.setImageBitmap(bitmap);
         } else {
             leftRoundImage.setVisibility(View.GONE);
         }
-    }
+    }*/
 
     //设置左边普通图片路径位置
     public void setLeftImage(int id) {
