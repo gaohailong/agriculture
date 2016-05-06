@@ -6,7 +6,8 @@ import android.widget.TextView;
 import java.security.PrivateKey;
 
 /**
- * Created by Administrator on 2016/4/13.
+ * 问答页面
+ * 李秉龙
  */
 public class Question {
     private boolean state;

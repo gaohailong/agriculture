@@ -94,8 +94,8 @@ public class TopBarUtil extends RelativeLayout {
         rightImageView.setMaxHeight(rightImageHeight);
         //左边圆形图片
         leftParams = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-        leftParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT, TRUE); //true是一个常量
         leftParams.addRule(RelativeLayout.CENTER_VERTICAL, TRUE);
+        leftParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT, TRUE); //true是一个常量
         addView(leftRoundImage, leftParams);
         //左边正常图片
         leftParams = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);

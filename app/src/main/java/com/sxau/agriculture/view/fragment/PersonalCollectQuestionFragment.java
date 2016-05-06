@@ -18,7 +18,8 @@ import com.sxau.agriculture.view.fragment_interface.IPresonalCollectQuestionFrag
 import java.util.ArrayList;
 
 /**
- * Created by Administrator on 2016/4/21.
+ * 个人中心我的问题的listView的fragment
+ * 李秉龙
  */
 public class PersonalCollectQuestionFragment  extends BaseFragment implements IPresonalCollectQuestionFragment{
     private ListView listView;
@@ -62,8 +63,34 @@ public class PersonalCollectQuestionFragment  extends BaseFragment implements IP
         myPersonalQuestion2.setDate("2222.22.22");
         myPersonalQuestion2.setTitle("啦啦啦啦2");
 
+        MyPersonalQuestion myPersonalQuestion3 = new MyPersonalQuestion();
+        myPersonalQuestion3.setState(true);
+        myPersonalQuestion3.setDate("1111.11.11");
+        myPersonalQuestion3.setTitle("啦啦啦啦1");
+        myPersonalQuestion3.setContext("人的身份和书法家的护是大哥好地方挂机的高房价的高房价身符格式的风格是否退回");
+
+        MyPersonalQuestion myPersonalQuestion4 = new MyPersonalQuestion();
+        myPersonalQuestion4.setState(false);
+        myPersonalQuestion4.setDate("2222.22.22");
+        myPersonalQuestion4.setTitle("啦啦啦啦2");
+
+        MyPersonalQuestion myPersonalQuestion5 = new MyPersonalQuestion();
+        myPersonalQuestion5.setState(true);
+        myPersonalQuestion5.setDate("1111.11.11");
+        myPersonalQuestion5.setTitle("啦啦啦啦1");
+        myPersonalQuestion5.setContext("人的身份和书法家的护是大哥好地方挂机的高房价的高房价身符格式的风格是否退回");
+
+        MyPersonalQuestion myPersonalQuestion6 = new MyPersonalQuestion();
+        myPersonalQuestion6.setState(false);
+        myPersonalQuestion6.setDate("2222.22.22");
+        myPersonalQuestion6.setTitle("啦啦啦啦2");
+
         list.add(myPersonalQuestion1);
         list.add(myPersonalQuestion2);
+        list.add(myPersonalQuestion3);
+        list.add(myPersonalQuestion4);
+        list.add(myPersonalQuestion5);
+        list.add(myPersonalQuestion6);
 
         return list;
     }
