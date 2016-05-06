@@ -21,7 +21,7 @@ import java.util.List;
 
 /**
  * 个人中心
- * 李秉龙
+ * @author 李秉龙
  */
 public class PersonalCenterActivity extends BaseActivity implements View.OnClickListener {
     private ViewPager vPager = null,vTitlePaper;
@@ -48,14 +48,12 @@ public class PersonalCenterActivity extends BaseActivity implements View.OnClick
 
         SmartTabLayout viewPagerTab = (SmartTabLayout) findViewById(R.id.viewpagertab);
         viewPagerTab.setViewPager(vTitlePaper);
-
     }
     private void  initView(){
         imageButtonBack = (ImageButton) this.findViewById(R.id.ib_back);
         buttonCompile = (Button) this.findViewById(R.id.btn_compile);
         imageButtonBack.setOnClickListener(this);
         buttonCompile.setOnClickListener(this);
-
     }
 
     @Override

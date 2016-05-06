@@ -39,7 +39,7 @@ import java.io.File;
 
 /**
  * 修改个人信息
- * 李秉龙
+ * @author 李秉龙
  */
 public class PersonalCompileActivity extends BaseActivity implements View.OnClickListener ,IPersonalCompileActivity {
     private ImageButton ib_Back;
@@ -108,7 +108,6 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
                 break;
             case R.id.tv_user_nick:
                 Toast.makeText(PersonalCompileActivity.this,"2",Toast.LENGTH_SHORT).show();
-
                 break;
             case R.id.tv_phone_number:
                 Toast.makeText(PersonalCompileActivity.this,"3",Toast.LENGTH_SHORT).show();
@@ -247,7 +246,6 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
         intent.putExtra("return-data",true);
         intent.putExtra("noFaceDetection",true);
         startActivityForResult(intent,HEAD_PORTRAIT_CUT);
-
     }
 
 
