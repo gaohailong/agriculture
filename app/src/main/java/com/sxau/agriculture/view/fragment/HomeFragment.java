@@ -16,6 +16,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 
+import com.squareup.picasso.Picasso;
 import com.sxau.agriculture.adapter.BannerAdapter;
 import com.sxau.agriculture.agriculture.R;
 
@@ -29,6 +30,7 @@ import com.sxau.agriculture.utils.RetrofitUtil;
 import com.sxau.agriculture.view.fragment_interface.IHomeFragment;
 
 
+import java.net.URL;
 import java.util.ArrayList;
 
 import retrofit.Call;
@@ -169,13 +171,13 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
     public void initView() {
         vp_viewpager = (ViewPager) mView.findViewById(R.id.vp_viewpager);
         ll_point = (LinearLayout) mView.findViewById(R.id.ll_point);
-        imagePath = new int[]{R.drawable.img_banner_red, R.drawable.img_banner_white, R.drawable.img_banner_red, R.drawable.img_banner_white, R.drawable.img_banner_red};
+        imagePath = new int[]{R.drawable.img_banner_one, R.drawable.img_banner_two, R.drawable.img_banner_three, R.drawable.img_banner_four, R.drawable.img_banner_five};
         pointPath = new int[]{R.drawable.img_banner_red, R.drawable.img_banner_white, R.drawable.img_banner_white, R.drawable.img_banner_white, R.drawable.img_banner_white};
         views = new ArrayList<ImageView>();
 
         for (int i = 0; i < imagePath.length; i++) {
             ImageView img = new ImageView(context);
-            img.setImageResource(imagePath[i]);
+            Picasso.with(context).load(imagePath[i]).resize(360,200).centerCrop().into(img);
             views.add(img);
             //圈
             ImageView imgCircle = new ImageView(context);
