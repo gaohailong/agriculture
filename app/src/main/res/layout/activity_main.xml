@@ -6,7 +6,9 @@
     android:orientation="vertical">
 
     <com.sxau.agriculture.utils.TopBarUtil
-        android:paddingLeft="5dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:paddingLeft="4dp"
         android:paddingRight="10dp"
         android:id="@+id/topBar"
         android:layout_width="fill_parent"

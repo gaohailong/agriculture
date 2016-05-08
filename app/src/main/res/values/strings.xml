@@ -27,11 +27,6 @@
     <string name="common_user">普通用户</string>
     <string name="expert_user">专家用户</string>
     <string name="finish">完成</string>
-<<<<<<< HEAD
-=======
     <string name="cancel">取消</string>
 
-
-
->>>>>>> ea653020e9e0e40bd32370554d93674b0aa24aac
 </resources>

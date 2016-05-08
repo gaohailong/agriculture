@@ -15,6 +15,7 @@
     <color name="croci">#FF6446</color>
     <!--金黄色-->
     <color name="yellow">#f4c600</color>
+    <color name="greyBlack">#403c3c</color>
 
     <!--标题栏过度色-->
     <color name="black_20">#33000000</color>
