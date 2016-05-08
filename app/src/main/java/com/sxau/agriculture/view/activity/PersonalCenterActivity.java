@@ -20,7 +20,8 @@ import com.sxau.agriculture.view.fragment.PersonalTradeInfoFragment;
 import java.util.List;
 
 /**
- * Created by Administrator on 2016/4/9.
+ * 个人中心
+ * @author 李秉龙
  */
 public class PersonalCenterActivity extends BaseActivity implements View.OnClickListener {
     private ViewPager vPager = null,vTitlePaper;
@@ -47,23 +48,19 @@ public class PersonalCenterActivity extends BaseActivity implements View.OnClick
 
         SmartTabLayout viewPagerTab = (SmartTabLayout) findViewById(R.id.viewpagertab);
         viewPagerTab.setViewPager(vTitlePaper);
-
     }
     private void  initView(){
         imageButtonBack = (ImageButton) this.findViewById(R.id.ib_back);
         buttonCompile = (Button) this.findViewById(R.id.btn_compile);
         imageButtonBack.setOnClickListener(this);
         buttonCompile.setOnClickListener(this);
-
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.ib_back:
-                Intent intent1 = new Intent();
-                intent1.setClass(PersonalCenterActivity.this,MainActivity.class);
-                startActivity(intent1);
+                finish();
                 break;
             case R.id.btn_compile:
                 Intent intent2 = new Intent();

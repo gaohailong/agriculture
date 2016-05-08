@@ -19,7 +19,8 @@ import com.sxau.agriculture.view.fragment_interface.IPersonalCollectTradeFragmen
 import java.util.ArrayList;
 
 /**
- * Created by Administrator on 2016/4/21.
+ * 个人中心我的交易的listView的fragment
+ * 李秉龙
  */
 public class PersonalCollectTradeFragment extends BaseFragment implements IPersonalCollectTradeFragment{
     private ListView listView;
@@ -49,7 +50,7 @@ public class PersonalCollectTradeFragment extends BaseFragment implements IPerso
 
         MyPersonalTrade myPersonalTrade1 = new MyPersonalTrade();
         myPersonalTrade1.setRv_InfoHead(R.drawable.ic_launc);
-        myPersonalTrade1.setTv_TradeName("田帅");
+        myPersonalTrade1.setTv_TradeName("小明1");
         myPersonalTrade1.setTv_TradeAddress("家里蹲");
         myPersonalTrade1.setTv_TradeDate("1111,11,11");
         myPersonalTrade1.setTv_TradeTitle("买西瓜");
@@ -57,7 +58,7 @@ public class PersonalCollectTradeFragment extends BaseFragment implements IPerso
 
         MyPersonalTrade myPersonalTrade2 = new MyPersonalTrade();
         myPersonalTrade2.setRv_InfoHead(R.drawable.ic_launc);
-        myPersonalTrade2.setTv_TradeName("田帅");
+        myPersonalTrade2.setTv_TradeName("小明2");
         myPersonalTrade2.setTv_TradeAddress("家里蹲");
         myPersonalTrade2.setTv_TradeDate("1111,11,11");
         myPersonalTrade2.setTv_TradeTitle("买西瓜");
@@ -65,7 +66,7 @@ public class PersonalCollectTradeFragment extends BaseFragment implements IPerso
 
         MyPersonalTrade myPersonalTrade3 = new MyPersonalTrade();
         myPersonalTrade3.setRv_InfoHead(R.drawable.ic_launc);
-        myPersonalTrade3.setTv_TradeName("田帅");
+        myPersonalTrade3.setTv_TradeName("小明3");
         myPersonalTrade3.setTv_TradeAddress("家里蹲");
         myPersonalTrade3.setTv_TradeDate("1111,11,11");
         myPersonalTrade3.setTv_TradeTitle("买西瓜");
@@ -73,7 +74,7 @@ public class PersonalCollectTradeFragment extends BaseFragment implements IPerso
 
         MyPersonalTrade myPersonalTrade4 = new MyPersonalTrade();
         myPersonalTrade4.setRv_InfoHead(R.drawable.ic_launc);
-        myPersonalTrade4.setTv_TradeName("田帅");
+        myPersonalTrade4.setTv_TradeName("小明4");
         myPersonalTrade4.setTv_TradeAddress("家里蹲");
         myPersonalTrade4.setTv_TradeDate("1111,11,11");
         myPersonalTrade4.setTv_TradeTitle("买西瓜");
@@ -81,7 +82,7 @@ public class PersonalCollectTradeFragment extends BaseFragment implements IPerso
 
         MyPersonalTrade myPersonalTrade5 = new MyPersonalTrade();
         myPersonalTrade5.setRv_InfoHead(R.drawable.ic_launc);
-        myPersonalTrade5.setTv_TradeName("田帅");
+        myPersonalTrade5.setTv_TradeName("小明5");
         myPersonalTrade5.setTv_TradeAddress("家里蹲");
         myPersonalTrade5.setTv_TradeDate("1111,11,11");
         myPersonalTrade5.setTv_TradeTitle("买西瓜");

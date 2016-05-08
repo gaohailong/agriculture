@@ -2,6 +2,7 @@ package com.sxau.agriculture.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,11 +17,14 @@ import com.sxau.agriculture.bean.Question;
 import com.sxau.agriculture.view.activity.DetailQuestion;
 
 /**
- * Created by Administrator on 2016/4/13.
+ * 问答页面适配器
+ * 李秉龙
  */
 public class QuestionAdapter extends BaseAdapter implements View.OnClickListener{
     private Context context;
     private Question question[];
+    private int favIndex = 0;//判断是否收藏0：没有收藏；1：以收藏
+    private int quickIndex = 0;//判断是否催0：没有催；1：以催
 
     public QuestionAdapter(Context context, Question[] question) {
         this.context = context;
@@ -50,14 +54,14 @@ public class QuestionAdapter extends BaseAdapter implements View.OnClickListener
             convertView = inflater.inflate(R.layout.item_question_list,null);
             holder = new ViewHolder();
             holder.head = (ImageView) convertView.findViewById(R.id.rv_head);
-            holder.fav = (ImageView) convertView.findViewById(R.id.ib_fav);
+            holder.fav = (ImageView) convertView.findViewById(R.id.iv_fav);
             holder.quick = (ImageView) convertView.findViewById(R.id.iv_quick);
             holder.name = (TextView) convertView.findViewById(R.id.tv_name);
             holder.title = (TextView) convertView.findViewById(R.id.tv_title);
             holder.content = (TextView) convertView.findViewById(R.id.tv_content);
             holder.answer = (LinearLayout) convertView.findViewById(R.id.ll_answer);
             holder.ll_FavBackground  = (LinearLayout) convertView.findViewById(R.id.ll_fav_background);
-            holder.ll_SubjectSkip = (LinearLayout) convertView.findViewById(R.id.ll_subject_skip);
+            holder.v_left = convertView.findViewById(R.id.v_left);
             convertView.setTag(holder);
 
         }else {
@@ -68,6 +72,7 @@ public class QuestionAdapter extends BaseAdapter implements View.OnClickListener
         holder.name.setText(questionDate.getName());
         if(questionDate.isState()){
         holder.content.setText(questionDate.getContent());
+        holder.v_left.setBackgroundColor(Color.parseColor("#009688"));
         }else {
             holder.answer.setVisibility(View.GONE);
         }
@@ -75,6 +80,7 @@ public class QuestionAdapter extends BaseAdapter implements View.OnClickListener
         holder.fav.setOnClickListener(this);
         holder.ll_FavBackground.setOnClickListener(this);
        // holder.ll_SubjectSkip.setOnClickListener(this);
+        holder.quick.setOnClickListener(this);
 
         return convertView;
     }
@@ -82,20 +88,28 @@ public class QuestionAdapter extends BaseAdapter implements View.OnClickListener
     @Override
     public void onClick(View v) {
         ViewHolder holder = new ViewHolder();
-        holder.fav = (ImageView) v.findViewById(R.id.ib_fav);
+        holder.fav = (ImageView) v.findViewById(R.id.iv_fav);
+        holder.quick = (ImageView) v.findViewById(R.id.iv_quick);
         switch (v.getId()){
-            case R.id.ib_fav:
-                holder.fav.setImageResource(R.drawable.ic_praise_48px);
+            case R.id.iv_fav:
+                if (favIndex==0){
+                    holder.fav.setImageResource(R.drawable.ic_praise_48px);
+                    favIndex=1;
+                }else {
+                    holder.fav.setImageResource(R.drawable.ic_no_praise_48px);
+                    favIndex=0;
+                }
                 break;
-            case R.id.ll_fav_background:
-                Toast.makeText(v.getContext(),"ll",Toast.LENGTH_SHORT).show();
-                break;
-      //      case R.id.ll_subject_skip:
-//                                Intent intent = new Intent();
-//                intent.setClass(context,DetailQuestion.class);
-//                context.startActivity(intent);
+            case R.id.iv_quick:
+                if (quickIndex==0){
+                    holder.quick.setImageResource(R.mipmap.ic_quick_false_48px);
 
-         //       break;
+                    quickIndex=1;
+                }else {
+                    holder.quick.setImageResource(R.mipmap.ic_quick_true_48px);
+                    quickIndex=0;
+                }
+                break;
         }
 
     }
@@ -110,6 +124,7 @@ public class QuestionAdapter extends BaseAdapter implements View.OnClickListener
         private TextView content;
         private LinearLayout answer;
         private LinearLayout ll_FavBackground;//收藏的linearlayout
-        private LinearLayout ll_SubjectSkip;
+        private View v_left;
+
     }
 }

@@ -2,14 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="110dp"
-    android:orientation="horizontal"
-    android:descendantFocusability="blocksDescendants">
+    android:background="@color/white"
+    android:descendantFocusability="blocksDescendants"
+    android:orientation="horizontal">
 
     <View
         android:id="@+id/v_left"
         android:layout_width="5dp"
         android:layout_height="match_parent"
-        android:background="@color/yellow" />
+        android:background="@color/croci" />
 
 
     <RelativeLayout
@@ -17,7 +18,6 @@
         android:layout_height="wrap_content"
 
         >
-
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -29,8 +29,9 @@
 
             <LinearLayout
                 android:id="@+id/ll_subject_skip"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:gravity="center_vertical"
                 android:orientation="vertical"
                 android:paddingLeft="10dp">
 
@@ -69,6 +70,7 @@
                     android:textColor="#060606"
                     android:textSize="18sp" />
 
+
                 <LinearLayout
                     android:id="@+id/ll_answer"
                     android:layout_width="wrap_content"
@@ -77,11 +79,11 @@
                     android:layout_marginTop="2dp"
                     android:orientation="horizontal">
 
-
                     <TextView
                         android:id="@+id/tv_content"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+
                         android:ellipsize="end"
                         android:gravity="center_vertical"
                         android:lines="2"
@@ -100,18 +102,21 @@
 
             <LinearLayout
                 android:id="@+id/ll_fav_background"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:background="@drawable/question_button_linear_selector"
                 android:gravity="center_horizontal|center_vertical">
 
-                <ImageButton
-                    android:id="@+id/ib_fav"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="10dp"
-                    android:background="@drawable/question_button_selector"
+                <ImageView
+                    android:id="@+id/iv_fav"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="11dp"
+                    android:layout_marginTop="11dp"
+                    android:layout_marginLeft="13dp"
+                    android:layout_marginRight="13dp"
+                    android:background="@drawable/ic_no_praise_48px"
                     android:visibility="visible" />
             </LinearLayout>
 
@@ -125,7 +130,7 @@
 
                 <ImageView
                     android:id="@+id/iv_quick"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:src="@mipmap/ic_quick_true_48px"

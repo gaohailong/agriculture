@@ -1,6 +1,7 @@
 package com.sxau.agriculture.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Administrator on 2016/4/21.
+ * 个人中心问题adapter
+ * 李秉龙
  */
 public class PersonalQuestionAdapter extends BaseAdapter {
     private Context context;
@@ -58,7 +60,8 @@ public class PersonalQuestionAdapter extends BaseAdapter {
             holder.imageViewHead = (ImageView) convertView.findViewById(R.id.rv_head);
             holder.textViewNoAnswer = (TextView) convertView.findViewById(R.id.tv_no_answer);
             holder.linearLayoutAnswer = (LinearLayout) convertView.findViewById(R.id.ll_answer_ll);
-
+            holder.v_left = convertView.findViewById(R.id.v_left);
+            convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
@@ -72,6 +75,7 @@ public class PersonalQuestionAdapter extends BaseAdapter {
             holder.textViewContent.setText(myPersonalQuestion.getContext());
             holder.imageViewHead.setImageResource(R.mipmap.ic_launcher);
             holder.textViewNoAnswer.setVisibility(View.GONE);
+            holder.v_left.setBackgroundColor(Color.parseColor("#009688"));
         } else {
             holder.linearLayoutAnswer.setVisibility(View.GONE);
 //                textViewContent.setVisibility(View.GONE);
@@ -89,6 +93,7 @@ public class PersonalQuestionAdapter extends BaseAdapter {
         TextView textViewContent;
         TextView textViewNoAnswer;
         LinearLayout linearLayoutAnswer;
+        View v_left;
 
     }
 }
