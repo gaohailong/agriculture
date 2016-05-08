@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.media.audiofx.BassBoost;
 import android.net.ConnectivityManager;
 import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
@@ -22,9 +21,10 @@ public class NetUtil {
      *
      * @param context 上下文
      */
-    private static boolean isNetAvailable(Context context) {
+    public static boolean isNetAvailable(Context context) {
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (connectivityManager == null) {
+            Toast.makeText(context, "当前无网络连接", Toast.LENGTH_SHORT).show();
             return false;
         } else {
             return true;
@@ -33,6 +33,7 @@ public class NetUtil {
 
     /**
      * 外部调用的方法
+     *
      * @param activity 当前的activity
      */
     public static void setNetState(final Activity activity) {

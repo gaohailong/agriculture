@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="200dp"
+    android:background="@drawable/shape"
     android:orientation="vertical">
 
     <LinearLayout
@@ -16,8 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-            android:padding="5dp"
-            android:text="农科110热线"
+            android:text="@string/phone110"
             android:textColor="@color/mainColor"
             android:textSize="@dimen/font_size" />
 
@@ -25,7 +25,6 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginLeft="15dp"
-            android:padding="5dp"
             android:src="@mipmap/ic_phone_green_96px" />
     </LinearLayout>
 
@@ -46,8 +45,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-            android:padding="5dp"
-            android:text="健康365热线"
+            android:text="@string/phone365"
             android:textColor="@color/mainColor"
             android:textSize="@dimen/font_size" />
 
@@ -55,7 +53,6 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginLeft="15dp"
-            android:padding="5dp"
             android:src="@mipmap/ic_phone_green_96px" />
     </LinearLayout>
 </LinearLayout>

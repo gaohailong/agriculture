@@ -14,12 +14,9 @@ import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.bean.Question;
 
 /**
-<<<<<<< HEAD
  * 问题详细信息页面
  * 李秉龙
-=======
  * 问题详情Activity
->>>>>>> 191c6b3d66869a39634014e8597fb7d643371ba8
  */
 public class DetailQuestion extends BaseActivity implements View.OnClickListener{
     private ImageButton ib_Back;
