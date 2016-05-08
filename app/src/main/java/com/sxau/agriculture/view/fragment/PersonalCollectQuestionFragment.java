@@ -54,7 +54,7 @@ public class PersonalCollectQuestionFragment  extends BaseFragment implements IP
         ArrayList<MyPersonalQuestion> list = new ArrayList<MyPersonalQuestion>();
         MyPersonalQuestion myPersonalQuestion1 = new MyPersonalQuestion();
         myPersonalQuestion1.setState(true);
-        myPersonalQuestion1.setDate("1111.11.11");
+        myPersonalQuestion1.setDate("5555.11.11");
         myPersonalQuestion1.setTitle("啦啦啦啦1");
         myPersonalQuestion1.setContext("人的身份和书法家的护是大哥好地方挂机的高房价的高房价身符格式的风格是否退回");
 

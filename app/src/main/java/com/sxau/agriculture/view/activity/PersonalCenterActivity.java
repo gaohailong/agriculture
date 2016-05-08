@@ -60,9 +60,7 @@ public class PersonalCenterActivity extends BaseActivity implements View.OnClick
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.ib_back:
-                Intent intent1 = new Intent();
-                intent1.setClass(PersonalCenterActivity.this,MainActivity.class);
-                startActivity(intent1);
+                finish();
                 break;
             case R.id.btn_compile:
                 Intent intent2 = new Intent();

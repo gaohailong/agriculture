@@ -178,35 +178,50 @@
         android:background="@color/white"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal">
-        <ImageButton
-            android:id="@+id/ib_fav"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="#00000000"
-            android:src="@mipmap/favorite_red_48"/>
-        <TextView
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_weight="1">
+        <ImageView
+            android:id="@+id/iv_fav"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:src="@drawable/ic_no_praise_48px"/>
+        </LinearLayout>
+        <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
             android:background="@color/mainColor"/>
-        <ImageButton
-            android:id="@+id/ib_quick"
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="#00000000"
-            android:src="@mipmap/ic_quick_false_48px"/>
-        <TextView
+            android:gravity="center_horizontal|center_vertical"
+            android:layout_weight="1">
+        <ImageView
+            android:id="@+id/iv_quick"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            android:src="@mipmap/ic_quick_true_48px"/>
+        </LinearLayout>
+        <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
             android:background="@color/mainColor"/>
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
         <Button
             android:id="@+id/btn_answer"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="#00000000"
            android:text="回答"/>
+        </LinearLayout>
 
     </LinearLayout>
 </RelativeLayout>
