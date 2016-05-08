@@ -64,6 +64,7 @@
                     android:ellipsize="end"
                     android:gravity="center_vertical"
                     android:lines="2"
+                    android:textSize="@dimen/font_size"
                     android:text="放大镜沙发上看连发三道街发生的法律福建阿萨德理发师傅发动机发达省份克林顿" />
             </LinearLayout>
         </LinearLayout>
@@ -82,7 +83,7 @@
                 android:layout_gravity="center_horizontal|center_vertical"
                 android:layout_margin="10dp"
                 android:src="@mipmap/ic_right_48px"
-                android:visibility="visible" />
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/tv_no_answer"
@@ -93,7 +94,7 @@
                 android:text="暂无回答"
                 android:textColor="@color/croci"
                 android:textSize="14sp"
-                android:visibility="visible" />
+                android:visibility="gone" />
         </LinearLayout>
     </RelativeLayout>
 </LinearLayout>

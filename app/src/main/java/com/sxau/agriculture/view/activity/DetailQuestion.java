@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,10 +21,13 @@ import com.sxau.agriculture.bean.Question;
  */
 public class DetailQuestion extends BaseActivity implements View.OnClickListener{
     private ImageButton ib_Back;
-    private ImageButton ib_Fav;
-    private ImageButton ib_Quick;
+    private ImageView iv_Fav;
+    private ImageView iv_Quick;
     private Button btn_Answer;
     private TextView tv_Question;
+
+    private int favIndex=0;//是否已赞 0：没有；1：已赞
+    private int quickIndex=0;//是否已催 0：没有；1：已催
 
     String question = null;
 
@@ -40,14 +44,14 @@ public class DetailQuestion extends BaseActivity implements View.OnClickListener
 
     private void initView() {
         ib_Back = (ImageButton) this.findViewById(R.id.ib_back);
-        ib_Fav = (ImageButton) this.findViewById(R.id.ib_fav);
-        ib_Quick = (ImageButton) this.findViewById(R.id.ib_quick);
+        iv_Fav = (ImageView) this.findViewById(R.id.iv_fav);
+        iv_Quick = (ImageView) this.findViewById(R.id.iv_quick);
         btn_Answer = (Button) this.findViewById(R.id.btn_answer);
         tv_Question = (TextView) this.findViewById(R.id.tv_question);
 
         ib_Back.setOnClickListener(this);
-        ib_Fav.setOnClickListener(this);
-        ib_Quick.setOnClickListener(this);
+        iv_Fav.setOnClickListener(this);
+        iv_Quick.setOnClickListener(this);
         btn_Answer.setOnClickListener(this);
 
         question = tv_Question.getText().toString();
@@ -62,11 +66,23 @@ public class DetailQuestion extends BaseActivity implements View.OnClickListener
             case R.id.ib_back:
                 finish();
                 break;
-            case R.id.ib_fav:
-                Toast.makeText(DetailQuestion.this,"fav",Toast.LENGTH_SHORT).show();
+            case R.id.iv_fav:
+                if(favIndex==0){
+                    iv_Fav.setBackgroundResource(R.drawable.ic_praise_48px);
+                    favIndex=1;
+                }else if (favIndex==1){
+                    iv_Fav.setBackgroundResource(R.drawable.ic_no_praise_48px);
+                    favIndex=0;
+                }
                 break;
-            case R.id.ib_quick:
-                Toast.makeText(DetailQuestion.this,"quick",Toast.LENGTH_SHORT).show();
+            case R.id.iv_quick:
+                if(quickIndex==0){
+                    iv_Quick.setBackgroundResource(R.mipmap.ic_quick_false_48px);
+                    quickIndex=1;
+                }else if (quickIndex==1){
+                    iv_Quick.setBackgroundResource(R.mipmap.ic_quick_true_48px);
+                    quickIndex=0;
+                }
                 break;
             case R.id.btn_answer:
 

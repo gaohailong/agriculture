@@ -9,14 +9,15 @@
     <RelativeLayout
         android:id="@+id/rl_title"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
-        android:orientation="horizontal">
+        >
         <ImageButton
             android:id="@+id/ib_back"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="30dip"
+            android:layout_height="30dip"
+            android:scaleType="centerCrop"
             android:background="#00000000"
             android:src="@drawable/ic_actionbar_back_48px"/>
         <TextView
@@ -57,7 +58,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="24sp"
+            android:textSize="20sp"
             android:background="@null"
             android:layout_margin="10dp"/>
 
