@@ -67,7 +67,7 @@ public class InfoListViewFragment extends BaseFragment implements IInfoListViewF
                 lv_Info.setAdapter(adapter);
                 lv_Info.setOnItemClickListener(this);
                 return mview;
-        }
+      }
         public void initInfoData(){
                 InfoData infoData=new InfoData(R.drawable.ic_collect_have_48dp,R.mipmap.img_default_user_portrait_150px,"天和集团","2013.06.22","2千米","收购苹果两万斤","对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于",R.drawable.ic_location_48dp);
                 infoDatas.add(infoData);

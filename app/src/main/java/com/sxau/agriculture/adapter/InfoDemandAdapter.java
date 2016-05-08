@@ -16,13 +16,14 @@ import com.sxau.agriculture.bean.InfoData;
 import java.util.List;
 
 /**
- * Created by Administrator on 2016/4/9.
+ * 信息专区ListView的Adapter
+ * @author 田帅
  */
 public class InfoDemandAdapter extends BaseAdapter implements View.OnClickListener{
     private Context context;
     private List<InfoData> datas;
     ViewHolder holder;
-    private boolean flog=true;
+    private boolean flag=true;
 
     public InfoDemandAdapter(Context context, List<InfoData> datas) {
         this.context = context;
@@ -78,10 +79,7 @@ public class InfoDemandAdapter extends BaseAdapter implements View.OnClickListen
         holder.content.setText(infoData.getContent());
         holder.ivLocation.setImageResource(infoData.getIvLocation());
         holder.ivCollection.setImageResource(infoData.getLvCollection());
-        holder.ivCollection.setTag(position);
         holder.ivCollection.setOnClickListener(this);
-
-
         return convertView;
     }
 
@@ -89,12 +87,12 @@ public class InfoDemandAdapter extends BaseAdapter implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.iv_demand_collection:
-                if (flog){
+                if (flag){
                     holder.ivCollection.setImageResource(R.drawable.ic_collect_have_48dp);
-                    flog=false;
+                    flag=false;
                 }else {
                     holder.ivCollection.setImageResource(R.drawable.ic_collect_nothave_48dp);
-                    flog=true;
+                    flag=true;
                 }
 
                 break;

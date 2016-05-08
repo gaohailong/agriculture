@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="160dp"
+    android:layout_height="130dp"
     android:descendantFocusability= "blocksDescendants">
 
     <View
@@ -38,11 +38,11 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="12dp"
                 android:text="山西"
-                android:textSize="14sp" />
+                android:textSize="@dimen/font_size" />
         </LinearLayout>
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"></RelativeLayout>
+            android:layout_height="25dp"></RelativeLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -90,7 +90,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_toRightOf="@+id/rv_info_head"
                 android:text="天和集团"
-                android:textSize="12sp" />
+                android:textSize="@dimen/font_size" />
 
             <TextView
                 android:id="@+id/tv_demand_date"
@@ -100,7 +100,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginBottom="10dp"
                 android:text="2016.03.22"
-                android:textSize="12sp"/>
+                android:textSize="@dimen/font_time"/>
         </RelativeLayout>
 
         <TextView
@@ -111,7 +111,7 @@
             android:ellipsize="end"
             android:lines="1"
             android:text="收购苹果两万斤收购苹果两万斤收购苹果两万斤收购苹果两万斤"
-            android:textSize="18dp" />
+            android:textSize="@dimen/font_title" />
 
         <TextView
             android:id="@+id/tv_demand_content"
@@ -121,9 +121,9 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:ellipsize="end"
-            android:lines="4"
+            android:lines="2"
             android:text="我的他的你的我的他的你的我的他的你的我的他的你的我的他的你的我的他的你的我的他的你的我的他的你的我的他的你的我的他的你的我的他的你的"
-            android:textSize="14sp" />
+            android:textSize="@dimen/font_size" />
     </LinearLayout>
 
 
