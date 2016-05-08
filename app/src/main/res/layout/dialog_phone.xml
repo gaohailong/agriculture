@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="200dp"
-    android:background="@drawable/shape"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <LinearLayout
@@ -18,20 +17,10 @@
             android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:text="@string/phone110"
-            android:textColor="@color/mainColor"
-            android:textSize="@dimen/font_size" />
+            android:textColor="@color/greyBlack"
+            android:textSize="@dimen/font_title" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="15dp"
-            android:src="@mipmap/ic_phone_green_96px" />
     </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/mainColor" />
 
     <LinearLayout
         android:id="@+id/ll_healthy"
@@ -46,13 +35,8 @@
             android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:text="@string/phone365"
-            android:textColor="@color/mainColor"
-            android:textSize="@dimen/font_size" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="15dp"
-            android:src="@mipmap/ic_phone_green_96px" />
+            android:textColor="@color/greyBlack"
+            android:textSize="@dimen/font_title" />
     </LinearLayout>
+
 </LinearLayout>

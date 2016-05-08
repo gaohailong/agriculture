@@ -39,7 +39,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_toRightOf="@+id/rv_info_head"
                 android:text="天和集团"
-                android:textSize="@dimen/font_name" />
+                android:textSize="@dimen/font_size" />
             <TextView
                 android:id="@+id/tv_trade_address"
                 android:layout_toRightOf="@+id/tv_trade_name"
@@ -47,7 +47,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/font_name"
+                android:textSize="@dimen/font_size"
                 android:text="太谷"/>
 
             <TextView

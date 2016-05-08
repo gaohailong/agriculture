@@ -67,17 +67,17 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
      */
     private void iniTitle() {
         TopBarUtil topBar = (TopBarUtil) findViewById(R.id.topBar);
-        topBar.setLeftRoundImageIsVisible(true);
-
+        topBar.setLeftRoundImageIsVisible(false);
+        topBar.setLeftImageIsVisible(true);
 //        Bitmap leftRoundBitmapImage= BitmapUtil.decodedBitmapFromResource(getResources(),R.mipmap.img_default_user_portrait_150px,45,45);
 //        topBar.setLeftRoundBitmapImage(leftRoundBitmapImage);
 
         if (flag == 0) {
             topBar.setRightImageIsVisible(true);
-            topBar.setRightImage(R.mipmap.phone_white);
+            topBar.setRightImage(R.mipmap.ic_phone_white);
         } else {
             topBar.setRightImageIsVisible(true);
-            topBar.setRightImage(R.mipmap.ic_search_48px);
+            topBar.setRightImage(R.mipmap.ic_search);
         }
         topBar.setOnTopbarClickListener(new TopBarUtil.TopbarClickListner() {
             @Override
@@ -89,7 +89,9 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
 
             @Override
             public void onClickLeftImage() {
-                Toast.makeText(MainActivity.this, "天哪", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent();
+                intent.setClass(MainActivity.this, PersonalCenterActivity.class);
+                startActivity(intent);
             }
 
             @Override

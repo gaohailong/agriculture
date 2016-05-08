@@ -69,7 +69,7 @@ public class MessageAdapter extends BaseAdapter {
         if (messageInfo.getContent() != null && !"".equals(messageInfo.getContent())) {
             holder.textViewNoAnswer.setVisibility(View.GONE);
             holder.imageViewAnswer.setVisibility(View.VISIBLE);
-            holder.v_left.setBackgroundColor(Color.parseColor("#009688"));
+            holder.v_left.setBackgroundColor(Color.parseColor("#00b5ad"));
             holder.textViewContent.setText(messageInfo.getContent());
             Picasso.with(context).load(messageInfo.getImgUrl()).placeholder(R.mipmap.img_default_user_portrait_150px)
                     .error(R.mipmap.img_default_user_portrait_150px).into(holder.imageViewHead);
