@@ -39,7 +39,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_toRightOf="@+id/rv_info_head"
                 android:text="天和集团"
-                android:textSize="12sp" />
+                android:textSize="@dimen/font_name" />
             <TextView
                 android:id="@+id/tv_trade_address"
                 android:layout_toRightOf="@+id/tv_trade_name"
@@ -47,7 +47,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
+                android:textSize="@dimen/font_name"
                 android:text="太谷"/>
 
             <TextView
@@ -68,7 +68,7 @@
             android:ellipsize="end"
             android:lines="1"
             android:text="收购苹果两万斤收购苹果两万斤收购苹果两万斤收购苹果两万斤"
-            android:textSize="18dp" />
+            android:textSize="@dimen/font_title" />
 
         <TextView
             android:id="@+id/tv_trade_content"
@@ -79,7 +79,7 @@
             android:ellipsize="end"
             android:lines="3"
             android:text="我的他的你的我的他的你的我的他的你的我的他的你的我的他的你的我的他的你的我的他的你的我的他的你的我的他的你的我的他的你的我的他的你的"
-            android:textSize="12sp" />
+            android:textSize="@dimen/fab_margin" />
     </LinearLayout>
 
 

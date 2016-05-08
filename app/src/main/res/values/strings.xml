@@ -34,6 +34,8 @@
     <string name="expert_user">专家用户</string>
     <string name="finish">完成</string>
     <string name="cancel">取消</string>
+    <string name="is_question">已回答</string>
+    <string name="no_question">未回答</string>
 
 
 

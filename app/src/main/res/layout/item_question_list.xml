@@ -55,7 +55,7 @@
                         android:gravity="center_vertical"
                         android:text="我的天呢"
                         android:textColor="#080808"
-                        android:textSize="14sp" />
+                        android:textSize="@dimen/font_name" />
                 </LinearLayout>
 
                 <TextView
@@ -68,7 +68,7 @@
                     android:lines="1"
                     android:text="如何在笨笨发送发达省份?"
                     android:textColor="#060606"
-                    android:textSize="18sp" />
+                    android:textSize="@dimen/font_title" />
 
 
                 <LinearLayout
@@ -83,11 +83,11 @@
                         android:id="@+id/tv_content"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-
                         android:ellipsize="end"
                         android:gravity="center_vertical"
                         android:lines="2"
-                        android:text="放大理林顿asmhdfjsdfgsdfgsdfgsdfgsdfgsdfgsashdflkahsjdfkjas" />
+                        android:textSize="@dimen/fab_margin"
+                        android:text="法开始交电话费克拉结婚时打开了附件哈伦裤圣诞节和发卡上的话费卡就收到货发卡号上课的减肥哈会计师的复活节" />
                 </LinearLayout>
             </LinearLayout>
         </RelativeLayout>

@@ -90,4 +90,9 @@
         <item name="android:layout_marginRight">20dp</item>
         <item name="android:layout_marginBottom">10dp</item>
     </style>
+
+    <style name="is_question" parent="@android:style/Theme.Dialog">
+        <item name="android:background">@color/mainColor</item>
+
+    </style>
 </resources>

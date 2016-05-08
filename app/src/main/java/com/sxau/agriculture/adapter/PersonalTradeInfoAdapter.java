@@ -1,7 +1,6 @@
 package com.sxau.agriculture.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,7 +45,7 @@ public class PersonalTradeInfoAdapter extends BaseAdapter{
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
             LayoutInflater inflater = LayoutInflater.from(context);
-            convertView = inflater.inflate(R.layout.presonal_mytrade_items, null);
+            convertView = inflater.inflate(R.layout.items_presonal_mytrade, null);
             holder = new ViewHolder();
             holder.rv_InfoHead= (ImageView) convertView.findViewById(R.id.rv_info_head);
             holder.tv_TradeName = (TextView) convertView.findViewById(R.id.tv_trade_name);

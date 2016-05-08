@@ -53,14 +53,14 @@ public class QuestionAdapter extends BaseAdapter implements View.OnClickListener
             LayoutInflater inflater = LayoutInflater.from(context);
             convertView = inflater.inflate(R.layout.item_question_list,null);
             holder = new ViewHolder();
-            holder.head = (ImageView) convertView.findViewById(R.id.rv_head);
-            holder.fav = (ImageView) convertView.findViewById(R.id.iv_fav);
-            holder.quick = (ImageView) convertView.findViewById(R.id.iv_quick);
-            holder.name = (TextView) convertView.findViewById(R.id.tv_name);
-            holder.title = (TextView) convertView.findViewById(R.id.tv_title);
-            holder.content = (TextView) convertView.findViewById(R.id.tv_content);
-            holder.answer = (LinearLayout) convertView.findViewById(R.id.ll_answer);
-            holder.ll_FavBackground  = (LinearLayout) convertView.findViewById(R.id.ll_fav_background);
+            holder.rv_head = (ImageView) convertView.findViewById(R.id.rv_head);
+            holder.iv_fav = (ImageView) convertView.findViewById(R.id.iv_fav);
+            holder.iv_quick = (ImageView) convertView.findViewById(R.id.iv_quick);
+            holder.tv_name = (TextView) convertView.findViewById(R.id.tv_name);
+            holder.tv_title = (TextView) convertView.findViewById(R.id.tv_title);
+            holder.tv_content = (TextView) convertView.findViewById(R.id.tv_content);
+            holder.ll_answer = (LinearLayout) convertView.findViewById(R.id.ll_answer);
+            holder.ll_fav_background  = (LinearLayout) convertView.findViewById(R.id.ll_fav_background);
             holder.v_left = convertView.findViewById(R.id.v_left);
             convertView.setTag(holder);
 
@@ -68,19 +68,19 @@ public class QuestionAdapter extends BaseAdapter implements View.OnClickListener
             holder = (ViewHolder) convertView.getTag();
         }
         Question questionDate = question[position];
-        holder.head.setImageResource(questionDate.getHead());
-        holder.name.setText(questionDate.getName());
+        holder.rv_head.setImageResource(questionDate.getHead());
+        holder.tv_name.setText(questionDate.getName());
         if(questionDate.isState()){
-        holder.content.setText(questionDate.getContent());
+        holder.tv_content.setText(questionDate.getContent());
         holder.v_left.setBackgroundColor(Color.parseColor("#009688"));
         }else {
-            holder.answer.setVisibility(View.GONE);
+            holder.ll_answer.setVisibility(View.GONE);
         }
 
-        holder.fav.setOnClickListener(this);
-        holder.ll_FavBackground.setOnClickListener(this);
+        holder.iv_fav.setOnClickListener(this);
+        holder.ll_fav_background.setOnClickListener(this);
        // holder.ll_SubjectSkip.setOnClickListener(this);
-        holder.quick.setOnClickListener(this);
+        holder.iv_quick.setOnClickListener(this);
 
         return convertView;
     }
@@ -88,25 +88,25 @@ public class QuestionAdapter extends BaseAdapter implements View.OnClickListener
     @Override
     public void onClick(View v) {
         ViewHolder holder = new ViewHolder();
-        holder.fav = (ImageView) v.findViewById(R.id.iv_fav);
-        holder.quick = (ImageView) v.findViewById(R.id.iv_quick);
+        holder.iv_fav = (ImageView) v.findViewById(R.id.iv_fav);
+        holder.iv_quick = (ImageView) v.findViewById(R.id.iv_quick);
         switch (v.getId()){
             case R.id.iv_fav:
                 if (favIndex==0){
-                    holder.fav.setImageResource(R.drawable.ic_praise_48px);
+                    holder.iv_fav.setImageResource(R.drawable.ic_praise_48px);
                     favIndex=1;
                 }else {
-                    holder.fav.setImageResource(R.drawable.ic_no_praise_48px);
+                    holder.iv_fav.setImageResource(R.drawable.ic_no_praise_48px);
                     favIndex=0;
                 }
                 break;
             case R.id.iv_quick:
                 if (quickIndex==0){
-                    holder.quick.setImageResource(R.mipmap.ic_quick_false_48px);
+                    holder.iv_quick.setImageResource(R.mipmap.ic_quick_false_48px);
 
                     quickIndex=1;
                 }else {
-                    holder.quick.setImageResource(R.mipmap.ic_quick_true_48px);
+                    holder.iv_quick.setImageResource(R.mipmap.ic_quick_true_48px);
                     quickIndex=0;
                 }
                 break;
@@ -116,14 +116,14 @@ public class QuestionAdapter extends BaseAdapter implements View.OnClickListener
 
     private class ViewHolder{
         private boolean state;
-        private ImageView head;
-        private ImageView fav;
-        private ImageView quick;
-        private TextView name;
-        private TextView title;
-        private TextView content;
-        private LinearLayout answer;
-        private LinearLayout ll_FavBackground;//收藏的linearlayout
+        private ImageView rv_head;
+        private ImageView iv_fav;
+        private ImageView iv_quick;
+        private TextView tv_name;
+        private TextView tv_title;
+        private TextView tv_content;
+        private LinearLayout ll_answer;
+        private LinearLayout ll_fav_background;//收藏的linearlayout
         private View v_left;
 
     }
