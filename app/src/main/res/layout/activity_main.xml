@@ -11,8 +11,6 @@
         android:id="@+id/topBar"
         android:layout_width="fill_parent"
         android:layout_height="50dp"
-        android:paddingBottom="2dp"
-        android:paddingTop="2dp"
         custom:titleTextColor="#080707"
         custom:titleTextSize="25sp" />
 
@@ -51,7 +49,8 @@
         android:layout_height="60dp"
         android:layout_alignParentBottom="true"
         android:layout_gravity="bottom"
-        android:layout_margin="1dp"
+        android:paddingTop="5dp"
+        android:layout_margin="2dp"
         android:gravity="bottom"
         android:orientation="horizontal">
 
@@ -59,25 +58,26 @@
             android:id="@+id/rb_home"
             style="@style/RadioButtonBottomTab"
             android:checked="true"
-            android:drawableTop="@mipmap/ic_home_96px"
-            android:text="首页" />
+            android:minHeight="40dp"
+            android:drawableTop="@drawable/selector_main_tab_home"
+            android:text="@string/home" />
 
         <RadioButton
             android:id="@+id/rb_queston"
             style="@style/RadioButtonBottomTab"
-            android:drawableTop="@mipmap/ic_question_96px"
-            android:text="问答" />
+            android:drawableTop="@drawable/selector_main_tab_question"
+            android:text="@string/question" />
 
         <RadioButton
             android:id="@+id/rb_info"
             style="@style/RadioButtonBottomTab"
-            android:drawableTop="@mipmap/ic_info_96px"
-            android:text="消息专区" />
+            android:drawableTop="@drawable/selector_main_tab_trade"
+            android:text="@string/trade" />
 
         <RadioButton
             android:id="@+id/rb_message"
             style="@style/RadioButtonBottomTab"
-            android:drawableTop="@mipmap/ic_message_96px"
-            android:text="消息" />
+            android:drawableTop="@drawable/selector_main_tab_message"
+            android:text="@string/message" />
     </RadioGroup>
 </RelativeLayout>

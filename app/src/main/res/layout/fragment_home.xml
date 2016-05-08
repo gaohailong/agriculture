@@ -52,19 +52,14 @@
                         android:layout_marginRight="10dp"
                         android:orientation="horizontal" />
 
-
                 </RelativeLayout>
             </FrameLayout>
-
 
             <com.sxau.agriculture.widgets.WrapHeightListView
                 android:id="@+id/lv_push"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/fl_adv" />
-
-
         </RelativeLayout>
-
     </ScrollView>
 </android.support.v4.widget.SwipeRefreshLayout>

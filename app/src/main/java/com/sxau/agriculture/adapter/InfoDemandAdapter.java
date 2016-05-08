@@ -1,6 +1,7 @@
 package com.sxau.agriculture.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,34 +13,38 @@ import android.widget.Toast;
 import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.bean.InfoData;
 
-/**
- * Created by Administrator on 2016/4/9.
- */
-public class InfoDemandAdapter extends BaseAdapter {
-    private Context context;
-    private InfoData datas[];
-    ViewHolder holder;
+import java.util.List;
 
-    public InfoDemandAdapter(Context context, InfoData[] datas) {
+/**
+ * 信息专区ListView的Adapter
+ * @author 田帅
+ */
+public class InfoDemandAdapter extends BaseAdapter implements View.OnClickListener{
+    private Context context;
+    private List<InfoData> datas;
+    ViewHolder holder;
+    private boolean flag=true;
+
+    public InfoDemandAdapter(Context context, List<InfoData> datas) {
         this.context = context;
-        this.datas = datas;
+        this.datas=datas;
     }
 
 
 
     @Override
     public int getCount() {
-        return datas.length;
+        return datas.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return position;
+        return datas.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 
 
@@ -65,7 +70,7 @@ public class InfoDemandAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        InfoData infoData = datas[position];
+        InfoData infoData=datas.get(position);
         holder.ivHead.setImageResource(infoData.getIvHead());
         holder.name.setText(infoData.getName());
         holder.date.setText(infoData.getDate());
@@ -73,35 +78,27 @@ public class InfoDemandAdapter extends BaseAdapter {
         holder.title.setText(infoData.getTitle());
         holder.content.setText(infoData.getContent());
         holder.ivLocation.setImageResource(infoData.getIvLocation());
-        holder.ivCollection.setTag(position);
         holder.ivCollection.setImageResource(infoData.getLvCollection());
-        holder.ivCollection.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if ((int)holder.ivCollection.getTag() == position) {
-                holder.ivCollection.setImageResource(R.drawable.ic_search_48dp);
-                Toast.makeText(context,datas[position]+"",Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
+        holder.ivCollection.setOnClickListener(this);
         return convertView;
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.iv_demand_collection:
+                if (flag){
+                    holder.ivCollection.setImageResource(R.drawable.ic_collect_have_48dp);
+                    flag=false;
+                }else {
+                    holder.ivCollection.setImageResource(R.drawable.ic_collect_nothave_48dp);
+                    flag=true;
+                }
 
+                break;
+        }
+    }
 
-//    @Override
-//    public void onClick(View v) {
-//        switch (v.getId()){
-//            case R.id.ib_demand_collection:
-//                Toast.makeText(context,"111",Toast.LENGTH_SHORT).show();
-//                holder.ibCollection.setImageResource(R.drawable.ic_search_48dp);
-////                ImageView img=new ImageView(context);
-////                img.setImageResource(R.drawable.ic_search_48dp);
-//
-//                break;
-//        }
-//    }
 
     public class ViewHolder {
         ImageView ivCollection;
@@ -113,7 +110,5 @@ public class InfoDemandAdapter extends BaseAdapter {
         TextView content;
         ImageView ivLocation;
     }
-//    public void ChangeCollection(int position){
-//        Toast.makeText(context,position,Toast.LENGTH_SHORT).show();
-//    }
+
 }

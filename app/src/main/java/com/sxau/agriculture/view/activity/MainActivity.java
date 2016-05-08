@@ -2,7 +2,6 @@ package com.sxau.agriculture.view.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.v4.app.FragmentTabHost;
 import android.os.Bundle;
@@ -13,13 +12,11 @@ import android.widget.RadioGroup;
 import android.widget.TabHost;
 import android.widget.Toast;
 
-import com.squareup.picasso.Picasso;
 import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.utils.ActivityCollectorUtil;
-import com.sxau.agriculture.utils.BitmapUtil;
 import com.sxau.agriculture.utils.TopBarUtil;
 import com.sxau.agriculture.view.fragment.HomeFragment;
-import com.sxau.agriculture.view.fragment.InfoFragment;
+import com.sxau.agriculture.view.fragment.TradeFragment;
 import com.sxau.agriculture.view.fragment.MessageFragment;
 import com.sxau.agriculture.view.fragment.QuestionFragment;
 
@@ -31,12 +28,14 @@ import com.sxau.agriculture.view.fragment.QuestionFragment;
 public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener, View.OnClickListener {
     private FragmentTabHost fragmentTabHost;
     private RadioGroup radioGroup;
+
     private Context context;
     private long currentBackPressedTime = 0;
     private static final int BACK_PRESSED_INTERVAL = 2000;
-    private final Class[] fragments = {HomeFragment.class, QuestionFragment.class, InfoFragment.class, MessageFragment.class};
+    private final Class[] fragments = {HomeFragment.class, QuestionFragment.class, TradeFragment.class, MessageFragment.class};
     private int flag = 0;
-    String phoneNumber;
+    private String phoneNumber;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +43,23 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
 
         iniTitle();
         initView();
+    }
+
+    /**
+     * 初始化视图
+     */
+    private void initView() {
+        fragmentTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
+        radioGroup = (RadioGroup) findViewById(R.id.rg_tab);
+
+        fragmentTabHost.setup(this, getSupportFragmentManager(), R.id.fl_content);
+        int count = fragments.length;
+        for (int i = 0; i < count; i++) {
+            TabHost.TabSpec tabSpec = fragmentTabHost.newTabSpec(i + "").setIndicator(i + "");
+            fragmentTabHost.addTab(tabSpec, fragments[i], null);
+        }
+        radioGroup.setOnCheckedChangeListener(this);
+        fragmentTabHost.setCurrentTab(0);
     }
 
     /**
@@ -58,7 +74,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
 
         if (flag == 0) {
             topBar.setRightImageIsVisible(true);
-            topBar.setRightImage(R.mipmap.ic_phone_white_96px);
+            topBar.setRightImage(R.mipmap.phone_white);
         } else {
             topBar.setRightImageIsVisible(true);
             topBar.setRightImage(R.mipmap.ic_search_48px);
@@ -94,32 +110,17 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         });
     }
 
-    /**
-     * 初始化视图
-     */
-    private void initView() {
-        fragmentTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
-        fragmentTabHost.setup(this, getSupportFragmentManager(), R.id.fl_content);
-        int count = fragments.length;
-        for (int i = 0; i < count; i++) {
-            TabHost.TabSpec tabSpec = fragmentTabHost.newTabSpec(i + "").setIndicator(i + "");
-            fragmentTabHost.addTab(tabSpec, fragments[i], null);
-        }
-        radioGroup = (RadioGroup) findViewById(R.id.rg_tab);
-        radioGroup.setOnCheckedChangeListener(this);
-        fragmentTabHost.setCurrentTab(0);
-    }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_agriculture:
-                phoneNumber="tel:0351-7537092";
-                callPhone(v,phoneNumber);
+                phoneNumber = "tel:0351-7537092";
+                callPhone(v, phoneNumber);
                 break;
             case R.id.ll_healthy:
-                phoneNumber="tel:0791-86665536";
-                callPhone(v,phoneNumber);
+                phoneNumber = "tel:0791-86665536";
+                callPhone(v, phoneNumber);
                 break;
             default:
                 break;
@@ -173,5 +174,4 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
             finish();
         }
     }
-
 }

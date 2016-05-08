@@ -42,7 +42,6 @@ public class ExpertAnswerActivity extends BaseActivity implements View.OnClickLi
         tv_Question = (TextView) this.findViewById(R.id.tv_question);
         btn_Submit = (Button) this.findViewById(R.id.btn_submit);
 
-
         ib_Back.setOnClickListener(this);
         btn_Submit.setOnClickListener(this);
 

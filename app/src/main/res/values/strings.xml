@@ -1,22 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="app_name">Agriculture</string>
+    <!--MainActivity-->
+    <string name="home">首页</string>
+    <string name="question">回答</string>
+    <string name="trade">交易</string>
+    <string name="message">消息</string>
+    <string name="phone110">农科110热线</string>
+    <string name="phone365">健康365热线</string>
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="supply">供应</string>
     <string name="demand">需求</string>
-
-
-
-    <string name="no_answer">暂无回答</string>
-
-
-
-
-    <string name="title_activity_presonal_center_acivity">PresonalCenterAcivity</string>
-
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="MyQuestion">我的问题</string>
     <string name="TradeInfo">交易信息</string>
