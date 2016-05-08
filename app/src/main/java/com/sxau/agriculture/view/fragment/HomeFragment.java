@@ -3,6 +3,7 @@ package com.sxau.agriculture.view.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
@@ -40,10 +41,10 @@ import retrofit.Retrofit;
 
 /**
  * 主界面的Fragment
- *
  * @author 崔志泽
  */
 public class HomeFragment extends BaseFragment implements ViewPager.OnPageChangeListener, SwipeRefreshLayout.OnRefreshListener, IHomeFragment, AdapterView.OnItemClickListener, View.OnTouchListener {
+
     private IHomePresenter iHomePresenter;
     private HomeRotatePicture homeRotatePicture;
     private BannerAdapter bannerAdapter;
@@ -51,22 +52,18 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
     private View mView;
     private HomePushAdapter adapter;
     private ViewPager vp_viewpager;
-    private LinearLayout ll_point;
     private SwipeRefreshLayout srl_refresh;
     private Context context;
 
     private int[] imagePath;
-    private int[] pointPath;
     private ArrayList<HomeListViewBean> homeListViewBeans;
     private ArrayList<ImageView> views;
     private int currentIndex = 300;
     private long lastTime;
+    private MyHandler myHandler;
 
-    private Handler handlerForBanner;
-    private Handler handlerForRefresh;
-
-    /*
-    设置轮播时间间隔
+    /**
+     *设置轮播时间间隔
      */
     private Runnable runnableForBanner = new Runnable() {
         @Override
@@ -76,9 +73,19 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
                 vp_viewpager.setCurrentItem(currentIndex);
                 lastTime = System.currentTimeMillis();
             }
-            handlerForBanner.postDelayed(runnableForBanner, 3000);
+            myHandler.postDelayed(runnableForBanner, 3000);
         }
     };
+
+
+
+    public class MyHandler extends Handler{
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+        }
+    }
+
 
 
     @Override
@@ -89,8 +96,7 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
         mView = inflater.inflate(R.layout.fragment_home, container, false);
         lv_push = (ListView) mView.findViewById(R.id.lv_push);
         srl_refresh = (SwipeRefreshLayout) mView.findViewById(R.id.srl_refresh);
-        handlerForRefresh = new Handler();
-        handlerForBanner = new Handler();
+        myHandler = new MyHandler();
         context = HomeFragment.this.getActivity();
 
         srl_refresh.setOnRefreshListener(this);
@@ -101,6 +107,8 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
         initListData();
         return mView;
     }
+
+
 
     public void initListData() {
         homeListViewBeans = new ArrayList<HomeListViewBean>();
@@ -158,32 +166,34 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
         lv_push.setAdapter(adapter);
     }
 
+
+
     @Override
     public void onDestroy() {
         super.onDestroy();
-        handlerForBanner.removeCallbacks(runnableForBanner);
+        myHandler.removeCallbacks(runnableForBanner);
     }
 
 
-    /*
-    加载图片与小圆点
+    @Override
+    public void onPause() {
+        super.onPause();
+        srl_refresh.setRefreshing(false);
+    }
+
+    /**
+     *加载图片与小圆点
      */
     public void initView() {
         vp_viewpager = (ViewPager) mView.findViewById(R.id.vp_viewpager);
-        ll_point = (LinearLayout) mView.findViewById(R.id.ll_point);
         imagePath = new int[]{R.drawable.img_banner_one, R.drawable.img_banner_two, R.drawable.img_banner_three, R.drawable.img_banner_four, R.drawable.img_banner_five};
-        pointPath = new int[]{R.drawable.img_banner_red, R.drawable.img_banner_white, R.drawable.img_banner_white, R.drawable.img_banner_white, R.drawable.img_banner_white};
         views = new ArrayList<ImageView>();
 
         for (int i = 0; i < imagePath.length; i++) {
             ImageView img = new ImageView(context);
             Picasso.with(context).load(imagePath[i]).resize(360,200).centerCrop().into(img);
             views.add(img);
-            //圈
-            ImageView imgCircle = new ImageView(context);
-            imgCircle.setImageResource(pointPath[i]);//默认不中
-            imgCircle.setPadding(10, 5, 10, 5);
-            ll_point.addView(imgCircle);
+
         }
 
         bannerAdapter = new BannerAdapter(views, context);
@@ -191,8 +201,9 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
         vp_viewpager.setAdapter(bannerAdapter);
         vp_viewpager.setCurrentItem(300);
         vp_viewpager.setOnPageChangeListener(this);
-        handlerForBanner.postDelayed(runnableForBanner, 2000);
+        myHandler.postDelayed(runnableForBanner, 2000);
     }
+
 
 
     @Override
@@ -200,44 +211,35 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
 
     }
 
-    /*
-    得到当前图片并记录当前时间
+
+
+    /**
+     *得到当前图片并记录当前时间
      */
     @Override
     public void onPageSelected(int position) {
         currentIndex = position;
-        int index = position % views.size();
-        setCurrentSelector(index);
         lastTime = System.currentTimeMillis();
 
     }
+
+
 
     @Override
     public void onPageScrollStateChanged(int state) {
 
     }
 
-    /*
-    设置小圆点的变色
-     */
-    public void setCurrentSelector(int index) {
-        for (int i = 0; i < ll_point.getChildCount(); i++) {
-            ImageView child = (ImageView) ll_point.getChildAt(i);
-            if (i == index) {
-                child.setImageResource(R.drawable.img_banner_red);
-            } else {
-                child.setImageResource(R.drawable.img_banner_white);
-            }
-        }
-    }
-    /*
-    下拉刷新
-     */
 
+
+
+    /**
+     *下拉刷新
+     */
     @Override
     public void onRefresh() {
         srl_refresh.setRefreshing(true);
-        handlerForRefresh.postDelayed(new Runnable() {
+        myHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 srl_refresh.setRefreshing(false);
@@ -245,6 +247,11 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
         }, 2000);
     }
 
+
+
+    /**
+     *解决下拉刷新与viewpager滑动冲突
+     */
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         switch (event.getAction()) {
@@ -261,12 +268,20 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
         return false;
     }
 
+
+
+
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Toast.makeText(context, homeListViewBeans.get(position).getTitle(), Toast.LENGTH_SHORT).show();
     }
 
-    //网络请求的方法
+
+
+
+    /**
+     * 网络请求的方法
+     */
     public void initRotatePicture() {
         Call<HomeRotatePicture> call = RetrofitUtil.getRetrofit().create(IHomeRotatePicture.class).getResult();
         call.enqueue(new Callback<HomeRotatePicture>() {
@@ -275,7 +290,7 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
                 if (response.isSuccess()) {
                     homeRotatePicture = response.body();
                     if (homeRotatePicture != null) {
-                        handlerForBanner.sendEmptyMessage(0);//待定
+                        myHandler.sendEmptyMessage(0);//待定
                     }
                 }
             }

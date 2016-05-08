@@ -42,16 +42,6 @@
                         android:textColor="@color/white"
                         android:textSize="16sp" />
 
-                    <LinearLayout
-                        android:id="@+id/ll_point"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginRight="10dp"
-                        android:orientation="horizontal" />
-
 
                 </RelativeLayout>
             </FrameLayout>
