@@ -20,6 +20,7 @@ import com.sxau.agriculture.bean.MessageList;
 import com.sxau.agriculture.presenter.fragment_presenter.MessagePresenter;
 import com.sxau.agriculture.presenter.fragment_presenter_interface.IMessagePresenter;
 import com.sxau.agriculture.utils.ConstantUtil;
+import com.sxau.agriculture.utils.LogUtil;
 import com.sxau.agriculture.utils.RetrofitUtil;
 import com.sxau.agriculture.view.fragment_interface.IMessageFragment;
 
@@ -73,7 +74,7 @@ public class MessageFragment extends BaseFragment implements IMessageFragment, S
     public void initListView() {
         messageAdapter = new MessageAdapter(MessageFragment.this.getActivity(), messageInfos);
         lv_message.setAdapter(messageAdapter);
-        Log.e("11111","1");
+        LogUtil.e("11111","1");
 //        getData();
     }
 
@@ -87,7 +88,7 @@ public class MessageFragment extends BaseFragment implements IMessageFragment, S
                     if (messageList != null) {
                         messageInfos = messageList.getMessageInfo();
                         handler.sendEmptyMessage(ConstantUtil.GET_NET_DATA);
-                        Log.e("11111","2");
+                        LogUtil.e("11111", "2");
                     }
                 }
             }
@@ -126,7 +127,7 @@ public class MessageFragment extends BaseFragment implements IMessageFragment, S
                     case ConstantUtil.GET_NET_DATA:
 //                        messageAdapter.notifyDataSetChanged();
                         initListView();
-                        Log.e("11111","3");
+                        LogUtil.e("11111","3");
                         break;
                     default:
                         break;
