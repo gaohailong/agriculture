@@ -17,8 +17,8 @@ import com.sxau.agriculture.bean.Question;
 import com.sxau.agriculture.view.activity.DetailQuestion;
 
 /**
- * 问答页面适配器
- * 李秉龙
+ * 问答页面adapter
+ * @author 李秉龙
  */
 public class QuestionAdapter extends BaseAdapter implements View.OnClickListener{
     private Context context;

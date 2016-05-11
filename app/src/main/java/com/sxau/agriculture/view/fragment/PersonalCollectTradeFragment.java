@@ -20,7 +20,7 @@ import java.util.ArrayList;
 
 /**
  * 个人中心我的交易的listView的fragment
- * 李秉龙
+ * @author 李秉龙
  */
 public class PersonalCollectTradeFragment extends BaseFragment implements IPersonalCollectTradeFragment{
     private ListView listView;

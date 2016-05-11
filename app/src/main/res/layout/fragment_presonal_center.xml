@@ -42,10 +42,9 @@
 
             <Button
                 android:id="@+id/btn_compile"
-                android:layout_width="80dp"
-                android:layout_height="35dp"
+                android:layout_width="70dp"
+                android:layout_height="30dp"
                 android:layout_marginTop="30dp"
-
                 android:background="@drawable/bg_tv_shape_20"
                 android:text="编辑"
                 android:textColor="@color/white"

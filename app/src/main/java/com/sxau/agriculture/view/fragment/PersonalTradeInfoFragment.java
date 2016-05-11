@@ -23,7 +23,7 @@ import java.util.zip.Inflater;
 
 /**
  * 个人中心交易的listView的fragment
- * 李秉龙
+ * @author 李秉龙
  */
 public class PersonalTradeInfoFragment extends BaseFragment implements IPersonalTradeInfoFragment{
     private ListView listView;
