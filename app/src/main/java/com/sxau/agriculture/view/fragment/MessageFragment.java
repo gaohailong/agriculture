@@ -5,6 +5,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +19,7 @@ import com.sxau.agriculture.bean.MessageInfo;
 import com.sxau.agriculture.bean.MessageList;
 import com.sxau.agriculture.presenter.fragment_presenter.MessagePresenter;
 import com.sxau.agriculture.presenter.fragment_presenter_interface.IMessagePresenter;
+import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.RetrofitUtil;
 import com.sxau.agriculture.view.fragment_interface.IMessageFragment;
 
@@ -34,12 +37,13 @@ import retrofit.Retrofit;
  *
  * @author 高海龙
  */
-public class MessageFragment extends BaseFragment implements IMessageFragment {
+public class MessageFragment extends BaseFragment implements IMessageFragment, SwipeRefreshLayout.OnRefreshListener {
     private ListView lv_message;
     private List<MessageInfo> messageInfos;
     private Context context = getActivity();
     private IMessagePresenter iMessagePresenter;
     private MessageAdapter messageAdapter;
+    private SwipeRefreshLayout srl_refresh;
 
     public MessageFragment() {
     }
@@ -51,6 +55,10 @@ public class MessageFragment extends BaseFragment implements IMessageFragment {
         iMessagePresenter = new MessagePresenter(MessageFragment.this);
         View view = inflater.inflate(R.layout.fragment_message, container, false);
         lv_message = (ListView) view.findViewById(R.id.lv_message);
+
+        srl_refresh = (SwipeRefreshLayout) view.findViewById(R.id.srl_refresh);
+        srl_refresh.setColorSchemeColors(R.color.mainColor);
+
         messageInfos = new ArrayList<MessageInfo>();
         return view;
     }
@@ -63,6 +71,13 @@ public class MessageFragment extends BaseFragment implements IMessageFragment {
     }
 
     public void initListView() {
+        messageAdapter = new MessageAdapter(MessageFragment.this.getActivity(), messageInfos);
+        lv_message.setAdapter(messageAdapter);
+        Log.e("11111","1");
+//        getData();
+    }
+
+    public void getData() {
         Call<MessageList> call = RetrofitUtil.getRetrofit().create(IGetMessageList.class).getResult();
         call.enqueue(new Callback<MessageList>() {
             @Override
@@ -71,7 +86,8 @@ public class MessageFragment extends BaseFragment implements IMessageFragment {
                     MessageList messageList = response.body();
                     if (messageList != null) {
                         messageInfos = messageList.getMessageInfo();
-                        handler.sendEmptyMessage(1);
+                        handler.sendEmptyMessage(ConstantUtil.GET_NET_DATA);
+                        Log.e("11111","2");
                     }
                 }
             }
@@ -86,6 +102,11 @@ public class MessageFragment extends BaseFragment implements IMessageFragment {
 
     private MyHandler handler = new MyHandler(MessageFragment.this);
 
+    @Override
+    public void onRefresh() {
+
+    }
+
     private class MyHandler extends Handler {
         WeakReference<MessageFragment> weakReference;
 
@@ -99,9 +120,13 @@ public class MessageFragment extends BaseFragment implements IMessageFragment {
             MessageFragment activity = weakReference.get();
             if (activity != null) {
                 switch (msg.what) {
-                    case 1:
-                        messageAdapter = new MessageAdapter(MessageFragment.this.getActivity(), messageInfos);
-                        lv_message.setAdapter(messageAdapter);
+                    case 0:
+                        getData();
+                        break;
+                    case ConstantUtil.GET_NET_DATA:
+//                        messageAdapter.notifyDataSetChanged();
+                        initListView();
+                        Log.e("11111","3");
                         break;
                     default:
                         break;
@@ -116,5 +141,5 @@ public class MessageFragment extends BaseFragment implements IMessageFragment {
     public void updateView() {
 
     }
-//-------------------接口方法结束--------------
+    //-------------------接口方法结束--------------
 }

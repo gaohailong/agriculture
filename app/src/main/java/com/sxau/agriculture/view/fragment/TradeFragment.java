@@ -24,7 +24,7 @@ import java.util.ArrayList;
  * 信息专区的Fragment
  * @author 田帅
  */
-public class InfoFragment extends BaseFragment{
+public class TradeFragment extends BaseFragment{
 
     private TextView view1, view2;
     private RadioButton rbSupply, rbDemand;

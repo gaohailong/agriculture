@@ -73,8 +73,9 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="爱都hi阿杜和覅偶按U第三方公司的风格是否该是对方告诉对方告诉大哥速度发根深蒂固是对方告诉对方告诉大哥是东莞市东风公司的是的规范是东风公司的风格是东风公司的风格盾合法一盾反垄断法合理的方式李"
-            android:textSize="10sp" />
+            android:lines="4"
+            android:text="sdf"
+            android:textSize="@dimen/font_size" />
 
         <TextView
             android:layout_width="match_parent"
@@ -122,15 +123,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/ll_question"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
-        android:layout_marginTop="10dp"
         android:background="@drawable/detail_linear_layout_shape"
         android:orientation="vertical"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
-        android:paddingTop="20dp">
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_above="@+id/linearLayout"
+        >
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -152,8 +152,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:lines="8"
             android:textSize="10sp"
-            android:text="通过这次绘制实例，学习了StarUML的用法，了解的绘制实例的图的过程。先分析题目得出本题的执行者有：超市管理员：用例有：管理货物信息；泛化更新订货信息订货管理员：用例有：订货（包含提供订货，付款（包含订货状态跟踪），取消订货），取消订货，查询订货信息供应商：用例有：提供订货，更新订货销售管理员：用例有：结账（泛化提供收款，打印收款单）；销售信息查询"/>
+            android:text="font_size"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -177,36 +178,53 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:layout_alignParentBottom="true"
-        android:orientation="horizontal">
-        <ImageButton
-            android:id="@+id/ib_fav"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="#00000000"
-            android:src="@mipmap/favorite_red_48"/>
-        <TextView
+        android:orientation="horizontal"
+        android:layout_marginTop="35dp"
+        android:id="@+id/linearLayout">
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_weight="1">
+        <ImageView
+            android:id="@+id/iv_fav"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:src="@drawable/ic_no_praise_48px"/>
+        </LinearLayout>
+        <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
             android:background="@color/mainColor"/>
-        <ImageButton
-            android:id="@+id/ib_quick"
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="#00000000"
-            android:src="@mipmap/ic_quick_false_48px"/>
-        <TextView
+            android:gravity="center_horizontal|center_vertical"
+            android:layout_weight="1">
+        <ImageView
+            android:id="@+id/iv_quick"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            android:src="@mipmap/ic_quick_true_48px"/>
+        </LinearLayout>
+        <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
             android:background="@color/mainColor"/>
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
         <Button
             android:id="@+id/btn_answer"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="#00000000"
            android:text="回答"/>
+        </LinearLayout>
 
     </LinearLayout>
 </RelativeLayout>

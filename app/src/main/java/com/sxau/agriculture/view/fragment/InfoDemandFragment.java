@@ -25,8 +25,6 @@ public class InfoDemandFragment extends BaseFragment {
         newFragment.setArguments(bundle);
 
         //bundle还可以在每个标签里传送数据
-
-
         return newFragment;
 
     }

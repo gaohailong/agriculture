@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/PhotoDialog"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/album_dialog_shape"
-    android:gravity="bottom"
-    android:orientation="vertical">
+    android:background="@drawable/detail_linear_layout_shape">
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:background="@drawable/album_dialog_shape"
         android:orientation="vertical">
 
         <TextView
@@ -25,7 +23,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/white" />
+            android:background="@color/mainColor" />
 
         <TextView
             android:id="@+id/tv_personal_photo_album"
@@ -40,7 +38,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/white" />
+            android:background="@color/mainColor" />
 
         <TextView
             android:id="@+id/tv_cancel"

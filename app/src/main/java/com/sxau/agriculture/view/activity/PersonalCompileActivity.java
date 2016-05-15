@@ -3,45 +3,42 @@ package com.sxau.agriculture.view.activity;
 
 
 
-import android.app.Activity;
+
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.text.format.DateFormat;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.widgets.RoundImageView;
 
 import java.io.File;
 
-        import android.os.Bundle;
-        import android.view.View;
-        import android.widget.ImageButton;
-        import android.widget.TextView;
-        import android.widget.Toast;
-
-        import com.sxau.agriculture.agriculture.R;
-        import com.sxau.agriculture.presenter.acitivity_presenter.PersonalCompilePresenter;
-        import com.sxau.agriculture.presenter.activity_presenter_interface.IPersonalCompilePresenter;
-        import com.sxau.agriculture.view.activity_interface.IPersonalCompileActivity;
-        import com.sxau.agriculture.widgets.RoundImageView;
+import com.sxau.agriculture.presenter.acitivity_presenter.PersonalCompilePresenter;
+import com.sxau.agriculture.presenter.activity_presenter_interface.IPersonalCompilePresenter;
+import com.sxau.agriculture.view.activity_interface.IPersonalCompileActivity;
 
 /**
  * 修改个人信息
+ *
  * @author 李秉龙
  */
-public class PersonalCompileActivity extends BaseActivity implements View.OnClickListener ,IPersonalCompileActivity {
+public class PersonalCompileActivity extends BaseActivity implements View.OnClickListener, IPersonalCompileActivity {
     private ImageButton ib_Back;
     private RoundImageView rw_Head;
     private TextView tv_HeadPortrait;
@@ -53,6 +50,7 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
     private TextView tv_UserAddress;
     private TextView tv_Identity;
     private TextView tv_UserIdentity;
+    private Button btn_finish;
 
     /**
      * 定义三种状态
@@ -63,7 +61,11 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
     private File photoFile;
     private Bitmap photoBitmap;
 
+    //编辑个人昵称
+    private String compileNickname;
+
     private IPersonalCompilePresenter iPersonalCompilePresenter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,6 +89,7 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
         tv_UserAddress = (TextView) this.findViewById(R.id.tv_user_address);
         tv_Identity = (TextView) this.findViewById(R.id.tv_identity);
         tv_UserIdentity = (TextView) this.findViewById(R.id.tv_user_identity);
+        btn_finish = (Button)this.findViewById(R.id.btn_finish);
 
         ib_Back.setOnClickListener(this);
         rw_Head.setOnClickListener(this);
@@ -94,6 +97,7 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
         tv_PhoneNumber.setOnClickListener(this);
         tv_UserAddress.setOnClickListener(this);
         tv_UserIdentity.setOnClickListener(this);
+        btn_finish.setOnClickListener(this);
     }
 
 
@@ -107,16 +111,13 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
                 showDialog();
                 break;
             case R.id.tv_user_nick:
-                Toast.makeText(PersonalCompileActivity.this,"2",Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.tv_phone_number:
-                Toast.makeText(PersonalCompileActivity.this,"3",Toast.LENGTH_SHORT).show();
+                showCompileDialog();
                 break;
             case R.id.tv_user_address:
-                Toast.makeText(PersonalCompileActivity.this,"4",Toast.LENGTH_SHORT).show();
+                Toast.makeText(PersonalCompileActivity.this, "4", Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.tv_user_identity:
-                Toast.makeText(PersonalCompileActivity.this,"5",Toast.LENGTH_SHORT).show();
+            case R.id.btn_finish:
+                finish();
                 break;
             default:
                 break;
@@ -124,10 +125,35 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
 
     }
 
+
+    //编辑昵称等 调用的dialog
+    private void showCompileDialog() {
+        final EditText et = new EditText(this);
+        AlertDialog.Builder  builder = new AlertDialog.Builder(this);
+        //使用xml文件定义视图
+
+        builder.setTitle("编辑昵称：");
+        builder.setView(et);
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if(et.getText().equals(null)){
+                    Toast.makeText(PersonalCompileActivity.this,"请输入您的昵称！",Toast.LENGTH_SHORT).show();
+                }else {
+                    compileNickname = et.getText().toString();
+                    tv_UserNick.setText(compileNickname);
+                }
+            }
+        });
+        builder.setNegativeButton("取消",null);
+        builder.show();
+
+    }
+
     //显示Dialog选择拍照还是从相册选择
     private void showDialog() {
         final Dialog dialog = new Dialog(this, R.style.PhotoDialog);
-        final View view = LayoutInflater.from(PersonalCompileActivity.this).inflate(R.layout.personal_head_select_diallog, null);
+        final View view = LayoutInflater.from(PersonalCompileActivity.this).inflate(R.layout.diallog_personal_head_select, null);
         dialog.setContentView(view);
         TextView tv_PhotoGraph = (TextView) view.findViewById(R.id.tv_personal_photo_graph);
         TextView tv_PhotoAlbum = (TextView) view.findViewById(R.id.tv_personal_photo_album);
@@ -137,7 +163,7 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
         tv_PhotoGraph.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              openPhotoGraph();
+                openPhotoGraph();
             }
         });
 
@@ -169,29 +195,32 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
         dialog.show();
 
     }
+
     //打开相册方法
-    private void openPhotoAlbum(){
-        Intent picIntent = new Intent(Intent.ACTION_PICK,null);
-        picIntent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,"image/*");
-        startActivityForResult(picIntent,HEAD_PORTRAIT_PIC);
+    private void openPhotoAlbum() {
+        Intent picIntent = new Intent(Intent.ACTION_PICK, null);
+        picIntent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+        startActivityForResult(picIntent, HEAD_PORTRAIT_PIC);
     }
+
     //打开相机方法
-    private void openPhotoGraph(){
+    private void openPhotoGraph() {
         String state = Environment.getExternalStorageState();
-        if (state.equals(Environment.MEDIA_MOUNTED)){
+        if (state.equals(Environment.MEDIA_MOUNTED)) {
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             File file = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-            if (!file.exists()){
+            if (!file.exists()) {
                 file.mkdirs();
             }
             photoFile = new File(file, System.currentTimeMillis() + ".jpg");
             intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
-            intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY,1);
-            startActivityForResult(intent,HEAD_PORTRAIT_CAM);
+            intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
+            startActivityForResult(intent, HEAD_PORTRAIT_CAM);
         } else {
             Toast.makeText(this, "请确认已经插入SD卡", Toast.LENGTH_SHORT).show();
         }
     }
+
     //回调函数
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -203,7 +232,7 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
                     break;
                 case HEAD_PORTRAIT_PIC:
 
-                    if (data == null || data.getData() == null){
+                    if (data == null || data.getData() == null) {
                         return;
                     }
                     startPhotoZoom(data.getData());
@@ -211,7 +240,7 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
                     break;
                 case HEAD_PORTRAIT_CUT:
 
-                    if (data!= null){
+                    if (data != null) {
                         setPicToView(data);
                     }
                     break;
@@ -220,37 +249,39 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
 
         super.onActivityResult(requestCode, resultCode, data);
     }
+
     //将图片加载到View上
     private void setPicToView(Intent data) {
-        Bundle bundle =  data.getExtras();
-        if (bundle != null){
+        Bundle bundle = data.getExtras();
+        if (bundle != null) {
             //这里也可以做文件上传
             photoBitmap = bundle.getParcelable("data");
             rw_Head.setImageBitmap(photoBitmap);
         }
     }
+
     /**
      * 打开系统图片裁剪功能
+     *
      * @param uri
      */
     private void startPhotoZoom(Uri uri) {
         Intent intent = new Intent("com.android.camera.action.CROP");
-        intent.setDataAndType(uri,"image/*");
-        intent.putExtra("crop",true);
-        intent.putExtra("aspectX",1);
-        intent.putExtra("aspectY",1);
-        intent.putExtra("outputX",300);
-        intent.putExtra("outputY",300);
-        intent.putExtra("scale",true); //黑边
-        intent.putExtra("scaleUpIfNeeded",true); //黑边
-        intent.putExtra("return-data",true);
-        intent.putExtra("noFaceDetection",true);
-        startActivityForResult(intent,HEAD_PORTRAIT_CUT);
+        intent.setDataAndType(uri, "image/*");
+        intent.putExtra("crop", true);
+        intent.putExtra("aspectX", 1);
+        intent.putExtra("aspectY", 1);
+        intent.putExtra("outputX", 300);
+        intent.putExtra("outputY", 300);
+        intent.putExtra("scale", true); //黑边
+        intent.putExtra("scaleUpIfNeeded", true); //黑边
+        intent.putExtra("return-data", true);
+        intent.putExtra("noFaceDetection", true);
+        startActivityForResult(intent, HEAD_PORTRAIT_CUT);
     }
 
 
-
-//--------------------接口方法--------------------
+    //--------------------接口方法--------------------
     @Override
     public void setHead() {
 

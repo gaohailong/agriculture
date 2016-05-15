@@ -2,7 +2,6 @@ package com.sxau.agriculture.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +13,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.bean.MessageInfo;
-import com.sxau.agriculture.bean.MessageList;
-import com.sxau.agriculture.bean.MyPersonalQuestion;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -55,7 +51,7 @@ public class MessageAdapter extends BaseAdapter {
         ViewHolder holder;
         if (convertView == null) {
             LayoutInflater inflater = LayoutInflater.from(context);
-            convertView = inflater.inflate(R.layout.presonal_myquestion_items, null);
+            convertView = inflater.inflate(R.layout.items_presonal_myquestion, null);
             holder = new ViewHolder();
             holder.v_left = (View) convertView.findViewById(R.id.v_left);
             holder.textViewDate = (TextView) convertView.findViewById(R.id.tv_date);
@@ -73,7 +69,7 @@ public class MessageAdapter extends BaseAdapter {
         if (messageInfo.getContent() != null && !"".equals(messageInfo.getContent())) {
             holder.textViewNoAnswer.setVisibility(View.GONE);
             holder.imageViewAnswer.setVisibility(View.VISIBLE);
-            holder.v_left.setBackgroundColor(Color.parseColor("#009688"));
+            holder.v_left.setBackgroundColor(Color.parseColor("#00b5ad"));
             holder.textViewContent.setText(messageInfo.getContent());
             Picasso.with(context).load(messageInfo.getImgUrl()).placeholder(R.mipmap.img_default_user_portrait_150px)
                     .error(R.mipmap.img_default_user_portrait_150px).into(holder.imageViewHead);

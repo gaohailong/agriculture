@@ -15,6 +15,10 @@ import com.sxau.agriculture.presenter.acitivity_presenter.ExpertAnswerPresenter;
 import com.sxau.agriculture.presenter.activity_presenter_interface.IExpertAnswerPresenter;
 import com.sxau.agriculture.view.activity_interface.IExpertAnswerActivity;
 
+/**
+ * 回答界面
+ * 李秉龙
+ */
 public class ExpertAnswerActivity extends BaseActivity implements View.OnClickListener ,IExpertAnswerActivity{
     private ImageButton ib_Back;
     private TextView tv_Question;
@@ -37,7 +41,6 @@ public class ExpertAnswerActivity extends BaseActivity implements View.OnClickLi
         ib_Back = (ImageButton) this.findViewById(R.id.ib_back);
         tv_Question = (TextView) this.findViewById(R.id.tv_question);
         btn_Submit = (Button) this.findViewById(R.id.btn_submit);
-
 
         ib_Back.setOnClickListener(this);
         btn_Submit.setOnClickListener(this);

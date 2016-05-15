@@ -11,45 +11,80 @@
         android:layout_height="match_parent"
         android:background="@color/croci" />
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="90dp"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_toLeftOf="@+id/ll_right"
-            android:orientation="vertical"
-            android:paddingLeft="10dp">
-
-            <TextView
-                android:id="@+id/tv_date"
+            android:gravity="center"
+           >
+            <LinearLayout
+                android:id="@+id/ll_question"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:text="2016.04.02"
-                android:textColor="#080808"
-                android:textSize="14sp" />
+                android:gravity="center"
+                android:orientation="horizontal">
+                <LinearLayout
 
-            <TextView
-                android:id="@+id/tv_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:lines="1"
-                android:text="如何在笨笨发送发达省份?"
-                android:textColor="#060606"
-                android:textSize="20sp" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/ll_right"
+                    android:orientation="vertical"
+                    android:paddingLeft="10dp">
+
+                    <TextView
+                        android:id="@+id/tv_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:text="2016.04.02"
+                        android:textColor="#080808"
+                        android:textSize="@dimen/font_time" />
+
+                    <TextView
+                        android:id="@+id/tv_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:lines="1"
+                        android:text="如何在笨笨发送发达省份?"
+                        android:textColor="#060606"
+                        android:textSize="@dimen/font_title" />
+
+                </LinearLayout>
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="2dp"
+                    android:layout_weight="1"/>
+                <TextView
+                    android:id="@+id/tv_is_question"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/is_question"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:background="@drawable/bg_tv_shape_7"
+                    />
+            </LinearLayout>
+
+
+
 
             <LinearLayout
+                android:id="@+id/ll_answer"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ll_question"
+                android:layout_marginTop="3dp"
                 android:layout_marginRight="10dp"
-                android:layout_marginTop="5dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+              >
 
                 <com.sxau.agriculture.widgets.RoundImageView
                     android:id="@+id/rv_head"
@@ -63,37 +98,17 @@
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:gravity="center_vertical"
+                    android:layout_marginLeft="2dp"
                     android:lines="2"
+                    android:text="放大镜沙发上看连发三道街发生的法律福建阿萨德理发师傅发动机发达省份克林顿"
+                    android:textSize="@dimen/fab_margin" />
+                    android:textSize="@dimen/font_size"
                     android:text="放大镜沙发上看连发三道街发生的法律福建阿萨德理发师傅发动机发达省份克林顿" />
             </LinearLayout>
-        </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/ll_right"
-            android:layout_width="80dp"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:layout_marginLeft="10dp">
 
-            <ImageView
-                android:id="@+id/iv_answer"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:layout_margin="10dp"
-                android:src="@mipmap/ic_right_48px"
-                android:visibility="visible" />
+        </RelativeLayout>
 
-            <TextView
-                android:id="@+id/tv_no_answer"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_margin="10dp"
-                android:gravity="center_vertical"
-                android:text="暂无回答"
-                android:textColor="@color/croci"
-                android:textSize="14sp"
-                android:visibility="visible" />
-        </LinearLayout>
-    </RelativeLayout>
+
+    </LinearLayout>
 </LinearLayout>

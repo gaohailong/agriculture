@@ -13,7 +13,16 @@ public class InfoData {
     private String content;
     private int ivLocation;
 
-
+    public InfoData(int lvCollection, int ivHead, String name, String date, String distance, String title, String content, int ivLocation) {
+        this.lvCollection = lvCollection;
+        this.ivHead = ivHead;
+        this.name = name;
+        this.date = date;
+        this.distance = distance;
+        this.title = title;
+        this.content = content;
+        this.ivLocation = ivLocation;
+    }
 
     public int getLvCollection() {
         return lvCollection;

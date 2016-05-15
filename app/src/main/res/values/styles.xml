@@ -27,28 +27,16 @@
         <item name="android:layout_weight">1</item>
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">match_parent</item>
-        <item name="android:layout_marginTop">2dp</item>
-        <item name="android:layout_marginBottom">2dp</item>
+        <item name="android:layout_marginTop">3dp</item>
+        <item name="android:layout_marginBottom">3dp</item>
         <item name="android:padding">2dp</item>
         <item name="android:button">@null</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:scaleType">centerCrop</item>
         <item name="android:textSize">@dimen/font_size</item>
-        <item name="android:textColor">@color/mainColor</item>
-        <!--  <item name="android:textColor">@drawable/txtcolor_gray2green_sel</item>-->
+        <item name="android:textColor">@drawable/selector_main_tab_color</item>
         <item name="android:gravity">center</item>
         <item name="android:background">#ffffff</item>
-    </style>
-
-    <style name="RadioButtonInfo">
-        <item name="android:layout_weight">1</item>
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:padding">2dp</item>
-        <item name="android:button">@null</item>
-        <item name="android:textSize">20dp</item>
-        <item name="android:textColor">@color/InfoTopColor</item>
-        <!--  <item name="android:textColor">@drawable/txtcolor_gray2green_sel</item>-->
-        <item name="android:gravity">center</item>
-        <item name="android:background">#4CAF50</item>
     </style>
 
     <!--顶部导航栏-->
@@ -84,10 +72,15 @@
         <item name="android:windowIsFloating">true</item><!--是否浮现在activity之上-->
         <item name="android:windowIsTranslucent">false</item><!--半透明-->
         <item name="android:windowNoTitle">true</item><!--无标题-->
-        <item name="android:windowBackground">@color/transparent</item><!--背景透明-->
+      <item name="android:windowBackground">@color/transparent</item><!--背景透明-->
         <item name="android:backgroundDimEnabled">true</item><!--模糊-->
         <item name="android:layout_marginLeft">20dp</item>
         <item name="android:layout_marginRight">20dp</item>
         <item name="android:layout_marginBottom">10dp</item>
+    </style>
+
+    <style name="is_question" parent="@android:style/Theme.Dialog">
+        <item name="android:background">@color/mainColor</item>
+
     </style>
 </resources>

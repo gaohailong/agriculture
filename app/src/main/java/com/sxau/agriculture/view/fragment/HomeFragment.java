@@ -100,6 +100,7 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
         context = HomeFragment.this.getActivity();
 
         srl_refresh.setOnRefreshListener(this);
+        srl_refresh.setColorSchemeColors(R.color.yellow, R.color.colorPrimary);
         lv_push.setOnItemClickListener(this);
         //将HomeFragment与HomePresenter绑定起来
         iHomePresenter = new HomePresenter(HomeFragment.this);
@@ -178,7 +179,6 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
     @Override
     public void onPause() {
         super.onPause();
-        srl_refresh.setRefreshing(false);
     }
 
     /**
@@ -269,8 +269,9 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
     }
 
 
-
-
+    /**
+     * item点击事件
+     */
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Toast.makeText(context, homeListViewBeans.get(position).getTitle(), Toast.LENGTH_SHORT).show();
