@@ -8,9 +8,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.sxau.agriculture.agriculture.R;
+import com.sxau.agriculture.utils.LogUtil;
 
 /**
- * Created by Yawen_Li on 2016/4/8.
+ * 问题详情的Fragment
+ * @author  Yawen_Li on 2016/4/8.
  */
 public class InfoDemandFragment extends BaseFragment {
 
@@ -31,7 +33,7 @@ public class InfoDemandFragment extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
-        Log.d(TAG, "TestFragment-----onCreateView");
+        LogUtil.d(TAG, "TestFragment-----onCreateView");
         Bundle args = getArguments();
         hello = args != null ? args.getString("hello") : defaultHello;
         View view = inflater.inflate(R.layout.fragment_info_listview, container, false);

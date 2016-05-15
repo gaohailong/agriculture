@@ -5,8 +5,8 @@ import android.widget.ImageView;
 import java.util.Date;
 
 /**
- * 个人中心问题
- * 李秉龙
+ * 个人中心问题bean
+ * @author 李秉龙
  */
 public class MyPersonalQuestion {
     private Boolean State;

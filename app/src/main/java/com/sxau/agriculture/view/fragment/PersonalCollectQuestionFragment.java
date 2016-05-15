@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 /**
  * 个人中心我的问题的listView的fragment
- * 李秉龙
+ * @author 李秉龙
  */
 public class PersonalCollectQuestionFragment  extends BaseFragment implements IPresonalCollectQuestionFragment{
     private ListView listView;

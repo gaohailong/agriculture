@@ -12,5 +12,4 @@ import retrofit.http.GET;
 public interface IGetMessageList {
     @GET("/JsonTest/messageServlet?")
     Call<MessageList> getResult();
-
 }

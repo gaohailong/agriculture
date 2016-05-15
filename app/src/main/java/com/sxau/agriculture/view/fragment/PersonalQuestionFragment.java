@@ -27,13 +27,8 @@ import com.sxau.agriculture.view.fragment_interface.IPersonalQuestionFragment;
 import java.util.ArrayList;
 
 /**
-<<<<<<< HEAD
  * 个人中心问题的listView的fragment
- * 李秉龙
-=======
- * Created by Administrator on 2016/4/10.
- * @author
->>>>>>> 191c6b3d66869a39634014e8597fb7d643371ba8
+ * @author 李秉龙
  */
 public class PersonalQuestionFragment extends BaseFragment implements IPersonalQuestionFragment{
     private ListView listView;

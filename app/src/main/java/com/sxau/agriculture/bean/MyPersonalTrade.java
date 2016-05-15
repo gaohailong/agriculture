@@ -3,8 +3,8 @@ package com.sxau.agriculture.bean;
 import android.widget.ImageView;
 
 /**
- * 个人中心交易信息
- * 李秉龙
+ * 个人中心交易信息bean
+ * @author 李秉龙
  */
 public class MyPersonalTrade {
     private int rv_InfoHead;

@@ -20,7 +20,7 @@ import com.sxau.agriculture.view.fragment.PersonalTradeInfoFragment;
 import java.util.List;
 
 /**
- * 个人中心
+ * 个人中心Activity
  * @author 李秉龙
  */
 public class PersonalCenterActivity extends BaseActivity implements View.OnClickListener {

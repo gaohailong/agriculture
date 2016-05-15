@@ -18,7 +18,7 @@ import java.util.List;
 
 /**
  * 个人中心问题adapter
- * 李秉龙
+ * @author 李秉龙
  */
 public class PersonalQuestionAdapter extends BaseAdapter {
     private Context context;
