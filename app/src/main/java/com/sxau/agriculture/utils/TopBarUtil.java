@@ -231,7 +231,7 @@ public class TopBarUtil extends RelativeLayout {
         }
     }
 
-
+    //图像裁剪方法
     public class PicassoCirclTransform implements Transformation {
         @Override
         public Bitmap transform(Bitmap source) {

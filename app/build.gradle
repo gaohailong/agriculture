@@ -8,7 +8,7 @@ android {
         applicationId "com.sxau.agriculture.agriculture"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 1
+        versionCode 0
         versionName "1.0"
     }
     buildTypes {
@@ -17,6 +17,15 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+}
+
+apply plugin: 'com.bugtags.library.plugin'
+//自动上传插件
+bugtags {
+    appKey "01edd61d98e9dc96753171559601a69a"  //这里是你的 appKey
+    appSecret "5c9c944ce8c0b91b2400ccaa27881e03"    //这里是你的 appSecret，管理员在设置页可以查看
+
+    trackingNetworkEnabled true //开启网络请求跟踪功能(企业版)
 }
 
 dependencies {
@@ -32,9 +41,10 @@ dependencies {
     compile 'com.ogaclejapan.smarttablayout:library:1.6.0@aar'
     compile 'com.ogaclejapan.smarttablayout:utils-v4:1.6.0@aar'
     compile 'com.android.support:design:23.1.0'
+    //bugtags测试依赖
+    compile 'com.bugtags.library:bugtags-lib:latest.integration'
     //网络请求的依赖
     compile 'com.squareup.okhttp3:okhttp:3.2.0'
-    compile 'com.squareup.retrofit2:retrofit:2.0.2'
     compile 'com.squareup.retrofit:converter-gson:2.0.0-beta2'
     //图片缓存库依赖
     compile 'com.squareup.picasso:picasso:2.5.2'
