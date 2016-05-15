@@ -20,6 +20,7 @@ import com.sxau.agriculture.bean.MessageList;
 import com.sxau.agriculture.presenter.fragment_presenter.MessagePresenter;
 import com.sxau.agriculture.presenter.fragment_presenter_interface.IMessagePresenter;
 import com.sxau.agriculture.utils.ConstantUtil;
+import com.sxau.agriculture.utils.LogUtil;
 import com.sxau.agriculture.utils.RetrofitUtil;
 import com.sxau.agriculture.view.fragment_interface.IMessageFragment;
 import com.sxau.agriculture.widgets.RefreshLayout;
@@ -40,6 +41,7 @@ import retrofit.Retrofit;
  * 2、如果没有数据了提示什么
  * 3.textView改变了以后还要往回变（文字的改变）
  * 4.文字缓存使用的是先缓存，载从缓存中去读
+ *
  * @author 高海龙
  */
 public class MessageFragment extends BaseFragment implements IMessageFragment {
@@ -87,6 +89,8 @@ public class MessageFragment extends BaseFragment implements IMessageFragment {
     public void initListView() {
         messageAdapter = new MessageAdapter(MessageFragment.this.getActivity(), messageInfos);
         lv_message.setAdapter(messageAdapter);
+        LogUtil.e("11111", "1");
+//        getData();
     }
 
     //初始化下拉刷新
@@ -122,7 +126,7 @@ public class MessageFragment extends BaseFragment implements IMessageFragment {
             public void onResponse(Response<MessageList> response, Retrofit retrofit) {
                 if (response.isSuccess()) {
                     MessageList messageList = response.body();
-                    if (isRefresh) {
+                   /* if (isRefresh) {
                         //下拉刷新
                         messageInfos.clear();
                         if (messageList != null) {
@@ -144,10 +148,15 @@ public class MessageFragment extends BaseFragment implements IMessageFragment {
                                 tv_more.setText("没有更多数据了");
                             }
                         }
+                    if (messageList != null) {
+                        messageInfos = messageList.getMessageInfo();
+                        handler.sendEmptyMessage(ConstantUtil.GET_NET_DATA);
+                        LogUtil.e("11111", "2");
                     }
                 } else {
                     Toast.makeText(context, "获取数据失败", Toast.LENGTH_SHORT).show();
                     tv_more.setText("数据加载失败");
+                }*/
                 }
             }
 
@@ -159,6 +168,7 @@ public class MessageFragment extends BaseFragment implements IMessageFragment {
                     tv_more.setText("数据加载失败");
                 }
             }
+
         });
     }
 
@@ -201,6 +211,9 @@ public class MessageFragment extends BaseFragment implements IMessageFragment {
                         srl_refresh.setLoading(false);
                         messageAdapter.notifyDataSetChanged();
                         tv_more.setVisibility(View.VISIBLE);
+//                        messageAdapter.notifyDataSetChanged();
+                        initListView();
+                        LogUtil.e("11111", "3");
                         break;
                     default:
                         break;

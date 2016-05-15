@@ -20,15 +20,16 @@ import com.sxau.agriculture.view.fragment.PersonalTradeInfoFragment;
 import java.util.List;
 
 /**
- * 个人中心
+ * 个人中心Activity
  * @author 李秉龙
  */
 public class PersonalCenterActivity extends BaseActivity implements View.OnClickListener {
-    private ViewPager vPager = null,vTitlePaper;
+    private ViewPager vPager = null;
+    private ViewPager vTitlePaper;
     private List<View> viewlist;
     private View MyQusetionView, TradeInfoView;
-    private ImageButton imageButtonBack;
-    private Button buttonCompile;
+    private ImageButton ib_back;
+    private Button btn_compile;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,10 +51,10 @@ public class PersonalCenterActivity extends BaseActivity implements View.OnClick
         viewPagerTab.setViewPager(vTitlePaper);
     }
     private void  initView(){
-        imageButtonBack = (ImageButton) this.findViewById(R.id.ib_back);
-        buttonCompile = (Button) this.findViewById(R.id.btn_compile);
-        imageButtonBack.setOnClickListener(this);
-        buttonCompile.setOnClickListener(this);
+        ib_back = (ImageButton) this.findViewById(R.id.ib_back);
+        btn_compile = (Button) this.findViewById(R.id.btn_compile);
+        ib_back.setOnClickListener(this);
+        btn_compile.setOnClickListener(this);
     }
 
     @Override

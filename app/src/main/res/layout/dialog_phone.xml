@@ -9,6 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="60dp"
         android:layout_gravity="center_horizontal"
+        android:background="@drawable/bg_tv_shape_20"
         android:orientation="horizontal">
 
         <TextView
@@ -26,6 +27,7 @@
         android:layout_width="wrap_content"
         android:layout_height="60dp"
         android:layout_gravity="center_horizontal"
+        android:background="@drawable/bg_tv_shape_20"
         android:orientation="horizontal">
 
         <TextView

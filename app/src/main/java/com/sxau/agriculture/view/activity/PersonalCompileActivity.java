@@ -34,7 +34,7 @@ import com.sxau.agriculture.presenter.activity_presenter_interface.IPersonalComp
 import com.sxau.agriculture.view.activity_interface.IPersonalCompileActivity;
 
 /**
- * 修改个人信息
+ * 修改个人信息Activity
  *
  * @author 李秉龙
  */

@@ -6,8 +6,8 @@ import android.widget.TextView;
 import java.security.PrivateKey;
 
 /**
- * 问答页面
- * 李秉龙
+ * 问答页面bean
+ * @author 李秉龙
  */
 public class Question {
     private boolean state;
