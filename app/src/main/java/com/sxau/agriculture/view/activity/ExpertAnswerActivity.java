@@ -63,7 +63,6 @@ public class ExpertAnswerActivity extends BaseActivity implements View.OnClickLi
         Intent intent = new Intent(context,ExpertAnswerActivity.class);
         intent.putExtra("question",question);
         context.startActivity(intent);
-
     }
 
     @Override

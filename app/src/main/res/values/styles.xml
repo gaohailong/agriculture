@@ -67,6 +67,7 @@
         <item name="android:layout_marginRight">15dp</item>
     </style>
 
+    <!--点击头像弹出的dialog -->
     <style name="PhotoDialog" parent="@android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item><!--边框-->
         <item name="android:windowIsFloating">true</item><!--是否浮现在activity之上-->

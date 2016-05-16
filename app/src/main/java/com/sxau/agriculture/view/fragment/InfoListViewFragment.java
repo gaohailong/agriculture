@@ -77,6 +77,13 @@ public class InfoListViewFragment extends BaseFragment implements IInfoListViewF
                 infoDatas.add(infoData);
         }
 
+
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Intent intent=new Intent(InfoListViewFragment.this.getActivity(),InfoContentActivity.class);
+                startActivity(intent);
+        }
 //------------------接口方法-------------------
         @Override
         public void updateView() {
@@ -96,13 +103,6 @@ public class InfoListViewFragment extends BaseFragment implements IInfoListViewF
         @Override
         public int getCollectState() {
                 return 0;
-        }
-
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                Intent intent=new Intent(InfoListViewFragment.this.getActivity(),InfoContentActivity.class);
-                startActivity(intent);
         }
 
 

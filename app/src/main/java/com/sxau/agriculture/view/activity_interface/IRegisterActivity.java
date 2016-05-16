@@ -7,6 +7,8 @@ public interface IRegisterActivity {
     String getUsername();
     String getPassword();
     String getAffirmPassword();
-    void showIsRegister();
-    void showIsPwdsame();
+    String getPhone();
+    void showProgress(int visibility);
+    void showRegisteSucceed();
+    void showRegistFailed();
 }

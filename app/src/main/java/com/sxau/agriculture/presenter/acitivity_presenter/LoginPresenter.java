@@ -32,7 +32,7 @@ public class LoginPresenter implements ILoginPresenter {
         password = iLoginActivty.getPassword();
         username = iLoginActivty.getUsername();
 
-        Call<ResponseBody> call = RetrofitUtil.getRetrofit().create(IAuthentication.class).getResult();
+        Call call = RetrofitUtil.getRetrofit().create(IAuthentication.class).getResult();
         call.enqueue(new retrofit.Callback<ResponseBody>() {
             @Override
             public void onResponse(Response<ResponseBody> response, Retrofit retrofit) {
@@ -43,6 +43,7 @@ public class LoginPresenter implements ILoginPresenter {
             public void onFailure(Throwable t) {
 
             }
+
         });
     }
 }
