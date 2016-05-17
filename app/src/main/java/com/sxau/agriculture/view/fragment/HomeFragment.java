@@ -228,8 +228,6 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 //        Toast.makeText(context, homeArticles.get(position).getTitle(), Toast.LENGTH_SHORT).show();
-      /*  Intent openUrlIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.oschina.net/question/1420591_137134?sort=time"));
-        startActivity(openUrlIntent);*/
     }
 
 
