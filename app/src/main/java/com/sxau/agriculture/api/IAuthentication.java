@@ -1,5 +1,6 @@
 package com.sxau.agriculture.api;
 
+import com.google.gson.JsonObject;
 import com.squareup.okhttp.ResponseBody;
 
 import java.util.Map;
@@ -18,9 +19,8 @@ public interface IAuthentication {
      *注册第一步
      *
      * @param:
-     * userName 用户名      大于3位 小于12位
-     * password 密码        高于6位 低于45位
-     * phone    电话号码    使用正则表达判断
+     * 封装在HashMap 对象中
+     * userName  password  phone
      *
      * @return:
      * response body
@@ -30,8 +30,8 @@ public interface IAuthentication {
      *      注册成功    （int） 201
      *      注册失败    （int） 400
      */
-    @POST("api/v1/signup/one")
-    Call<ResponseBody> doRegister(@Body Map body);
+    @POST("signup/one")
+    Call<JsonObject> doRegister(@Body Map map);
 
     /**
      * 注册第二步
