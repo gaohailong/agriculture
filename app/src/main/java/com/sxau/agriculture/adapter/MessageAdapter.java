@@ -66,6 +66,7 @@ public class MessageAdapter extends BaseAdapter {
         }
 
         MessageInfo messageInfo = dates.get(position);
+        //通过是否有内容来判断控件是否显示
         if (messageInfo.getContent() != null && !"".equals(messageInfo.getContent())) {
             holder.textViewNoAnswer.setVisibility(View.GONE);
             holder.imageViewAnswer.setVisibility(View.VISIBLE);

@@ -1,9 +1,12 @@
 package com.sxau.agriculture.view.fragment;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
@@ -12,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -22,16 +24,15 @@ import com.sxau.agriculture.adapter.BannerAdapter;
 import com.sxau.agriculture.agriculture.R;
 
 import com.sxau.agriculture.adapter.HomePushAdapter;
+import com.sxau.agriculture.api.IHomeArticleList;
 import com.sxau.agriculture.api.IHomeRotatePicture;
-import com.sxau.agriculture.bean.HomeListViewBean;
+import com.sxau.agriculture.bean.HomeArticle;
 import com.sxau.agriculture.bean.HomeRotatePicture;
-import com.sxau.agriculture.presenter.fragment_presenter.HomePresenter;
 import com.sxau.agriculture.presenter.fragment_presenter_interface.IHomePresenter;
+import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.RetrofitUtil;
-import com.sxau.agriculture.view.fragment_interface.IHomeFragment;
 
 
-import java.net.URL;
 import java.util.ArrayList;
 
 import retrofit.Call;
@@ -41,9 +42,10 @@ import retrofit.Retrofit;
 
 /**
  * 主界面的Fragment
+ *
  * @author 崔志泽
  */
-public class HomeFragment extends BaseFragment implements ViewPager.OnPageChangeListener, SwipeRefreshLayout.OnRefreshListener, IHomeFragment, AdapterView.OnItemClickListener, View.OnTouchListener {
+public class HomeFragment extends BaseFragment implements ViewPager.OnPageChangeListener, SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener, View.OnTouchListener {
 
     private IHomePresenter iHomePresenter;
     private HomeRotatePicture homeRotatePicture;
@@ -56,14 +58,107 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
     private Context context;
 
     private int[] imagePath;
-    private ArrayList<HomeListViewBean> homeListViewBeans;
+    private ArrayList<HomeArticle> homeArticles;
     private ArrayList<ImageView> views;
     private int currentIndex = 300;
     private long lastTime;
     private MyHandler myHandler;
 
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        //将HomeFragment与HomePresenter绑定起来
+//        iHomePresenter = new HomePresenter(HomeFragment.this);
+
+        mView = inflater.inflate(R.layout.fragment_home, container, false);
+
+        lv_push = (ListView) mView.findViewById(R.id.lv_push);
+        srl_refresh = (SwipeRefreshLayout) mView.findViewById(R.id.srl_refresh);
+
+        myHandler = new MyHandler();
+        context = HomeFragment.this.getActivity();
+
+        srl_refresh.setOnRefreshListener(this);
+        srl_refresh.setColorSchemeColors(R.color.yellow, R.color.colorPrimary);
+        lv_push.setOnItemClickListener(this);
+
+        homeArticles = new ArrayList<HomeArticle>();
+        return mView;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        initView();
+        initListView();
+        myHandler.sendEmptyMessage(ConstantUtil.INIT_DATA);
+    }
+
+    public class MyHandler extends Handler {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case ConstantUtil.INIT_DATA:
+                    getHomeArticleData();
+                    break;
+                case ConstantUtil.GET_NET_DATA:
+                    initListView();
+                    break;
+            }
+        }
+    }
+
+    //获得首页文章列表网络的数据
+    public void getHomeArticleData() {
+        Call<ArrayList<HomeArticle>> call = RetrofitUtil.getRetrofit().create(IHomeArticleList.class).getArticleList();
+        call.enqueue(new Callback<ArrayList<HomeArticle>>() {
+            @Override
+            public void onResponse(Response<ArrayList<HomeArticle>> response, Retrofit retrofit) {
+                if (response.isSuccess()) {
+                    homeArticles = response.body();
+                    myHandler.sendEmptyMessage(ConstantUtil.GET_NET_DATA);
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+
+            }
+        });
+    }
+
+    public void initListView() {
+        adapter = new HomePushAdapter(homeArticles, context);
+        lv_push.setAdapter(adapter);
+    }
+
     /**
-     *设置轮播时间间隔
+     * 加载图片与小圆点
+     */
+    public void initView() {
+        vp_viewpager = (ViewPager) mView.findViewById(R.id.vp_viewpager);
+        imagePath = new int[]{R.drawable.img_banner_one, R.drawable.img_banner_two, R.drawable.img_banner_three, R.drawable.img_banner_four, R.drawable.img_banner_five};
+        views = new ArrayList<ImageView>();
+
+        for (int i = 0; i < imagePath.length; i++) {
+            ImageView img = new ImageView(context);
+            Picasso.with(context).load(imagePath[i]).resize(360, 200).centerCrop().into(img);
+            views.add(img);
+        }
+
+        bannerAdapter = new BannerAdapter(views, context);
+        vp_viewpager.setOnTouchListener(this);
+        vp_viewpager.setAdapter(bannerAdapter);
+        vp_viewpager.setCurrentItem(300);
+        vp_viewpager.setOnPageChangeListener(this);
+        myHandler.postDelayed(runnableForBanner, 2000);
+    }
+
+
+    /**
+     * 设置轮播时间间隔
      */
     private Runnable runnableForBanner = new Runnable() {
         @Override
@@ -77,145 +172,11 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
         }
     };
 
-
-
-    public class MyHandler extends Handler{
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-        }
-    }
-
-
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        //将HomeFragment与HomePresenter绑定起来
-        iHomePresenter = new HomePresenter(HomeFragment.this);
-        mView = inflater.inflate(R.layout.fragment_home, container, false);
-        lv_push = (ListView) mView.findViewById(R.id.lv_push);
-        srl_refresh = (SwipeRefreshLayout) mView.findViewById(R.id.srl_refresh);
-        myHandler = new MyHandler();
-        context = HomeFragment.this.getActivity();
-
-        srl_refresh.setOnRefreshListener(this);
-        srl_refresh.setColorSchemeColors(R.color.yellow, R.color.colorPrimary);
-        lv_push.setOnItemClickListener(this);
-        //将HomeFragment与HomePresenter绑定起来
-        iHomePresenter = new HomePresenter(HomeFragment.this);
-        initView();
-        initListData();
-        return mView;
-    }
-
-
-
-    public void initListData() {
-        homeListViewBeans = new ArrayList<HomeListViewBean>();
-
-        HomeListViewBean[] pushs = new HomeListViewBean[6];
-        pushs[0] = new HomeListViewBean();
-        pushs[0].setRead("12万");
-        pushs[0].setBrowseid(R.drawable.ic_read_48px);
-        pushs[0].setNewsid(R.drawable.phone_48dp);
-        pushs[0].setTime("2016.4.9");
-        pushs[0].setTitle("全面推动“三品一标”工作再上新台阶");
-
-        pushs[1] = new HomeListViewBean();
-        pushs[1].setRead("12万");
-        pushs[1].setBrowseid(R.drawable.ic_read_48px);
-        pushs[1].setNewsid(R.drawable.phone_48dp);
-        pushs[1].setTime("2016.4.9");
-        pushs[1].setTitle("全面推动“三品一标”工作啦啦啦再上新台阶");
-
-        pushs[2] = new HomeListViewBean();
-        pushs[2].setRead("12万");
-        pushs[2].setBrowseid(R.drawable.ic_read_48px);
-        pushs[2].setNewsid(R.drawable.phone_48dp);
-        pushs[2].setTime("2016.4.9");
-        pushs[2].setTitle("我也是服气了");
-
-        pushs[3] = new HomeListViewBean();
-        pushs[3].setRead("12万");
-        pushs[3].setBrowseid(R.drawable.ic_read_48px);
-        pushs[3].setNewsid(R.drawable.phone_48dp);
-        pushs[3].setTime("2016.4.9");
-        pushs[3].setTitle("全面推动“三品一标”工作再上新台阶");
-
-        pushs[4] = new HomeListViewBean();
-        pushs[4].setRead("12万");
-        pushs[4].setBrowseid(R.drawable.ic_read_48px);
-        pushs[4].setNewsid(R.drawable.phone_48dp);
-        pushs[4].setTime("2016.4.9");
-        pushs[4].setTitle("全面推动“三品一标”工作再上新台阶");
-
-        pushs[5] = new HomeListViewBean();
-        pushs[5].setRead("12万");
-        pushs[5].setBrowseid(R.drawable.ic_read_48px);
-        pushs[5].setNewsid(R.drawable.phone_48dp);
-        pushs[5].setTime("2016.4.9");
-        pushs[5].setTitle("全面推动“三品一标”工作再上新台阶");
-        homeListViewBeans.add(pushs[0]);
-        homeListViewBeans.add(pushs[1]);
-        homeListViewBeans.add(pushs[2]);
-        homeListViewBeans.add(pushs[3]);
-        homeListViewBeans.add(pushs[4]);
-        homeListViewBeans.add(pushs[5]);
-
-        adapter = new HomePushAdapter(homeListViewBeans, context);
-        lv_push.setAdapter(adapter);
-    }
-
-
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        myHandler.removeCallbacks(runnableForBanner);
-    }
-
-
-    @Override
-    public void onPause() {
-        super.onPause();
-    }
-
-    /**
-     *加载图片与小圆点
-     */
-    public void initView() {
-        vp_viewpager = (ViewPager) mView.findViewById(R.id.vp_viewpager);
-        imagePath = new int[]{R.drawable.img_banner_one, R.drawable.img_banner_two, R.drawable.img_banner_three, R.drawable.img_banner_four, R.drawable.img_banner_five};
-        views = new ArrayList<ImageView>();
-
-        for (int i = 0; i < imagePath.length; i++) {
-            ImageView img = new ImageView(context);
-            Picasso.with(context).load(imagePath[i]).resize(360,200).centerCrop().into(img);
-            views.add(img);
-
-        }
-
-        bannerAdapter = new BannerAdapter(views, context);
-        vp_viewpager.setOnTouchListener(this);
-        vp_viewpager.setAdapter(bannerAdapter);
-        vp_viewpager.setCurrentItem(300);
-        vp_viewpager.setOnPageChangeListener(this);
-        myHandler.postDelayed(runnableForBanner, 2000);
-    }
-
-
-
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
     }
 
-
-
-    /**
-     *得到当前图片并记录当前时间
-     */
     @Override
     public void onPageSelected(int position) {
         currentIndex = position;
@@ -224,17 +185,14 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
     }
 
 
-
     @Override
     public void onPageScrollStateChanged(int state) {
 
     }
 
 
-
-
     /**
-     *下拉刷新
+     * 下拉刷新
      */
     @Override
     public void onRefresh() {
@@ -248,9 +206,8 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
     }
 
 
-
     /**
-     *解决下拉刷新与viewpager滑动冲突
+     * 解决下拉刷新与viewpager滑动冲突
      */
     @Override
     public boolean onTouch(View v, MotionEvent event) {
@@ -268,16 +225,10 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
         return false;
     }
 
-
-    /**
-     * item点击事件
-     */
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Toast.makeText(context, homeListViewBeans.get(position).getTitle(), Toast.LENGTH_SHORT).show();
+//        Toast.makeText(context, homeArticles.get(position).getTitle(), Toast.LENGTH_SHORT).show();
     }
-
-
 
 
     /**
@@ -302,4 +253,11 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
             }
         });
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        myHandler.removeCallbacks(runnableForBanner);
+    }
+
 }

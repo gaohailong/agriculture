@@ -89,7 +89,6 @@ public class MessageFragment extends BaseFragment implements IMessageFragment {
     public void initListView() {
         messageAdapter = new MessageAdapter(MessageFragment.this.getActivity(), messageInfos);
         lv_message.setAdapter(messageAdapter);
-        LogUtil.e("11111", "1");
 //        getData();
     }
 
@@ -115,60 +114,6 @@ public class MessageFragment extends BaseFragment implements IMessageFragment {
                 currentPage++;
                 handler.sendEmptyMessage(ConstantUtil.UP_LOAD);
             }
-        });
-    }
-
-    //获取List网络数据
-    public void getListData(String name, String currPage, String getNumber, final boolean isRefresh) {
-        Call<MessageList> call1 = RetrofitUtil.getRetrofit().create(IGetMessageList.class).getMessage(name, currPage, getNumber);
-        call1.enqueue(new Callback<MessageList>() {
-            @Override
-            public void onResponse(Response<MessageList> response, Retrofit retrofit) {
-                if (response.isSuccess()) {
-                    MessageList messageList = response.body();
-                   /* if (isRefresh) {
-                        //下拉刷新
-                        messageInfos.clear();
-                        if (messageList != null) {
-                            messageInfos = messageList.getMessageInfo();
-                            if (messageInfos.size()>0) {
-                                handler.sendEmptyMessage(ConstantUtil.GET_NET_DATA);
-                            }else {
-                                Toast.makeText(context, "没有更多数据了", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    } else {
-                        //上拉加载
-                        if (messageList != null) {
-                            messageInfos = messageList.getMessageInfo();
-                            if (messageInfos.size() > 0) {
-                                messageInfos.addAll(messageInfos);
-                                handler.sendEmptyMessage(ConstantUtil.GET_NET_DATA);
-                            } else {
-                                tv_more.setText("没有更多数据了");
-                            }
-                        }
-                    if (messageList != null) {
-                        messageInfos = messageList.getMessageInfo();
-                        handler.sendEmptyMessage(ConstantUtil.GET_NET_DATA);
-                        LogUtil.e("11111", "2");
-                    }
-                } else {
-                    Toast.makeText(context, "获取数据失败", Toast.LENGTH_SHORT).show();
-                    tv_more.setText("数据加载失败");
-                }*/
-                }
-            }
-
-            @Override
-            public void onFailure(Throwable t) {
-                if (currentPage > 0) {
-                    currentPage--;
-                    Toast.makeText(context, "获取数据失败", Toast.LENGTH_SHORT).show();
-                    tv_more.setText("数据加载失败");
-                }
-            }
-
         });
     }
 
@@ -221,6 +166,62 @@ public class MessageFragment extends BaseFragment implements IMessageFragment {
             }
         }
     }
+
+
+    //获取List网络数据
+    public void getListData(String name, String currPage, String getSize, final boolean isRefresh) {
+        Call<MessageList> call1 = RetrofitUtil.getRetrofit().create(IGetMessageList.class).getMessage(name, currPage, getSize);
+        call1.enqueue(new Callback<MessageList>() {
+            @Override
+            public void onResponse(Response<MessageList> response, Retrofit retrofit) {
+                if (response.isSuccess()) {
+                    MessageList messageList = response.body();
+                   /* if (isRefresh) {
+                        //下拉刷新
+                        messageInfos.clear();
+                        if (messageList != null) {
+                            messageInfos = messageList.getMessageInfo();
+                            if (messageInfos.size()>0) {
+                                handler.sendEmptyMessage(ConstantUtil.GET_NET_DATA);
+                            }else {
+                                Toast.makeText(context, "没有更多数据了", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    } else {
+                        //上拉加载
+                        if (messageList != null) {
+                            messageInfos = messageList.getMessageInfo();
+                            if (messageInfos.size() > 0) {
+                                messageInfos.addAll(messageInfos);
+                                handler.sendEmptyMessage(ConstantUtil.GET_NET_DATA);
+                            } else {
+                                tv_more.setText("没有更多数据了");
+                            }
+                        }
+                    if (messageList != null) {
+                        messageInfos = messageList.getMessageInfo();
+                        handler.sendEmptyMessage(ConstantUtil.GET_NET_DATA);
+                        LogUtil.e("11111", "2");
+                    }
+                } else {
+                    Toast.makeText(context, "获取数据失败", Toast.LENGTH_SHORT).show();
+                    tv_more.setText("数据加载失败");
+                }*/
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                if (currentPage > 0) {
+                    currentPage--;
+                    Toast.makeText(context, "获取数据失败", Toast.LENGTH_SHORT).show();
+                    tv_more.setText("数据加载失败");
+                }
+            }
+
+        });
+    }
+
 
     //-------------------接口方法----------------
     @Override

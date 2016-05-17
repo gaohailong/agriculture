@@ -33,6 +33,7 @@ public interface IAuthentication {
     @POST("signup/one")
     Call<JsonObject> doRegister(@Body Map map);
 
+
     /**
      * 注册第二步
      *
@@ -40,6 +41,6 @@ public interface IAuthentication {
      */
 
 
-    @GET("api/v1/signup/one")
+    @GET("signup/one")
     Call<ResponseBody> getResult();
 }
