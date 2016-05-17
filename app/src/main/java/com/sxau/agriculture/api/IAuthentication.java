@@ -1,16 +1,13 @@
 package com.sxau.agriculture.api;
 
-import com.google.gson.JsonObject;
 import com.squareup.okhttp.ResponseBody;
 
 import java.util.Map;
 
 import retrofit.Call;
-import retrofit.Response;
 import retrofit.http.Body;
 import retrofit.http.GET;
 import retrofit.http.POST;
-import retrofit.http.Part;
 
 /**
  * 身份验证接口，包含登录验证、注册

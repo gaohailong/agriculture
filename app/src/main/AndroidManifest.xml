@@ -15,7 +15,6 @@
     <!--往SDCard写入数据权限 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
-
     <application
         android:name="com.sxau.agriculture.AgricultureApplication"
         android:allowBackup="true"
@@ -31,20 +30,12 @@
             </intent-filter>
         </activity>
         <activity android:name="com.sxau.agriculture.view.activity.BaseActivity" />
-
         <activity android:name="com.sxau.agriculture.view.activity.PersonalCenterActivity" />
-
-
-
-
         <activity android:name="com.sxau.agriculture.view.activity.PersonalCompileActivity" />
         <activity android:name="com.sxau.agriculture.view.activity.InfoContentActivity" />
-
         <activity android:name="com.sxau.agriculture.view.activity.DetailQuestion" />
         <activity android:name="com.sxau.agriculture.view.activity.ExpertAnswerActivity"/>
-
-        <activity android:name="com.sxau.agriculture.view.activity.LoginActivity" >
-        </activity>
+        <activity android:name="com.sxau.agriculture.view.activity.LoginActivity" />
         <activity android:name="com.sxau.agriculture.view.activity.RegisterActivity" >
         </activity>
     </application>

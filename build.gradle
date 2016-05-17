@@ -6,6 +6,9 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.0.0'
+        //bugtags测试依赖
+        classpath 'com.bugtags.library:bugtags-gradle:latest.integration'
+        classpath 'com.android.tools.build:gradle:1.5.0'
     }
 }
 
@@ -18,3 +21,4 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
