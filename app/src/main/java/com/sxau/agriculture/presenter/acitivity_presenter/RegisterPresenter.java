@@ -14,13 +14,11 @@ import com.sxau.agriculture.view.activity.MainActivity;
 import com.sxau.agriculture.view.activity_interface.IRegisterActivity;
 
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import okhttp3.ResponseBody;
 import retrofit.Call;
 import retrofit.Response;
 import retrofit.Retrofit;
@@ -165,7 +163,8 @@ public class RegisterPresenter implements IRegisterPresenter {
 
             @Override
             public void onFailure(Throwable t) {
-
+                iRegisterActivity.showProgress(View.INVISIBLE);
+                iRegisterActivity.showRequestTimeout();
             }
         });
     }

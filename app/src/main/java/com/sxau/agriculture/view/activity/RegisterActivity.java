@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.presenter.acitivity_presenter.RegisterPresenter;
 import com.sxau.agriculture.presenter.activity_presenter_interface.IRegisterPresenter;
+import com.sxau.agriculture.utils.ActivityCollectorUtil;
 import com.sxau.agriculture.view.activity_interface.IRegisterActivity;
 
 /**
@@ -17,6 +18,9 @@ import com.sxau.agriculture.view.activity_interface.IRegisterActivity;
  *@author yawen_li
  */
 public class RegisterActivity extends BaseActivity implements IRegisterActivity ,View.OnClickListener{
+
+    private static final int BACK_PRESSED_INTERVAL = 2000;
+    private long currentBackPressedTime = 0;
 
     private EditText etUsername;
     private EditText etPassword;
@@ -63,9 +67,11 @@ public class RegisterActivity extends BaseActivity implements IRegisterActivity 
         switch (v.getId()){
             case R.id.btn_regist:
                 iRegisterPresenter.initData();
+                    //输入验证
                 if (iRegisterPresenter.isPasswordSame() && iRegisterPresenter.isPhoneEnable() && iRegisterPresenter.isUsernameEnable()){
                     iRegisterPresenter.doRegist();
                 }else {
+                    //输入验证出错，显示对应信息
                     if (!iRegisterPresenter.isPhoneEnable()){
                         Toast.makeText(RegisterActivity.this,"手机号输入不正确，请重新输入",Toast.LENGTH_LONG).show();
                     }else if (!iRegisterPresenter.isUsernameEnable()){
@@ -79,6 +85,16 @@ public class RegisterActivity extends BaseActivity implements IRegisterActivity 
                 break;
             default:
                 break;
+        }
+    }
+    @Override
+    public void onBackPressed() {
+        if (System.currentTimeMillis() - currentBackPressedTime > BACK_PRESSED_INTERVAL) {
+            currentBackPressedTime = System.currentTimeMillis();
+            Toast.makeText(this, "再按一次返回键退出程序", Toast.LENGTH_SHORT).show();
+        } else {
+            ActivityCollectorUtil.finishAll();
+            finish();
         }
     }
 
@@ -125,6 +141,11 @@ public class RegisterActivity extends BaseActivity implements IRegisterActivity 
     @Override
     public void showRegistFailed() {
         Toast.makeText(RegisterActivity.this,"用户名或手机号已经存在",Toast.LENGTH_LONG);
+    }
+
+    @Override
+    public void showRequestTimeout() {
+        Toast.makeText(RegisterActivity.this,"请求超时，请检查网络",Toast.LENGTH_LONG);
     }
 //-----------------接口方法结束---------------------
 }

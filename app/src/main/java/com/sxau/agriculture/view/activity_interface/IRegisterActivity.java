@@ -11,4 +11,5 @@ public interface IRegisterActivity {
     void showProgress(int visibility);
     void showRegisteSucceed();
     void showRegistFailed();
+    void showRequestTimeout();
 }
