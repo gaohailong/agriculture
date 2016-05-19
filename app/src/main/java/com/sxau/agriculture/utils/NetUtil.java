@@ -24,7 +24,6 @@ public class NetUtil {
     public static boolean isNetAvailable(Context context) {
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (connectivityManager == null) {
-            Toast.makeText(context, "当前无网络连接", Toast.LENGTH_SHORT).show();
             return false;
         } else {
             return true;
@@ -32,7 +31,7 @@ public class NetUtil {
     }
 
     /**
-     * 外部调用的方法
+     * 外部调用的方法（尽量使用上面的方法）
      *
      * @param activity 当前的activity
      */
