@@ -87,6 +87,7 @@ public class InfoDemandAdapter extends BaseAdapter implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.iv_demand_collection:
+                holder.ivCollection= (ImageView) v.findViewById(R.id.iv_demand_collection);
                 if (flag){
                     holder.ivCollection.setImageResource(R.drawable.ic_collect_have_48dp);
                     flag=false;

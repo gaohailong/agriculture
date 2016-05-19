@@ -36,6 +36,7 @@
         <activity android:name="com.sxau.agriculture.view.activity.DetailQuestion" />
         <activity android:name="com.sxau.agriculture.view.activity.ExpertAnswerActivity"/>
         <activity android:name="com.sxau.agriculture.view.activity.LoginActivity" />
+        <activity android:name="com.sxau.agriculture.view.activity.InfoReleaseActivity"/>
         <activity android:name="com.sxau.agriculture.view.activity.RegisterActivity" >
         </activity>
     </application>
