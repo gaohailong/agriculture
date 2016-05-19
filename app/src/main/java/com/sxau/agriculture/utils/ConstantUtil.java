@@ -10,6 +10,8 @@ import android.view.View;
 public class ConstantUtil {
     //============================字符常量的定义===================================
     //网络请求的地址
+   // public static final String BASE_URL = "http://115.159.116.252:8080/";
+    //农科项目网络请求的地址
     public static final String BASE_URL = "http://sxnk110.workerhub.cn:9000/api/v1/";
     //每个listView的item显示的数量
     public static final String  ITEM_NUMBER = "3";

@@ -14,13 +14,11 @@ import com.sxau.agriculture.view.activity.MainActivity;
 import com.sxau.agriculture.view.activity_interface.IRegisterActivity;
 
 
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import okhttp3.ResponseBody;
 import retrofit.Call;
 import retrofit.Response;
 import retrofit.Retrofit;
@@ -36,6 +34,7 @@ public class RegisterPresenter implements IRegisterPresenter {
     private String affirmpassword;
     private String strPhone;
     private long phone;
+    private String authToken;
 
 
     public RegisterPresenter(IRegisterActivity iRegisterActivity) {
@@ -137,11 +136,17 @@ public class RegisterPresenter implements IRegisterPresenter {
         LogUtil.d("RegisterP",jsonObject);
 
         Call call = RetrofitUtil.getRetrofit().create(IAuthentication.class).doRegister(map);
-        call.enqueue(new retrofit.Callback<ResponseBody>() {
+        call.enqueue(new retrofit.Callback<JsonObject>() {
             @Override
-            public void onResponse(Response<ResponseBody> response, Retrofit retrofit) {
+            public void onResponse(Response<JsonObject> response, Retrofit retrofit) {
                 int responseCode = response.code();
                 if (responseCode == 201){
+                    JsonObject joResponseBody = response.body();
+                    authToken = joResponseBody.get("authToken").getAsString();
+                    LogUtil.d("ResponseP",authToken+"");
+                    ///////////////////////////////////////////////////
+                    //还没有将authToken进行缓存，需要等缓存部分做好以后才能进行下一步。
+
                     //注册成功，跳转到主页面
                     iRegisterActivity.showRegisteSucceed();
                     iRegisterActivity.showProgress(View.INVISIBLE);
@@ -158,7 +163,8 @@ public class RegisterPresenter implements IRegisterPresenter {
 
             @Override
             public void onFailure(Throwable t) {
-
+                iRegisterActivity.showProgress(View.INVISIBLE);
+                iRegisterActivity.showRequestTimeout();
             }
         });
     }
