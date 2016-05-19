@@ -28,6 +28,7 @@ import retrofit.Retrofit;
  */
 public class RegisterPresenter implements IRegisterPresenter {
 
+    private static long WAITTIME = 1500;
     private IRegisterActivity iRegisterActivity;
     private String username;
     private String password;
@@ -41,8 +42,12 @@ public class RegisterPresenter implements IRegisterPresenter {
         this.iRegisterActivity = iRegisterActivity;
     }
 
+
 //----------------------接口方法开始----------------------
 
+    /**
+     * 初始化数据
+     */
     @Override
     public void initData() {
         username = iRegisterActivity.getUsername();
@@ -122,51 +127,68 @@ public class RegisterPresenter implements IRegisterPresenter {
     @Override
     public void doRegist() {
 
-        iRegisterActivity.showProgress(View.VISIBLE);
-
+        iRegisterActivity.showProgress(true);
         phone = Long.parseLong(strPhone);
 
-        Map map = new HashMap();
-        map.put("password",password);
-        map.put("userName",username);
-        map.put("phone", phone);
-        //打印输出一下JSON来看看
-        Gson gson = new Gson();
-        String jsonObject = gson.toJson(map);
-        LogUtil.d("RegisterP",jsonObject);
-
-        Call call = RetrofitUtil.getRetrofit().create(IAuthentication.class).doRegister(map);
-        call.enqueue(new retrofit.Callback<JsonObject>() {
+        /**
+         * 要实现progressdialog至少持续1.5秒，需要将请求延迟1.5秒后才发起请求，同时还不可以阻塞上级线程
+         * 所以要new出新的线程来完成sleep操作。
+         */
+        new Thread(new Runnable() {
             @Override
-            public void onResponse(Response<JsonObject> response, Retrofit retrofit) {
-                int responseCode = response.code();
-                if (responseCode == 201){
-                    JsonObject joResponseBody = response.body();
-                    authToken = joResponseBody.get("authToken").getAsString();
-                    LogUtil.d("ResponseP",authToken+"");
-                    ///////////////////////////////////////////////////
-                    //还没有将authToken进行缓存，需要等缓存部分做好以后才能进行下一步。
+            public void run() {
+                try {
+                    Thread.sleep(WAITTIME);
 
-                    //注册成功，跳转到主页面
-                    iRegisterActivity.showRegisteSucceed();
-                    iRegisterActivity.showProgress(View.INVISIBLE);
-                    Intent intent = new Intent(AgricultureApplication.getContext(),MainActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    AgricultureApplication.getContext().startActivity(intent);
-                }else {
-                    //注册失败
-                    iRegisterActivity.showRegistFailed();
-                    iRegisterActivity.showProgress(View.INVISIBLE);
+                    Map map = new HashMap();
+                    map.put("password",password);
+                    map.put("userName",username);
+                    map.put("phone", phone);
+                    //打印输出一下JSON来看看
+                    Gson gson = new Gson();
+                    String jsonObject = gson.toJson(map);
+                    LogUtil.d("RegisterP", jsonObject);
+
+                    Call call = RetrofitUtil.getRetrofit().create(IAuthentication.class).doRegister(map);
+                    call.enqueue(new retrofit.Callback<JsonObject>() {
+                        @Override
+                        public void onResponse(Response<JsonObject> response, Retrofit retrofit) {
+                            int responseCode = response.code();
+                            if (responseCode == 201) {
+                                JsonObject joResponseBody = response.body();
+                                authToken = joResponseBody.get("authToken").getAsString();
+                                LogUtil.d("ResponseP", authToken + "");
+                                ///////////////////////////////////////////////////
+                                //还没有将authToken进行缓存，需要等缓存部分做好以后才能进行下一步。
+
+                                //注册成功，跳转到主页面
+                                iRegisterActivity.showRegisteSucceed();
+                                iRegisterActivity.showProgress(false);
+                                Intent intent = new Intent(AgricultureApplication.getContext(), MainActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                AgricultureApplication.getContext().startActivity(intent);
+                                //将注册页面finish掉
+                                iRegisterActivity.finishRegisterActivity();
+                            } else {
+                                //注册失败
+                                iRegisterActivity.showRegistFailed();
+                                iRegisterActivity.showProgress(false);
+                            }
+                            LogUtil.d("RegisterP", responseCode + "");
+                        }
+
+                        @Override
+                        public void onFailure(Throwable t) {
+                            iRegisterActivity.showRequestTimeout();
+                            iRegisterActivity.showProgress(false);
+                        }
+                    });
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
-                LogUtil.d("RegisterP",responseCode+"");
             }
-
-            @Override
-            public void onFailure(Throwable t) {
-                iRegisterActivity.showProgress(View.INVISIBLE);
-                iRegisterActivity.showRequestTimeout();
-            }
-        });
+        }).start();
     }
 //----------------------接口方法结束---------------------
 }

@@ -8,8 +8,9 @@ public interface IRegisterActivity {
     String getPassword();
     String getAffirmPassword();
     String getPhone();
-    void showProgress(int visibility);
+    void showProgress(boolean flag);
     void showRegisteSucceed();
     void showRegistFailed();
     void showRequestTimeout();
+    void finishRegisterActivity();
 }
