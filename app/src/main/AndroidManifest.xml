@@ -23,7 +23,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
         <activity android:name="com.sxau.agriculture.view.activity.MainActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name="com.sxau.agriculture.view.activity.BaseActivity" />
         <activity android:name="com.sxau.agriculture.view.activity.PersonalCenterActivity" />
@@ -33,11 +37,7 @@
         <activity android:name="com.sxau.agriculture.view.activity.ExpertAnswerActivity"/>
         <activity android:name="com.sxau.agriculture.view.activity.LoginActivity" />
         <activity android:name="com.sxau.agriculture.view.activity.RegisterActivity" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 
