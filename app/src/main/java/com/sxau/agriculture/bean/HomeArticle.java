@@ -1,11 +1,13 @@
 package com.sxau.agriculture.bean;
 
+import java.io.Serializable;
+
 /**
  * 首页文章的实体类
  *
  * @author 高海龙
  */
-public class HomeArticle {
+public class HomeArticle implements Serializable {
 
     /**
      * id : 1

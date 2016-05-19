@@ -12,7 +12,7 @@ public class ConstantUtil {
     //网络请求的地址
     public static final String BASE_URL = "http://sxnk110.workerhub.cn:9000/api/v1/";
     //每个listView的item显示的数量
-    public static final String  ITEM_NUMBER = "20";
+    public static final String  ITEM_NUMBER = "3";
     //============================整形常量的定义===================================
     //下拉刷新的时间
     public static final int PULL_TIME = 3000;
