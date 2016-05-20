@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -130,18 +132,22 @@ public class InfoListViewFragment extends BaseFragment implements IInfoListViewF
             case MotionEvent.ACTION_DOWN:
                 startX = event.getX();
                 startY = event.getY();
-                Log.d("test", "1");
                 break;
             case MotionEvent.ACTION_UP:
-                offsetX = event.getX() - startX;
-                offsetY = event.getY() - startY;
-                Log.d("test","2");
+                            offsetX = event.getX() - startX;
+                    offsetY = event.getY() - startY;
 
-                if (offsetY < 0) {
+                    if (offsetY < 0) {
+                        AlphaAnimation aa=new AlphaAnimation(1.0f,0f);
+                    aa.setDuration(500);
+                    new TradeFragment().btn_info_float.setAnimation(aa);
+
                     new TradeFragment().btn_info_float.setVisibility(View.INVISIBLE);
-                    Log.d("test","123");
                 }
                 if (offsetY>0){
+                    AlphaAnimation aa=new AlphaAnimation(0f,1.0f);
+                    aa.setDuration(500);
+                    new TradeFragment().btn_info_float.setAnimation(aa);
                     new TradeFragment().btn_info_float.setVisibility(View.VISIBLE);
                 }
                 break;
