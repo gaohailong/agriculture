@@ -120,6 +120,9 @@ public class InfoListViewFragment extends BaseFragment implements IInfoListViewF
         return 0;
     }
 
+    /**
+     * 实现滑动屏幕隐藏浮动按钮和显示按钮效果
+    * */
     @Override
     public boolean onTouch(View v, MotionEvent event) {
 
