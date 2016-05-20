@@ -10,6 +10,8 @@
     <color name="mainColor">#00b5ad</color>
     <color name="white">#ffffff</color>
     <!--灰色-->
+    <color name="whitGrey">#d3d9d9</color>
+    <!--灰色-->
     <color name="grey">#a9b7b7</color>
     <!--橘黄色-->
     <color name="croci">#FF6446</color>

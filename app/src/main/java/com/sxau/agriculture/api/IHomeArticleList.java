@@ -15,6 +15,5 @@ import retrofit.http.Query;
  */
 public interface    IHomeArticleList {
     @GET("articles")
-    Call<ArrayList<HomeArticle>> getArticleList();
-//    Call<HomeArticle> getArticleList(@Query("page") String page, @Query("pageSize") String pageSize);
+    Call<ArrayList<HomeArticle>> getArticleList(@Query("page") String page, @Query("pageSize") String pageSize);
 }

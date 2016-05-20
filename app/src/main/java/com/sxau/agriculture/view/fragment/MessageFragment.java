@@ -111,7 +111,6 @@ public class MessageFragment extends BaseFragment implements IMessageFragment {
             @Override
             public void onClick(View v) {
                 // simulateLoadingData();获取数据
-                currentPage++;
                 handler.sendEmptyMessage(ConstantUtil.UP_LOAD);
             }
         });
