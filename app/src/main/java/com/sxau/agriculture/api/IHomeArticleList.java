@@ -13,7 +13,7 @@ import retrofit.http.Query;
  *
  * @author 高海龙
  */
-public interface IHomeArticleList {
+public interface    IHomeArticleList {
     @GET("articles")
     Call<ArrayList<HomeArticle>> getArticleList(@Query("page") String page, @Query("pageSize") String pageSize);
 }
