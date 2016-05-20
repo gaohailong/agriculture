@@ -30,7 +30,6 @@ public class LoginActivity extends BaseActivity implements ILoginActivty, View.O
     private Button btnLogin;
     private Button btnRegister;
     private TextView tvForgetPsd;
-    private TextView tvEnter;
     private ProgressDialog pdLoginwait;
 
     private ILoginPresenter iLoginPresenter;
@@ -53,11 +52,9 @@ public class LoginActivity extends BaseActivity implements ILoginActivty, View.O
         etPhone = (EditText) findViewById(R.id.et_phone);
         etPassword = (EditText) findViewById(R.id.et_password);
         tvForgetPsd = (TextView) findViewById(R.id.tv_forgetpsd);
-        tvEnter = (TextView) findViewById(R.id.tv_enter);
         btnLogin = (Button) findViewById(R.id.btn_login);
         btnRegister = (Button) findViewById(R.id.btn_regist);
 
-        tvEnter.setOnClickListener(this);
         tvForgetPsd.setOnClickListener(this);
         btnLogin.setOnClickListener(this);
         btnRegister.setOnClickListener(this);
@@ -99,8 +96,6 @@ public class LoginActivity extends BaseActivity implements ILoginActivty, View.O
                 LoginActivity.this.startActivity(intent);
                 break;
             case R.id.tv_forgetpsd:
-                break;
-            case R.id.tv_enter:
                 break;
             default:
                 break;

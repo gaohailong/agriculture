@@ -8,6 +8,7 @@ public interface IRegisterPresenter {
     boolean isPasswordEnable();
     boolean isUsernameEnable();
     boolean isPhoneEnable();
+    boolean isCheckNumEnable();
     void initData();
     void doRegist();
 }
