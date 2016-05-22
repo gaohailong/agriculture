@@ -3,11 +3,14 @@ package com.sxau.agriculture.presenter.acitivity_presenter;
 import android.content.Intent;
 import android.util.Log;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.squareup.okhttp.ResponseBody;
 import com.sxau.agriculture.AgricultureApplication;
 import com.sxau.agriculture.api.IAuthentication;
+import com.sxau.agriculture.bean.User;
 import com.sxau.agriculture.presenter.activity_presenter_interface.ILoginPresenter;
+import com.sxau.agriculture.utils.ACache;
 import com.sxau.agriculture.utils.LogUtil;
 import com.sxau.agriculture.utils.RetrofitUtil;
 import com.sxau.agriculture.view.activity.MainActivity;
@@ -32,7 +35,12 @@ import retrofit.Retrofit;
  */
 public class LoginPresenter implements ILoginPresenter {
 
-    private static long WAITTIME = 1500;
+    private static String CACHE_KEY = "Cache_User";        //缓存文件的名字
+    private static int RESPONSE_SUCCESS = 200;              //请求成功返回编号
+    private static int RESPONSE_FAILED = 400;               //请求失败返回编号
+    private static long WAITTIME = 1500;                    //正式提交请求前等待时间
+    private static boolean SHOWPROGRESS = true;             //显示progress
+    private static boolean CLOSEPROGRESS = false;           //关闭progress
     private ILoginActivty iLoginActivty;
     private String strPhone;
     private String password;
@@ -72,12 +80,14 @@ public class LoginPresenter implements ILoginPresenter {
      */
     @Override
     public boolean isPhoneEnable() {
-        Pattern pattern = null;
-        Matcher matcher = null;
         boolean b = false;
-        pattern = Pattern.compile("^[1][3,4,5,8][0-9]{9}$"); // 验证手机号
-        matcher = pattern.matcher(strPhone);
-        b = matcher.matches();
+        if (strPhone.length() == 11){
+            Pattern pattern = null;
+            Matcher matcher = null;
+            pattern = Pattern.compile("^[1][3,4,5,8][0-9]{9}$"); // 验证手机号
+            matcher = pattern.matcher(strPhone);
+            b = matcher.matches();
+        }
         return b;
     }
 
@@ -89,7 +99,7 @@ public class LoginPresenter implements ILoginPresenter {
     @Override
     public void doLogin() {
 
-        iLoginActivty.showProgress(true);
+        iLoginActivty.showProgress(SHOWPROGRESS);
         LogUtil.d("LoginPresenter",strPhone+"");
         phone = Long.parseLong(strPhone);
 
@@ -112,15 +122,25 @@ public class LoginPresenter implements ILoginPresenter {
                         @Override
                         public void onResponse(Response<JsonObject> response, Retrofit retrofit) {
                             int responseCode = response.code();
-                            if (responseCode == 200) {
+                            if (responseCode == RESPONSE_SUCCESS) {
                                 JsonObject joResponseBody = response.body();
                                 authToken = joResponseBody.get("authToken").getAsString();
-                                LogUtil.d("ResponseP", authToken + "");
-                                ///////////////////////////////////////////////////
-                                //还没有将authToken进行缓存，需要等缓存部分做好以后才能进行下一步。
+
+                                //将数据封装成对象，方便缓存
+                                Gson userGson = new Gson();
+                                User user = new User();
+                                user.setAuthToken(authToken);
+                                user.setPhone(phone);
+
+                                //执行缓存
+                                ACache mCache = ACache.get(AgricultureApplication.getContext());
+                                mCache.put(CACHE_KEY, userGson.toJson(user));
+                                //打印验证
+                                String userJson = userGson.toJson(user);
+                                LogUtil.d("RegisterP", userJson);
 
                                 //登录成功,跳转到主界面
-                                iLoginActivty.showProgress(false);
+                                iLoginActivty.showProgress(CLOSEPROGRESS);
                                 iLoginActivty.showLoginSucceed();
                                 Intent intent = new Intent(AgricultureApplication.getContext(), MainActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -130,14 +150,14 @@ public class LoginPresenter implements ILoginPresenter {
                             } else {
                                 //登录失败
                                 iLoginActivty.showLoginFailed();
-                                iLoginActivty.showProgress(false);
+                                iLoginActivty.showProgress(CLOSEPROGRESS);
                             }
                             LogUtil.d("LoginPresenter", responseCode + "");
                         }
 
                         @Override
                         public void onFailure(Throwable t) {
-                            iLoginActivty.showProgress(false);
+                            iLoginActivty.showProgress(CLOSEPROGRESS);
                             iLoginActivty.showRequestTimeout();
                         }
 
