@@ -6,7 +6,6 @@ package com.sxau.agriculture.view.activity_interface;
 public interface IRegisterActivity {
     String getUsername();
     String getPassword();
-    String getAffirmPassword();
     String getPhone();
     String getCheckNum();
     void showProgress(boolean flag);

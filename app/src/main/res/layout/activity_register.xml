@@ -45,15 +45,6 @@
             android:inputType="textPassword" />
 
         <EditText
-            android:id="@+id/et_password2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:hint="再次确认密码"
-            android:inputType="textPassword" />
-
-        <EditText
             android:id="@+id/et_phone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -101,7 +92,7 @@
             android:layout_height="40dp"
             android:layout_marginTop="20dp"
             android:background="@drawable/login_button_shape"
-            android:text="注册"
+            android:text="完成注册"
             android:textColor="@color/white" />
 
         <TextView

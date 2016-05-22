@@ -39,7 +39,6 @@ public class RegisterPresenter implements IRegisterPresenter {
     private IRegisterActivity iRegisterActivity;
     private String username;
     private String password;
-    private String affirmpassword;
     private String strPhone;
     private String checknum;
     private long phone;
@@ -60,7 +59,6 @@ public class RegisterPresenter implements IRegisterPresenter {
     public void initData() {
         username = iRegisterActivity.getUsername();
         password = iRegisterActivity.getPassword();
-        affirmpassword = iRegisterActivity.getAffirmPassword();
         strPhone = iRegisterActivity.getPhone();
         checknum = iRegisterActivity.getCheckNum();
     }
@@ -72,22 +70,22 @@ public class RegisterPresenter implements IRegisterPresenter {
      * phone    电话号码    使用正则表达判断
      *
      */
-
-    /**
-     * 验证两次密码是否一致，且符合密码格式要求
-     * @return true or false
-     */
-    @Override
-    public boolean isPasswordSame() {
-        if ((password.length() > 5 && password.length() < 45) && (password.length() == affirmpassword.length())){
-            if (password.equals(affirmpassword)){
-                return true;
-            }else {
-                return false;
-            }
-        }else
-            return false;
-    }
+//
+//    /**
+//     * 验证两次密码是否一致，且符合密码格式要求
+//     * @return true or false
+//     */
+//    @Override
+//    public boolean isPasswordSame() {
+//        if ((password.length() > 5 && password.length() < 45) && (password.length() == affirmpassword.length())){
+//            if (password.equals(affirmpassword)){
+//                return true;
+//            }else {
+//                return false;
+//            }
+//        }else
+//            return false;
+//    }
 
     /**
      * 验证密码格式是否符合要求

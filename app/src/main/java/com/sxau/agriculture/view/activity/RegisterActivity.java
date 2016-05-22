@@ -26,7 +26,6 @@ public class RegisterActivity extends BaseActivity implements IRegisterActivity,
     private static long CHECKTIME = 60000;      //60秒后可重新获取验证码
     private EditText etUsername;
     private EditText etPassword;
-    private EditText etAffirmPassword;
     private EditText etPhone;
     private EditText etCheckNum;
     private Button btnRegister;
@@ -52,7 +51,6 @@ public class RegisterActivity extends BaseActivity implements IRegisterActivity,
     private void initView() {
         etUsername = (EditText) findViewById(R.id.et_username);
         etPassword = (EditText) findViewById(R.id.et_password);
-        etAffirmPassword = (EditText) findViewById(R.id.et_password2);
         etPhone = (EditText) findViewById(R.id.et_phone);
         etCheckNum = (EditText) findViewById(R.id.et_checknum);
         btnRegister = (Button) findViewById(R.id.btn_regist);
@@ -83,7 +81,7 @@ public class RegisterActivity extends BaseActivity implements IRegisterActivity,
                 boolean isNetAvailable = NetUtil.isNetAvailable(RegisterActivity.this);
                 iRegisterPresenter.initData();
                 //输入验证
-                if (iRegisterPresenter.isPasswordSame() && iRegisterPresenter.isPhoneEnable() && iRegisterPresenter.isUsernameEnable() && isNetAvailable && iRegisterPresenter.isCheckNumEnable()) {
+                if ( iRegisterPresenter.isPhoneEnable() && iRegisterPresenter.isUsernameEnable() && isNetAvailable && iRegisterPresenter.isCheckNumEnable()) {
                     iRegisterPresenter.doRegist();
                 } else {
                     //输入验证出错，显示对应信息
@@ -93,8 +91,6 @@ public class RegisterActivity extends BaseActivity implements IRegisterActivity,
                         Toast.makeText(RegisterActivity.this, "用户名的长度为3-12位，请重新输入", Toast.LENGTH_LONG).show();
                     } else if (!iRegisterPresenter.isPasswordEnable()) {
                         Toast.makeText(RegisterActivity.this, "密码长度不得小于6位", Toast.LENGTH_LONG).show();
-                    } else if (!iRegisterPresenter.isPasswordSame()) {
-                        Toast.makeText(RegisterActivity.this, "两次密码不一致", Toast.LENGTH_LONG).show();
                     } else if (!iRegisterPresenter.isCheckNumEnable()) {
                         Toast.makeText(RegisterActivity.this, "验证码格式错误", Toast.LENGTH_LONG).show();
                     }
@@ -131,10 +127,6 @@ public class RegisterActivity extends BaseActivity implements IRegisterActivity,
         return etPassword.getText().toString();
     }
 
-    @Override
-    public String getAffirmPassword() {
-        return etAffirmPassword.getText().toString();
-    }
 
     @Override
     public String getPhone() {
