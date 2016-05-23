@@ -5,8 +5,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.widget.Toast;
 
 /**
@@ -23,12 +25,13 @@ public class NetUtil {
      */
     public static boolean isNetAvailable(Context context) {
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (connectivityManager == null) {
-            return false;
-        } else {
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isAvailable()) {
             return true;
+        } else {
+            return false;
         }
-    }
+}
 
     /**
      * 外部调用的方法（尽量使用上面的方法）

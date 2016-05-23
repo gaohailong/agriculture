@@ -1,12 +1,14 @@
 package com.sxau.agriculture.view.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -18,26 +20,30 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.lidroid.xutils.DbUtils;
+import com.lidroid.xutils.exception.DbException;
 import com.squareup.picasso.Picasso;
 import com.sxau.agriculture.adapter.BannerAdapter;
 import com.sxau.agriculture.agriculture.R;
 
-import com.sxau.agriculture.adapter.HomePushAdapter;
+import com.sxau.agriculture.adapter.HomeArticlesAdapter;
 import com.sxau.agriculture.api.IHomeArticleList;
 import com.sxau.agriculture.api.IHomeRotatePicture;
 import com.sxau.agriculture.bean.HomeArticle;
 import com.sxau.agriculture.bean.HomeRotatePicture;
-import com.sxau.agriculture.presenter.fragment_presenter.HomePresenter;
 import com.sxau.agriculture.presenter.fragment_presenter_interface.IHomePresenter;
 import com.sxau.agriculture.utils.ACache;
 import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.NetUtil;
+import com.sxau.agriculture.utils.RefreshBottomTextUtil;
 import com.sxau.agriculture.utils.RetrofitUtil;
+import com.sxau.agriculture.view.activity.WebViewActivity;
 import com.sxau.agriculture.widgets.RefreshLayout;
 
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit.Call;
 import retrofit.Callback;
@@ -46,7 +52,10 @@ import retrofit.Retrofit;
 
 /**
  * 主界面的Fragment
- *
+ *问题：
+ * 1、连续点击底部"没有更多”会出现报错:解决思路：报错为数组越界异常估计思路和3一样。
+ * 2、点击加载更多，若到底部会出现：先显示没有更多后出现列表添加：解决思路：当列表显示完成后，载改变文字的内容
+ * 3、点击下拉刷新时候再点击item会报异常：解决思路：下拉刷新不允许点击
  * @author 崔志泽
  */
 public class HomeFragment extends BaseFragment implements ViewPager.OnPageChangeListener, AdapterView.OnItemClickListener, View.OnTouchListener {
@@ -57,7 +66,7 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
     private ACache aCache;
     //adapter部分
     private BannerAdapter bannerAdapter;
-    private HomePushAdapter adapter;
+    private HomeArticlesAdapter adapter;
     //控件定义部分
     private ListView lv_push;
     private View mView;
@@ -75,6 +84,7 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
     private int currentPage;
     private boolean isLoadOver;
 
+    private DbUtils dbUtil;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -99,7 +109,7 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
         homeArticles = new ArrayList<HomeArticle>();
         myHandler = new MyHandler(HomeFragment.this);
 
-        aCache = ACache.get(context);
+        dbUtil = DbUtils.create(context);
         return mView;
     }
 
@@ -112,7 +122,6 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
         myHandler.sendEmptyMessage(ConstantUtil.INIT_DATA);
 
     }
-
 
     public void initRefresh() {
         lv_push.addFooterView(footerLayout);
@@ -133,7 +142,7 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
     }
 
     public void initListView() {
-        adapter = new HomePushAdapter(homeArticles, context);
+        adapter = new HomeArticlesAdapter(homeArticles, context);
         lv_push.setAdapter(adapter);
     }
 
@@ -169,7 +178,12 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
             switch (msg.what) {
                 case ConstantUtil.INIT_DATA:
                     currentPage = 1;
-                    getHomeArticleData(String.valueOf(currentPage), String.valueOf(ConstantUtil.ITEM_NUMBER), true);
+                    if (NetUtil.isNetAvailable(context)) {
+                        getHomeArticleData(String.valueOf(currentPage), String.valueOf(ConstantUtil.ITEM_NUMBER), true);
+                    } else {
+                        getCacheData();
+                        initListView();
+                    }
                     break;
                 case ConstantUtil.GET_NET_DATA:
                     initListView();
@@ -179,13 +193,18 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
                     getHomeArticleData(String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER, true);
                     rl_refresh.setRefreshing(false);
                     adapter.notifyDataSetChanged();
+                    RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOAD_MORE);
                     break;
                 case ConstantUtil.UP_LOAD:
                     currentPage++;
                     getHomeArticleData(String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER, false);
                     rl_refresh.setLoading(false);
                     adapter.notifyDataSetChanged();
-                    setTextMore();
+                    if (isLoadOver = true) {
+                        RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOAD_OVER);
+                    } else {
+                        RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOAD_MORE);
+                    }
                     break;
                 default:
                     break;
@@ -201,11 +220,19 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
             public void onResponse(Response<ArrayList<HomeArticle>> response, Retrofit retrofit) {
                 if (response.isSuccess()) {
                     ArrayList<HomeArticle> homeArticles1 = response.body();
-                    homeArticles.addAll(homeArticles1);
-
-//                    aCache.put("HomeFragment", homeArticles);//获取的是添加后的对象
-//                    aCache.remove("HomeFragment");
-
+                    try {
+                        dbUtil.deleteAll(HomeArticle.class);
+                        if (isRefresh) {
+                            homeArticles.clear();
+                            homeArticles.addAll(homeArticles1);
+                            dbUtil.saveAll(homeArticles1);
+                        } else {
+                            homeArticles.addAll(homeArticles1);
+                            dbUtil.saveAll(homeArticles);
+                        }
+                    } catch (DbException e) {
+                        e.printStackTrace();
+                    }
                     if (homeArticles1.size() < Integer.parseInt(ConstantUtil.ITEM_NUMBER)) {
                         isLoadOver = true;
                     }
@@ -215,6 +242,8 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
 
             @Override
             public void onFailure(Throwable t) {
+                tv_more.setText("数据加载失败");
+                RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOAD_FAIL);
                 if (currentPage > 1) {
                     rl_refresh.setRefreshing(false);
                     currentPage--;
@@ -248,18 +277,14 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
 
     //获取缓存数据
     public void getCacheData() {
-        ArrayList<HomeArticle> articles = (ArrayList<HomeArticle>) aCache.getAsObject("HomeFragment");
-    }
-
-
-    //设置listView底部文字
-    public void setTextMore() {
-        if (isLoadOver) {
-            tv_more.setText("没有更多了");
-        } else {
-
+        try {
+            List<HomeArticle> list = dbUtil.findAll(HomeArticle.class);
+            homeArticles = (ArrayList<HomeArticle>) list;
+        } catch (DbException e) {
+            e.printStackTrace();
         }
     }
+
 
     // 设置轮播时间间隔
     private Runnable runnableForBanner = new Runnable() {
@@ -313,7 +338,14 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//        Toast.makeText(context, homeArticles.get(position).getTitle(), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent();
+        intent.putExtra("ArticleUrl", ConstantUtil.ARTICLE_BASE_URL + homeArticles.get(position).getId());
+        intent.setClass(context, WebViewActivity.class);
+        startActivity(intent);
+
+
+        Toast.makeText(context, ConstantUtil.ARTICLE_BASE_URL + homeArticles.get(position).getId(), Toast.LENGTH_SHORT).show();
+//        Log.e("连接", ConstantUtil.ARTICLE_BASE_URL + homeArticles.get(position).getId() + "");
     }
 
 
