@@ -2,8 +2,6 @@
 package com.sxau.agriculture.view.activity;
 
 
-
-
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -63,7 +61,6 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
 
     //编辑个人昵称
     private String compileNickname;
-
     private IPersonalCompilePresenter iPersonalCompilePresenter;
 
     @Override
@@ -89,7 +86,7 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
         tv_UserAddress = (TextView) this.findViewById(R.id.tv_user_address);
         tv_Identity = (TextView) this.findViewById(R.id.tv_identity);
         tv_UserIdentity = (TextView) this.findViewById(R.id.tv_user_identity);
-        btn_finish = (Button)this.findViewById(R.id.btn_finish);
+        btn_finish = (Button) this.findViewById(R.id.btn_finish);
 
         ib_Back.setOnClickListener(this);
         rw_Head.setOnClickListener(this);
@@ -114,7 +111,10 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
                 showCompileDialog();
                 break;
             case R.id.tv_user_address:
-                Toast.makeText(PersonalCompileActivity.this, "4", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(PersonalCompileActivity.this,
+                        ThreeLevelLinkage.class);
+                startActivityForResult(intent, 1000);// requestCode
+
                 break;
             case R.id.btn_finish:
                 finish();
@@ -129,7 +129,7 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
     //编辑昵称等 调用的dialog
     private void showCompileDialog() {
         final EditText et = new EditText(this);
-        AlertDialog.Builder  builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
         //使用xml文件定义视图
 
         builder.setTitle("编辑昵称：");
@@ -137,15 +137,15 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if(et.getText().equals(null)){
-                    Toast.makeText(PersonalCompileActivity.this,"请输入您的昵称！",Toast.LENGTH_SHORT).show();
-                }else {
+                if (et.getText().equals(null)) {
+                    Toast.makeText(PersonalCompileActivity.this, "请输入您的昵称！", Toast.LENGTH_SHORT).show();
+                } else {
                     compileNickname = et.getText().toString();
                     tv_UserNick.setText(compileNickname);
                 }
             }
         });
-        builder.setNegativeButton("取消",null);
+        builder.setNegativeButton("取消", null);
         builder.show();
 
     }
@@ -224,7 +224,7 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
     //回调函数
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
+        super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case HEAD_PORTRAIT_CAM:
@@ -246,8 +246,10 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
                     break;
             }
         }
-
-        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==1000&&resultCode==1001){
+            String citystr = data.getStringExtra("result");
+            Toast.makeText(this,citystr,Toast.LENGTH_SHORT).show();
+        }
     }
 
     //将图片加载到View上
