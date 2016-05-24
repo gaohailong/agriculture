@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.bean.HomeArticle;
-import com.sxau.agriculture.bean.HomeListViewBean;
 import com.sxau.agriculture.utils.TimeUtil;
 
 import java.util.ArrayList;
@@ -22,11 +21,11 @@ import java.util.ArrayList;
  *
  * @author 崔志泽
  */
-public class HomePushAdapter extends BaseAdapter {
+public class HomeArticlesAdapter extends BaseAdapter {
     ArrayList<HomeArticle> data;
     private Context context;
 
-    public HomePushAdapter(ArrayList<HomeArticle> data, Context context) {
+    public HomeArticlesAdapter(ArrayList<HomeArticle> data, Context context) {
         this.data = data;
         this.context = context;
     }
@@ -63,8 +62,8 @@ public class HomePushAdapter extends BaseAdapter {
 
         HomeArticle homeArticle = data.get(position);
 
-        Picasso.with(context).load(homeArticle.getImage()).resize(150, 150).centerCrop().placeholder(R.mipmap.img_default_user_portrait_150px)
-                .error(R.mipmap.img_default_user_portrait_150px).into(holder.iv_img);
+        Picasso.with(context).load(homeArticle.getImage()).resize(150, 150).centerCrop().placeholder(R.mipmap.ic_loading)
+                .error(R.mipmap.ic_load_fail).into(holder.iv_img);
         holder.tv_title.setText(homeArticle.getTitle());
         holder.tv_time.setText(TimeUtil.format(homeArticle.getWhenCreated()));
         holder.tv_read.setText(String.valueOf(homeArticle.getClickCount()));

@@ -7,20 +7,20 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.sxau.agriculture.AgricultureApplication;
 import com.sxau.agriculture.api.IAuthentication;
+import com.sxau.agriculture.bean.User;
 import com.sxau.agriculture.presenter.activity_presenter_interface.IRegisterPresenter;
+import com.sxau.agriculture.utils.ACache;
 import com.sxau.agriculture.utils.LogUtil;
 import com.sxau.agriculture.utils.RetrofitUtil;
 import com.sxau.agriculture.view.activity.MainActivity;
 import com.sxau.agriculture.view.activity_interface.IRegisterActivity;
 
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import okhttp3.ResponseBody;
 import retrofit.Call;
 import retrofit.Response;
 import retrofit.Retrofit;
@@ -30,11 +30,17 @@ import retrofit.Retrofit;
  */
 public class RegisterPresenter implements IRegisterPresenter {
 
+    private static String CACHE_KEY = "Cache_User";         //缓存文件名
+    private static long WAITTIME = 1500;                     //正式提交请求前等待时间
+    private static int RESPONSE_SUCCESS = 201;               //请求成功返回编号
+    private static int RESPONSE_FAILED = 400;                //请求失败返回编号
+    private static boolean SHOWPROGRESS = true;             //显示progress
+    private static boolean CLOSEPROGRESS = false;           //关闭progress
     private IRegisterActivity iRegisterActivity;
     private String username;
     private String password;
-    private String affirmpassword;
     private String strPhone;
+    private String checknum;
     private long phone;
     private String authToken;
 
@@ -43,14 +49,18 @@ public class RegisterPresenter implements IRegisterPresenter {
         this.iRegisterActivity = iRegisterActivity;
     }
 
+
 //----------------------接口方法开始----------------------
 
+    /**
+     * 初始化数据
+     */
     @Override
     public void initData() {
         username = iRegisterActivity.getUsername();
         password = iRegisterActivity.getPassword();
-        affirmpassword = iRegisterActivity.getAffirmPassword();
         strPhone = iRegisterActivity.getPhone();
+        checknum = iRegisterActivity.getCheckNum();
     }
 
     /**
@@ -60,22 +70,22 @@ public class RegisterPresenter implements IRegisterPresenter {
      * phone    电话号码    使用正则表达判断
      *
      */
-
-    /**
-     * 验证两次密码是否一致，且符合密码格式要求
-     * @return true or false
-     */
-    @Override
-    public boolean isPasswordSame() {
-        if ((password.length() > 5 && password.length() < 45) && (password.length() == affirmpassword.length())){
-            if (password.equals(affirmpassword)){
-                return true;
-            }else {
-                return false;
-            }
-        }else
-            return false;
-    }
+//
+//    /**
+//     * 验证两次密码是否一致，且符合密码格式要求
+//     * @return true or false
+//     */
+//    @Override
+//    public boolean isPasswordSame() {
+//        if ((password.length() > 5 && password.length() < 45) && (password.length() == affirmpassword.length())){
+//            if (password.equals(affirmpassword)){
+//                return true;
+//            }else {
+//                return false;
+//            }
+//        }else
+//            return false;
+//    }
 
     /**
      * 验证密码格式是否符合要求
@@ -107,13 +117,27 @@ public class RegisterPresenter implements IRegisterPresenter {
      */
     @Override
     public boolean isPhoneEnable() {
-        Pattern pattern = null;
-        Matcher matcher = null;
         boolean b = false;
-        pattern = Pattern.compile("^[1][3,4,5,8][0-9]{9}$"); // 验证手机号
-        matcher = pattern.matcher(strPhone);
-        b = matcher.matches();
+        if (strPhone.length() == 11){
+            Pattern pattern = null;
+            Matcher matcher = null;
+            pattern = Pattern.compile("^[1][3,4,5,8][0-9]{9}$"); // 验证手机号
+            matcher = pattern.matcher(strPhone);
+            b = matcher.matches();
+        }
         return b;
+    }
+
+    /**
+     * 验证一下验证码是否有效
+     * @return true or false
+     */
+    @Override
+    public boolean isCheckNumEnable() {
+        if (checknum.length() == 4){
+            return true;
+        }else
+            return false;
     }
 
 
@@ -124,50 +148,75 @@ public class RegisterPresenter implements IRegisterPresenter {
     @Override
     public void doRegist() {
 
-        iRegisterActivity.showProgress(View.VISIBLE);
-
+        iRegisterActivity.showProgress(SHOWPROGRESS);
         phone = Long.parseLong(strPhone);
 
-        Map map = new HashMap();
-        map.put("password",password);
-        map.put("userName",username);
-        map.put("phone", phone);
-        //打印输出一下JSON来看看
-        Gson gson = new Gson();
-        String jsonObject = gson.toJson(map);
-        LogUtil.d("RegisterP",jsonObject);
-
-        Call call = RetrofitUtil.getRetrofit().create(IAuthentication.class).doRegister(map);
-        call.enqueue(new retrofit.Callback<JsonObject>() {
+        /**
+         * 要实现progressdialog至少持续1.5秒，需要将请求延迟1.5秒后才发起请求，同时还不可以阻塞上级线程
+         * 所以要new出新的线程来完成sleep操作。
+         */
+        new Thread(new Runnable() {
             @Override
-            public void onResponse(Response<JsonObject> response, Retrofit retrofit) {
-                int responseCode = response.code();
-                if (responseCode == 201){
-                    JsonObject joResponseBody = response.body();
-                    authToken = joResponseBody.get("authToken").getAsString();
-                    LogUtil.d("ResponseP",authToken+"");
-                    ///////////////////////////////////////////////////
-                    //还没有将authToken进行缓存，需要等缓存部分做好以后才能进行下一步。
+            public void run() {
+                try {
+                    Thread.sleep(WAITTIME);
 
-                    //注册成功，跳转到主页面
-                    iRegisterActivity.showRegisteSucceed();
-                    iRegisterActivity.showProgress(View.INVISIBLE);
-                    Intent intent = new Intent(AgricultureApplication.getContext(),MainActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    AgricultureApplication.getContext().startActivity(intent);
-                }else {
-                    //注册失败
-                    iRegisterActivity.showRegistFailed();
-                    iRegisterActivity.showProgress(View.INVISIBLE);
+                    Map map = new HashMap();
+                    map.put("password",password);
+                    map.put("userName",username);
+                    map.put("phone", phone);
+
+                    Call call = RetrofitUtil.getRetrofit().create(IAuthentication.class).doRegister(map);
+                    call.enqueue(new retrofit.Callback<JsonObject>() {
+                        @Override
+                        public void onResponse(Response<JsonObject> response, Retrofit retrofit) {
+                            int responseCode = response.code();
+                            if (responseCode == RESPONSE_SUCCESS) {
+                                JsonObject joResponseBody = response.body();
+                                authToken = joResponseBody.get("authToken").getAsString();
+
+                                //将数据封装成对象，方便缓存
+                                Gson userGson = new Gson();
+                                User user = new User();
+                                user.setAuthToken(authToken);
+                                user.setPhone(phone);
+                                user.setUserName(username);
+
+                                //执行缓存
+                                ACache mCache = ACache.get(AgricultureApplication.getContext());
+                                mCache.put(CACHE_KEY,userGson.toJson(user));
+                                //打印验证
+                                String userJson = userGson.toJson(user);
+                                LogUtil.d("RegisterP", userJson);
+
+                                //注册成功，跳转到主页面
+                                iRegisterActivity.showRegisteSucceed();
+                                iRegisterActivity.showProgress(CLOSEPROGRESS);
+                                Intent intent = new Intent(AgricultureApplication.getContext(), MainActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                AgricultureApplication.getContext().startActivity(intent);
+                                //将注册页面finish掉
+                                iRegisterActivity.finishRegisterActivity();
+                            } else {
+                                //注册失败
+                                iRegisterActivity.showRegistFailed();
+                                iRegisterActivity.showProgress(CLOSEPROGRESS);
+                            }
+                            LogUtil.d("RegisterP", responseCode + "");
+                        }
+
+                        @Override
+                        public void onFailure(Throwable t) {
+                            iRegisterActivity.showRequestTimeout();
+                            iRegisterActivity.showProgress(CLOSEPROGRESS);
+                        }
+                    });
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
-                LogUtil.d("RegisterP",responseCode+"");
             }
-
-            @Override
-            public void onFailure(Throwable t) {
-
-            }
-        });
+        }).start();
     }
 //----------------------接口方法结束---------------------
 }
