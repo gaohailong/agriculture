@@ -20,8 +20,11 @@ import android.widget.ListView;
 
 import com.sxau.agriculture.adapter.InfoDemandAdapter;
 import com.sxau.agriculture.agriculture.R;
+import com.sxau.agriculture.api.IInfoTrade;
 import com.sxau.agriculture.bean.InfoData;
 
+import com.sxau.agriculture.utils.ConstantUtil;
+import com.sxau.agriculture.utils.RetrofitUtil;
 import com.sxau.agriculture.view.activity.InfoContentActivity;
 import com.sxau.agriculture.view.activity.InfoReleaseActivity;
 import com.sxau.agriculture.view.activity.MainActivity;
@@ -32,6 +35,11 @@ import com.sxau.agriculture.view.fragment_interface.IInfoListViewFragment;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit.Call;
+import retrofit.Callback;
+import retrofit.Response;
+import retrofit.Retrofit;
 
 /**
  * 信息专区ListView
@@ -46,6 +54,7 @@ public class InfoListViewFragment extends BaseFragment implements IInfoListViewF
     private ImageView iv_collection;
     private InfoData minfoData;
     private float startX, startY, offsetX, offsetY; //计算触摸偏移量
+    private int currentPage;
 
     private List<InfoData> infoDatas = new ArrayList<InfoData>();
 
@@ -69,9 +78,9 @@ public class InfoListViewFragment extends BaseFragment implements IInfoListViewF
         iv_collection = (ImageView) mview.findViewById(R.id.iv_demand_collection);
 
 
-
         initInfoData();
         BaseAdapter adapter = new InfoDemandAdapter(InfoListViewFragment.this.getActivity(), infoDatas);
+       adapter.notifyDataSetChanged();
         lv_Info.setAdapter(adapter);
         lv_Info.setOnItemClickListener(this);
         lv_Info.setOnTouchListener(this);
@@ -80,17 +89,22 @@ public class InfoListViewFragment extends BaseFragment implements IInfoListViewF
 
 
     public void initInfoData() {
-        InfoData infoData = new InfoData(R.drawable.ic_collect_have_48dp, R.mipmap.img_default_user_portrait_150px, "天和集团", "2013.06.22", "2千米", "收购苹果两万斤", "对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于对于", R.drawable.ic_location_48dp);
-        infoDatas.add(infoData);
-        infoDatas.add(infoData);
-        infoDatas.add(infoData);
-        infoDatas.add(infoData);
-        infoDatas.add(infoData);
-        infoDatas.add(infoData);
-        infoDatas.add(infoData);
-        infoDatas.add(infoData);
-        infoDatas.add(infoData);
-        infoDatas.add(infoData);
+        currentPage=1;
+        Call<ArrayList<InfoData>> call= RetrofitUtil.getRetrofit().create(IInfoTrade.class).getInfoTrades(String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER);
+        call.enqueue(new Callback<ArrayList<InfoData>>() {
+            @Override
+            public void onResponse(Response<ArrayList<InfoData>> response, Retrofit retrofit) {
+                if (response.isSuccess()){
+                    ArrayList<InfoData> infoDatas1=response.body();
+                    infoDatas.addAll(infoDatas1);
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+
+            }
+        });
     }
 
 
