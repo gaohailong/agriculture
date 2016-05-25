@@ -69,8 +69,6 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         TopBarUtil topBar = (TopBarUtil) findViewById(R.id.topBar);
         topBar.setLeftRoundImageIsVisible(false);
         topBar.setLeftImageIsVisible(true);
-//        Bitmap leftRoundBitmapImage= BitmapUtil.decodedBitmapFromResource(getResources(),R.mipmap.img_default_user_portrait_150px,45,45);
-//        topBar.setLeftRoundBitmapImage(leftRoundBitmapImage);
 
         if (flag == 0) {
             topBar.setRightImageIsVisible(true);
