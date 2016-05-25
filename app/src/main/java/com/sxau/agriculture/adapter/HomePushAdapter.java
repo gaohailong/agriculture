@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.bean.HomeArticle;
-import com.sxau.agriculture.bean.HomeListViewBean;
 import com.sxau.agriculture.utils.TimeUtil;
 
 import java.util.ArrayList;

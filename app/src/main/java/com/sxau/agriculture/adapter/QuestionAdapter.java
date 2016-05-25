@@ -12,9 +12,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
 import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.bean.Question;
+import com.sxau.agriculture.bean.QuestionData;
+import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.view.activity.DetailQuestion;
+
+import java.util.ArrayList;
 
 /**
  * 问答页面adapter
@@ -22,18 +27,18 @@ import com.sxau.agriculture.view.activity.DetailQuestion;
  */
 public class QuestionAdapter extends BaseAdapter implements View.OnClickListener{
     private Context context;
-    private Question question[];
+    private ArrayList<QuestionData> questionDatas;
     private int favIndex = 0;//判断是否收藏0：没有收藏；1：以收藏
     private int quickIndex = 0;//判断是否催0：没有催；1：以催
 
-    public QuestionAdapter(Context context, Question[] question) {
+    public QuestionAdapter(Context context, ArrayList<QuestionData> questionDatas) {
         this.context = context;
-        this.question = question;
+        this.questionDatas = questionDatas;
     }
 
     @Override
     public int getCount() {
-        return question.length;
+        return questionDatas.size();
     }
 
     @Override
@@ -50,8 +55,7 @@ public class QuestionAdapter extends BaseAdapter implements View.OnClickListener
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView==null){
-            LayoutInflater inflater = LayoutInflater.from(context);
-            convertView = inflater.inflate(R.layout.item_question_list,null);
+            convertView=LayoutInflater.from(context).inflate(R.layout.item_question_list, null);
             holder = new ViewHolder();
             holder.rv_head = (ImageView) convertView.findViewById(R.id.rv_head);
             holder.iv_fav = (ImageView) convertView.findViewById(R.id.iv_fav);
@@ -67,11 +71,13 @@ public class QuestionAdapter extends BaseAdapter implements View.OnClickListener
         }else {
             holder = (ViewHolder) convertView.getTag();
         }
-        Question questionDate = question[position];
-        holder.rv_head.setImageResource(questionDate.getHead());
-        holder.tv_name.setText(questionDate.getName());
-        if(questionDate.isState()){
-        holder.tv_content.setText(questionDate.getContent());
+        QuestionData questionData = questionDatas.get(position);
+        Picasso.with(context).load(R.mipmap.img_default_user_portrait_150px).resize(150,150).centerCrop().placeholder(R.mipmap.img_default_user_portrait_150px)
+                .error(R.mipmap.img_default_user_portrait_150px).into(holder.rv_head);
+        holder.tv_name.setText(questionData.getUser().getName());
+        holder.tv_title.setText(questionData.getTitle());
+        if(questionData.getTitle()!=null && !questionData.getQuestionAuditState().equals("WAIT_AUDITED")){
+        holder.tv_content.setText(questionData.getContent());
         holder.v_left.setBackgroundColor(Color.parseColor("#009688"));
         }else {
             holder.ll_answer.setVisibility(View.GONE);
@@ -115,7 +121,6 @@ public class QuestionAdapter extends BaseAdapter implements View.OnClickListener
     }
 
     private class ViewHolder{
-        private boolean state;
         private ImageView rv_head;
         private ImageView iv_fav;
         private ImageView iv_quick;

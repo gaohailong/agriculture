@@ -15,13 +15,16 @@
     <color name="croci">#FF6446</color>
     <!--金黄色-->
     <color name="yellow">#f4c600</color>
+    <!--深灰色-->
     <color name="greyBlack">#403c3c</color>
+    <!--淡灰色-->
+    <color name="greyWhite">#F5F5F5</color>
 
     <!--标题栏过度色-->
     <color name="black_20">#33000000</color>
     <color name="transparent">#00000000</color>
     <color name="devideLine">#BBB</color>
-    <color name="icon_enabled">#00ffffff</color>
+    <color name="icon_enabled">#00ffgit ffff</color>
     <color name="icon_disabled">#4CAF50</color>
     <color name="text_enabled">#FFFFFFFF</color>
     <color name="text_disabled">#4DFFFFFF</color>
