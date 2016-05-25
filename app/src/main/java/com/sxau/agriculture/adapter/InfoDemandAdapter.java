@@ -10,9 +10,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
 import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.bean.InfoData;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -71,14 +74,17 @@ public class InfoDemandAdapter extends BaseAdapter implements View.OnClickListen
         }
 
         InfoData infoData=datas.get(position);
-        holder.ivHead.setImageResource(infoData.getIvHead());
-        holder.name.setText(infoData.getName());
-        holder.date.setText(infoData.getDate());
-        holder.distance.setText(infoData.getDistance());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+        setImage();
+        holder.ivHead.setImageResource(R.drawable.btg_icon_checkmark);
+        holder.name.setText(infoData.getUser().getName());
+        holder.date.setText(sdf.format(infoData.getWhenCreated()));
+        holder.distance.setText("2千米");
         holder.title.setText(infoData.getTitle());
-        holder.content.setText(infoData.getContent());
-        holder.ivLocation.setImageResource(infoData.getIvLocation());
-        holder.ivCollection.setImageResource(infoData.getLvCollection());
+        holder.content.setText(infoData.getDescription());
+        holder.ivLocation.setImageResource(R.drawable.ic_location_48dp);
+        holder.ivCollection.setImageResource(R.drawable.ic_collect_have_48dp);
         holder.ivCollection.setOnClickListener(this);
         return convertView;
     }
@@ -98,6 +104,15 @@ public class InfoDemandAdapter extends BaseAdapter implements View.OnClickListen
 
                 break;
         }
+    }
+    public void setImage(){
+        String imageUrl="";
+        for (int i=0;i<datas.size();i++){
+            if (datas.get(i).equals("image")){
+                imageUrl=datas.get(i).getImages();
+            }
+        }
+//        Picasso.with(context).load(imageUrl).into(holder.ivHead);
     }
 
 
