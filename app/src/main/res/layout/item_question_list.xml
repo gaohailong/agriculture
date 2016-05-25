@@ -66,7 +66,7 @@
                     android:layout_marginTop="3dp"
                     android:ellipsize="end"
                     android:lines="1"
-                    android:text="如何在笨笨发送发达省份?"
+                    android:text="问题标题"
                     android:textColor="#060606"
                     android:textSize="@dimen/font_title" />
 
@@ -87,7 +87,7 @@
                         android:gravity="center_vertical"
                         android:lines="2"
                         android:textSize="@dimen/fab_margin"
-                        android:text="法开始交电话费克拉结婚时打开了附件哈伦裤圣诞节和发卡上的话费卡就收到货发卡号上课的减肥哈会计师的复活节" />
+                        android:text="概要答案" />
                 </LinearLayout>
             </LinearLayout>
         </RelativeLayout>
