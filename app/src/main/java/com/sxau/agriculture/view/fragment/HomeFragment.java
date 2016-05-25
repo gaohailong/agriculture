@@ -24,9 +24,10 @@ import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.exception.DbException;
 import com.squareup.picasso.Picasso;
 import com.sxau.agriculture.adapter.BannerAdapter;
-import com.sxau.agriculture.agriculture.R;
+
 
 import com.sxau.agriculture.adapter.HomeArticlesAdapter;
+import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.api.IHomeArticleList;
 import com.sxau.agriculture.api.IHomeRotatePicture;
 import com.sxau.agriculture.bean.HomeArticle;

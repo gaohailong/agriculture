@@ -5,12 +5,12 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
-<<<<<<< HEAD
+
     <!-- 摄像机权限 -->
-=======
+
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <!--摄像机权限-->
->>>>>>> c9140203a68a844ba9a2f28b2c1ae195053d744e
+
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
@@ -18,15 +18,15 @@
     <uses-feature
         android:name="android.hardware.camera.autofocus"
         android:required="false" />
-<<<<<<< HEAD
+
     <!-- 在SDCard中创建与删除文件权限 -->
     <uses-permissio android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <!-- 往SDCard写入数据权限 -->
-=======
+
     <!--在SDCard中创建与删除文件权限 -->
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <!--往SDCard写入数据权限 -->
->>>>>>> c9140203a68a844ba9a2f28b2c1ae195053d744e
+
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
@@ -49,16 +49,14 @@
         <activity android:name="com.sxau.agriculture.view.activity.InfoContentActivity" />
         <activity android:name="com.sxau.agriculture.view.activity.DetailQuestion" />
         <activity android:name="com.sxau.agriculture.view.activity.ExpertAnswerActivity" />
-<<<<<<< HEAD
-        <activity android:name="com.sxau.agriculture.view.activity.LoginActivity" />
-        <activity android:name="com.sxau.agriculture.view.activity.RegisterActivity"></activity>
+
         <activity android:name="com.sxau.agriculture.view.activity.ThreeLevelLinkage"></activity>
-=======
+
         <activity android:name="com.sxau.agriculture.view.activity.WebViewActivity" />
         <activity android:name="com.sxau.agriculture.view.activity.LoginActivity" android:launchMode="singleTask" />
         <activity android:name="com.sxau.agriculture.view.activity.InfoReleaseActivity" />
         <activity android:name="com.sxau.agriculture.view.activity.RegisterActivity" android:launchMode="singleTask" />
->>>>>>> c9140203a68a844ba9a2f28b2c1ae195053d744e
+
     </application>
 
 </manifest>
