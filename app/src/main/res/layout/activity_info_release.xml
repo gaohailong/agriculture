@@ -46,24 +46,19 @@
         android:layout_height="168dp"
         android:hint="请输入内容(不能超于255个字)"
         android:background="#ffffff" />
-    <!--<ImageView-->
-        <!--android:id="@+id/iv_info_release_photo"-->
-        <!--android:layout_width="100dp"-->
-        <!--android:layout_height="100dp"-->
-        <!--android:src="@drawable/ic_collect_have_48dp"/>-->
-    <!--<View-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="0dp"-->
-        <!--android:layout_weight="1"/>-->
-    <GridView
-        android:id="@+id/gv_info_release_photo"
+    <ImageView
+        android:id="@+id/iv_info_release_photo"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/ic_collect_have_48dp"/>
+   <!-- <View
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:numColumns="3"
-        android:stretchMode="columnWidth"
-        >
-    </GridView>
+        android:layout_weight="1"/>-->
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler"
+        android:layout_width="match_parent"
+        android:layout_height="200dp" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -10,7 +10,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +26,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sxau.agriculture.adapter.ReleaseGridViewAdapter;
+import com.sxau.agriculture.adapter.SelectPhotoAdapter;
 import com.sxau.agriculture.agriculture.R;
+import com.sxau.agriculture.utils.GlideLoaderUtil;
+import com.yancy.imageselector.ImageConfig;
+import com.yancy.imageselector.ImageSelector;
+import com.yancy.imageselector.ImageSelectorActivity;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -39,72 +47,93 @@ import java.util.Locale;
  *
  * @author 田帅.
  */
-public class InfoReleaseActivity extends BaseActivity implements View.OnClickListener ,AdapterView.OnItemClickListener{
+public class InfoReleaseActivity extends BaseActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
     private ImageView ivPhoto;
-    private GridView gvPhoto;
+//    private GridView gvPhoto;
     private List<String> photoPath;
     private ReleaseGridViewAdapter adapter;
 
+    public static final int REQUEST_CODE = 1000;
+    private SelectPhotoAdapter selectPhotoAdapter;
+    private ArrayList<String> path = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info_release);
         initView();
-        //ivPhoto.setOnClickListener(this);
-        initPhotoDatas();
-        adapter=new ReleaseGridViewAdapter(InfoReleaseActivity.this,photoPath);
-        gvPhoto.setAdapter(adapter);
-        gvPhoto.setOnItemClickListener(this);
+        ivPhoto.setOnClickListener(this);
+//        initPhotoDatas();
+        adapter = new ReleaseGridViewAdapter(InfoReleaseActivity.this, photoPath);
     }
 
     public void initView() {
-        //ivPhoto = (ImageView) findViewById(R.id.iv_info_release_photo);
-        gvPhoto= (GridView) findViewById(R.id.gv_info_release_photo);
+        ivPhoto = (ImageView) findViewById(R.id.iv_info_release_photo);
+
+        RecyclerView recycler = (RecyclerView) super.findViewById(R.id.recycler);
+
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
+        recycler.setLayoutManager(gridLayoutManager);
+        selectPhotoAdapter = new SelectPhotoAdapter(this, path);
+        recycler.setAdapter(selectPhotoAdapter);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            //case R.id.iv_info_release_photo:
-                //发布供求界面弹出选择照片
-                //showPhotoDialog();
-                //break;
+            case R.id.iv_info_release_photo:
+            //发布供求界面弹出选择照片
+            showPhotoDialog();
+            break;
             default:
                 break;
         }
     }
 
     public void showPhotoDialog() {
-        AlertDialog dialog = new AlertDialog.Builder(InfoReleaseActivity.this).create();
-        View view = LayoutInflater.from(InfoReleaseActivity.this).inflate(R.layout.diallog_personal_head_select, null);
-        dialog.show();
-        Window window = dialog.getWindow();
-        window.setContentView(view);
-        WindowManager.LayoutParams wl = window.getAttributes();
-        wl.width = ViewGroup.LayoutParams.MATCH_PARENT;
-        wl.y = getWindowManager().getDefaultDisplay().getHeight();
-        dialog.onWindowAttributesChanged(wl);
-
-        TextView tv_PhotoGraph = (TextView) view.findViewById(R.id.tv_personal_photo_graph);
-        TextView tv_PhotoAlbum = (TextView) view.findViewById(R.id.tv_personal_photo_album);
-
-        tv_PhotoGraph.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(InfoReleaseActivity.this, "123", Toast.LENGTH_SHORT).show();
-                openPhotoGraph();
-            }
-        });
-        tv_PhotoAlbum.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(InfoReleaseActivity.this, "1231234", Toast.LENGTH_SHORT).show();
-                openPhotoAlbum();
-            }
-        });
+        ImageConfig imageConfig
+                = new ImageConfig.Builder(
+                // GlideLoader 可用自己用的缓存库
+                new GlideLoaderUtil())
+                // 如果在 4.4 以上，则修改状态栏颜色 （默认黑色）
+                .steepToolBarColor(getResources().getColor(R.color.mainColor))
+                // 标题的背景颜色 （默认黑色）
+                .titleBgColor(getResources().getColor(R.color.mainColor))
+                // 提交按钮字体的颜色  （默认白色）
+                .titleSubmitTextColor(getResources().getColor(R.color.white))
+                // 标题颜色 （默认白色）
+                .titleTextColor(getResources().getColor(R.color.white))
+                // 开启多选   （默认为多选）  (单选 为 singleSelect)
+                .crop()
+                // 多选时的最大数量   （默认 9 张）
+                .mutiSelectMaxSize(9)
+                // 已选择的图片路径
+                .pathList(path)
+                // 拍照后存放的图片路径（默认 /temp/picture）
+                .filePath("/ImageSelector/Pictures")
+                // 开启拍照功能 （默认开启）
+                .showCamera()
+                .requestCode(REQUEST_CODE)
+                .build();
+        ImageSelector.open(InfoReleaseActivity.this, imageConfig);   // 开启图片选择器
     }
 
-    private void openPhotoGraph() {
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE && resultCode == RESULT_OK && data != null) {
+            List<String> pathList = data.getStringArrayListExtra(ImageSelectorActivity.EXTRA_RESULT);
+
+            for (String path : pathList) {
+                Log.i("ImagePathList", path);
+            }
+
+            path.clear();
+            path.addAll(pathList);
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+   /* private void openPhotoGraph() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(intent, 1);
     }
@@ -113,8 +142,8 @@ public class InfoReleaseActivity extends BaseActivity implements View.OnClickLis
         Intent intent = new Intent(Intent.ACTION_PICK,
                 android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);//调用android的图库
         startActivityForResult(intent, 2);
-    }
-
+    }*/
+/*
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -169,20 +198,19 @@ public class InfoReleaseActivity extends BaseActivity implements View.OnClickLis
                 break;
 
         }
-    }
-    private void initPhotoDatas(){
-        photoPath=new ArrayList<String>();
+    }*/
+
+    private void initPhotoDatas() {
+        photoPath = new ArrayList<String>();
         photoPath.add("111111");
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if (position==adapter.getMaxPosition()){
+        if (position == adapter.getMaxPosition()) {
             showPhotoDialog();
         }
-        }
-
-
     }
+}
 
 
