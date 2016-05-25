@@ -36,11 +36,6 @@ import retrofit.Retrofit;
 
 /**
  * 消息的Fragment
- * 问题：
- * 1.传入数据的改变
- * 2、如果没有数据了提示什么
- * 3.textView改变了以后还要往回变（文字的改变）
- * 4.文字缓存使用的是先缓存，载从缓存中去读
  *
  * @author 高海龙
  */
@@ -111,7 +106,6 @@ public class MessageFragment extends BaseFragment implements IMessageFragment {
             @Override
             public void onClick(View v) {
                 // simulateLoadingData();获取数据
-                currentPage++;
                 handler.sendEmptyMessage(ConstantUtil.UP_LOAD);
             }
         });

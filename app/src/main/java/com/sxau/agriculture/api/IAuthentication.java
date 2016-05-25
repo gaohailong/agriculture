@@ -2,6 +2,7 @@ package com.sxau.agriculture.api;
 
 import com.google.gson.JsonObject;
 import com.squareup.okhttp.ResponseBody;
+import com.sxau.agriculture.view.activity.MainActivity;
 
 import java.util.Map;
 
@@ -20,7 +21,9 @@ public interface IAuthentication {
      *
      * @param:
      * 封装在HashMap 对象中
-     * userName  password  phone
+     * （String）userName
+     * （String）password
+     * （long）phone
      *
      * @return:
      * response body
@@ -41,6 +44,20 @@ public interface IAuthentication {
      */
 
 
-    @GET("signup/one")
-    Call<ResponseBody> getResult();
+    /**
+     *
+     * @param map
+     * 封装在HashMap  对象中
+     *   （String）password
+     *   （long）phone
+     * @return
+     * response body
+     *      登录成功    （String）authToken   注意当用户每次登陆都会刷新token，所以要做好token的缓存以及刷新
+     *      登录失败    （String）"error": {  "message": "Incorrect phone or password" }
+     * response code
+     *      登录成功    （int）200
+     *      登录失败    （int）400
+     */
+    @POST("login")
+    Call<JsonObject> doLogin(@Body Map map);
 }

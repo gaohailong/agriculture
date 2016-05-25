@@ -10,6 +10,8 @@
     <color name="mainColor">#00b5ad</color>
     <color name="white">#ffffff</color>
     <!--灰色-->
+    <color name="whitGrey">#d3d9d9</color>
+    <!--灰色-->
     <color name="grey">#a9b7b7</color>
     <!--橘黄色-->
     <color name="croci">#FF6446</color>
@@ -24,7 +26,7 @@
     <color name="black_20">#33000000</color>
     <color name="transparent">#00000000</color>
     <color name="devideLine">#BBB</color>
-    <color name="icon_enabled">#00ffgit ffff</color>
+    <color name="icon_enabled">#00ffffff</color>
     <color name="icon_disabled">#4CAF50</color>
     <color name="text_enabled">#FFFFFFFF</color>
     <color name="text_disabled">#4DFFFFFF</color>

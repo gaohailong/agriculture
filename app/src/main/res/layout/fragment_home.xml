@@ -1,4 +1,5 @@
-<android.support.v4.widget.SwipeRefreshLayout
+
+<com.sxau.agriculture.widgets.RefreshLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/srl_refresh"
@@ -42,9 +43,6 @@
                         android:text="巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉"
                         android:textColor="@color/white"
                         android:textSize="16sp" />
-
-
-
                 </RelativeLayout>
             </FrameLayout>
 
@@ -55,4 +53,4 @@
                 android:layout_below="@id/fl_adv" />
         </RelativeLayout>
     </ScrollView>
-</android.support.v4.widget.SwipeRefreshLayout>
+</com.sxau.agriculture.widgets.RefreshLayout>

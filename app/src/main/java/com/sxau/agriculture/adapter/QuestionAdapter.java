@@ -29,7 +29,7 @@ public class QuestionAdapter extends BaseAdapter implements View.OnClickListener
     private Context context;
     private ArrayList<QuestionData> questionDatas;
     private int favIndex = 0;//判断是否收藏0：没有收藏；1：以收藏
-    private int quickIndex = 0;//判断是否催0：没有催；1：以催
+
 
     public QuestionAdapter(Context context, ArrayList<QuestionData> questionDatas) {
         this.context = context;
@@ -59,7 +59,6 @@ public class QuestionAdapter extends BaseAdapter implements View.OnClickListener
             holder = new ViewHolder();
             holder.rv_head = (ImageView) convertView.findViewById(R.id.rv_head);
             holder.iv_fav = (ImageView) convertView.findViewById(R.id.iv_fav);
-            holder.iv_quick = (ImageView) convertView.findViewById(R.id.iv_quick);
             holder.tv_name = (TextView) convertView.findViewById(R.id.tv_name);
             holder.tv_title = (TextView) convertView.findViewById(R.id.tv_title);
             holder.tv_content = (TextView) convertView.findViewById(R.id.tv_content);
@@ -86,7 +85,6 @@ public class QuestionAdapter extends BaseAdapter implements View.OnClickListener
         holder.iv_fav.setOnClickListener(this);
         holder.ll_fav_background.setOnClickListener(this);
        // holder.ll_SubjectSkip.setOnClickListener(this);
-        holder.iv_quick.setOnClickListener(this);
 
         return convertView;
     }
@@ -95,7 +93,6 @@ public class QuestionAdapter extends BaseAdapter implements View.OnClickListener
     public void onClick(View v) {
         ViewHolder holder = new ViewHolder();
         holder.iv_fav = (ImageView) v.findViewById(R.id.iv_fav);
-        holder.iv_quick = (ImageView) v.findViewById(R.id.iv_quick);
         switch (v.getId()){
             case R.id.iv_fav:
                 if (favIndex==0){
@@ -106,16 +103,8 @@ public class QuestionAdapter extends BaseAdapter implements View.OnClickListener
                     favIndex=0;
                 }
                 break;
-            case R.id.iv_quick:
-                if (quickIndex==0){
-                    holder.iv_quick.setImageResource(R.mipmap.ic_quick_false_48px);
 
-                    quickIndex=1;
-                }else {
-                    holder.iv_quick.setImageResource(R.mipmap.ic_quick_true_48px);
-                    quickIndex=0;
-                }
-                break;
+
         }
 
     }
@@ -123,7 +112,7 @@ public class QuestionAdapter extends BaseAdapter implements View.OnClickListener
     private class ViewHolder{
         private ImageView rv_head;
         private ImageView iv_fav;
-        private ImageView iv_quick;
+
         private TextView tv_name;
         private TextView tv_title;
         private TextView tv_content;

@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.bean.MyPersonalQuestion;
+import com.sxau.agriculture.utils.TimeUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +23,7 @@ import java.util.List;
  */
 public class PersonalQuestionAdapter extends BaseAdapter {
     private Context context;
-    private List<MyPersonalQuestion> dates;
+    ArrayList<MyPersonalQuestion> dates;
     ViewHolder holder;
 
     public PersonalQuestionAdapter(Context context, ArrayList<MyPersonalQuestion> dates) {
@@ -67,12 +68,12 @@ public class PersonalQuestionAdapter extends BaseAdapter {
         }
 
         MyPersonalQuestion myPersonalQuestion = dates.get(position);
-        holder.tv_date.setText(myPersonalQuestion.getDate());
+        holder.tv_date.setText(TimeUtil.format(myPersonalQuestion.getWhenCreated()));
         holder.tv_title.setText(myPersonalQuestion.getTitle());
 
         //对是否有回答，items显示的改变
-        if (myPersonalQuestion.getState()) {
-            holder.tv_content.setText(myPersonalQuestion.getContext());
+        if (myPersonalQuestion.getQuestionAuditState()!="WAIT_AUDITED"||myPersonalQuestion.getQuestionResolveState()!="WAIT_RESOLVE") {
+            holder.tv_content.setText(myPersonalQuestion.getContent());
             holder.rv_head.setImageResource(R.mipmap.ic_launcher);
             holder.tv_is_question.setText(R.string.is_question);
             holder.v_left.setBackgroundColor(Color.parseColor("#009688"));
