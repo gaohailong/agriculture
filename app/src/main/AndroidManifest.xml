@@ -44,10 +44,10 @@
         <activity android:name="com.sxau.agriculture.view.activity.DetailQuestion" />
         <activity android:name="com.sxau.agriculture.view.activity.ExpertAnswerActivity" />
 
-        <activity android:name="com.sxau.agriculture.view.activity.AskQuestion"></activity>
+        <activity android:name="com.sxau.agriculture.view.activity.AskQuestion"/>
 
 
-        <activity android:name="com.sxau.agriculture.view.activity.ThreeLevelLinkage"></activity>
+        <activity android:name="com.sxau.agriculture.view.activity.ThreeLevelLinkage"/>
 
         <activity android:name="com.sxau.agriculture.view.activity.WebViewActivity" />
         <activity android:name="com.sxau.agriculture.view.activity.LoginActivity" android:launchMode="singleTask" />
