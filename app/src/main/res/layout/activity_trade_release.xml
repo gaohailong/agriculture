@@ -118,14 +118,14 @@
             android:layout_height="80dp"
             android:layout_marginRight="30dp"
             android:textColor="@color/white"
-            android:background="@drawable/info_release_submit_button"
+            android:background="@drawable/trade_release_submit_button"
             android:text="@string/submit" />
 
         <Button
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:textColor="@color/white"
-            android:background="@drawable/info_release_submit_button"
+            android:background="@drawable/trade_release_submit_button"
             android:text="@string/cancel" />
     </LinearLayout>
 </RelativeLayout>

@@ -11,16 +11,16 @@ import com.sxau.agriculture.agriculture.R;
  * 具体问题、内容的详情activity
  * Created by Yawen_Li on 2016/4/13.
  */
-public class InfoContentActivity extends BaseActivity {
+public class TradeContentActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_info_content);
-        Toast.makeText(InfoContentActivity.this,"click",Toast.LENGTH_LONG).show();
+        setContentView(R.layout.activity_trade_content);
+        Toast.makeText(TradeContentActivity.this,"click",Toast.LENGTH_LONG).show();
     }
 
     public static void actionStart(Context context){
-        Intent intent = new Intent(context,InfoContentActivity.class);
+        Intent intent = new Intent(context,TradeContentActivity.class);
         context.startActivity(intent);
     }
 }

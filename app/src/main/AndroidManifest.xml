@@ -40,7 +40,7 @@
         <activity android:name="com.sxau.agriculture.view.activity.BaseActivity" />
         <activity android:name="com.sxau.agriculture.view.activity.PersonalCenterActivity" />
         <activity android:name="com.sxau.agriculture.view.activity.PersonalCompileActivity" />
-        <activity android:name="com.sxau.agriculture.view.activity.InfoContentActivity" />
+        <activity android:name="com.sxau.agriculture.view.activity.TradeContentActivity" />
         <activity android:name="com.sxau.agriculture.view.activity.DetailQuestion" />
         <activity android:name="com.sxau.agriculture.view.activity.ExpertAnswerActivity" />
 
@@ -51,7 +51,7 @@
 
         <activity android:name="com.sxau.agriculture.view.activity.WebViewActivity" />
         <activity android:name="com.sxau.agriculture.view.activity.LoginActivity" android:launchMode="singleTask" />
-        <activity android:name="com.sxau.agriculture.view.activity.InfoReleaseActivity" />
+        <activity android:name="com.sxau.agriculture.view.activity.TradeReleaseActivity" />
         <activity android:name="com.sxau.agriculture.view.activity.RegisterActivity" android:launchMode="singleTask" />
 
 
