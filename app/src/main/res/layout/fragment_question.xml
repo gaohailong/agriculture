@@ -37,10 +37,24 @@
         app:stl_underlineColor="#4D000000"
         app:stl_underlineThickness="1dp" />
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/vp_question_viewpager"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/viewpager_question_title" />
+        android:layout_height="match_parent">
 
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vp_question_viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/viewpager_question_title" />
+
+        <Button
+            android:id="@+id/btn_ask"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:layout_marginBottom="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/bg_ask_btn_shape"
+            android:text="我要提问" />
+    </FrameLayout>
 </LinearLayout>

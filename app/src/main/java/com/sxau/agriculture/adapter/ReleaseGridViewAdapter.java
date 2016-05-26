@@ -60,7 +60,7 @@ public class ReleaseGridViewAdapter extends BaseAdapter{
         if (datas.get(position).equals("111111")){
             holder.iv_photo.setImageResource(R.drawable.img_photo_select);
         }else{
-            Picasso.with(context).load(datas.get(position)).into(holder.iv_photo);
+            Picasso.with(context).load(datas.get(position)).resize(360,200).centerCrop().into(holder.iv_photo);
 
         }
 

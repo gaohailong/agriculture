@@ -22,7 +22,10 @@ import com.yancy.imageselector.ImageSelectorActivity;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * 提问页面
+ * @author 崔志泽
+ */
 public class AskQuestion extends AppCompatActivity implements View.OnClickListener {
     private ImageView ib_photo;
     private Button btn_submit;

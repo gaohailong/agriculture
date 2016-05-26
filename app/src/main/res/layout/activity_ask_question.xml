@@ -100,7 +100,7 @@
             android:layout_marginRight="10dp"
             android:layout_marginEnd="10dp"
             android:textColor="@color/white"
-            android:background="@drawable/info_release_submit_button"
+            android:background="@drawable/trade_release_submit_button"
             android:text="@string/submit" />
 
 

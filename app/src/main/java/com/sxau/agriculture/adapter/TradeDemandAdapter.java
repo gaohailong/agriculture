@@ -1,20 +1,16 @@
 package com.sxau.agriculture.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.squareup.picasso.Picasso;
 import com.sxau.agriculture.agriculture.R;
-import com.sxau.agriculture.bean.InfoData;
+import com.sxau.agriculture.bean.TradeData;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
@@ -22,13 +18,13 @@ import java.util.List;
  * 信息专区ListView的Adapter
  * @author 田帅
  */
-public class InfoDemandAdapter extends BaseAdapter implements View.OnClickListener{
+public class TradeDemandAdapter extends BaseAdapter implements View.OnClickListener{
     private Context context;
-    private List<InfoData> datas;
+    private List<TradeData> datas;
     ViewHolder holder;
     private boolean flag=true;
 
-    public InfoDemandAdapter(Context context, List<InfoData> datas) {
+    public TradeDemandAdapter(Context context, List<TradeData> datas) {
         this.context = context;
         this.datas=datas;
     }
@@ -57,7 +53,7 @@ public class InfoDemandAdapter extends BaseAdapter implements View.OnClickListen
 
         if (convertView == null) {
             LayoutInflater inflater = LayoutInflater.from(context);
-            convertView = inflater.inflate(R.layout.fragment_info_demand, null);
+            convertView = inflater.inflate(R.layout.fragment_trade_demand, null);
             holder = new ViewHolder();
             holder.ivHead= (ImageView) convertView.findViewById(R.id.rv_info_head);
             holder.name = (TextView) convertView.findViewById(R.id.tv_demand_name);
@@ -73,7 +69,7 @@ public class InfoDemandAdapter extends BaseAdapter implements View.OnClickListen
             holder = (ViewHolder) convertView.getTag();
         }
 
-        InfoData infoData=datas.get(position);
+        TradeData infoData=datas.get(position);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
         setImage();
