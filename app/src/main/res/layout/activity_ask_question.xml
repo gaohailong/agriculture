@@ -1,82 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/greyWhite"
-    android:orientation="vertical"
-    tools:context="com.sxau.agriculture.view.activity.AskQuestion">
+    android:layout_height="match_parent">
 
-    <FrameLayout
+    <EditText
+        android:id="@+id/et_title"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="#000000">
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:maxLength="45"
+        android:background="#ffffff"
+        android:lines="1"
+        android:gravity="center_vertical"
+        android:hint="请输入标题(不能超于45个字)"
+        android:textSize="@dimen/font_title" />
 
-        <ImageButton
-            android:id="@+id/ib_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#000000"
-            android:src="@drawable/ic_actionbar_back_48px" />
+    <View
+        android:id="@+id/v_divide"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@+id/et_title"
+        android:background="@color/greyBlack" />
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="match_parent"
+        android:layout_height="96dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/v_divide"
+        android:background="#ffffff"
+        android:gravity="top"
+        android:lines="4"
+        android:hint="请输入内容(不能超于255个字)"
+        android:maxLength="255" />
+
+    <View
+        android:id="@+id/v_divide_two"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@+id/editText"
+        android:background="@color/greyBlack" />
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/white"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/v_divide_two">
+
+        <ImageView
+            android:id="@+id/ib_photo"
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="end"
+            android:src="@mipmap/photo_album" />
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/v_divide_two_three"
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:layout_below="@+id/relativeLayout"
+        android:background="@color/tintGrey" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/v_divide_two_three"
+        android:paddingRight="10dp"
+        android:paddingLeft="10dp"
+        android:layout_centerHorizontal="true"
+        />
+
+    <LinearLayout
+        android:id="@+id/ll_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/btn_submit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right|center_vertical"
-            android:background="@drawable/bg_question_submit_btn_shape"
-            android:text="发送"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp"
             android:textColor="@color/white"
-            android:textSize="20sp" />
-    </FrameLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="400dp"
-        android:orientation="vertical"
-        android:background="@color/white">
-
-        <EditText
-            android:id="@+id/et_question"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:background="@color/white"
-            android:hint="请输入问题:"
-            android:paddingTop="5dp"
-            android:gravity="top"
-            android:inputType="textMultiLine" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#EEE5DE"/>
-
-        <EditText
-            android:id="@+id/et_question_info"
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:background="@color/white"
-            android:hint="请输入问题详情:"
-            android:inputType="textMultiLine"
-            android:gravity="top"
-            android:paddingTop="5dp"/>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#EEE5DE"/>
-
-        <Button
-            android:id="@+id/btn_add_picture"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_question_submit_btn_shape"
-            android:text="添加图片"
-            android:textColor="@color/white"
-            android:layout_marginLeft="10dp"
-            android:textSize="15sp"
-            />
+            android:background="@drawable/info_release_submit_button"
+            android:text="@string/submit" />
 
 
     </LinearLayout>
-</LinearLayout>
+</RelativeLayout>

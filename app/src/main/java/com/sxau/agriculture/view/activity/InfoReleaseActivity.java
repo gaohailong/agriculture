@@ -85,6 +85,7 @@ public class InfoReleaseActivity extends BaseActivity implements View.OnClickLis
         if (requestCode == REQUEST_CODE && resultCode == RESULT_OK && data != null) {
             List<String> pathList = data.getStringArrayListExtra(ImageSelectorActivity.EXTRA_RESULT);
             for (String path : pathList) {
+                //TODO 将网络上传写到这
                 Log.i("ImagePathList", path);
             }
             path.clear();
