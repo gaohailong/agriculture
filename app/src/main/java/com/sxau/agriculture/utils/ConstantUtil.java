@@ -13,6 +13,8 @@ public class ConstantUtil {
     public static final String BASE_URL = "http://sxnk110.workerhub.cn:9000/api/v1/";
     //首页文章的基本URL
     public static final String ARTICLE_BASE_URL = "http://sxnk110.workerhub.cn/#/article/";
+    //后台资源根地址
+    public static final String STORAGE_URL = "http://storage.workerhub.cn/";
     //每个listView的item显示的数量
     public static final String ITEM_NUMBER = "10";
     //============================整形常量的定义===================================

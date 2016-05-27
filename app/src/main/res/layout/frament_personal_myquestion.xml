@@ -4,6 +4,12 @@
     android:layout_height="match_parent"
     android:orientation="horizontal">
 
+    <TextView
+        android:id="@+id/tv_nothing"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="这里空空的~"
+        android:visibility="gone"/>
     <ListView
         android:id="@+id/lv_MyQuestionListView"
         android:layout_width="match_parent"
