@@ -153,10 +153,10 @@ public class TradeListViewFragment extends BaseFragment implements ITradeListVie
             public void onResponse(Response<ArrayList<TradeData>> response, Retrofit retrofit) {
                 if (response.isSuccess()) {
                     ArrayList<TradeData> infoDatas1 = response.body();
-                    if (isRefresh){
+                    if (isRefresh) {
                         infoDatas.clear();
                         infoDatas.addAll(infoDatas1);
-                    }else {
+                    } else {
                         infoDatas.addAll(infoDatas1);
                     }
                     handler.sendEmptyMessage(ConstantUtil.GET_NET_DATA);
@@ -183,9 +183,11 @@ public class TradeListViewFragment extends BaseFragment implements ITradeListVie
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-        Intent intent = new Intent(TradeListViewFragment.this.getActivity(), TradeContentActivity.class);
+        Intent intent = new Intent();
+        intent.putExtra("TradeId", infoDatas.get(position).getId());
+        intent.setClass(TradeListViewFragment.this.getActivity(), TradeContentActivity.class);
         startActivity(intent);
+//        Toast.makeText(getActivity(),ConstantUtil.BASE_URL+"trade"+infoDatas.get(position).getId(),Toast.LENGTH_SHORT).show();
     }
 
     //------------------接口方法-------------------
@@ -243,16 +245,14 @@ public class TradeListViewFragment extends BaseFragment implements ITradeListVie
 
         }return false;
     }
+    /**
+     * 下拉刷新
+     * */
 
     @Override
     public void onRefresh() {
         handler.sendEmptyMessage(ConstantUtil.PULL_REFRESH);
     }
-/**
- * 下拉刷新
-* */
-
-
 
 //----------------接口方法结束-------------------
 }

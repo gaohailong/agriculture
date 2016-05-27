@@ -112,7 +112,7 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
                 break;
             case R.id.tv_user_address:
                 Intent intent = new Intent(PersonalCompileActivity.this,
-                        ThreeLevelLinkage.class);
+                        ThreeLevelLinkageActivity.class);
                 startActivityForResult(intent, 1000);// requestCode
 
                 break;

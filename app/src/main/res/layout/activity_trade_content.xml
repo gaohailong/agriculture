@@ -18,6 +18,9 @@
         custom:titleTextColor="#080707"
         custom:titleTextSize="25sp" />
 
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -46,7 +49,8 @@
                     android:id="@+id/tv_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="天河集团" />
+                    android:text="天河集团"
+                    />
 
                 <ImageView
                     android:id="@+id/iv_add"
@@ -65,24 +69,15 @@
             android:text="收购苹果两万斤"
             android:textSize="22sp" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/devideLine" />
-
         <TextView
             android:id="@+id/tv_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
+            android:lineSpacingExtra="7dp"
             android:minLines="5"
             android:text="收购苹果两万金收购苹果两万金收购苹果两万金收购苹果两万金收购苹果两万金收购苹果两万金收购苹果两万金收购苹果两万金收购苹果两万金收购苹果两万金收购苹果两万金"
             android:textSize="14sp" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/devideLine" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -121,12 +116,6 @@
             </RelativeLayout>
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/devideLine" />
-
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="20dp"
@@ -148,11 +137,6 @@
 
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/devideLine" />
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="20dp"
@@ -171,13 +155,9 @@
                 android:layout_height="match_parent" />
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/devideLine" />
-
         <TextView
             android:layout_width="match_parent"
             android:layout_height="20dp" />
     </LinearLayout>
+</ScrollView>
 </LinearLayout>
