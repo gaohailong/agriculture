@@ -12,12 +12,12 @@ import com.sxau.agriculture.agriculture.R;
 /**
  * Created by Yawen_Li on 2016/4/8.
  */
-public class InfoSupplyFragment extends BaseFragment{
+public class TradeSupplyFragment extends BaseFragment{
     private static final String TAG = "TestFragment";
     private String defaultHello = "default value";
 
     static android.support.v4.app.Fragment newInstance(String s) {
-        InfoSupplyFragment newFragment = new InfoSupplyFragment();
+        TradeSupplyFragment newFragment = new TradeSupplyFragment();
         Bundle bundle = new Bundle();
         bundle.putString("hello", s);
         newFragment.setArguments(bundle);
@@ -32,7 +32,7 @@ public class InfoSupplyFragment extends BaseFragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         Log.d(TAG, "TestFragment-----onCreateView");
         Bundle args = getArguments();
-        View view = inflater.inflate(R.layout.fragment_info_listview, container, false);
+        View view = inflater.inflate(R.layout.fragment_trade_listview, container, false);
 
 
         Toast.makeText(getContext(),"aaa",Toast.LENGTH_LONG).show();

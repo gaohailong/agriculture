@@ -23,7 +23,7 @@ import java.util.List;
  *
  * @author 田帅.
  */
-public class InfoReleaseActivity extends BaseActivity implements View.OnClickListener{
+public class TradeReleaseActivity extends BaseActivity implements View.OnClickListener{
     private ImageView ivPhoto;
     private List<String> photoPath;
 
@@ -34,7 +34,7 @@ public class InfoReleaseActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_info_release);
+        setContentView(R.layout.activity_trade_release);
         initView();
         ivPhoto.setOnClickListener(this);
     }
@@ -76,7 +76,7 @@ public class InfoReleaseActivity extends BaseActivity implements View.OnClickLis
                 .showCamera()
                 .requestCode(REQUEST_CODE)
                 .build();
-        ImageSelector.open(InfoReleaseActivity.this, imageConfig);   // 开启图片选择器
+        ImageSelector.open(TradeReleaseActivity.this, imageConfig);   // 开启图片选择器
     }
 
     @Override
@@ -85,6 +85,7 @@ public class InfoReleaseActivity extends BaseActivity implements View.OnClickLis
         if (requestCode == REQUEST_CODE && resultCode == RESULT_OK && data != null) {
             List<String> pathList = data.getStringArrayListExtra(ImageSelectorActivity.EXTRA_RESULT);
             for (String path : pathList) {
+                //TODO 将网络上传写到这
                 Log.i("ImagePathList", path);
             }
             path.clear();

@@ -1,16 +1,16 @@
 package com.sxau.agriculture.presenter.fragment_presenter;
 
-import com.sxau.agriculture.presenter.fragment_presenter_interface.IInfoListViewPresenter;
-import com.sxau.agriculture.view.fragment_interface.IInfoListViewFragment;
+import com.sxau.agriculture.presenter.fragment_presenter_interface.ITradeListViewPresenter;
+import com.sxau.agriculture.view.fragment_interface.ITradeListViewFragment;
 
 /**
  * Created by Yawen_Li on 2016/4/20.
  */
-public class InfoListViewPresenter implements IInfoListViewPresenter {
+public class TradeListViewPresenter implements ITradeListViewPresenter {
 
-    private IInfoListViewFragment iInfoListViewFragment;
+    private ITradeListViewFragment iInfoListViewFragment;
 
-    public InfoListViewPresenter(IInfoListViewFragment iInfoListViewFragment) {
+    public TradeListViewPresenter(ITradeListViewFragment iInfoListViewFragment) {
         this.iInfoListViewFragment = iInfoListViewFragment;
     }
 
