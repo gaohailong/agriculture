@@ -16,4 +16,6 @@ public interface IPersonalQuestionFragment {
     void showNoNetworking();
     //请求到数据后对页面进行更新
     void updateView(ArrayList<MyPersonalQuestion> myPersonalQuestions);
+    //关闭掉下拉刷新控件
+    void closeRefresh();
 }

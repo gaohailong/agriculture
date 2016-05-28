@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.google.gson.JsonArray;
 import com.sxau.agriculture.adapter.PersonalQuestionAdapter;
 import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.api.IPersonalQuestion;
@@ -20,6 +21,8 @@ import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.RetrofitUtil;
 import com.sxau.agriculture.view.activity.DetailQuestion;
 import com.sxau.agriculture.view.fragment_interface.IPresonalCollectQuestionFragment;
+
+import org.json.JSONArray;
 
 import java.util.ArrayList;
 
@@ -91,7 +94,7 @@ public class PersonalCollectQuestionFragment  extends BaseFragment implements IP
         call.enqueue(new Callback<ArrayList<MyPersonalQuestion>>() {
             @Override
             public void onResponse(Response<ArrayList<MyPersonalQuestion>> response, Retrofit retrofit) {
-                mquestionslist = response.body();
+//                mquestionslist = response.body();
                 myHandler.sendEmptyMessage(ConstantUtil.GET_NET_DATA);
             }
 

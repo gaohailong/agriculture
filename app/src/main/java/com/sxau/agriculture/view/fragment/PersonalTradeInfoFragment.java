@@ -6,20 +6,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.ListView;
 
 import com.sxau.agriculture.adapter.PersonalTradeInfoAdapter;
 import com.sxau.agriculture.agriculture.R;
-import com.sxau.agriculture.bean.MyPersonalQuestion;
 import com.sxau.agriculture.bean.MyPersonalTrade;
 import com.sxau.agriculture.presenter.fragment_presenter.PersonalTradeInfoPresenter;
 import com.sxau.agriculture.presenter.fragment_presenter_interface.IPersonalTradeInfoPresenter;
-import com.sxau.agriculture.view.activity.InfoContentActivity;
+import com.sxau.agriculture.view.activity.TradeContentActivity;
 import com.sxau.agriculture.view.fragment_interface.IPersonalTradeInfoFragment;
 
 import java.util.ArrayList;
-import java.util.zip.Inflater;
 
 /**
  * 个人中心交易的listView的fragment
@@ -46,7 +43,7 @@ public class PersonalTradeInfoFragment extends BaseFragment implements IPersonal
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                InfoContentActivity.actionStart(PersonalTradeInfoFragment.this.getActivity());
+                TradeContentActivity.actionStart(PersonalTradeInfoFragment.this.getActivity());
             }
         });
         return TradeInfoView;

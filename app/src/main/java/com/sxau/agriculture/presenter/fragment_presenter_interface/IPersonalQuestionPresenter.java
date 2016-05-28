@@ -15,5 +15,4 @@ public interface IPersonalQuestionPresenter {
     boolean isNetAvailable();
     void doRequest();
     void pullRefersh();
-    void pushRefersh();
 }

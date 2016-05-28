@@ -3,7 +3,7 @@ package com.sxau.agriculture.bean;
 /**
  * Created by Administrator on 2016/4/9.
  */
-public class InfoData {
+public class TradeData {
 
     /**
      * id : 18

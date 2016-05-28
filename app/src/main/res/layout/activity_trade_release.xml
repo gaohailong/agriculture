@@ -4,12 +4,12 @@
     android:layout_height="match_parent">
 
     <EditText
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         android:id="@+id/et_title"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:maxLength="45"
+        android:maxEms="45"
         android:background="#ffffff"
         android:lines="1"
         android:gravity="center_vertical"
@@ -21,15 +21,14 @@
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:layout_below="@+id/et_title"
-        android:background="@color/greyBlack" />
+        android:background="@color/grey" />
 
     <EditText
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         android:id="@+id/editText"
         android:layout_width="match_parent"
         android:layout_height="96dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingTop="10dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/v_divide"
@@ -37,14 +36,14 @@
         android:gravity="top"
         android:lines="4"
         android:hint="请输入内容(不能超于255个字)"
-        android:maxLength="255" />
+        android:maxEms="255" />
 
     <View
         android:id="@+id/v_divide_two"
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:layout_below="@+id/editText"
-        android:background="@color/greyBlack" />
+        android:background="@color/grey" />
 
     <RelativeLayout
         android:id="@+id/relativeLayout"
@@ -57,8 +56,29 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/v_divide_two">
 
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:background="#ffffff"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/supply" />
+
+            <RadioButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:text="@string/demand" />
+        </RadioGroup>
+
         <ImageView
-            android:id="@+id/ib_photo"
+            android:id="@+id/iv_info_release_photo"
             android:layout_width="30dp"
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
@@ -82,7 +102,7 @@
         android:paddingRight="10dp"
         android:paddingLeft="10dp"
         android:layout_centerHorizontal="true"
-        />
+     />
 
     <LinearLayout
         android:id="@+id/ll_button"
@@ -94,7 +114,6 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/btn_submit"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_marginRight="10dp"
@@ -102,7 +121,6 @@
             android:textColor="@color/white"
             android:background="@drawable/trade_release_submit_button"
             android:text="@string/submit" />
-
 
     </LinearLayout>
 </RelativeLayout>

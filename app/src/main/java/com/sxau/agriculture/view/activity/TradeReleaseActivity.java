@@ -1,15 +1,11 @@
 package com.sxau.agriculture.view.activity;
 
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.sxau.agriculture.adapter.SelectPhotoAdapter;
@@ -23,56 +19,49 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 提问页面
- * @author 崔志泽
+ * Info发布供求界面
+ *
+ * @author 田帅.
  */
-public class AskQuestion extends AppCompatActivity implements View.OnClickListener {
-    private ImageView ib_photo;
-    private Button btn_submit;
-    private EditText et_title;
-    private EditText editText;
-    private RecyclerView recycler;
-    private SelectPhotoAdapter selectPhotoAdapter;
-    private ArrayList<String> path=new ArrayList<>();
+public class TradeReleaseActivity extends BaseActivity implements View.OnClickListener{
+    private ImageView ivPhoto;
+    private List<String> photoPath;
 
-    private static final int REQUEST_CODE=1;
+    public static final int REQUEST_CODE = 1000;
+    private SelectPhotoAdapter selectPhotoAdapter;
+    private ArrayList<String> path = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ask_question);
+        setContentView(R.layout.activity_trade_release);
+        initView();
+        ivPhoto.setOnClickListener(this);
+    }
 
-        ib_photo = (ImageView) findViewById(R.id.ib_photo);
-        btn_submit = (Button) findViewById(R.id.btn_submit);
-        et_title = (EditText) findViewById(R.id.et_title);
-        editText = (EditText) findViewById(R.id.editText);
-        recycler= (RecyclerView) findViewById(R.id.recycler);
+    public void initView() {
+        ivPhoto = (ImageView) findViewById(R.id.iv_info_release_photo);
 
-        GridLayoutManager gridLayoutManager =new GridLayoutManager(this,3);
+        RecyclerView recycler = (RecyclerView)findViewById(R.id.recycler);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
         recycler.setLayoutManager(gridLayoutManager);
-        selectPhotoAdapter=new SelectPhotoAdapter(this,path);
+        selectPhotoAdapter = new SelectPhotoAdapter(this, path);
         recycler.setAdapter(selectPhotoAdapter);
-
-        ib_photo.setOnClickListener(this);
-        btn_submit.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.ib_photo:
-                showPhotoDialog();
-                break;
-            case R.id.btn_submit:
-                //提交网络请求发送问题
-                break;
+            case R.id.iv_info_release_photo:
+            //发布供求界面弹出选择照片
+            showPhotoDialog();
+            break;
             default:
                 break;
         }
     }
 
-
-    public void showPhotoDialog(){
+    public void showPhotoDialog() {
         ImageConfig imageConfig
                 = new ImageConfig.Builder(
                 new GlideLoaderUtil())
@@ -87,7 +76,7 @@ public class AskQuestion extends AppCompatActivity implements View.OnClickListen
                 .showCamera()
                 .requestCode(REQUEST_CODE)
                 .build();
-        ImageSelector.open(AskQuestion.this,imageConfig);
+        ImageSelector.open(TradeReleaseActivity.this, imageConfig);   // 开启图片选择器
     }
 
     @Override
@@ -104,4 +93,7 @@ public class AskQuestion extends AppCompatActivity implements View.OnClickListen
             selectPhotoAdapter.notifyDataSetChanged();
         }
     }
+
 }
+
+

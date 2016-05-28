@@ -255,26 +255,7 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
         });
     }
 
-    //图片网络请求的方法
-    public void initRotatePicture() {
-        Call<HomeRotatePicture> call = RetrofitUtil.getRetrofit().create(IHomeRotatePicture.class).getResult();
-        call.enqueue(new Callback<HomeRotatePicture>() {
-            @Override
-            public void onResponse(Response<HomeRotatePicture> response, Retrofit retrofit) {
-                if (response.isSuccess()) {
-                    homeRotatePicture = response.body();
-                    if (homeRotatePicture != null) {
-                        myHandler.sendEmptyMessage(ConstantUtil.GET_NET_DATA);//待定
-                    }
-                }
-            }
 
-            @Override
-            public void onFailure(Throwable t) {
-
-            }
-        });
-    }
 
     //获取缓存数据
     public void getCacheData() {

@@ -47,6 +47,9 @@ import android.graphics.PixelFormat;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
 /**
  *文字缓存
  * @author Michael Yang（www.yangfuhai.com） update at 2013.08.07

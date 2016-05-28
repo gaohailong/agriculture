@@ -1,9 +1,13 @@
 package com.sxau.agriculture.presenter.fragment_presenter;
 
+import android.content.Context;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.lidroid.xutils.DbUtils;
+import com.lidroid.xutils.exception.DbException;
 import com.sxau.agriculture.AgricultureApplication;
 import com.sxau.agriculture.api.IPersonalQuestion;
 import com.sxau.agriculture.bean.MyPersonalQuestion;
@@ -21,6 +25,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit.Call;
 import retrofit.Callback;
@@ -35,14 +40,15 @@ public class PersonalQuestionPresenter implements IPersonalQuestionPresenter {
     private IPersonalQuestionFragment iPersonalQuestionFragment;
     private ArrayList<MyPersonalQuestion> mQuestionsList;
 
-    private static String CACHE_KEY = "Cache_PersonalQuestion";        //缓存文件的名字
-    private ACache mCache = ACache.get(AgricultureApplication.getContext());
-    private Gson gson;
+    private DbUtils dbUtils;
+    private Context context;
     private MyPersonalQuestion myPersonalQuestion;
 
 
-    public PersonalQuestionPresenter(IPersonalQuestionFragment iPersonalQuestionFragment) {
+    public PersonalQuestionPresenter(IPersonalQuestionFragment iPersonalQuestionFragment, Context context) {
         this.iPersonalQuestionFragment = iPersonalQuestionFragment;
+        this.context = context;
+        dbUtils = DbUtils.create(context);
     }
 
     //------------------接口方法--------------------
@@ -62,28 +68,22 @@ public class PersonalQuestionPresenter implements IPersonalQuestionPresenter {
     public ArrayList<MyPersonalQuestion> getDatas() {
         mQuestionsList = new ArrayList<MyPersonalQuestion>();
         myPersonalQuestion = new MyPersonalQuestion();
-
-        gson = new Gson();
-        JSONArray arr = new JSONArray();
-        //拿到缓存中的数据，可以是空，也可以有数据
-        String catchMessage = mCache.getAsString(CACHE_KEY);
-        if ("Empty".equals(catchMessage)) {
-
-            return mQuestionsList;
-        } else {
-            arr = mCache.getAsJSONArray(CACHE_KEY);
-            for (int i = 0; i < arr.length(); i++) {
-                String item = null;
-                try {
-                    item = (String) arr.get(i);
-                } catch (JSONException e) {
-                    e.printStackTrace();
+        try {
+            List<MyPersonalQuestion> questionList = dbUtils.findAll(MyPersonalQuestion.class);
+            //缓存不为空时将数据填充返回
+            if (!questionList.isEmpty()) {
+                for (int i = 0; i < questionList.size(); i++) {
+                    myPersonalQuestion = questionList.get(i);
+                    mQuestionsList.add(myPersonalQuestion);
                 }
-                myPersonalQuestion = gson.fromJson(item, MyPersonalQuestion.class);
-                mQuestionsList.add(myPersonalQuestion);
+            } else {
+                //缓存为空。直接返回 内容 为空 的mQuestionList
+                return mQuestionsList;
             }
-            return mQuestionsList;
+        } catch (DbException e) {
+            e.printStackTrace();
         }
+        return mQuestionsList;
     }
 
     @Override
@@ -102,16 +102,29 @@ public class PersonalQuestionPresenter implements IPersonalQuestionPresenter {
             @Override
             public void onResponse(Response<ArrayList<MyPersonalQuestion>> response, Retrofit retrofit) {
                 LogUtil.d("PersonalQuestionP", response.code() + "");
-
                 if (response.isSuccess()) {
                     mQuestionsList = response.body();
                     //保存到缓存中
-                    //////////////////数据的没有放入缓存中,待解决！！！！！！！！
-                    mCache.put(CACHE_KEY,mQuestionsList);
-                    LogUtil.d("PersonalQuestionP", mQuestionsList + "");
-                    String str = mCache.getAsString(CACHE_KEY);
-                    LogUtil.d("PersonalQuestionP2", str + "");
-//                    iPersonalQuestionFragment.updateView(getDatas());
+                    try {
+                        //清空缓存先
+                        dbUtils.deleteAll(MyPersonalQuestion.class);
+                        dbUtils.saveAll(mQuestionsList);
+                    } catch (DbException e) {
+                        e.printStackTrace();
+                    }
+//                    //验证是否缓存成功
+//                    try {
+//                        List<MyPersonalQuestion> myPersonalQuestionList;
+//                        myPersonalQuestionList = dbUtils.findAll(MyPersonalQuestion.class);
+//                        String str2 = myPersonalQuestionList.get(0).getTitle();
+//                        LogUtil.d("PersonalQuestionP2", str2 + "");
+//
+//                    } catch (DbException e) {
+//                        e.printStackTrace();
+//                    }
+                    //请求成功之后做的操作
+                    iPersonalQuestionFragment.updateView(getDatas());
+                    iPersonalQuestionFragment.closeRefresh();
                 }
             }
 
@@ -119,7 +132,9 @@ public class PersonalQuestionPresenter implements IPersonalQuestionPresenter {
             public void onFailure(Throwable t) {
                 //请求网络出错
                 iPersonalQuestionFragment.showRequestTimeout();
-                LogUtil.d("PersonalQuestionP","网络请求出错");
+                LogUtil.d("PersonalQuestionP", "网络请求出错");
+                //关闭掉refresh控件
+                iPersonalQuestionFragment.closeRefresh();
             }
         });
     }
@@ -127,12 +142,16 @@ public class PersonalQuestionPresenter implements IPersonalQuestionPresenter {
 
     @Override
     public void pullRefersh() {
-
-    }
-
-    @Override
-    public void pushRefersh() {
-
+        /**
+         * 有网刷新
+         * 没网不刷新
+         */
+        if (isNetAvailable()) {
+            doRequest();
+        }else {
+            iPersonalQuestionFragment.showNoNetworking();
+            iPersonalQuestionFragment.closeRefresh();
+        }
     }
 //---------------------接口方法结束--------------------
 }
