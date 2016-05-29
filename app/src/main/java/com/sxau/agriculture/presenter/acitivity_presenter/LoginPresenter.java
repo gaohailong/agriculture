@@ -1,16 +1,24 @@
 package com.sxau.agriculture.presenter.acitivity_presenter;
 
+import android.app.Application;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
+import android.text.TextUtils;
 import android.util.Log;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.squareup.okhttp.ResponseBody;
 import com.sxau.agriculture.AgricultureApplication;
+import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.api.IAuthentication;
 import com.sxau.agriculture.bean.User;
 import com.sxau.agriculture.presenter.activity_presenter_interface.ILoginPresenter;
 import com.sxau.agriculture.utils.ACache;
+import com.sxau.agriculture.utils.JPushUtil;
 import com.sxau.agriculture.utils.LogUtil;
 import com.sxau.agriculture.utils.RetrofitUtil;
 import com.sxau.agriculture.view.activity.MainActivity;
@@ -18,11 +26,14 @@ import com.sxau.agriculture.view.activity_interface.ILoginActivty;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.security.auth.callback.Callback;
 
+import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
 import retrofit.Call;
 import retrofit.Response;
 import retrofit.Retrofit;
@@ -34,7 +45,8 @@ import retrofit.Retrofit;
  * @author Yawen_Li on 2016/4/19.
  */
 public class LoginPresenter implements ILoginPresenter {
-
+    private static final int MSG_SET_ALIAS = 1001;
+    private static final String TAG = "JPush";
     private static String CACHE_KEY = "Cache_User";        //缓存文件的名字
     private static int RESPONSE_SUCCESS = 200;              //请求成功返回编号
     private static int RESPONSE_FAILED = 400;               //请求失败返回编号
@@ -81,7 +93,7 @@ public class LoginPresenter implements ILoginPresenter {
     @Override
     public boolean isPhoneEnable() {
         boolean b = false;
-        if (strPhone.length() == 11){
+        if (strPhone.length() == 11) {
             Pattern pattern = null;
             Matcher matcher = null;
             pattern = Pattern.compile("^[1][3,4,5,8][0-9]{9}$"); // 验证手机号
@@ -100,7 +112,7 @@ public class LoginPresenter implements ILoginPresenter {
     public void doLogin() {
 
         iLoginActivty.showProgress(SHOWPROGRESS);
-        LogUtil.d("LoginPresenter",strPhone+"");
+        LogUtil.d("LoginPresenter", strPhone + "");
         phone = Long.parseLong(strPhone);
 
         /**
@@ -131,10 +143,11 @@ public class LoginPresenter implements ILoginPresenter {
                                 User user = new User();
                                 user.setAuthToken(authToken);
                                 user.setPhone(phone);
-
+                                setAlias();
                                 //执行缓存
                                 ACache mCache = ACache.get(AgricultureApplication.getContext());
                                 mCache.put(CACHE_KEY, userGson.toJson(user));
+//                                setAlias();
                                 //打印验证
                                 String userJson = userGson.toJson(user);
                                 LogUtil.d("RegisterP", userJson);
@@ -142,6 +155,7 @@ public class LoginPresenter implements ILoginPresenter {
                                 //登录成功,跳转到主界面
                                 iLoginActivty.showProgress(CLOSEPROGRESS);
                                 iLoginActivty.showLoginSucceed();
+
                                 Intent intent = new Intent(AgricultureApplication.getContext(), MainActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 AgricultureApplication.getContext().startActivity(intent);
@@ -169,5 +183,54 @@ public class LoginPresenter implements ILoginPresenter {
             }
         }).start();
     }
-//--------------------------接口方法结束---------------------
+
+    //--------------------------接口方法结束---------------------
+    //JPush方法别名的设置
+    private void setAlias() {
+        if (!JPushUtil.isValidTagAndAlias(String.valueOf("18404984629"))) {
+            return;
+        }
+        //调用JPush API设置Alias
+        handler.sendMessage(handler.obtainMessage(MSG_SET_ALIAS, phone));
+    }
+
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case MSG_SET_ALIAS:
+                    JPushInterface.setAliasAndTags(iLoginActivty.getContext(), (String) msg.obj, null, mAliasCallback);
+            }
+        }
+    };
+
+    private final TagAliasCallback mAliasCallback = new TagAliasCallback() {
+        @Override
+        public void gotResult(int code, String alias, Set<String> tags) {
+            String logs ;
+            switch (code) {
+                case 0:
+                    logs = "Set tag and alias success";
+                    Log.i(TAG, logs);
+                    break;
+                case 6002:
+                    logs = "Failed to set alias and tags due to timeout. Try again after 60s.";
+                    Log.i(TAG, logs);
+                    if (JPushUtil.isConnected(AgricultureApplication.getContext())) {
+                        handler.sendMessageDelayed(handler.obtainMessage(MSG_SET_ALIAS, alias), 1000 * 60);
+                    } else {
+                        Log.i(TAG, "No network");
+                    }
+                    break;
+
+                default:
+                    logs = "Failed with errorCode = " + code;
+                    Log.e(TAG, logs);
+            }
+            JPushUtil.showToast(logs, AgricultureApplication.getContext());
+        }
+
+    };
+
 }
