@@ -94,7 +94,7 @@ public class TradeDemandAdapter extends BaseAdapter implements View.OnClickListe
         holder.content.setText(infoData.getDescription());
         holder.ivLocation.setImageResource(R.drawable.ic_location_48dp);
 
-        holder.ivCollection.setImageResource(R.drawable.ic_collect_have_48dp);
+        holder.ivCollection.setImageResource(R.mipmap.collection);
         holder.ivCollection.setOnClickListener(this);
         return convertView;
     }
@@ -105,10 +105,10 @@ public class TradeDemandAdapter extends BaseAdapter implements View.OnClickListe
             case R.id.iv_demand_collection:
                 holder.ivCollection = (ImageView) v.findViewById(R.id.iv_demand_collection);
                 if (flag) {
-                    holder.ivCollection.setImageResource(R.drawable.ic_collect_have_48dp);
+                    holder.ivCollection.setImageResource(R.mipmap.collection);
                     flag = false;
                 } else {
-                    holder.ivCollection.setImageResource(R.drawable.ic_collect_nothave_48dp);
+                    holder.ivCollection.setImageResource(R.mipmap.collection_fill);
                     flag = true;
                 }
 

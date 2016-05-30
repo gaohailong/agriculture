@@ -19,6 +19,7 @@ import java.util.List;
 
 /**
  * 个人中心问题adapter
+ *
  * @author 李秉龙
  */
 public class PersonalQuestionAdapter extends BaseAdapter {
@@ -72,7 +73,7 @@ public class PersonalQuestionAdapter extends BaseAdapter {
         holder.tv_title.setText(myPersonalQuestion.getTitle());
 
         //对是否有回答，items显示的改变
-        if (myPersonalQuestion.getQuestionAuditState()!="WAIT_AUDITED"||myPersonalQuestion.getQuestionResolveState()!="WAIT_RESOLVE") {
+        if (myPersonalQuestion.getQuestionAuditState() != "WAIT_AUDITED" || myPersonalQuestion.getQuestionResolveState() != "WAIT_RESOLVE") {
             holder.tv_content.setText(myPersonalQuestion.getContent());
             holder.rv_head.setImageResource(R.mipmap.ic_launcher);
             holder.tv_is_question.setText(R.string.is_question);
