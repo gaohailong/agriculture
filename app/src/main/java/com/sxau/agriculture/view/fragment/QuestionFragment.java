@@ -24,7 +24,7 @@ import com.sxau.agriculture.view.activity.AskQuestion;
 public class QuestionFragment extends BaseFragment implements View.OnClickListener{
     private View mView;
     private ViewPager vPager = null;
-    private Button btn_ask;
+    public static Button btn_ask;
     private Context context;
 
     private FragmentPagerItems.Creator creater;//对标题的动态添加
