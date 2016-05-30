@@ -1,6 +1,7 @@
 package com.sxau.agriculture.presenter.fragment_presenter;
 
 import android.content.Context;
+import android.os.Handler;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -43,12 +44,14 @@ public class PersonalQuestionPresenter implements IPersonalQuestionPresenter {
     private DbUtils dbUtils;
     private Context context;
     private MyPersonalQuestion myPersonalQuestion;
+    private Handler handler;
 
 
-    public PersonalQuestionPresenter(IPersonalQuestionFragment iPersonalQuestionFragment, Context context) {
+    public PersonalQuestionPresenter(IPersonalQuestionFragment iPersonalQuestionFragment, Context context,PersonalQuestionFragment.MyHandler handler) {
         this.iPersonalQuestionFragment = iPersonalQuestionFragment;
         this.context = context;
         dbUtils = DbUtils.create(context);
+        this.handler = handler;
     }
 
     //------------------接口方法--------------------
@@ -69,7 +72,10 @@ public class PersonalQuestionPresenter implements IPersonalQuestionPresenter {
         mQuestionsList = new ArrayList<MyPersonalQuestion>();
         myPersonalQuestion = new MyPersonalQuestion();
         try {
-            List<MyPersonalQuestion> questionList = dbUtils.findAll(MyPersonalQuestion.class);
+            List<MyPersonalQuestion> questionList = new ArrayList<MyPersonalQuestion>();
+            //在应用第一次打开时，保证数据库正常建立
+            dbUtils.createTableIfNotExist(MyPersonalQuestion.class);
+            questionList = dbUtils.findAll(MyPersonalQuestion.class);
             //缓存不为空时将数据填充返回
             if (!questionList.isEmpty()) {
                 for (int i = 0; i < questionList.size(); i++) {
@@ -112,18 +118,11 @@ public class PersonalQuestionPresenter implements IPersonalQuestionPresenter {
                     } catch (DbException e) {
                         e.printStackTrace();
                     }
-//                    //验证是否缓存成功
-//                    try {
-//                        List<MyPersonalQuestion> myPersonalQuestionList;
-//                        myPersonalQuestionList = dbUtils.findAll(MyPersonalQuestion.class);
-//                        String str2 = myPersonalQuestionList.get(0).getTitle();
-//                        LogUtil.d("PersonalQuestionP2", str2 + "");
-//
-//                    } catch (DbException e) {
-//                        e.printStackTrace();
-//                    }
                     //请求成功之后做的操作
-                    iPersonalQuestionFragment.updateView(getDatas());
+//                    iPersonalQuestionFragment.updateView(getDatas());
+                    //通知主线程重新加载数据
+                    LogUtil.d("PersonalQeustion","4、请求成功，已经保存好数据，通知主线程重新拿数据，更新页面");
+                    handler.sendEmptyMessage(ConstantUtil.GET_NET_DATA);
                     iPersonalQuestionFragment.closeRefresh();
                 }
             }
@@ -148,7 +147,7 @@ public class PersonalQuestionPresenter implements IPersonalQuestionPresenter {
          */
         if (isNetAvailable()) {
             doRequest();
-        }else {
+        } else {
             iPersonalQuestionFragment.showNoNetworking();
             iPersonalQuestionFragment.closeRefresh();
         }

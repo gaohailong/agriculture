@@ -4,10 +4,9 @@ package com.sxau.agriculture.view.fragment;
 import android.graphics.Color;
 import android.os.Bundle;
 
+
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 
 import android.view.View;
@@ -15,7 +14,6 @@ import android.view.ViewGroup;
 
 import android.widget.AdapterView;
 
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,24 +23,26 @@ import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.bean.MyPersonalQuestion;
 import com.sxau.agriculture.presenter.fragment_presenter.PersonalQuestionPresenter;
 import com.sxau.agriculture.presenter.fragment_presenter_interface.IPersonalQuestionPresenter;
+import com.sxau.agriculture.utils.ConstantUtil;
+import com.sxau.agriculture.utils.LogUtil;
 import com.sxau.agriculture.view.activity.DetailQuestion;
 import com.sxau.agriculture.view.fragment_interface.IPersonalQuestionFragment;
 import com.sxau.agriculture.widgets.RefreshLayout;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 
 /**
  * 个人中心问题的listView的fragment
  *
- * @author 李秉龙
- *
- * 目前存在的问题是当请求到空的数据时，这里空空的  页面无法显示。还有待解决
+ * @author 李雅文
  */
 public class PersonalQuestionFragment extends BaseFragment implements IPersonalQuestionFragment {
     private ListView listView;
-    private TextView emptyView;
+    private View emptyView;
     private RefreshLayout rl_refresh;
+    private static MyHandler myHandler;
 
     private IPersonalQuestionPresenter iPersonalQuestionPresenter;
     private ArrayList<MyPersonalQuestion> mquestionslist;
@@ -51,8 +51,10 @@ public class PersonalQuestionFragment extends BaseFragment implements IPersonalQ
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+        myHandler = new MyHandler(PersonalQuestionFragment.this);
+
         //将Fragment与Presenter绑定
-        iPersonalQuestionPresenter = new PersonalQuestionPresenter(PersonalQuestionFragment.this, PersonalQuestionFragment.this.getContext());
+        iPersonalQuestionPresenter = new PersonalQuestionPresenter(PersonalQuestionFragment.this, PersonalQuestionFragment.this.getContext(), myHandler);
 
         View myQuestionView = inflater.inflate(R.layout.frament_personal_myquestion, null);
         rl_refresh = (RefreshLayout) myQuestionView.findViewById(R.id.srl_refresh);
@@ -60,20 +62,16 @@ public class PersonalQuestionFragment extends BaseFragment implements IPersonalQ
         listView = (ListView) myQuestionView.findViewById(R.id.lv_MyQuestionListView);
         mquestionslist = new ArrayList<MyPersonalQuestion>();
 
-        emptyView = new TextView(PersonalQuestionFragment.this.getActivity());
-        emptyView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.FILL_PARENT));
-        emptyView.setText("这里空空的");
-        emptyView.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
-        emptyView.setVisibility(View.GONE);
-        ((ViewGroup) listView.getParent()).addView(emptyView);
+        emptyView = myQuestionView.findViewById(R.id.emptyView);
+
         return myQuestionView;
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initListView();
         initRefresh();
+        initListView();
     }
 
     /**
@@ -96,11 +94,17 @@ public class PersonalQuestionFragment extends BaseFragment implements IPersonalQ
     private void initListView() {
         //获取数据
         mquestionslist = iPersonalQuestionPresenter.getDatas();
+        LogUtil.d("PersonalQuestion", "1、初始化View，获取数据");
         if (mquestionslist.isEmpty()) {
             listView.setEmptyView(emptyView);
+            listView.setVisibility(View.GONE);
+
         } else {
+            emptyView.setVisibility(View.GONE);
+
             adapter = new PersonalQuestionAdapter(PersonalQuestionFragment.this.getActivity(), mquestionslist);
             listView.setAdapter(adapter);
+            LogUtil.d("PersonalQuestion", "2、有数据初始化View");
 
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -111,11 +115,34 @@ public class PersonalQuestionFragment extends BaseFragment implements IPersonalQ
         }
         if (iPersonalQuestionPresenter.isNetAvailable()) {
             iPersonalQuestionPresenter.doRequest();
-        }else{
+            LogUtil.d("PersonalQuestion", "3、发起请求，请求数据");
+        } else {
             showNoNetworking();
         }
     }
 
+    public class MyHandler extends Handler {
+        WeakReference<PersonalQuestionFragment> weakReference;
+
+        public MyHandler(PersonalQuestionFragment fragment) {
+            weakReference = new WeakReference<PersonalQuestionFragment>(fragment);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case ConstantUtil.GET_NET_DATA:
+                    LogUtil.d("PersonalQuestion", "5、收到通知，数据已经更新，拿数据，更新页面，执行updateView方法");
+                    mquestionslist = iPersonalQuestionPresenter.getDatas();
+                    updateView(mquestionslist);
+                    LogUtil.d("PersonalQuestionF", "insert");
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
 
     //-----------------接口方法----------------
     //网络请求超时，请检查网络
@@ -137,11 +164,19 @@ public class PersonalQuestionFragment extends BaseFragment implements IPersonalQ
 
     @Override
     public void updateView(ArrayList<MyPersonalQuestion> myPersonalQuestions) {
+        LogUtil.d("PersonalQuestion", "6、updateView方法执行");
         if (mquestionslist.isEmpty()) {
+            LogUtil.d("PersonalQuestin", "7、仍然是空数据");
             listView.setEmptyView(emptyView);
+            listView.setVisibility(View.GONE);
         } else {
+            LogUtil.d("PersonalQuestin", "8、成功拿到数据，更新页面");
+            emptyView.setVisibility(View.GONE);
+            listView.setVisibility(View.VISIBLE);
+
             adapter = new PersonalQuestionAdapter(PersonalQuestionFragment.this.getActivity(), mquestionslist);
             listView.setAdapter(adapter);
+            LogUtil.d("PersonalQuestionF", "2");
 
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
