@@ -8,8 +8,10 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
@@ -38,13 +40,15 @@ import retrofit.Retrofit;
  * 问答页面的listView的fragment
  * @author 李秉龙
  */
-public class QuestionListViewFragment extends BaseFragment implements IQuestionListViewFragment,AdapterView.OnItemClickListener,View.OnClickListener{
+public class QuestionListViewFragment extends BaseFragment implements IQuestionListViewFragment,AdapterView.OnItemClickListener,View.OnTouchListener{
     private View mView;
     private ListView lvQuestionList;
     private Context context;
     private QuestionAdapter adapter;
     private MyHandler myHandler;
     private ArrayList<QuestionData> questionDatas;
+    private float startX, startY, offsetX, offsetY; //计算触摸偏移量
+    private QuestionFragment questionFragment;
 
 
     private IQuestionListViewPresenter iQuestionListViewPresenter;
@@ -64,6 +68,7 @@ public class QuestionListViewFragment extends BaseFragment implements IQuestionL
         context=QuestionListViewFragment.this.getActivity();
 
         lvQuestionList.setOnItemClickListener(this);
+        lvQuestionList.setOnTouchListener(this);
 
 
         return mView;
@@ -76,10 +81,34 @@ public class QuestionListViewFragment extends BaseFragment implements IQuestionL
         myHandler.sendEmptyMessage(ConstantUtil.INIT_DATA);
     }
 
-    //button的点击事件
-    @Override
-    public void onClick(View v) {
 
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        switch (event.getAction()){
+            case MotionEvent.ACTION_DOWN:
+                startX=event.getX();
+                startY=event.getY();
+                break;
+            case MotionEvent.ACTION_UP:
+                offsetX=event.getX()-startX;
+                offsetY=event.getY()-startY;
+                if (offsetY<-50){
+                    AlphaAnimation animation=new AlphaAnimation(1.0f,0f);
+                    animation.setDuration(500);
+                    questionFragment.btn_ask.setAnimation(animation);
+                    questionFragment.btn_ask.setVisibility(View.INVISIBLE);
+                }
+                if (offsetY>50){
+                    AlphaAnimation animation=new AlphaAnimation(0f,1.0f);
+                    animation.setDuration(500);
+                    questionFragment.btn_ask.setAnimation(animation);
+                    questionFragment.btn_ask.setVisibility(View.VISIBLE);
+                }
+                break;
+            default:
+                break;
+        }
+        return false;
     }
 
 

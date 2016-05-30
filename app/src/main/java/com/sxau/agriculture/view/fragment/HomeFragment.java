@@ -53,10 +53,11 @@ import retrofit.Retrofit;
 
 /**
  * 主界面的Fragment
- *问题：
+ * 问题：
  * 1、连续点击底部"没有更多”会出现报错:解决思路：报错为数组越界异常估计思路和3一样。
  * 2、点击加载更多，若到底部会出现：先显示没有更多后出现列表添加：解决思路：当列表显示完成后，载改变文字的内容
  * 3、点击下拉刷新时候再点击item会报异常：解决思路：下拉刷新不允许点击
+ *
  * @author 崔志泽
  */
 public class HomeFragment extends BaseFragment implements ViewPager.OnPageChangeListener, AdapterView.OnItemClickListener, View.OnTouchListener {
@@ -182,8 +183,13 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
                     if (NetUtil.isNetAvailable(context)) {
                         getHomeArticleData(String.valueOf(currentPage), String.valueOf(ConstantUtil.ITEM_NUMBER), true);
                     } else {
-                        getCacheData();
-                        initListView();
+                        try {
+                            dbUtil.createTableIfNotExist(HomeArticle.class);
+                            getCacheData();
+                            initListView();
+                        } catch (DbException e) {
+                            e.printStackTrace();
+                        }
                     }
                     break;
                 case ConstantUtil.GET_NET_DATA:
@@ -254,7 +260,6 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
             }
         });
     }
-
 
 
     //获取缓存数据
