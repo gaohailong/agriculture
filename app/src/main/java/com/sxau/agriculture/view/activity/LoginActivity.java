@@ -1,6 +1,7 @@
 package com.sxau.agriculture.view.activity;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -140,6 +141,11 @@ public class LoginActivity extends BaseActivity implements ILoginActivty, View.O
     @Override
     public void finishLoginActivity() {
         LoginActivity.this.finish();
+    }
+
+    @Override
+    public Context getContext() {
+        return getApplicationContext();
     }
 
 //--------------------接口方法结束-------------------

@@ -59,8 +59,8 @@ public class TradeFragment extends BaseFragment implements View.OnClickListener{
 
         FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(
                 getChildFragmentManager(), FragmentPagerItems.with(getContext())
-                .add(R.string.supply, TradeListViewFragment.class)
-                .add(R.string.demand, TradeListViewFragment.class)
+                .add(R.string.supply, TradeSupplyListViewFragment.class)
+                .add(R.string.demand, TradeDemandListViewFragment.class)
                 .create());
 
         ViewPager viewPager = (ViewPager) convertView.findViewById(R.id.viewpager);

@@ -1,5 +1,7 @@
 package com.sxau.agriculture.view.activity_interface;
 
+import android.content.Context;
+
 /**
  * Created by Yawen_Li on 2016/4/19.
  */
@@ -11,4 +13,5 @@ public interface ILoginActivty {
     void showLoginFailed();
     void showRequestTimeout();
     void finishLoginActivity();
+    Context getContext();
 }

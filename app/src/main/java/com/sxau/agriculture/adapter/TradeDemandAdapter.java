@@ -16,19 +16,25 @@ import java.util.List;
 
 /**
  * 信息专区ListView的Adapter
+ *
  * @author 田帅
  */
-public class TradeDemandAdapter extends BaseAdapter implements View.OnClickListener{
+public class TradeDemandAdapter extends BaseAdapter implements View.OnClickListener {
+    /**
+     * 上下文 实体类
+     */
     private Context context;
     private List<TradeData> datas;
     ViewHolder holder;
-    private boolean flag=true;
+    /**
+     * 收藏按钮点击判断
+     */
+    private boolean flag = true;
 
     public TradeDemandAdapter(Context context, List<TradeData> datas) {
         this.context = context;
-        this.datas=datas;
+        this.datas = datas;
     }
-
 
 
     @Override
@@ -47,7 +53,6 @@ public class TradeDemandAdapter extends BaseAdapter implements View.OnClickListe
     }
 
 
-
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
 
@@ -55,31 +60,40 @@ public class TradeDemandAdapter extends BaseAdapter implements View.OnClickListe
             LayoutInflater inflater = LayoutInflater.from(context);
             convertView = inflater.inflate(R.layout.fragment_trade_demand, null);
             holder = new ViewHolder();
-            holder.ivHead= (ImageView) convertView.findViewById(R.id.rv_info_head);
+            holder.ivHead = (ImageView) convertView.findViewById(R.id.rv_info_head);
             holder.name = (TextView) convertView.findViewById(R.id.tv_demand_name);
             holder.date = (TextView) convertView.findViewById(R.id.tv_demand_date);
             holder.distance = (TextView) convertView.findViewById(R.id.tv_demand_distance);
             holder.title = (TextView) convertView.findViewById(R.id.tv_demand_title);
             holder.content = (TextView) convertView.findViewById(R.id.tv_demand_content);
             holder.ivLocation = (ImageView) convertView.findViewById(R.id.iv_demand_location);
-            holder.ivCollection= (ImageView) convertView.findViewById(R.id.iv_demand_collection);
+            holder.ivCollection = (ImageView) convertView.findViewById(R.id.iv_demand_collection);
 
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-
-        TradeData infoData=datas.get(position);
+        /**
+         * 根据位置获得数据
+         * */
+        TradeData infoData = datas.get(position);
+        /**
+         * 日期格式
+         * */
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        /**
+         * 给控件赋值
+         * */
 
-        setImage();
         holder.ivHead.setImageResource(R.drawable.btg_icon_checkmark);
         holder.name.setText(infoData.getUser().getName());
         holder.date.setText(sdf.format(infoData.getWhenCreated()));
+
         holder.distance.setText("2千米");
         holder.title.setText(infoData.getTitle());
         holder.content.setText(infoData.getDescription());
         holder.ivLocation.setImageResource(R.drawable.ic_location_48dp);
+
         holder.ivCollection.setImageResource(R.drawable.ic_collect_have_48dp);
         holder.ivCollection.setOnClickListener(this);
         return convertView;
@@ -87,28 +101,19 @@ public class TradeDemandAdapter extends BaseAdapter implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.iv_demand_collection:
-                holder.ivCollection= (ImageView) v.findViewById(R.id.iv_demand_collection);
-                if (flag){
+                holder.ivCollection = (ImageView) v.findViewById(R.id.iv_demand_collection);
+                if (flag) {
                     holder.ivCollection.setImageResource(R.drawable.ic_collect_have_48dp);
-                    flag=false;
-                }else {
+                    flag = false;
+                } else {
                     holder.ivCollection.setImageResource(R.drawable.ic_collect_nothave_48dp);
-                    flag=true;
+                    flag = true;
                 }
 
                 break;
         }
-    }
-    public void setImage(){
-        String imageUrl="";
-        for (int i=0;i<datas.size();i++){
-            if (datas.get(i).equals("image")){
-                imageUrl=datas.get(i).getImages();
-            }
-        }
-//        Picasso.with(context).load(imageUrl).into(holder.ivHead);
     }
 
 

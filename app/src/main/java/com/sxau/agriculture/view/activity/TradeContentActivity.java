@@ -3,7 +3,6 @@ package com.sxau.agriculture.view.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -11,8 +10,6 @@ import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.api.ITradeContent;
 import com.sxau.agriculture.bean.TradeData;
 import com.sxau.agriculture.utils.ConstantUtil;
-import com.sxau.agriculture.view.fragment.TradeFragment;
-import com.sxau.agriculture.view.fragment.TradeListViewFragment;
 
 import retrofit.Call;
 import retrofit.Callback;

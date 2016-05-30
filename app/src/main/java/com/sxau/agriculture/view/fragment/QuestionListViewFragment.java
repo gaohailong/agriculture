@@ -45,7 +45,7 @@ public class QuestionListViewFragment extends BaseFragment implements IQuestionL
     private QuestionAdapter adapter;
     private MyHandler myHandler;
     private ArrayList<QuestionData> questionDatas;
-    private Button btn_ask;
+
 
     private IQuestionListViewPresenter iQuestionListViewPresenter;
 
@@ -59,12 +59,12 @@ public class QuestionListViewFragment extends BaseFragment implements IQuestionL
         lvQuestionList = (ListView) mView.findViewById(R.id.lv_question);
         questionDatas=new ArrayList<QuestionData>();
         myHandler=new MyHandler();
-        btn_ask= (Button) mView.findViewById(R.id.btn_ask);
+
 
         context=QuestionListViewFragment.this.getActivity();
 
         lvQuestionList.setOnItemClickListener(this);
-        btn_ask.setOnClickListener(this);
+
 
         return mView;
     }
@@ -79,9 +79,7 @@ public class QuestionListViewFragment extends BaseFragment implements IQuestionL
     //button的点击事件
     @Override
     public void onClick(View v) {
-        Intent intent=new Intent();
-        intent.setClass(context, AskQuestion.class);
-        startActivity(intent);
+
     }
 
 

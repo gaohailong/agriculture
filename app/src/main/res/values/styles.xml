@@ -8,19 +8,16 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <!--<style name="RadioButtonInfo">-->
-    <!--<item name="android:layout_weight">1</item>-->
-    <!--<item name="android:layout_width">0dp</item>-->
-    <!--<item name="android:layout_height">match_parent</item>-->
-    <!--<item name="android:padding">2dp</item>-->
-    <!--<item name="android:button">@null</item>-->
-    <!--<item name="android:textSize">20dp</item>-->
-    <!--<item name="android:textColor">@color/InfoTopColor</item>-->
-    <!--&lt;!&ndash;  <item name="android:textColor">@drawable/txtcolor_gray2green_sel</item>&ndash;&gt;-->
-    <!--<item name="android:gravity">center</item>-->
-    <!--<item name="android:background">#4CAF50</item>-->
-    <!--</style>-->
-
+    <style name="MyDialogStyle">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
 
     <!--底部导航栏-->
     <style name="RadioButtonBottomTab">
@@ -80,5 +77,18 @@
     <style name="is_question" parent="@android:style/Theme.Dialog">
         <item name="android:background">@color/mainColor</item>
 
+    </style>
+    <style name="push_style">
+        <item name="android:hint">@string/style_hint</item>
+        <item name="android:inputType">number</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <style name="push_alias">
+        <item name="android:hint">@string/alias_hint</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <style name="push_tag">
+        <item name="android:hint">@string/tag_hint</item>
+        <item name="android:textSize">14sp</item>
     </style>
 </resources>

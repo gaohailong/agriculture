@@ -46,58 +46,87 @@ import retrofit.Retrofit;
  */
 
 
-public class TradeListViewFragment extends BaseFragment implements ITradeListViewFragment, AdapterView.OnItemClickListener ,View.OnTouchListener,RefreshLayout.OnRefreshListener{
+public class TradeSupplyListViewFragment extends BaseFragment implements ITradeListViewFragment, AdapterView.OnItemClickListener, View.OnTouchListener, RefreshLayout.OnRefreshListener {
+    /**
+     * 控件
+     */
     private View mview;
     private ListView lv_Info;
     private ImageView iv_collection;
-    private TradeData minfoData;
+    private BaseAdapter adapter;
+    /**
+     * 浮动按钮
+     */
     private float startX, startY, offsetX, offsetY; //计算触摸偏移量
     /**
-     *
+     * 网络请求
      * */
     private int currentPage;
+    private String tradeType="SUPPLY";
+    /**
+     * 下拉刷新上拉加载
+     */
     private View footerLayout;
     private TextView tv_more;
     private RefreshLayout rl_refresh;
-    /**
-     * 下拉刷新
-     * */
-
     private Handler handler;
     private boolean isLoadOver;
+    /**
+     * 实体类集合
+     */
     private List<TradeData> infoDatas = new ArrayList<TradeData>();
+    private TradeData infoData;
+    private List<TradeData> supplyDatas=new ArrayList<TradeData>();
+    private List<TradeData> demandDatas=new ArrayList<TradeData>();
+    /**
+     * 接口
+     */
     private ITradeListViewPresenter iInfoListViewPresenter;
 
-    public TradeListViewFragment() {
+    /**
+     * 这个不知道干嘛用的
+     */
+    public TradeSupplyListViewFragment() {
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         //将InfoLvFragment与InfolvPresenter绑定
-        iInfoListViewPresenter = new TradeListViewPresenter(TradeListViewFragment.this);
-
+        iInfoListViewPresenter = new TradeListViewPresenter(TradeSupplyListViewFragment.this);
+        /**
+         * 绑定视图
+         * */
         mview = inflater.inflate(R.layout.fragment_trade_listview, container, false);
         /**
          * 初始化控件
          * */
         lv_Info = (ListView) mview.findViewById(R.id.lv_info);
         iv_collection = (ImageView) mview.findViewById(R.id.iv_demand_collection);
-
-        currentPage=1;
-        initInfoData(String.valueOf(currentPage), String.valueOf(ConstantUtil.ITEM_NUMBER),true);
-        final BaseAdapter adapter = new TradeDemandAdapter(TradeListViewFragment.this.getActivity(), infoDatas);
+        /**
+         * 请求数据
+         * */
+        currentPage = 1;
+        initInfoData(String.valueOf(currentPage), String.valueOf(ConstantUtil.ITEM_NUMBER), true);
+        /**
+         * 配置适配器
+         * */
+        adapter = new TradeDemandAdapter(TradeSupplyListViewFragment.this.getActivity(), supplyDatas);
         adapter.notifyDataSetChanged();
         lv_Info.setAdapter(adapter);
+        /**
+         * ListviewItem点击事件与浮动按钮动画效果
+         * */
         lv_Info.setOnItemClickListener(this);
         lv_Info.setOnTouchListener(this);
-
-        rl_refresh = (RefreshLayout)mview.findViewById(R.id.srl_refresh);
+        /**
+         * 下拉刷新与加载
+         * */
+        rl_refresh = (RefreshLayout) mview.findViewById(R.id.srl_refresh);
         rl_refresh.setColorSchemeColors(Color.parseColor("#00b5ad"));
         rl_refresh.setOnRefreshListener(this);
-        footerLayout=getLayoutInflater(savedInstanceState).inflate(R.layout.listview_footer,null);
+        footerLayout = getLayoutInflater(savedInstanceState).inflate(R.layout.listview_footer, null);
         tv_more = (TextView) footerLayout.findViewById(R.id.tv_more);
         lv_Info.addFooterView(footerLayout);
         rl_refresh.setChildView(lv_Info);
@@ -108,24 +137,33 @@ public class TradeListViewFragment extends BaseFragment implements ITradeListVie
             }
         });
         isLoadOver = false;
-        handler=new Handler(){
+        handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
-                switch (msg.what){
+                switch (msg.what) {
+                    /**
+                     * 下拉刷新
+                     * */
                     case ConstantUtil.PULL_REFRESH:
                         currentPage = 1;
-                        initInfoData(String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER,true);
+                        initInfoData(String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER, true);
                         rl_refresh.setRefreshing(false);
                         adapter.notifyDataSetChanged();
                         RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOAD_MORE);
                         break;
+                    /**
+                     * 得到数据
+                     * */
                     case ConstantUtil.GET_NET_DATA:
                         adapter.notifyDataSetChanged();
                         break;
+                    /**
+                     * 点击加载
+                     * */
                     case ConstantUtil.UP_LOAD:
                         currentPage++;
-                        initInfoData(String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER,false);
+                        initInfoData(String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER, false);
                         rl_refresh.setLoading(false);
                         adapter.notifyDataSetChanged();
                         if (isLoadOver = true) {
@@ -142,25 +180,37 @@ public class TradeListViewFragment extends BaseFragment implements ITradeListVie
         return mview;
     }
 
-
-    public void initInfoData(String page,String pageSize, final boolean isRefresh) {
-        Retrofit retrofit=new Retrofit.Builder().addConverterFactory(GsonConverterFactory.create())
+/**
+ * 初始化交易信息
+ * */
+    public void initInfoData(String page, String pageSize, final boolean isRefresh) {
+        Retrofit retrofit = new Retrofit.Builder().addConverterFactory(GsonConverterFactory.create())
                 .baseUrl(ConstantUtil.BASE_URL)
                 .build();
-        Call<ArrayList<TradeData>> call=retrofit.create(ITrade.class).getInfoTrade(page,pageSize);
+        Call<ArrayList<TradeData>> call = retrofit.create(ITrade.class).getInfoTrade(page, pageSize);
         call.enqueue(new Callback<ArrayList<TradeData>>() {
             @Override
             public void onResponse(Response<ArrayList<TradeData>> response, Retrofit retrofit) {
                 if (response.isSuccess()) {
-                    ArrayList<TradeData> infoDatas1 = response.body();
+                    ArrayList<TradeData> responseInfoDatas = response.body();
+                    infoData=new TradeData();
                     if (isRefresh) {
                         infoDatas.clear();
-                        infoDatas.addAll(infoDatas1);
+                        infoDatas.addAll(responseInfoDatas);
+                        for (int i=0;i<infoDatas.size();i++){
+                            infoData=infoDatas.get(i);
+                            if (tradeType.equals(infoData.getTradeType())){
+                                supplyDatas.add(infoData);
+                            }else {
+                                demandDatas.add(infoData);
+                            }
+                        }
+
                     } else {
-                        infoDatas.addAll(infoDatas1);
+                        infoDatas.addAll(responseInfoDatas);
                     }
                     handler.sendEmptyMessage(ConstantUtil.GET_NET_DATA);
-                    if (infoDatas1.size() < Integer.parseInt(ConstantUtil.ITEM_NUMBER)) {
+                    if (responseInfoDatas.size() < Integer.parseInt(ConstantUtil.ITEM_NUMBER)) {
                         isLoadOver = true;
                     }
                 }
@@ -180,12 +230,14 @@ public class TradeListViewFragment extends BaseFragment implements ITradeListVie
         });
     }
 
-
+/**
+ * Item事件
+ * */
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent intent = new Intent();
         intent.putExtra("TradeId", infoDatas.get(position).getId());
-        intent.setClass(TradeListViewFragment.this.getActivity(), TradeContentActivity.class);
+        intent.setClass(TradeSupplyListViewFragment.this.getActivity(), TradeContentActivity.class);
         startActivity(intent);
 //        Toast.makeText(getActivity(),ConstantUtil.BASE_URL+"trade"+infoDatas.get(position).getId(),Toast.LENGTH_SHORT).show();
     }
@@ -213,7 +265,7 @@ public class TradeListViewFragment extends BaseFragment implements ITradeListVie
 
     /**
      * 实现滑动屏幕隐藏浮动按钮和显示按钮效果
-    * */
+     */
     @Override
     public boolean onTouch(View v, MotionEvent event) {
 
@@ -223,18 +275,17 @@ public class TradeListViewFragment extends BaseFragment implements ITradeListVie
                 startY = event.getY();
                 break;
             case MotionEvent.ACTION_UP:
-                            offsetX = event.getX() - startX;
-                    offsetY = event.getY() - startY;
+                offsetX = event.getX() - startX;
+                offsetY = event.getY() - startY;
 
-                    if (offsetY < 0) {
-                        AlphaAnimation aa=new AlphaAnimation(1.0f,0f);
+                if (offsetY < 0) {
+                    AlphaAnimation aa = new AlphaAnimation(1.0f, 0f);
                     aa.setDuration(500);
                     new TradeFragment().btn_info_float.setAnimation(aa);
-
                     new TradeFragment().btn_info_float.setVisibility(View.INVISIBLE);
                 }
-                if (offsetY>0){
-                    AlphaAnimation aa=new AlphaAnimation(0f,1.0f);
+                if (offsetY > 0) {
+                    AlphaAnimation aa = new AlphaAnimation(0f, 1.0f);
                     aa.setDuration(500);
                     new TradeFragment().btn_info_float.setAnimation(aa);
                     new TradeFragment().btn_info_float.setVisibility(View.VISIBLE);
@@ -243,11 +294,13 @@ public class TradeListViewFragment extends BaseFragment implements ITradeListVie
             default:
                 break;
 
-        }return false;
+        }
+        return false;
     }
+
     /**
      * 下拉刷新
-     * */
+     */
 
     @Override
     public void onRefresh() {

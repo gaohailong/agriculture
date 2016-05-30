@@ -103,11 +103,9 @@ public class PersonalQuestionFragment extends BaseFragment implements IPersonalQ
         call.enqueue(new Callback<ArrayList<MyPersonalQuestion>>() {
             @Override
             public void onResponse(Response<ArrayList<MyPersonalQuestion>> response, Retrofit retrofit) {
-                Log.d("aaaaaaa", response.code()+"");
 
                 if (response.isSuccess()){
                 mquestionslist = response.body();
-                Log.d("aaaaaaa",mquestionslist.size()+"");
                 myHandler.sendEmptyMessage(ConstantUtil.GET_NET_DATA);
 
                 }
