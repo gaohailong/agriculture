@@ -1,7 +1,8 @@
 package com.sxau.agriculture.bean;
 
 /**
- * Created by czz on 2016/5/19.
+ * 问题数据的实体类
+ * @author 崔志泽
  */
 public class QuestionData {
 

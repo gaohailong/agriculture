@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 
 import com.sxau.agriculture.adapter.SelectPhotoAdapter;
@@ -88,6 +89,9 @@ public class AskQuestion extends AppCompatActivity implements View.OnClickListen
         myHandler.sendEmptyMessage(ConstantUtil.INIT_DATA);
     }
 
+    /**
+     * 初始化下拉菜单
+     */
     public void initSpin(){
         ArrayAdapter<String> arrayAdapter=new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,spinData);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -109,6 +113,9 @@ public class AskQuestion extends AppCompatActivity implements View.OnClickListen
     }
 
 
+    /**
+     * 获取图片的方法
+     */
     public void showPhotoDialog(){
         ImageConfig imageConfig
                 = new ImageConfig.Builder(
@@ -127,6 +134,9 @@ public class AskQuestion extends AppCompatActivity implements View.OnClickListen
         ImageSelector.open(AskQuestion.this,imageConfig);
     }
 
+    /**
+     * 回调函数
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -160,6 +170,9 @@ public class AskQuestion extends AppCompatActivity implements View.OnClickListen
         }
     }
 
+    /**
+     * 网络请求
+     */
     public void getCategories(){
         Call<ArrayList<CategorieData>> call= RetrofitUtil.getRetrofit().create(ICategoriesData.class).getCategories();
         call.enqueue(new Callback<ArrayList<CategorieData>>() {
@@ -178,6 +191,9 @@ public class AskQuestion extends AppCompatActivity implements View.OnClickListen
         });
     }
 
+    /**
+     * 遍历请求数据获取分类信息
+     */
     public void getCategorieinfo(){
         for (int i=0;i<categorieDatas.size();i++){
             cat=categorieDatas.get(i).getName();
