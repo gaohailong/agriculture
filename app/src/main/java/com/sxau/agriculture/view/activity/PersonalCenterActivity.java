@@ -14,7 +14,6 @@ import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.view.fragment.PersonalCollectQuestionFragment;
 import com.sxau.agriculture.view.fragment.PersonalCollectTradeFragment;
-import com.sxau.agriculture.view.fragment.PersonalQuestionFragment;
 import com.sxau.agriculture.view.fragment.PersonalTradeInfoFragment;
 
 import java.util.List;
