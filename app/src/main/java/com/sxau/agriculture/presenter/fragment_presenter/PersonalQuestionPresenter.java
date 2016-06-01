@@ -55,10 +55,6 @@ public class PersonalQuestionPresenter implements IPersonalQuestionPresenter {
     }
 
     //------------------接口方法--------------------
-    @Override
-    public Object findItemByPosition(int position) {
-        return null;
-    }
 
     /**
      * 获取个人问题数据

@@ -93,6 +93,8 @@ public class RegisterActivity extends BaseActivity implements IRegisterActivity,
                         Toast.makeText(RegisterActivity.this, "密码长度不得小于6位", Toast.LENGTH_LONG).show();
                     } else if (!iRegisterPresenter.isCheckNumEnable()) {
                         Toast.makeText(RegisterActivity.this, "验证码格式错误", Toast.LENGTH_LONG).show();
+                    }else if (!isNetAvailable){
+                        Toast.makeText(RegisterActivity.this,"没有网络连接，请检查网络",Toast.LENGTH_LONG).show();
                     }
                 }
                 break;
@@ -100,6 +102,7 @@ public class RegisterActivity extends BaseActivity implements IRegisterActivity,
                 iRegisterPresenter.initData();
                 if (iRegisterPresenter.isPhoneEnable()) {
                     ChangeBtnUi();
+                    iRegisterPresenter.sendPhoneRequest();
                 }else {
                     Toast.makeText(RegisterActivity.this, "手机号输入不正确，请重新输入", Toast.LENGTH_LONG).show();
                 }

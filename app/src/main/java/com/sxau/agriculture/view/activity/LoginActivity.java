@@ -81,7 +81,7 @@ public class LoginActivity extends BaseActivity implements ILoginActivty, View.O
                 boolean isNetAvailable = NetUtil.isNetAvailable(LoginActivity.this);
                 iLoginPresenter.initData();
                 //输入验证
-                if (iLoginPresenter.isPasswordEnable() && iLoginPresenter.isPhoneEnable()) {
+                if (iLoginPresenter.isPasswordEnable() && iLoginPresenter.isPhoneEnable() && isNetAvailable) {
                     iLoginPresenter.doLogin();
                 }else {
                     //输入验证出错，显示对应错误信息
@@ -89,6 +89,8 @@ public class LoginActivity extends BaseActivity implements ILoginActivty, View.O
                         Toast.makeText(LoginActivity.this,"密码长度不得小于6位",Toast.LENGTH_LONG).show();
                     }else if (!iLoginPresenter.isPhoneEnable()){
                         Toast.makeText(LoginActivity.this,"手机号输入不正确，请重新输入",Toast.LENGTH_LONG).show();
+                    }else if (!isNetAvailable){
+                        Toast.makeText(LoginActivity.this,"没有网络连接，请检查网络",Toast.LENGTH_LONG).show();
                     }
                 }
                 break;

@@ -18,6 +18,7 @@ import com.sxau.agriculture.api.IAuthentication;
 import com.sxau.agriculture.bean.User;
 import com.sxau.agriculture.presenter.activity_presenter_interface.ILoginPresenter;
 import com.sxau.agriculture.utils.ACache;
+import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.JPushUtil;
 import com.sxau.agriculture.utils.LogUtil;
 import com.sxau.agriculture.utils.RetrofitUtil;
@@ -47,7 +48,6 @@ import retrofit.Retrofit;
 public class LoginPresenter implements ILoginPresenter {
     private static final int MSG_SET_ALIAS = 1001;
     private static final String TAG = "JPush";
-    private static String CACHE_KEY = "Cache_User";        //缓存文件的名字
     private static int RESPONSE_SUCCESS = 200;              //请求成功返回编号
     private static int RESPONSE_FAILED = 400;               //请求失败返回编号
     private static long WAITTIME = 1500;                    //正式提交请求前等待时间
@@ -146,7 +146,7 @@ public class LoginPresenter implements ILoginPresenter {
                                 setAlias();
                                 //执行缓存
                                 ACache mCache = ACache.get(AgricultureApplication.getContext());
-                                mCache.put(CACHE_KEY, userGson.toJson(user));
+                                mCache.put(ConstantUtil.CACHE_KEY, userGson.toJson(user));
 //                                setAlias();
                                 //打印验证
                                 String userJson = userGson.toJson(user);

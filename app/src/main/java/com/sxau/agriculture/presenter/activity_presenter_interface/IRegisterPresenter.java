@@ -10,4 +10,5 @@ public interface IRegisterPresenter {
     boolean isCheckNumEnable();
     void initData();
     void doRegist();
+    void sendPhoneRequest();
 }
