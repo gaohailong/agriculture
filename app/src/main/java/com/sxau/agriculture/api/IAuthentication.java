@@ -9,6 +9,7 @@ import java.util.Map;
 import retrofit.Call;
 import retrofit.http.Body;
 import retrofit.http.GET;
+import retrofit.http.Header;
 import retrofit.http.POST;
 
 /**
@@ -17,13 +18,15 @@ import retrofit.http.POST;
  */
 public interface IAuthentication {
     /**
-     *注册第一步
+     * 注册接口
+     * 注册第一步
      *
      * @param:
      * 封装在HashMap 对象中
      * （String）userName
      * （String）password
      * （long）phone
+     * Header参数，包含短信验证码发回的header参数，用于验证操作
      *
      * @return:
      * response body
@@ -34,18 +37,19 @@ public interface IAuthentication {
      *      注册失败    （int） 400
      */
     @POST("signup/one")
-    Call<JsonObject> doRegister(@Body Map map);
+    Call<JsonObject> doRegister(@Body Map map ,@Header("VERIFY_UUID") String VERIFY_UUID);
 
 
     /**
      * 注册第二步
-     *
-     *
      */
+    @POST("signup/two")
+    Call<JsonObject> submitPersonalData(@Body Map map , @Header("X-AUTH-TOKEN") String authToken);
 
 
     /**
      *
+     * 登录验证接口
      * @param map
      * 封装在HashMap  对象中
      *   （String）password
@@ -60,4 +64,18 @@ public interface IAuthentication {
      */
     @POST("login")
     Call<JsonObject> doLogin(@Body Map map);
+
+    /**
+     * 短信验证码接口
+     * @param map
+     * 需要的参数是电话号码
+     *      （Long）phone
+     * @return
+     * response body
+     *      "success":{"message":"验证短信发送成功"}
+     * response code
+     *      成功      （int）200
+     */
+    @POST("smsVerifyCode")
+    Call<JsonObject> sendPhoneRequest(@Body Map map);
 }

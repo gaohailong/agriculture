@@ -8,7 +8,6 @@ import java.util.ArrayList;
  * Created by Yawen_Li on 2016/4/22.
  */
 public interface IPersonalQuestionPresenter {
-    Object findItemByPosition(int position);
     //得到数据集合
     ArrayList<MyPersonalQuestion> getDatas();
     //判断网络是否可用

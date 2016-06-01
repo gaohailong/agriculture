@@ -17,6 +17,8 @@ public class ConstantUtil {
     public static final String STORAGE_URL = "http://storage.workerhub.cn/";
     //每个listView的item显示的数量
     public static final String ITEM_NUMBER = "10";
+    //登录成功之后的缓存文件名（主要为了保存authToken）
+    public static final String CACHE_KEY = "Cache_User";
     //============================整形常量的定义===================================
     //下拉刷新的时间
     public static final int PULL_TIME = 3000;
