@@ -193,25 +193,23 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
                     }
                     break;
                 case ConstantUtil.GET_NET_DATA:
-                    initListView();
+                    adapter.notifyDataSetChanged();
+                    if (isLoadOver) {
+                        RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOAD_OVER);
+                    } else {
+                        RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOAD_MORE);
+                    }
                     break;
                 case ConstantUtil.PULL_REFRESH:
                     currentPage = 1;
                     getHomeArticleData(String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER, true);
                     rl_refresh.setRefreshing(false);
-                    adapter.notifyDataSetChanged();
                     RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOAD_MORE);
                     break;
                 case ConstantUtil.UP_LOAD:
                     currentPage++;
                     getHomeArticleData(String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER, false);
                     rl_refresh.setLoading(false);
-                    adapter.notifyDataSetChanged();
-                    if (isLoadOver = true) {
-                        RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOAD_OVER);
-                    } else {
-                        RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOAD_MORE);
-                    }
                     break;
                 default:
                     break;
@@ -233,6 +231,7 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
                             homeArticles.clear();
                             homeArticles.addAll(homeArticles1);
                             dbUtil.saveAll(homeArticles1);
+                            isLoadOver=false;
                         } else {
                             homeArticles.addAll(homeArticles1);
                             dbUtil.saveAll(homeArticles);
@@ -249,7 +248,6 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
 
             @Override
             public void onFailure(Throwable t) {
-                tv_more.setText("数据加载失败");
                 RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOAD_FAIL);
                 if (currentPage > 1) {
                     rl_refresh.setRefreshing(false);
@@ -298,7 +296,6 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
 
     }
 
-
     @Override
     public void onPageScrollStateChanged(int state) {
 
@@ -329,12 +326,7 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
         intent.putExtra("ArticleUrl", ConstantUtil.ARTICLE_BASE_URL + homeArticles.get(position).getId());
         intent.setClass(context, WebViewActivity.class);
         startActivity(intent);
-
-
-        Toast.makeText(context, ConstantUtil.ARTICLE_BASE_URL + homeArticles.get(position).getId(), Toast.LENGTH_SHORT).show();
-//        Log.e("连接", ConstantUtil.ARTICLE_BASE_URL + homeArticles.get(position).getId() + "");
     }
-
 
     @Override
     public void onDestroy() {
