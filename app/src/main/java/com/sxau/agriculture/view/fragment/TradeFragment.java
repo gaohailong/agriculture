@@ -2,6 +2,7 @@ package com.sxau.agriculture.view.fragment;
 
 import com.sxau.agriculture.agriculture.R;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -37,6 +38,7 @@ public class TradeFragment extends BaseFragment implements View.OnClickListener{
     private int bmpW;//横线图片宽度
     private int offset;//图片移动的偏移量
     public static Button btn_info_float;
+    private Context mcontext;
 
 
 
@@ -44,7 +46,7 @@ public class TradeFragment extends BaseFragment implements View.OnClickListener{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View convertView = inflater.inflate(R.layout.fragment_trade, container, false);
-
+        mcontext=TradeFragment.this.getActivity();
 
         initView(convertView);
 
@@ -57,8 +59,8 @@ public class TradeFragment extends BaseFragment implements View.OnClickListener{
 
         FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(
                 getChildFragmentManager(), FragmentPagerItems.with(getContext())
-                .add(R.string.supply, TradeListViewFragment.class)
-                .add(R.string.demand, TradeListViewFragment.class)
+                .add(R.string.supply, TradeSupplyListViewFragment.class)
+                .add(R.string.demand, TradeDemandListViewFragment.class)
                 .create());
 
         ViewPager viewPager = (ViewPager) convertView.findViewById(R.id.viewpager);

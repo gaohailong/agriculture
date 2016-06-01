@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import retrofit.Call;
 import retrofit.http.GET;
+import retrofit.http.Query;
 
 /**
  * 网络请求问题数据的接口
@@ -13,5 +14,5 @@ import retrofit.http.GET;
  */
 public interface IQuestionList {
     @GET("questions")
-    Call<ArrayList<QuestionData>> getQuestionList();
+    Call<ArrayList<QuestionData>> getQuestionList(@Query("page") String page,@Query("pageSize") String pageSize);
 }

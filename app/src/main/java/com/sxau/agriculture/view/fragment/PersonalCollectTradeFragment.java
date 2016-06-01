@@ -37,12 +37,12 @@ public class PersonalCollectTradeFragment extends BaseFragment implements IPerso
 
         PersonalTradeInfoAdapter adapter = new PersonalTradeInfoAdapter(PersonalCollectTradeFragment.this.getActivity(),getDate());
         listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+      /*  listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TradeContentActivity.actionStart(PersonalCollectTradeFragment.this.getActivity());
             }
-        });
+        });*/
         return TradeInfoView;
     }
     private ArrayList<MyPersonalTrade> getDate() {

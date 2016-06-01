@@ -13,7 +13,7 @@ import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.widgets.CityPicker;
 import com.sxau.agriculture.widgets.CityPicker.OnSelectingListener;
 
-public class ThreeLevelLinkage extends BaseActivity {
+public class ThreeLevelLinkageActivity extends BaseActivity {
     private CityPicker cityPicker;
     private Button btn_cancel;
     private Button btn_finish;

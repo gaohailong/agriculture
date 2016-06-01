@@ -2,34 +2,37 @@ package com.sxau.agriculture.view.fragment;
 
 
 import android.content.Context;
-import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
+import com.lidroid.xutils.DbUtils;
+import com.lidroid.xutils.exception.DbException;
 import com.sxau.agriculture.adapter.QuestionAdapter;
 import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.api.IQuestionList;
-import com.sxau.agriculture.bean.Question;
 import com.sxau.agriculture.bean.QuestionData;
-import com.sxau.agriculture.utils.ConstantUtil;
-import com.sxau.agriculture.utils.RetrofitUtil;
-import com.sxau.agriculture.view.activity.AskQuestion;
-import com.sxau.agriculture.view.activity.DetailQuestion;
 import com.sxau.agriculture.presenter.fragment_presenter.QuestionListViewPresenter;
 import com.sxau.agriculture.presenter.fragment_presenter_interface.IQuestionListViewPresenter;
+import com.sxau.agriculture.utils.ConstantUtil;
+import com.sxau.agriculture.utils.NetUtil;
+import com.sxau.agriculture.utils.RefreshBottomTextUtil;
+import com.sxau.agriculture.utils.RetrofitUtil;
+import com.sxau.agriculture.view.activity.DetailQuestion;
 import com.sxau.agriculture.view.fragment_interface.IQuestionListViewFragment;
+import com.sxau.agriculture.widgets.RefreshLayout;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit.Call;
 import retrofit.Callback;
@@ -50,6 +53,13 @@ public class QuestionListViewFragment extends BaseFragment implements IQuestionL
     private float startX, startY, offsetX, offsetY; //计算触摸偏移量
     private QuestionFragment questionFragment;
 
+    private RefreshLayout rl_refresh;
+    private View footView;
+    private TextView tv_more;
+    private int currentPage;
+    private boolean isLoadOver;
+    private DbUtils dbUtil;
+
 
     private IQuestionListViewPresenter iQuestionListViewPresenter;
 
@@ -60,16 +70,24 @@ public class QuestionListViewFragment extends BaseFragment implements IQuestionL
         iQuestionListViewPresenter = new QuestionListViewPresenter(QuestionListViewFragment.this);
 
         mView = inflater.inflate(R.layout.fragment_question_list, container, false);
+
         lvQuestionList = (ListView) mView.findViewById(R.id.lv_question);
-        questionDatas=new ArrayList<QuestionData>();
-        myHandler=new MyHandler();
-
-
-        context=QuestionListViewFragment.this.getActivity();
-
         lvQuestionList.setOnItemClickListener(this);
         lvQuestionList.setOnTouchListener(this);
 
+        questionDatas=new ArrayList<QuestionData>();
+        myHandler=new MyHandler();
+
+        context=QuestionListViewFragment.this.getActivity();
+
+        //刷新&加载
+        rl_refresh= (RefreshLayout) mView.findViewById(R.id.rl_refresh);
+        rl_refresh.setColorSchemeColors(Color.parseColor("#00b5ad"));
+        footView=getLayoutInflater(savedInstanceState).inflate(R.layout.listview_footer,null);
+        tv_more= (TextView) footView.findViewById(R.id.tv_more);
+        currentPage=1;
+        isLoadOver=false;
+        dbUtil=DbUtils.create(context);
 
         return mView;
     }
@@ -77,8 +95,27 @@ public class QuestionListViewFragment extends BaseFragment implements IQuestionL
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initDate();
+        initList();
+        initRefresh();
         myHandler.sendEmptyMessage(ConstantUtil.INIT_DATA);
+    }
+
+    public void initRefresh(){
+       lvQuestionList.addFooterView(footView);
+        rl_refresh.setChildView(lvQuestionList);
+        rl_refresh.setOnRefreshListener(new RefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                myHandler.sendEmptyMessage(ConstantUtil.PULL_REFRESH);
+            }
+        });
+        
+        tv_more.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myHandler.sendEmptyMessage(ConstantUtil.UP_LOAD);
+            }
+        });
     }
 
 
@@ -118,10 +155,34 @@ public class QuestionListViewFragment extends BaseFragment implements IQuestionL
             super.handleMessage(msg);
             switch (msg.what){
                 case ConstantUtil.INIT_DATA:
-                    getQuestionData();
+                    currentPage=1;
+                    if (NetUtil.isNetAvailable(context)){
+                        getQuestionData(String.valueOf(currentPage),ConstantUtil.ITEM_NUMBER,true);
+                    }else {
+                        getCatchData();
+                        initList();
+                    }
                     break;
                 case ConstantUtil.GET_NET_DATA:
-                    initDate();
+                    initList();
+                    break;
+                case ConstantUtil.PULL_REFRESH:
+                    currentPage=1;
+                    getQuestionData(String.valueOf(currentPage),ConstantUtil.ITEM_NUMBER,true);
+                    rl_refresh.setRefreshing(false);
+                    adapter.notifyDataSetChanged();
+                    RefreshBottomTextUtil.setTextMore(tv_more,ConstantUtil.LOAD_MORE);
+                    break;
+                case ConstantUtil.UP_LOAD:
+                    currentPage++;
+                    getQuestionData(String.valueOf(currentPage),ConstantUtil.ITEM_NUMBER,false);
+                    rl_refresh.setLoading(false);
+                    adapter.notifyDataSetChanged();
+                    if (isLoadOver==true){
+                        RefreshBottomTextUtil.setTextMore(tv_more,ConstantUtil.LOAD_OVER);
+                    }else {
+                        RefreshBottomTextUtil.setTextMore(tv_more,ConstantUtil.LOAD_MORE);
+                    }
                     break;
                 default:
                     break;
@@ -130,29 +191,60 @@ public class QuestionListViewFragment extends BaseFragment implements IQuestionL
     }
 
     //网络请求方法
-    public void getQuestionData(){
-        Call<ArrayList<QuestionData>> call=RetrofitUtil.getRetrofit().create(IQuestionList.class).getQuestionList();
+    public void getQuestionData(String page, String pageSize,final boolean isRefresh){
+        Call<ArrayList<QuestionData>> call=RetrofitUtil.getRetrofit().create(IQuestionList.class).getQuestionList(page,pageSize);
         call.enqueue(new Callback<ArrayList<QuestionData>>() {
             @Override
             public void onResponse(Response<ArrayList<QuestionData>> response, Retrofit retrofit) {
                 if (response.isSuccess()) {
-                    questionDatas = response.body();
+                    ArrayList<QuestionData> questionDatas1=response.body();
+                    try {
+                        dbUtil.deleteAll(QuestionData.class);
+                        if (isRefresh){
+                            questionDatas.clear();
+                            questionDatas.addAll(questionDatas1);
+                            dbUtil.saveAll(questionDatas1);
+                        }else {
+                            questionDatas.addAll(questionDatas1);
+                            dbUtil.saveAll(questionDatas);
+                        }
+                    } catch (DbException e) {
+                        e.printStackTrace();
+                    }
+                    if (questionDatas1.size()<Integer.parseInt(ConstantUtil.ITEM_NUMBER)){
+                        isLoadOver=true;
+                    }
                     myHandler.sendEmptyMessage(ConstantUtil.GET_NET_DATA);
                 }
             }
 
             @Override
             public void onFailure(Throwable t) {
-
+                RefreshBottomTextUtil.setTextMore(tv_more,ConstantUtil.LOAD_FAIL);
+                if (currentPage>1){
+                    rl_refresh.setRefreshing(false);
+                    currentPage--;
+                }else {
+                    rl_refresh.setRefreshing(false);
+                }
             }
         });
 
+    }
+    
+    public void getCatchData(){
+        try {
+            List<QuestionData> list=dbUtil.findAll(QuestionData.class);
+            questionDatas= (ArrayList<QuestionData>) list;
+        } catch (DbException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
      *给listview填充数据
      */
-    private void initDate() {
+    private void initList() {
 
         adapter = new QuestionAdapter(context, questionDatas);
         lvQuestionList.setAdapter(adapter);
