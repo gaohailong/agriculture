@@ -2,13 +2,12 @@ package com.sxau.agriculture.view.fragment;
 
 import com.sxau.agriculture.agriculture.R;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -21,7 +20,7 @@ import android.widget.Toast;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
-import com.sxau.agriculture.view.activity.InfoReleaseActivity;
+import com.sxau.agriculture.view.activity.TradeReleaseActivity;
 
 import java.util.ArrayList;
 
@@ -39,14 +38,15 @@ public class TradeFragment extends BaseFragment implements View.OnClickListener{
     private int bmpW;//横线图片宽度
     private int offset;//图片移动的偏移量
     public static Button btn_info_float;
+    private Context mcontext;
 
 
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View convertView = inflater.inflate(R.layout.fragment_info, container, false);
-
+        View convertView = inflater.inflate(R.layout.fragment_trade, container, false);
+        mcontext=TradeFragment.this.getActivity();
 
         initView(convertView);
 
@@ -59,8 +59,8 @@ public class TradeFragment extends BaseFragment implements View.OnClickListener{
 
         FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(
                 getChildFragmentManager(), FragmentPagerItems.with(getContext())
-                .add(R.string.supply, InfoListViewFragment.class)
-                .add(R.string.demand, InfoListViewFragment.class)
+                .add(R.string.supply, TradeSupplyListViewFragment.class)
+                .add(R.string.demand, TradeDemandListViewFragment.class)
                 .create());
 
         ViewPager viewPager = (ViewPager) convertView.findViewById(R.id.viewpager);
@@ -78,7 +78,7 @@ public class TradeFragment extends BaseFragment implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_info_float:
-                Intent intent = new Intent(TradeFragment.this.getActivity(), InfoReleaseActivity.class);
+                Intent intent = new Intent(TradeFragment.this.getActivity(), TradeReleaseActivity.class);
                 startActivity(intent);
                 break;
             default:

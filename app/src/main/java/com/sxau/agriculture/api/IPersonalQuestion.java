@@ -1,10 +1,7 @@
 package com.sxau.agriculture.api;
 
 import com.sxau.agriculture.bean.MyPersonalQuestion;
-
-
 import java.util.ArrayList;
-
 import retrofit.Call;
 import retrofit.http.GET;
 

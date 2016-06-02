@@ -1,25 +1,37 @@
 package com.sxau.agriculture.view.activity;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.FragmentTabHost;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TabHost;
 import android.widget.Toast;
 
+import com.sxau.agriculture.AgricultureApplication;
 import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.utils.ActivityCollectorUtil;
+import com.sxau.agriculture.utils.JPushUtil;
 import com.sxau.agriculture.utils.TopBarUtil;
 import com.sxau.agriculture.view.fragment.HomeFragment;
 import com.sxau.agriculture.view.fragment.TradeFragment;
 import com.sxau.agriculture.view.fragment.MessageFragment;
 import com.sxau.agriculture.view.fragment.QuestionFragment;
+
+
+import java.util.Set;
+
+import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
 
 /**
  * 主界面的activity
@@ -37,12 +49,17 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     private int flag = 0;
     private String phoneNumber;
 
+    public static boolean isForeground = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         iniTitle();
         initView();
+        registerMessageReceiver();  // used for receive msg
+        init();
+//        setAlias();
     }
 
     /**
@@ -69,8 +86,6 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         TopBarUtil topBar = (TopBarUtil) findViewById(R.id.topBar);
         topBar.setLeftRoundImageIsVisible(false);
         topBar.setLeftImageIsVisible(true);
-//        Bitmap leftRoundBitmapImage= BitmapUtil.decodedBitmapFromResource(getResources(),R.mipmap.img_default_user_portrait_150px,45,45);
-//        topBar.setLeftRoundBitmapImage(leftRoundBitmapImage);
 
         if (flag == 0) {
             topBar.setRightImageIsVisible(true);
@@ -82,6 +97,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         topBar.setOnTopbarClickListener(new TopBarUtil.TopbarClickListner() {
             @Override
             public void onClickLeftRoundImage() {
+
                 Intent intent = new Intent();
                 intent.setClass(MainActivity.this, PersonalCenterActivity.class);
                 startActivity(intent);
@@ -111,7 +127,6 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
             }
         });
     }
-
 
     @Override
     public void onClick(View v) {
@@ -166,6 +181,61 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         }
     }
 
+    // 初始化 JPush。如果已经初始化，但没有登录成功，则执行重新登录。
+    private void init(){
+        JPushInterface.init(getApplicationContext());
+    }
+
+    @Override
+    protected void onResume() {
+        isForeground = true;
+        super.onResume();
+    }
+
+
+    @Override
+    protected void onPause() {
+        isForeground = false;
+        super.onPause();
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        unregisterReceiver(mMessageReceiver);
+        super.onDestroy();
+    }
+    //for receive customer msg from jpush server
+    private MessageReceiver mMessageReceiver;
+    public static final String MESSAGE_RECEIVED_ACTION = "com.example.jpushdemo.MESSAGE_RECEIVED_ACTION";
+    public static final String KEY_TITLE = "title";
+    public static final String KEY_MESSAGE = "message";
+    public static final String KEY_EXTRAS = "extras";
+
+    public void registerMessageReceiver() {
+        mMessageReceiver = new MessageReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
+        filter.addAction(MESSAGE_RECEIVED_ACTION);
+        registerReceiver(mMessageReceiver, filter);
+    }
+
+    public class MessageReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (MESSAGE_RECEIVED_ACTION.equals(intent.getAction())) {
+                String messge = intent.getStringExtra(KEY_MESSAGE);
+                String extras = intent.getStringExtra(KEY_EXTRAS);
+                StringBuilder showMsg = new StringBuilder();
+                showMsg.append(KEY_MESSAGE + " : " + messge + "\n");
+                if (!JPushUtil.isEmpty(extras)) {
+                    showMsg.append(KEY_EXTRAS + " : " + extras + "\n");
+                }
+            }
+        }
+    }
+
     @Override
     public void onBackPressed() {
         if (System.currentTimeMillis() - currentBackPressedTime > BACK_PRESSED_INTERVAL) {
@@ -176,4 +246,55 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
             finish();
         }
     }
+
+
+    //作为调试JPUSH别名，以后要删除
+/*    private static final int MSG_SET_ALIAS = 1001;
+    private static final String TAG = "JPush";
+    //JPush方法别名的设置
+    private void setAlias() {
+        if (!JPushUtil.isValidTagAndAlias(String.valueOf("18404984629"))) {
+            return;
+        }
+        //调用JPush API设置Alias
+        handler.sendMessage(handler.obtainMessage(MSG_SET_ALIAS, "18404984629"));
+    }
+
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case MSG_SET_ALIAS:
+                    JPushInterface.setAliasAndTags(AgricultureApplication.getContext(), (String) msg.obj, null, mAliasCallback);
+            }
+        }
+    };
+
+    private final TagAliasCallback mAliasCallback = new TagAliasCallback() {
+        @Override
+        public void gotResult(int code, String alias, Set<String> tags) {
+            String logs ;
+            switch (code) {
+                case 0:
+                    logs = "Set tag and alias success";
+                    Log.i(TAG, logs);
+                    break;
+                case 6002:
+                    logs = "Failed to set alias and tags due to timeout. Try again after 60s.";
+                    Log.i(TAG, logs);
+                    if (JPushUtil.isConnected(AgricultureApplication.getContext())) {
+                        handler.sendMessageDelayed(handler.obtainMessage(MSG_SET_ALIAS, alias), 1000 * 60);
+                    } else {
+                        Log.i(TAG, "No network");
+                    }
+                    break;
+
+                default:
+                    logs = "Failed with errorCode = " + code;
+                    Log.e(TAG, logs);
+            }
+            JPushUtil.showToast(logs, AgricultureApplication.getContext());
+        }
+    };*/
 }

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.sxau.agriculture.view.activity.ThreeLevelLinkage">
+    tools:context="com.sxau.agriculture.view.activity.ThreeLevelLinkageActivity">
 
     <com.sxau.agriculture.widgets.CityPicker
         android:id="@+id/citypicker"

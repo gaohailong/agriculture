@@ -13,7 +13,7 @@ import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.bean.MyPersonalTrade;
 import com.sxau.agriculture.presenter.fragment_presenter.PersonalCollectTradePresenter;
 import com.sxau.agriculture.presenter.fragment_presenter_interface.IPersonalCollectTradePresenter;
-import com.sxau.agriculture.view.activity.InfoContentActivity;
+import com.sxau.agriculture.view.activity.TradeContentActivity;
 import com.sxau.agriculture.view.fragment_interface.IPersonalCollectTradeFragment;
 
 import java.util.ArrayList;
@@ -37,12 +37,12 @@ public class PersonalCollectTradeFragment extends BaseFragment implements IPerso
 
         PersonalTradeInfoAdapter adapter = new PersonalTradeInfoAdapter(PersonalCollectTradeFragment.this.getActivity(),getDate());
         listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+      /*  listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                InfoContentActivity.actionStart(PersonalCollectTradeFragment.this.getActivity());
+                TradeContentActivity.actionStart(PersonalCollectTradeFragment.this.getActivity());
             }
-        });
+        });*/
         return TradeInfoView;
     }
     private ArrayList<MyPersonalTrade> getDate() {

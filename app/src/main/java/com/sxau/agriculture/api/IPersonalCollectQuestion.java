@@ -1,5 +1,6 @@
 package com.sxau.agriculture.api;
 
+import com.sxau.agriculture.bean.MyPersonalCollectionQuestion;
 import com.sxau.agriculture.bean.MyPersonalQuestion;
 
 import java.util.ArrayList;
@@ -12,5 +13,5 @@ import retrofit.http.GET;
  */
 public interface IPersonalCollectQuestion {
     @GET("questions")
-    Call<ArrayList<MyPersonalQuestion>> getMessage();
+    Call<ArrayList<MyPersonalCollectionQuestion>> getMessage();
 }

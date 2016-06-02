@@ -9,6 +9,8 @@
     <!--主色调-->
     <color name="mainColor">#00b5ad</color>
     <color name="white">#ffffff</color>
+    <!--浅灰色-->
+    <color name="tintGrey">#f9fafa</color>
     <!--灰色-->
     <color name="whitGrey">#d3d9d9</color>
     <!--灰色-->
@@ -17,7 +19,10 @@
     <color name="croci">#FF6446</color>
     <!--金黄色-->
     <color name="yellow">#f4c600</color>
+    <!--深灰色-->
     <color name="greyBlack">#403c3c</color>
+    <!--淡灰色-->
+    <color name="greyWhite">#F5F5F5</color>
 
     <!--标题栏过度色-->
     <color name="black_20">#33000000</color>
