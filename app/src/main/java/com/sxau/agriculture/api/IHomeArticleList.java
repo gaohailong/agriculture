@@ -1,6 +1,7 @@
 package com.sxau.agriculture.api;
 
 import com.sxau.agriculture.bean.HomeArticle;
+import com.sxau.agriculture.bean.HomeBannerPicture;
 
 import java.util.ArrayList;
 
@@ -16,4 +17,6 @@ import retrofit.http.Query;
 public interface    IHomeArticleList {
     @GET("articles")
     Call<ArrayList<HomeArticle>> getArticleList(@Query("page") String page, @Query("pageSize") String pageSize);
+    @GET("advertisements")
+    Call<ArrayList<HomeBannerPicture>> getPicturelist();
 }

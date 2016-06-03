@@ -31,6 +31,7 @@ import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.api.IHomeArticleList;
 import com.sxau.agriculture.api.IHomeRotatePicture;
 import com.sxau.agriculture.bean.HomeArticle;
+import com.sxau.agriculture.bean.HomeBannerPicture;
 import com.sxau.agriculture.bean.HomeRotatePicture;
 import com.sxau.agriculture.presenter.fragment_presenter_interface.IHomePresenter;
 import com.sxau.agriculture.utils.ACache;
@@ -43,6 +44,7 @@ import com.sxau.agriculture.widgets.RefreshLayout;
 
 
 import java.lang.ref.WeakReference;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,6 +72,7 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
     private BannerAdapter bannerAdapter;
     private HomeArticlesAdapter adapter;
     //控件定义部分
+    private TextView tv_title;
     private ListView lv_push;
     private View mView;
     private ViewPager vp_viewpager;
@@ -78,9 +81,10 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
     private View footerLayout;
     //常量及集合定义部分
     private HomeRotatePicture homeRotatePicture;
-    private int[] imagePath;
+    private ArrayList<String> imagePath;
     private ArrayList<HomeArticle> homeArticles;
     private ArrayList<ImageView> imageViews;
+    private ArrayList<HomeBannerPicture> bannerPicture;
     private int currentIndex;
     private long lastTime;
     private int currentPage;
@@ -101,6 +105,7 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
         rl_refresh.setColorSchemeColors(Color.parseColor("#00b5ad"));
         footerLayout = getLayoutInflater(savedInstanceState).inflate(R.layout.listview_footer, null);
         tv_more = (TextView) footerLayout.findViewById(R.id.tv_more);
+        tv_title= (TextView) mView.findViewById(R.id.tv_title);
 
         lv_push.setOnItemClickListener(this);
 
@@ -110,6 +115,10 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
         context = HomeFragment.this.getActivity();
         homeArticles = new ArrayList<HomeArticle>();
         myHandler = new MyHandler(HomeFragment.this);
+        bannerPicture= new ArrayList<>();
+        imagePath=new ArrayList<>();
+
+        imagePath.add("http://file3.u148.net/2011/4/images/1302139153715.jpg");
 
         dbUtil = DbUtils.create(context);
         return mView;
@@ -149,13 +158,15 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
     }
 
     public void initPictureView() {
+        tv_title.setText("数据加载中 请稍候……");
         vp_viewpager = (ViewPager) mView.findViewById(R.id.vp_viewpager);
-        imagePath = new int[]{R.drawable.img_banner_one, R.drawable.img_banner_two, R.drawable.img_banner_three, R.drawable.img_banner_four, R.drawable.img_banner_five};
         imageViews = new ArrayList<ImageView>();
-
-        for (int i = 0; i < imagePath.length; i++) {
+        Log.d("222", imagePath.size()+"");
+        for (int i = 0; i < imagePath.size(); i++) {
             ImageView img = new ImageView(context);
-            Picasso.with(context).load(imagePath[i]).resize(360, 200).centerCrop().into(img);
+            Log.d("111", imagePath.get(i));
+            Picasso.with(context).load(imagePath.get(i)).resize(2000, 150).centerCrop()
+                    .placeholder(R.mipmap.ic_loading).error(R.mipmap.ic_load_fail).into(img);
             imageViews.add(img);
         }
 
@@ -166,6 +177,7 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
         vp_viewpager.setOnPageChangeListener(this);
         myHandler.postDelayed(runnableForBanner, 2000);
     }
+
 
     public class MyHandler extends Handler {
         WeakReference<HomeFragment> weakReference;
@@ -182,6 +194,7 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
                     currentPage = 1;
                     if (NetUtil.isNetAvailable(context)) {
                         getHomeArticleData(String.valueOf(currentPage), String.valueOf(ConstantUtil.ITEM_NUMBER), true);
+                        getHomeBannerData();
                     } else {
                         try {
                             dbUtil.createTableIfNotExist(HomeArticle.class);
@@ -194,6 +207,7 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
                     break;
                 case ConstantUtil.GET_NET_DATA:
                     adapter.notifyDataSetChanged();
+                    initPictureView();
                     if (isLoadOver) {
                         RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOAD_OVER);
                     } else {
@@ -259,6 +273,35 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
         });
     }
 
+    //获取轮播图网络数据
+    public void getHomeBannerData(){
+        Call<ArrayList<HomeBannerPicture>> pictureCall=RetrofitUtil.getRetrofit().create(IHomeArticleList.class).getPicturelist();
+        pictureCall.enqueue(new Callback<ArrayList<HomeBannerPicture>>() {
+            @Override
+            public void onResponse(Response<ArrayList<HomeBannerPicture>> response, Retrofit retrofit) {
+                if (response.isSuccess()){
+                    bannerPicture=response.body();
+                    getPictureInfo();
+                    myHandler.sendEmptyMessage(ConstantUtil.GET_NET_DATA);
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+
+            }
+        });
+    }
+
+    //拼接图片地址
+    public void getPictureInfo(){
+        imagePath.clear();
+        for (int j=0;j<bannerPicture.size();j++){
+            String img=ConstantUtil.BASE_PICTURE_URL+bannerPicture.get(j).getImage();
+            imagePath.add(img);
+        }
+    }
+
 
     //获取缓存数据
     public void getCacheData() {
@@ -293,8 +336,11 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
     public void onPageSelected(int position) {
         currentIndex = position;
         lastTime = System.currentTimeMillis();
-
+        //设置轮播文字改变
+        int index=position % imageViews.size();
+        tv_title.setText(bannerPicture.get(index).getName());
     }
+
 
     @Override
     public void onPageScrollStateChanged(int state) {
