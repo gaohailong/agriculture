@@ -337,8 +337,19 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
         currentIndex = position;
         lastTime = System.currentTimeMillis();
         //设置轮播文字改变
-        int index=position % imageViews.size();
+        final int index=position % imageViews.size();
         tv_title.setText(bannerPicture.get(index).getName());
+        //轮播图点击事件
+        imageViews.get(index).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.putExtra("ArticleUrl",bannerPicture.get(index).getUrl());
+                intent.setClass(context, WebViewActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
 
