@@ -68,12 +68,15 @@ public class PersonalCollectQuestionFragment  extends BaseFragment implements IP
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initListView();
         initRefresh();
+        initListView();
+        Log.d("cq","onviewCreat");
+
     }
 
     private void initRefresh() {
         rl_refresh.setChildView(listView);
+        Log.d("cq:","下拉刷新");
         rl_refresh.setOnRefreshListener(new RefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -83,11 +86,14 @@ public class PersonalCollectQuestionFragment  extends BaseFragment implements IP
     }
 
     private void initListView(){
+
+        LogUtil.d("PersonalcollectQuestion", "1、初始化View，获取数据");
         mquestionslist = iPersonalCollectQuestionPresenter.getDatas();
         if (mquestionslist.isEmpty()){
             listView.setEmptyView(emptyView);
             listView.setVisibility(View.GONE);
         }else {
+            LogUtil.d("PersonalcollectQuestion", "2、有数据初始化View");
             emptyView.setVisibility(View.GONE);
             adapter = new PersonalCollectQuestionAdapter(PersonalCollectQuestionFragment.this.getActivity(),mquestionslist);
             listView.setAdapter(adapter);
@@ -99,6 +105,7 @@ public class PersonalCollectQuestionFragment  extends BaseFragment implements IP
             });
         }
         if (iPersonalCollectQuestionPresenter.isNetAvailable()) {
+            LogUtil.d("PersonalQuestion", "3、发起请求，请求数据");
             iPersonalCollectQuestionPresenter.doRequest();
         } else {
             showNoNetworking();

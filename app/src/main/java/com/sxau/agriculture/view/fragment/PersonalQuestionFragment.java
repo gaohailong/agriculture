@@ -165,7 +165,7 @@ public class PersonalQuestionFragment extends BaseFragment implements IPersonalQ
     @Override
     public void updateView(ArrayList<MyPersonalQuestion> myPersonalQuestions) {
         LogUtil.d("PersonalQuestion", "6、updateView方法执行");
-        if (mquestionslist.isEmpty()) {
+        if (myPersonalQuestions.isEmpty()) {
             LogUtil.d("PersonalQuestin", "7、仍然是空数据");
             listView.setEmptyView(emptyView);
             listView.setVisibility(View.GONE);
@@ -174,7 +174,7 @@ public class PersonalQuestionFragment extends BaseFragment implements IPersonalQ
             emptyView.setVisibility(View.GONE);
             listView.setVisibility(View.VISIBLE);
 
-            adapter = new PersonalQuestionAdapter(PersonalQuestionFragment.this.getActivity(), mquestionslist);
+            adapter = new PersonalQuestionAdapter(PersonalQuestionFragment.this.getActivity(), myPersonalQuestions);
             listView.setAdapter(adapter);
             LogUtil.d("PersonalQuestionF", "2");
 

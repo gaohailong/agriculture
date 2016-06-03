@@ -2,11 +2,13 @@ package com.sxau.agriculture.presenter.fragment_presenter;
 
 import android.content.Context;
 import android.os.Handler;
+import android.util.Log;
 
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.exception.DbException;
 import com.sxau.agriculture.AgricultureApplication;
 import com.sxau.agriculture.api.IPersonalCollectQuestion;
+import com.sxau.agriculture.bean.MyPersonalCollectTrades;
 import com.sxau.agriculture.bean.MyPersonalCollectionQuestion;
 import com.sxau.agriculture.bean.MyPersonalQuestion;
 import com.sxau.agriculture.presenter.fragment_presenter_interface.IPersonalCollectQuestionPresenter;
@@ -59,6 +61,7 @@ public class PersonalCollectionPresenter implements IPersonalCollectQuestionPres
      */
     @Override
     public ArrayList<MyPersonalCollectionQuestion> getDatas() {
+
         myCQuestionsList = new ArrayList<MyPersonalCollectionQuestion>();
         myPersonalQuestion = new MyPersonalCollectionQuestion();
         try {
@@ -81,17 +84,22 @@ public class PersonalCollectionPresenter implements IPersonalCollectQuestionPres
 
     @Override
     public boolean isNetAvailable() {
+        Log.d("pcqp" ,"isNetavailable");
         return NetUtil.isNetAvailable(AgricultureApplication.getContext());
     }
 
     @Override
     public void doRequest() {
+        Log.d("pcqp","doRequest");
         Call<ArrayList<MyPersonalCollectionQuestion>> call = RetrofitUtil.getRetrofit().create(IPersonalCollectQuestion.class).getMessage();
         call.enqueue(new Callback<ArrayList<MyPersonalCollectionQuestion>>() {
             @Override
             public void onResponse(Response<ArrayList<MyPersonalCollectionQuestion>> response, Retrofit retrofit) {
+                Log.d("pcqp:issuceess",response.isSuccess()+"");
                 if (response.isSuccess()){
                     myCQuestionsList = response.body();
+                    Log.d("pcqp","code"+response.code()+"body:"+response.body().toString());
+                    Log.d("pcqp",myCQuestionsList.get(1).getUser().toString());
                     try {
                         dbUtils.deleteAll(MyPersonalCollectionQuestion.class);
                         dbUtils.saveAll(myCQuestionsList);
@@ -113,7 +121,10 @@ public class PersonalCollectionPresenter implements IPersonalCollectQuestionPres
 
     @Override
     public void pullRefersh() {
+        boolean b = isNetAvailable();
+        Log.d("isnetavalabe",b+"");
         if (isNetAvailable()) {
+            Log.d("pcqp" ,"doreq");
             doRequest();
         } else {
             iPresonalCollectQuestionFragment.showNoNetworking();

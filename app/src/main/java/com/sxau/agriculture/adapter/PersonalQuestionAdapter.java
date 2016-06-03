@@ -10,12 +10,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.bean.MyPersonalQuestion;
 import com.sxau.agriculture.utils.TimeUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Handler;
 
 /**
  * 个人中心问题adapter
@@ -75,7 +77,7 @@ public class PersonalQuestionAdapter extends BaseAdapter {
         //对是否有回答，items显示的改变
         if (myPersonalQuestion.getQuestionAuditState() != "WAIT_AUDITED" || myPersonalQuestion.getQuestionResolveState() != "WAIT_RESOLVE") {
             holder.tv_content.setText(myPersonalQuestion.getContent());
-            holder.rv_head.setImageResource(R.mipmap.ic_launcher);
+            Picasso.with(context).load(myPersonalQuestion.getUser().getAvatar()).resize(150, 150).centerCrop().placeholder(R.mipmap.ic_loading).error(R.mipmap.ic_load_fail).into(holder.rv_head);
             holder.tv_is_question.setText(R.string.is_question);
             holder.v_left.setBackgroundColor(Color.parseColor("#009688"));
         } else {

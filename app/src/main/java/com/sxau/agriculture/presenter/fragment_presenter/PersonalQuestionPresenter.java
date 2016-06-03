@@ -2,6 +2,7 @@ package com.sxau.agriculture.presenter.fragment_presenter;
 
 import android.content.Context;
 import android.os.Handler;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -12,6 +13,7 @@ import com.lidroid.xutils.exception.DbException;
 import com.sxau.agriculture.AgricultureApplication;
 import com.sxau.agriculture.api.IPersonalQuestion;
 import com.sxau.agriculture.bean.MyPersonalQuestion;
+import com.sxau.agriculture.bean.User;
 import com.sxau.agriculture.presenter.fragment_presenter_interface.IPersonalQuestionPresenter;
 import com.sxau.agriculture.utils.ACache;
 import com.sxau.agriculture.utils.ConstantUtil;
@@ -41,24 +43,21 @@ public class PersonalQuestionPresenter implements IPersonalQuestionPresenter {
     private IPersonalQuestionFragment iPersonalQuestionFragment;
     private ArrayList<MyPersonalQuestion> mQuestionsList;
 
-    private DbUtils dbUtils;
     private Context context;
     private MyPersonalQuestion myPersonalQuestion;
     private Handler handler;
+    private String authToken;
+    private ACache mCache;
 
 
-    public PersonalQuestionPresenter(IPersonalQuestionFragment iPersonalQuestionFragment, Context context,PersonalQuestionFragment.MyHandler handler) {
+    public PersonalQuestionPresenter(IPersonalQuestionFragment iPersonalQuestionFragment, Context context, PersonalQuestionFragment.MyHandler handler) {
         this.iPersonalQuestionFragment = iPersonalQuestionFragment;
         this.context = context;
-        dbUtils = DbUtils.create(context);
+        this.mCache = ACache.get(context);
         this.handler = handler;
     }
 
     //------------------接口方法--------------------
-    @Override
-    public Object findItemByPosition(int position) {
-        return null;
-    }
 
     /**
      * 获取个人问题数据
@@ -71,23 +70,18 @@ public class PersonalQuestionPresenter implements IPersonalQuestionPresenter {
     public ArrayList<MyPersonalQuestion> getDatas() {
         mQuestionsList = new ArrayList<MyPersonalQuestion>();
         myPersonalQuestion = new MyPersonalQuestion();
-        try {
-            List<MyPersonalQuestion> questionList = new ArrayList<MyPersonalQuestion>();
-            //在应用第一次打开时，保证数据库正常建立
-            dbUtils.createTableIfNotExist(MyPersonalQuestion.class);
-            questionList = dbUtils.findAll(MyPersonalQuestion.class);
-            //缓存不为空时将数据填充返回
-            if (!questionList.isEmpty()) {
-                for (int i = 0; i < questionList.size(); i++) {
-                    myPersonalQuestion = questionList.get(i);
-                    mQuestionsList.add(myPersonalQuestion);
-                }
-            } else {
-                //缓存为空。直接返回 内容 为空 的mQuestionList
-                return mQuestionsList;
+
+        List<MyPersonalQuestion> questionList = new ArrayList<MyPersonalQuestion>();
+        questionList = (List<MyPersonalQuestion>) mCache.getAsObject(ConstantUtil.CACHE_PERSONALQUESTION_KEY);
+        //缓存不为空时将数据填充返回
+        if (mCache.getAsObject(ConstantUtil.CACHE_PERSONALQUESTION_KEY) != null) {
+            for (int i = 0; i < questionList.size(); i++) {
+                myPersonalQuestion = questionList.get(i);
+                mQuestionsList.add(myPersonalQuestion);
             }
-        } catch (DbException e) {
-            e.printStackTrace();
+        } else {
+            //缓存为空。直接返回 内容 为空 的mQuestionList
+            return mQuestionsList;
         }
         return mQuestionsList;
     }
@@ -103,25 +97,30 @@ public class PersonalQuestionPresenter implements IPersonalQuestionPresenter {
      */
     @Override
     public void doRequest() {
-        Call<ArrayList<MyPersonalQuestion>> call = RetrofitUtil.getRetrofit().create(IPersonalQuestion.class).getMessage();
+        //获取缓存中的authToken，添加到请求header中
+        Gson userGson = new Gson();
+        User user = new User();
+
+        String userData = new String();
+        userData = mCache.getAsString(ConstantUtil.CACHE_KEY);
+        user = userGson.fromJson(userData, User.class);
+        authToken = user.getAuthToken();
+
+        Call<ArrayList<MyPersonalQuestion>> call = RetrofitUtil.getRetrofit().create(IPersonalQuestion.class).getMessage(authToken);
         call.enqueue(new Callback<ArrayList<MyPersonalQuestion>>() {
             @Override
             public void onResponse(Response<ArrayList<MyPersonalQuestion>> response, Retrofit retrofit) {
-                LogUtil.d("PersonalQuestionP", response.code() + "");
+                LogUtil.d("PersonalQuestionP", "请求返回Code：" + response.code() + "  请求返回Body：" + response.body() + "  请求返回Message：" + response.message());
                 if (response.isSuccess()) {
                     mQuestionsList = response.body();
                     //保存到缓存中
-                    try {
-                        //清空缓存先
-                        dbUtils.deleteAll(MyPersonalQuestion.class);
-                        dbUtils.saveAll(mQuestionsList);
-                    } catch (DbException e) {
-                        e.printStackTrace();
-                    }
+                    //清空缓存先
+                    mCache.remove(ConstantUtil.CACHE_PERSONALQUESTION_KEY);
+                    mCache.put(ConstantUtil.CACHE_PERSONALQUESTION_KEY, mQuestionsList);
+
                     //请求成功之后做的操作
-//                    iPersonalQuestionFragment.updateView(getDatas());
                     //通知主线程重新加载数据
-                    LogUtil.d("PersonalQeustion","4、请求成功，已经保存好数据，通知主线程重新拿数据，更新页面");
+                    LogUtil.d("PersonalQeustion", "4、请求成功，已经保存好数据，通知主线程重新拿数据，更新页面");
                     handler.sendEmptyMessage(ConstantUtil.GET_NET_DATA);
                     iPersonalQuestionFragment.closeRefresh();
                 }
