@@ -75,8 +75,9 @@ public class QuestionAdapter extends BaseAdapter implements View.OnClickListener
                 .error(R.mipmap.img_default_user_portrait_150px).into(holder.rv_head);
         holder.tv_name.setText(questionData.getUser().getName());
         holder.tv_title.setText(questionData.getTitle());
-        if(questionData.getTitle()!=null && !questionData.getQuestionAuditState().equals("WAIT_AUDITED")){
-        holder.tv_content.setText(questionData.getContent());
+        if(questionData.getTitle()!=null && !questionData.getQuestionAuditState().equals("WAIT_AUDITED")
+                && !questionData.getQuestionResolveState().equals("WAIT_RESOLVE")){
+        holder.tv_content.setText(questionData.getAnswers().toString());
         holder.v_left.setBackgroundColor(Color.parseColor("#009688"));
         }else {
             holder.ll_answer.setVisibility(View.GONE);

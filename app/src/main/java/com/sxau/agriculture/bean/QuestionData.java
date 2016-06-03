@@ -1,40 +1,42 @@
 package com.sxau.agriculture.bean;
 
+import java.util.List;
+
 /**
  * 问题数据的实体类
  * @author 崔志泽
  */
 public class QuestionData {
 
-
     /**
-     * id : 1
-     * whenCreated : 1463630192000
-     * whenUpdated : 1463630192000
-     * category : {"id":1,"whenCreated":1463619997000,"whenUpdated":1463619997000,"pid":0,"name":"现代农业","categoryType":"ARTICLE","image":"images/test.png","sort":1}
-     * title : test001
-     * content : test001
+     * id : 10
+     * whenCreated : 1464264153000
+     * whenUpdated : 1464264153000
+     * category : {"id":11,"whenCreated":1463620170000,"whenUpdated":1463620170000,"pid":10,"name":"农作物","categoryType":"ARTICLE","image":"images/test.png","sort":255}
+     * title : 水稻叶子发黄怎么处理？
+     * content : 水稻叶子发黄怎么处理？ 图片是我家水稻的情况，请看看。
      * clickCount : 0
      * likeCount : 0
      * expert : null
-     * user : {"id":1,"whenCreated":1463621389000,"whenUpdated":1463651489000,"userType":"PUBLIC","address":null,"name":"guodont","avatar":null,"industry":null,"scale":null}
+     * user : {"id":1,"whenCreated":1463621389000,"whenUpdated":1464861953000,"userType":"PUBLIC","address":null,"name":"guodont","avatar":null,"industry":null,"scale":null}
      * questionAuditState : WAIT_AUDITED
      * questionResolveState : WAIT_RESOLVE
-     * images : null
+     * images : o_1ajmf2vo97ldoaqnb71mjhqs47.jpg,o_1ajmf38l017u91s1kf9b1afm1ds4c.jpg,
+     * answers : []
      */
 
     private int id;
     private long whenCreated;
     private long whenUpdated;
     /**
-     * id : 1
-     * whenCreated : 1463619997000
-     * whenUpdated : 1463619997000
-     * pid : 0
-     * name : 现代农业
+     * id : 11
+     * whenCreated : 1463620170000
+     * whenUpdated : 1463620170000
+     * pid : 10
+     * name : 农作物
      * categoryType : ARTICLE
      * image : images/test.png
-     * sort : 1
+     * sort : 255
      */
 
     private CategoryBean category;
@@ -46,7 +48,7 @@ public class QuestionData {
     /**
      * id : 1
      * whenCreated : 1463621389000
-     * whenUpdated : 1463651489000
+     * whenUpdated : 1464861953000
      * userType : PUBLIC
      * address : null
      * name : guodont
@@ -58,7 +60,8 @@ public class QuestionData {
     private UserBean user;
     private String questionAuditState;
     private String questionResolveState;
-    private Object images;
+    private String images;
+    private List<?> answers;
 
     public int getId() {
         return id;
@@ -156,12 +159,20 @@ public class QuestionData {
         this.questionResolveState = questionResolveState;
     }
 
-    public Object getImages() {
+    public String getImages() {
         return images;
     }
 
-    public void setImages(Object images) {
+    public void setImages(String images) {
         this.images = images;
+    }
+
+    public List<?> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(List<?> answers) {
+        this.answers = answers;
     }
 
     public static class CategoryBean {
