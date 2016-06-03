@@ -84,11 +84,18 @@ public class TradeDemandAdapter extends BaseAdapter implements View.OnClickListe
         /**
          * 给控件赋值
          * */
+        if (infoData.getUser().getAvatar()==null){
+            holder.ivHead.setImageResource(R.mipmap.img_default_user_portrait_150px);
+        }else {
 
-        holder.ivHead.setImageResource(R.drawable.btg_icon_checkmark);
+        }
         holder.name.setText(infoData.getUser().getName());
         holder.date.setText(sdf.format(infoData.getWhenCreated()));
-
+/**
+ * 隐藏距离和图标
+ * */
+        holder.distance.setVisibility(View.GONE);
+        holder.ivLocation.setVisibility(View.GONE);
         holder.distance.setText("2千米");
         holder.title.setText(infoData.getTitle());
         holder.content.setText(infoData.getDescription());
