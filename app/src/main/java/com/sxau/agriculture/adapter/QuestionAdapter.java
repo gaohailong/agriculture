@@ -1,7 +1,6 @@
 package com.sxau.agriculture.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,14 +9,10 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.sxau.agriculture.agriculture.R;
-import com.sxau.agriculture.bean.Question;
 import com.sxau.agriculture.bean.QuestionData;
-import com.sxau.agriculture.utils.ConstantUtil;
-import com.sxau.agriculture.view.activity.DetailQuestion;
 
 import java.util.ArrayList;
 

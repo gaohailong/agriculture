@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/mainColor"
-    tools:context="com.sxau.agriculture.view.activity.DetailQuestion">
+    tools:context="com.sxau.agriculture.view.activity.DetailQuestionActivity">
 
     <LinearLayout
         android:id="@+id/ll_back"
@@ -18,239 +18,197 @@
             android:id="@+id/ib_back"
             android:layout_width="30dip"
             android:layout_height="30dip"
-            android:scaleType="centerCrop"
             android:background="#00000000"
+            android:scaleType="centerCrop"
             android:src="@drawable/ic_actionbar_back_48px" />
-
     </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/ll_bottom"
         android:layout_below="@+id/ll_back"
         android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
-        android:layout_above="@+id/ll_bottom"
-        >
-       <RelativeLayout
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           >
+        android:layout_marginRight="25dp">
 
-           <LinearLayout
-               android:id="@+id/ll_question"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
-               android:layout_marginTop="20dp"
-               android:background="@drawable/bg_linear_layout_shape_10_white"
-               android:orientation="vertical"
-               android:paddingLeft="20dp"
-               android:paddingRight="20dp"
-               android:paddingTop="20dp">
+            <LinearLayout
+                android:id="@+id/ll_question"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/bg_linear_layout_shape_10_white"
+                android:orientation="vertical"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="20dp">
 
-               <LinearLayout
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content"
-                   android:orientation="horizontal">
-                   <com.sxau.agriculture.widgets.RoundImageView
-                       android:id="@+id/rv_uer_head"
-                       android:layout_width="40dp"
-                       android:layout_height="40dp"
-                       android:scaleType="centerCrop"
-                       android:src="@mipmap/img_default_user_portrait_150px" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
+                    <com.sxau.agriculture.widgets.RoundImageView
+                        android:id="@+id/rv_uer_head"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:scaleType="centerCrop"
+                        android:src="@mipmap/img_default_user_portrait_150px" />
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="1"
+                        android:text="123123" />
+                </LinearLayout>
 
+                <TextView
+                    android:id="@+id/tv_question"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="如何在禾本植物使用除草剂？"
+                    android:textSize="@dimen/font_title" />
 
-                   <TextView
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                       android:layout_marginBottom="5dp"
-                       android:layout_weight="1"
-                       android:layout_marginLeft="10dp"
-                       android:text="123123" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="sdf"
+                    android:textSize="@dimen/font_size" />
 
-                   <TextView
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                       android:layout_weight="1" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/mainColor" />
 
-               </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="2016.01.6" />
 
-               <TextView
-                   android:id="@+id/tv_question"
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content"
-                   android:layout_marginTop="5dp"
-                   android:text="如何在禾本植物使用除草剂？"
-                   android:textSize="20sp" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/mainColor" />
 
-               <TextView
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content"
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
-                   android:text="sdf"
-                   android:textSize="@dimen/font_size" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="10dp"
+                        android:text="专家已回答" />
 
-               <TextView
-                   android:layout_width="match_parent"
-                   android:layout_height="1dp"
-                   android:layout_marginTop="10dp"
-                   android:background="@color/mainColor" />
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_gravity="center_vertical"
+                        android:src="@mipmap/ic_correct_48px" />
+                </RelativeLayout>
+            </LinearLayout>
 
-               <TextView
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:layout_marginTop="10dp"
-                   android:text="2016.01.6" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ll_question"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/bg_linear_layout_shape_10_white"
+                android:orientation="vertical"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="20dp">
 
-               <TextView
-                   android:layout_width="match_parent"
-                   android:layout_height="1dp"
-                   android:layout_marginTop="10dp"
-                   android:background="@color/mainColor" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal">
 
-               <LinearLayout
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content"
-                   android:orientation="horizontal">
+                    <com.sxau.agriculture.widgets.RoundImageView
+                        android:id="@+id/rv_head"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:scaleType="centerCrop"
+                        android:src="@mipmap/img_default_user_portrait_150px" />
 
-                   <TextView
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                       android:layout_marginBottom="10dp"
-                       android:layout_marginTop="10dp"
-                       android:text="专家已回答" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="w是专家" />
+                </LinearLayout>
 
-                   <TextView
-                       android:layout_width="0dp"
-                       android:layout_height="wrap_content"
-                       android:layout_weight="1" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="dddddddddddddd" />
 
-                   <ImageView
-                       android:layout_width="30dp"
-                       android:layout_height="30dp"
-                       android:layout_gravity="center_vertical"
-                       android:src="@mipmap/ic_correct_48px" />
-               </LinearLayout>
-           </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/mainColor" />
 
-           <LinearLayout
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:background="@drawable/bg_linear_layout_shape_10_white"
-               android:orientation="vertical"
-               android:paddingLeft="20dp"
-               android:paddingRight="20dp"
-               android:layout_marginTop="20dp"
-               android:layout_below="@+id/ll_question"
-               >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="点赞人数：1000" />
 
-               <LinearLayout
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:gravity="center"
-                   android:orientation="horizontal">
-                   <com.sxau.agriculture.widgets.RoundImageView
-                       android:id="@+id/rv_head"
-                       android:layout_width="30dp"
-                       android:layout_height="30dp"
-                       android:scaleType="centerCrop"
-                       android:src="@mipmap/img_default_user_portrait_150px" />
-
-                   <TextView
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                       android:layout_marginLeft="10dp"
-                       android:text="w是专家" />
-               </LinearLayout>
-               <TextView
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content"
-                   android:layout_marginTop="10dp"
-                   android:lines="30"
-                   android:text="dddddddddddddd"/>
-
-               <TextView
-                   android:layout_width="match_parent"
-                   android:layout_height="1dp"
-                   android:layout_marginTop="10dp"
-                   android:background="@color/mainColor" />
-               <TextView
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:layout_marginTop="10dp"
-                   android:text="点赞人数：1000"/>
-               <TextView
-                   android:layout_width="match_parent"
-                   android:layout_height="1dp"
-                   android:layout_marginTop="10dp"
-                   android:layout_marginBottom="10dp"
-                   android:background="@color/mainColor" />
-           </LinearLayout>
-       </RelativeLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/mainColor" />
+            </LinearLayout>
+        </RelativeLayout>
 
     </ScrollView>
-<!--
-
--->
-
 
     <LinearLayout
+        android:id="@+id/ll_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
         android:layout_alignParentBottom="true"
-        android:orientation="horizontal"
         android:layout_marginTop="35dp"
-        android:id="@+id/ll_bottom">
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:layout_weight="1">
+        android:background="@color/white"
+        android:orientation="horizontal">
+
         <ImageView
             android:id="@+id/iv_fav"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/ic_no_praise_48px" />
 
-            android:src="@drawable/ic_no_praise_48px"/>
-        </LinearLayout>
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:background="@color/mainColor"/>
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:gravity="center_horizontal|center_vertical"
-            android:layout_weight="1">
-        <ImageView
-            android:id="@+id/iv_quick"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp"
-            android:src="@mipmap/ic_quick_true_48px"/>
-        </LinearLayout>
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="@color/mainColor"/>
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1">
+            android:background="@color/mainColor" />
+
         <Button
             android:id="@+id/btn_answer"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="#00000000"
-           android:text="回答"/>
-        </LinearLayout>
-
+            android:text="回答" />
     </LinearLayout>
-
 
 </RelativeLayout>
