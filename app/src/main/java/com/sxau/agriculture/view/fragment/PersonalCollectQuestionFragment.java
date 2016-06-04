@@ -50,7 +50,7 @@ public class PersonalCollectQuestionFragment  extends BaseFragment implements IP
     private RefreshLayout rl_refresh;
     private IPersonalCollectQuestionPresenter iPersonalCollectQuestionPresenter;
     private PersonalCollectQuestionAdapter adapter;
-    private MyHandler myHandler;
+    private static MyHandler myHandler;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         myHandler = new MyHandler(PersonalCollectQuestionFragment.this);
@@ -76,7 +76,7 @@ public class PersonalCollectQuestionFragment  extends BaseFragment implements IP
 
     private void initRefresh() {
         rl_refresh.setChildView(listView);
-        Log.d("cq:","下拉刷新");
+        Log.d("pcqf:","下拉刷新");
         rl_refresh.setOnRefreshListener(new RefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -87,14 +87,15 @@ public class PersonalCollectQuestionFragment  extends BaseFragment implements IP
 
     private void initListView(){
 
-        LogUtil.d("PersonalcollectQuestion", "1、初始化View，获取数据");
+        LogUtil.d("pcqf", "1、初始化View，获取数据");
         mquestionslist = iPersonalCollectQuestionPresenter.getDatas();
         if (mquestionslist.isEmpty()){
             listView.setEmptyView(emptyView);
             listView.setVisibility(View.GONE);
         }else {
-            LogUtil.d("PersonalcollectQuestion", "2、有数据初始化View");
+            LogUtil.d("pcqf", "2、有数据初始化View");
             emptyView.setVisibility(View.GONE);
+            listView.setVisibility(View.VISIBLE);
             adapter = new PersonalCollectQuestionAdapter(PersonalCollectQuestionFragment.this.getActivity(),mquestionslist);
             listView.setAdapter(adapter);
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -105,7 +106,7 @@ public class PersonalCollectQuestionFragment  extends BaseFragment implements IP
             });
         }
         if (iPersonalCollectQuestionPresenter.isNetAvailable()) {
-            LogUtil.d("PersonalQuestion", "3、发起请求，请求数据");
+            LogUtil.d("pcqf", "3、发起请求，请求数据");
             iPersonalCollectQuestionPresenter.doRequest();
         } else {
             showNoNetworking();
@@ -126,6 +127,7 @@ public class PersonalCollectQuestionFragment  extends BaseFragment implements IP
             switch (msg.what) {
                 case ConstantUtil.GET_NET_DATA:
                     mquestionslist = iPersonalCollectQuestionPresenter.getDatas();
+                    Log.d("pcqf","拿到数据");
                     updateView(mquestionslist);
                     break;
                 default:
@@ -152,19 +154,19 @@ public void showRequestTimeout() {
 
     @Override
     public void updateView(ArrayList<MyPersonalCollectionQuestion> myPersonalQuestions) {
-        LogUtil.d("PersonalQuestion", "6、updateView方法执行");
-        if (mquestionslist.isEmpty()) {
-            LogUtil.d("PersonalQuestin", "7、仍然是空数据");
-            listView.setEmptyView(emptyView);
+        LogUtil.d("pcqf", "6、updateView方法执行");
+        if (myPersonalQuestions.isEmpty()) {
+            LogUtil.d("pcqf", "7、仍然是空数据");
             listView.setVisibility(View.GONE);
+            emptyView.setVisibility(View.VISIBLE);
         } else {
-            LogUtil.d("PersonalQuestin", "8、成功拿到数据，更新页面");
+            LogUtil.d("pcqf", "8、成功拿到数据，更新页面");
             emptyView.setVisibility(View.GONE);
             listView.setVisibility(View.VISIBLE);
 
-            adapter = new PersonalCollectQuestionAdapter(PersonalCollectQuestionFragment.this.getActivity(), mquestionslist);
+            adapter = new PersonalCollectQuestionAdapter(PersonalCollectQuestionFragment.this.getActivity(), myPersonalQuestions);
             listView.setAdapter(adapter);
-            LogUtil.d("PersonalQuestionF", "2");
+            LogUtil.d("pcqf", "2");
 
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override

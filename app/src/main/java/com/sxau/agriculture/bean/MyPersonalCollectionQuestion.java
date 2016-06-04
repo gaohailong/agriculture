@@ -1,76 +1,67 @@
 package com.sxau.agriculture.bean;
 
+import java.util.List;
+
 /**
  * Created by Administrator on 2016/6/1.
  */
 public class MyPersonalCollectionQuestion {
 
+
     /**
-     * id : 0
-     * title : string
-     * content : string
-     * questionResolveState : string
-     * questionAuditState : string
-     * sort : 0
+     * id : 11
+     * whenCreated : 1464943221000
+     * whenUpdated : 1464943221000
+     * category : {"id":15,"whenCreated":1463620310000,"whenUpdated":1463620310000,"pid":0,"name":"特色农业","categoryType":"ARTICLE","image":"images/test.png","sort":255}
+     * title : 测试问题0ooo
+     * content : 测试问题0ooo测试问题0ooo测试问题0ooo测试问题0ooo测试问题0ooo
      * clickCount : 0
      * likeCount : 0
-     * commentCount : 0
-     * whenCreated : 0
-     * whenUpdated : 0
-     * user : {"id":0,"name":"string","address":"string","avatar":"string","industry":"string","scale":"string","userType":"string","whenCreated":0,"whenUpdated":0}
-     * expert : {"id":0,"name":"string","address":"string","avatar":"string","industry":"string","scale":"string","userType":"string","whenCreated":0,"whenUpdated":0}
-     * category : {"id":0,"pid":0,"name":"string","categoryType":"string","image":"string","sort":0,"whenCreated":0,"whenUpdated":0}
+     * expert : null
+     * user : {"id":1,"whenCreated":1463621389000,"whenUpdated":1464974905000,"userType":"PUBLIC","address":null,"name":"guodont","avatar":null,"industry":null,"scale":null}
+     * questionAuditState : WAIT_AUDITED
+     * questionResolveState : WAIT_RESOLVE
+     * images :
+     * answers : []
      */
 
     private int id;
-    private String title;
-    private String content;
-    private String questionResolveState;
-    private String questionAuditState;
-    private int sort;
-    private int clickCount;
-    private int likeCount;
-    private int commentCount;
-    private int whenCreated;
-    private int whenUpdated;
+    private long whenCreated;
+    private long whenUpdated;
     /**
-     * id : 0
-     * name : string
-     * address : string
-     * avatar : string
-     * industry : string
-     * scale : string
-     * userType : string
-     * whenCreated : 0
-     * whenUpdated : 0
-     */
-
-    private UserBean user;
-    /**
-     * id : 0
-     * name : string
-     * address : string
-     * avatar : string
-     * industry : string
-     * scale : string
-     * userType : string
-     * whenCreated : 0
-     * whenUpdated : 0
-     */
-
-    private ExpertBean expert;
-    /**
-     * id : 0
+     * id : 15
+     * whenCreated : 1463620310000
+     * whenUpdated : 1463620310000
      * pid : 0
-     * name : string
-     * categoryType : string
-     * image : string
-     * sort : 0
-     * whenCreated : 0
-     * whenUpdated : 0
+     * name : 特色农业
+     * categoryType : ARTICLE
+     * image : images/test.png
+     * sort : 255
      */
 
     private CategoryBean category;
+    private String title;
+    private String content;
+    private int clickCount;
+    private int likeCount;
+    private Object expert;
+    /**
+     * id : 1
+     * whenCreated : 1463621389000
+     * whenUpdated : 1464974905000
+     * userType : PUBLIC
+     * address : null
+     * name : guodont
+     * avatar : null
+     * industry : null
+     * scale : null
+     */
+
+    private UserBean user;
+    private String questionAuditState;
+    private String questionResolveState;
+    private String images;
+    private List<?> answers;
 
     public int getId() {
         return id;
@@ -78,6 +69,30 @@ public class MyPersonalCollectionQuestion {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public long getWhenCreated() {
+        return whenCreated;
+    }
+
+    public void setWhenCreated(long whenCreated) {
+        this.whenCreated = whenCreated;
+    }
+
+    public long getWhenUpdated() {
+        return whenUpdated;
+    }
+
+    public void setWhenUpdated(long whenUpdated) {
+        this.whenUpdated = whenUpdated;
+    }
+
+    public CategoryBean getCategory() {
+        return category;
+    }
+
+    public void setCategory(CategoryBean category) {
+        this.category = category;
     }
 
     public String getTitle() {
@@ -96,30 +111,6 @@ public class MyPersonalCollectionQuestion {
         this.content = content;
     }
 
-    public String getQuestionResolveState() {
-        return questionResolveState;
-    }
-
-    public void setQuestionResolveState(String questionResolveState) {
-        this.questionResolveState = questionResolveState;
-    }
-
-    public String getQuestionAuditState() {
-        return questionAuditState;
-    }
-
-    public void setQuestionAuditState(String questionAuditState) {
-        this.questionAuditState = questionAuditState;
-    }
-
-    public int getSort() {
-        return sort;
-    }
-
-    public void setSort(int sort) {
-        this.sort = sort;
-    }
-
     public int getClickCount() {
         return clickCount;
     }
@@ -136,28 +127,12 @@ public class MyPersonalCollectionQuestion {
         this.likeCount = likeCount;
     }
 
-    public int getCommentCount() {
-        return commentCount;
+    public Object getExpert() {
+        return expert;
     }
 
-    public void setCommentCount(int commentCount) {
-        this.commentCount = commentCount;
-    }
-
-    public int getWhenCreated() {
-        return whenCreated;
-    }
-
-    public void setWhenCreated(int whenCreated) {
-        this.whenCreated = whenCreated;
-    }
-
-    public int getWhenUpdated() {
-        return whenUpdated;
-    }
-
-    public void setWhenUpdated(int whenUpdated) {
-        this.whenUpdated = whenUpdated;
+    public void setExpert(Object expert) {
+        this.expert = expert;
     }
 
     public UserBean getUser() {
@@ -168,199 +143,47 @@ public class MyPersonalCollectionQuestion {
         this.user = user;
     }
 
-    public ExpertBean getExpert() {
-        return expert;
+    public String getQuestionAuditState() {
+        return questionAuditState;
     }
 
-    public void setExpert(ExpertBean expert) {
-        this.expert = expert;
+    public void setQuestionAuditState(String questionAuditState) {
+        this.questionAuditState = questionAuditState;
     }
 
-    public CategoryBean getCategory() {
-        return category;
+    public String getQuestionResolveState() {
+        return questionResolveState;
     }
 
-    public void setCategory(CategoryBean category) {
-        this.category = category;
+    public void setQuestionResolveState(String questionResolveState) {
+        this.questionResolveState = questionResolveState;
     }
 
-    public static class UserBean {
-        private int id;
-        private String name;
-        private String address;
-        private String avatar;
-        private String industry;
-        private String scale;
-        private String userType;
-        private int whenCreated;
-        private int whenUpdated;
-
-        public int getId() {
-            return id;
-        }
-
-        public void setId(int id) {
-            this.id = id;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public String getAddress() {
-            return address;
-        }
-
-        public void setAddress(String address) {
-            this.address = address;
-        }
-
-        public String getAvatar() {
-            return avatar;
-        }
-
-        public void setAvatar(String avatar) {
-            this.avatar = avatar;
-        }
-
-        public String getIndustry() {
-            return industry;
-        }
-
-        public void setIndustry(String industry) {
-            this.industry = industry;
-        }
-
-        public String getScale() {
-            return scale;
-        }
-
-        public void setScale(String scale) {
-            this.scale = scale;
-        }
-
-        public String getUserType() {
-            return userType;
-        }
-
-        public void setUserType(String userType) {
-            this.userType = userType;
-        }
-
-        public int getWhenCreated() {
-            return whenCreated;
-        }
-
-        public void setWhenCreated(int whenCreated) {
-            this.whenCreated = whenCreated;
-        }
-
-        public int getWhenUpdated() {
-            return whenUpdated;
-        }
-
-        public void setWhenUpdated(int whenUpdated) {
-            this.whenUpdated = whenUpdated;
-        }
+    public String getImages() {
+        return images;
     }
 
-    public static class ExpertBean {
-        private int id;
-        private String name;
-        private String address;
-        private String avatar;
-        private String industry;
-        private String scale;
-        private String userType;
-        private int whenCreated;
-        private int whenUpdated;
+    public void setImages(String images) {
+        this.images = images;
+    }
 
-        public int getId() {
-            return id;
-        }
+    public List<?> getAnswers() {
+        return answers;
+    }
 
-        public void setId(int id) {
-            this.id = id;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public String getAddress() {
-            return address;
-        }
-
-        public void setAddress(String address) {
-            this.address = address;
-        }
-
-        public String getAvatar() {
-            return avatar;
-        }
-
-        public void setAvatar(String avatar) {
-            this.avatar = avatar;
-        }
-
-        public String getIndustry() {
-            return industry;
-        }
-
-        public void setIndustry(String industry) {
-            this.industry = industry;
-        }
-
-        public String getScale() {
-            return scale;
-        }
-
-        public void setScale(String scale) {
-            this.scale = scale;
-        }
-
-        public String getUserType() {
-            return userType;
-        }
-
-        public void setUserType(String userType) {
-            this.userType = userType;
-        }
-
-        public int getWhenCreated() {
-            return whenCreated;
-        }
-
-        public void setWhenCreated(int whenCreated) {
-            this.whenCreated = whenCreated;
-        }
-
-        public int getWhenUpdated() {
-            return whenUpdated;
-        }
-
-        public void setWhenUpdated(int whenUpdated) {
-            this.whenUpdated = whenUpdated;
-        }
+    public void setAnswers(List<?> answers) {
+        this.answers = answers;
     }
 
     public static class CategoryBean {
         private int id;
+        private long whenCreated;
+        private long whenUpdated;
         private int pid;
         private String name;
         private String categoryType;
         private String image;
         private int sort;
-        private int whenCreated;
-        private int whenUpdated;
 
         public int getId() {
             return id;
@@ -368,6 +191,22 @@ public class MyPersonalCollectionQuestion {
 
         public void setId(int id) {
             this.id = id;
+        }
+
+        public long getWhenCreated() {
+            return whenCreated;
+        }
+
+        public void setWhenCreated(long whenCreated) {
+            this.whenCreated = whenCreated;
+        }
+
+        public long getWhenUpdated() {
+            return whenUpdated;
+        }
+
+        public void setWhenUpdated(long whenUpdated) {
+            this.whenUpdated = whenUpdated;
         }
 
         public int getPid() {
@@ -409,21 +248,89 @@ public class MyPersonalCollectionQuestion {
         public void setSort(int sort) {
             this.sort = sort;
         }
+    }
 
-        public int getWhenCreated() {
+    public static class UserBean {
+        private int id;
+        private long whenCreated;
+        private long whenUpdated;
+        private String userType;
+        private Object address;
+        private String name;
+        private Object avatar;
+        private Object industry;
+        private Object scale;
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public long getWhenCreated() {
             return whenCreated;
         }
 
-        public void setWhenCreated(int whenCreated) {
+        public void setWhenCreated(long whenCreated) {
             this.whenCreated = whenCreated;
         }
 
-        public int getWhenUpdated() {
+        public long getWhenUpdated() {
             return whenUpdated;
         }
 
-        public void setWhenUpdated(int whenUpdated) {
+        public void setWhenUpdated(long whenUpdated) {
             this.whenUpdated = whenUpdated;
+        }
+
+        public String getUserType() {
+            return userType;
+        }
+
+        public void setUserType(String userType) {
+            this.userType = userType;
+        }
+
+        public Object getAddress() {
+            return address;
+        }
+
+        public void setAddress(Object address) {
+            this.address = address;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public Object getAvatar() {
+            return avatar;
+        }
+
+        public void setAvatar(Object avatar) {
+            this.avatar = avatar;
+        }
+
+        public Object getIndustry() {
+            return industry;
+        }
+
+        public void setIndustry(Object industry) {
+            this.industry = industry;
+        }
+
+        public Object getScale() {
+            return scale;
+        }
+
+        public void setScale(Object scale) {
+            this.scale = scale;
         }
     }
 }

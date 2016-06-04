@@ -12,7 +12,9 @@ import com.sxau.agriculture.bean.MyPersonalCollectTrades;
 import com.sxau.agriculture.bean.MyPersonalCollectionQuestion;
 import com.sxau.agriculture.bean.MyPersonalQuestion;
 import com.sxau.agriculture.presenter.fragment_presenter_interface.IPersonalCollectQuestionPresenter;
+import com.sxau.agriculture.utils.ACache;
 import com.sxau.agriculture.utils.ConstantUtil;
+import com.sxau.agriculture.utils.LogUtil;
 import com.sxau.agriculture.utils.NetUtil;
 import com.sxau.agriculture.utils.RetrofitUtil;
 import com.sxau.agriculture.view.fragment.PersonalCollectQuestionFragment;
@@ -38,11 +40,12 @@ public class PersonalCollectionPresenter implements IPersonalCollectQuestionPres
     private Context context;
     private Handler handler;
     private MyPersonalCollectionQuestion myPersonalQuestion;
-    public PersonalCollectionPresenter(IPresonalCollectQuestionFragment iPresonalCollectQuestionFragment, Context context,PersonalCollectQuestionFragment.MyHandler handler) {
+    private ACache mCache;
+    public PersonalCollectionPresenter(IPresonalCollectQuestionFragment iPresonalCollectQuestionFragment, Context context,PersonalCollectQuestionFragment.MyHandler mhandler) {
         this.iPresonalCollectQuestionFragment = iPresonalCollectQuestionFragment;
         this.context = context;
-        dbUtils = DbUtils.create(context);
-        this.handler = handler;
+        this.handler = mhandler;
+        this.mCache = ACache.get(context);
     }
 
 
@@ -61,24 +64,34 @@ public class PersonalCollectionPresenter implements IPersonalCollectQuestionPres
      */
     @Override
     public ArrayList<MyPersonalCollectionQuestion> getDatas() {
-
+       Log.d("pcqq:","getDates");
         myCQuestionsList = new ArrayList<MyPersonalCollectionQuestion>();
         myPersonalQuestion = new MyPersonalCollectionQuestion();
-        try {
-            List<MyPersonalCollectionQuestion> questionslist = new ArrayList<MyPersonalCollectionQuestion>();
-            dbUtils.createTableIfNotExist(MyPersonalCollectionQuestion.class);
-            questionslist = dbUtils.findAll(MyPersonalCollectionQuestion.class);
-            if (!questionslist.isEmpty()){
-                for (int i = 0; i < questionslist.size();i++){
-                    myPersonalQuestion = questionslist.get(i);
-                    myCQuestionsList.add(myPersonalQuestion);
-                }
-            }else {
-                return myCQuestionsList;
+        List<MyPersonalCollectionQuestion> cQuestionsList = new ArrayList<MyPersonalCollectionQuestion>();
+        cQuestionsList = (List<MyPersonalCollectionQuestion>) mCache.getAsObject(ConstantUtil.CACHE_PERSONALCOLLECTQUESTIION_KEY);
+//        Log.d("pcqq:",cQuestionsList.get(1).getUser().getName());
+        if (mCache.getAsObject(ConstantUtil.CACHE_PERSONALCOLLECTQUESTIION_KEY) != null) {
+            for (int i = 0; i < cQuestionsList.size(); i++) {
+                myPersonalQuestion = cQuestionsList.get(i);
+                myCQuestionsList.add(myPersonalQuestion);
             }
-        } catch (DbException e) {
-            e.printStackTrace();
         }
+//        try {
+//            List<MyPersonalCollectionQuestion> questionslist = new ArrayList<MyPersonalCollectionQuestion>();
+//            dbUtils.createTableIfNotExist(MyPersonalCollectionQuestion.class);
+//            questionslist = dbUtils.findAll(MyPersonalCollectionQuestion.class);
+//            if (!questionslist.isEmpty()){
+//                for (int i = 0; i < questionslist.size();i++){
+//                    myPersonalQuestion = questionslist.get(i);
+//                    myCQuestionsList.add(myPersonalQuestion);
+//                    Log.d("pcqp:缓存数据：",myPersonalQuestion.getUser().getName());
+//                }
+//            }else {
+//                return myCQuestionsList;
+//            }
+//        } catch (DbException e) {
+//            e.printStackTrace();
+//        }
         return myCQuestionsList;
     }
 
@@ -99,15 +112,23 @@ public class PersonalCollectionPresenter implements IPersonalCollectQuestionPres
                 if (response.isSuccess()){
                     myCQuestionsList = response.body();
                     Log.d("pcqp","code"+response.code()+"body:"+response.body().toString());
-                    Log.d("pcqp",myCQuestionsList.get(1).getUser().toString());
-                    try {
-                        dbUtils.deleteAll(MyPersonalCollectionQuestion.class);
-                        dbUtils.saveAll(myCQuestionsList);
-                    } catch (DbException e) {
-                        e.printStackTrace();
-                    }
+                    Log.d("pcqp",myCQuestionsList.get(1).getUser().getName());
+//                    try {
+//                        dbUtils.deleteAll(MyPersonalCollectionQuestion.class);
+//                        dbUtils.saveAll(myCQuestionsList);
+//                    } catch (DbException e) {
+//                        e.printStackTrace();
+//                    }
+
+                    //加入缓存中,先清空缓存
+
+                    mCache.remove(ConstantUtil.CACHE_PERSONALCOLLECTQUESTIION_KEY);
+                    Log.d("pcqp",ConstantUtil.CACHE_PERSONALCOLLECTQUESTIION_KEY);
+                    mCache.put(ConstantUtil.CACHE_PERSONALCOLLECTQUESTIION_KEY, myCQuestionsList);
+
                     handler.sendEmptyMessage(ConstantUtil.GET_NET_DATA);
                     iPresonalCollectQuestionFragment.closeRefresh();
+                    LogUtil.d("pcqp", "4、请求成功，已经保存好数据，通知主线程重新拿数据，更新页面");
                 }
             }
 
@@ -127,6 +148,7 @@ public class PersonalCollectionPresenter implements IPersonalCollectQuestionPres
             Log.d("pcqp" ,"doreq");
             doRequest();
         } else {
+            Log.d("pcqp:nopullrefersh" ,"doreq");
             iPresonalCollectQuestionFragment.showNoNetworking();
             iPresonalCollectQuestionFragment.closeRefresh();
         }

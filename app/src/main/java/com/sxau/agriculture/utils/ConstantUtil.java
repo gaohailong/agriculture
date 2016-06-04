@@ -23,6 +23,8 @@ public class ConstantUtil {
     public static final String CACHE_KEY = "Cache_User";
     //收藏交易的缓存文件名
     public static final String CACHE_PERSONALCOLLECTTRADE_KEY = "Cache_PersonalCollectTradeList";
+    //收藏问题的缓存文件名
+    public static final String CACHE_PERSONALCOLLECTQUESTIION_KEY = "Cache_PersonalCollectQuestionList";
     //我的问题的缓存文件名
     public static final String CACHE_PERSONALQUESTION_KEY = "Cache_PersonalQuestionList";
     //============================整形常量的定义===================================
