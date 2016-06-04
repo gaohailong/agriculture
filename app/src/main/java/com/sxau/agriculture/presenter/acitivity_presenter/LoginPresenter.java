@@ -143,7 +143,7 @@ public class LoginPresenter implements ILoginPresenter {
                                 User user = new User();
                                 user.setAuthToken(authToken);
                                 user.setPhone(phone);
-                                setAlias();
+                              //  setAlias();
                                 //执行缓存
                                 ACache mCache = ACache.get(AgricultureApplication.getContext());
                                 mCache.put(ConstantUtil.CACHE_KEY, userGson.toJson(user));

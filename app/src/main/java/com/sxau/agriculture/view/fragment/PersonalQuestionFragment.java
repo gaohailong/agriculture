@@ -57,8 +57,8 @@ public class PersonalQuestionFragment extends BaseFragment implements IPersonalQ
         iPersonalQuestionPresenter = new PersonalQuestionPresenter(PersonalQuestionFragment.this, PersonalQuestionFragment.this.getContext(), myHandler);
 
         View myQuestionView = inflater.inflate(R.layout.frament_personal_myquestion, null);
-        rl_refresh = (RefreshLayout) myQuestionView.findViewById(R.id.srl_refresh);
-        rl_refresh.setColorSchemeColors(Color.parseColor("#00b5ad"));
+            rl_refresh = (RefreshLayout) myQuestionView.findViewById(R.id.srl_refresh);
+            rl_refresh.setColorSchemeColors(Color.parseColor("#00b5ad"));
         listView = (ListView) myQuestionView.findViewById(R.id.lv_MyQuestionListView);
         mquestionslist = new ArrayList<MyPersonalQuestion>();
 
@@ -165,7 +165,7 @@ public class PersonalQuestionFragment extends BaseFragment implements IPersonalQ
     @Override
     public void updateView(ArrayList<MyPersonalQuestion> myPersonalQuestions) {
         LogUtil.d("PersonalQuestion", "6、updateView方法执行");
-        if (mquestionslist.isEmpty()) {
+        if (myPersonalQuestions.isEmpty()) {
             LogUtil.d("PersonalQuestin", "7、仍然是空数据");
             listView.setEmptyView(emptyView);
             listView.setVisibility(View.GONE);
@@ -174,7 +174,7 @@ public class PersonalQuestionFragment extends BaseFragment implements IPersonalQ
             emptyView.setVisibility(View.GONE);
             listView.setVisibility(View.VISIBLE);
 
-            adapter = new PersonalQuestionAdapter(PersonalQuestionFragment.this.getActivity(), mquestionslist);
+            adapter = new PersonalQuestionAdapter(PersonalQuestionFragment.this.getActivity(), myPersonalQuestions);
             listView.setAdapter(adapter);
             LogUtil.d("PersonalQuestionF", "2");
 

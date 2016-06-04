@@ -21,6 +21,10 @@ public class ConstantUtil {
     public static final String ITEM_NUMBER = "10";
     //登录成功之后的缓存文件名（主要为了保存authToken）
     public static final String CACHE_KEY = "Cache_User";
+    //收藏交易的缓存文件名
+    public static final String CACHE_PERSONALCOLLECTTRADE_KEY = "Cache_PersonalCollectTradeList";
+    //我的问题的缓存文件名
+    public static final String CACHE_PERSONALQUESTION_KEY = "Cache_PersonalQuestionList";
     //============================整形常量的定义===================================
     //下拉刷新的时间
     public static final int PULL_TIME = 3000;

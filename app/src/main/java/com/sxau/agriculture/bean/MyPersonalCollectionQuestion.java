@@ -1,36 +1,36 @@
 package com.sxau.agriculture.bean;
 
 /**
- * 个人中心交易信息bean
- * @author 李秉龙
+ * Created by Administrator on 2016/6/1.
  */
-public class MyPersonalTrade {
+public class MyPersonalCollectionQuestion {
 
     /**
      * id : 0
      * title : string
-     * description : string
-     * tradeType : string
-     * tradeState : string
+     * content : string
+     * questionResolveState : string
+     * questionAuditState : string
+     * sort : 0
      * clickCount : 0
      * likeCount : 0
-     * endTime : 0
-     * images : string
+     * commentCount : 0
      * whenCreated : 0
      * whenUpdated : 0
      * user : {"id":0,"name":"string","address":"string","avatar":"string","industry":"string","scale":"string","userType":"string","whenCreated":0,"whenUpdated":0}
+     * expert : {"id":0,"name":"string","address":"string","avatar":"string","industry":"string","scale":"string","userType":"string","whenCreated":0,"whenUpdated":0}
      * category : {"id":0,"pid":0,"name":"string","categoryType":"string","image":"string","sort":0,"whenCreated":0,"whenUpdated":0}
      */
 
     private int id;
     private String title;
-    private String description;
-    private String tradeType;
-    private String tradeState;
+    private String content;
+    private String questionResolveState;
+    private String questionAuditState;
+    private int sort;
     private int clickCount;
     private int likeCount;
-    private int endTime;
-    private String images;
+    private int commentCount;
     private int whenCreated;
     private int whenUpdated;
     /**
@@ -46,6 +46,19 @@ public class MyPersonalTrade {
      */
 
     private UserBean user;
+    /**
+     * id : 0
+     * name : string
+     * address : string
+     * avatar : string
+     * industry : string
+     * scale : string
+     * userType : string
+     * whenCreated : 0
+     * whenUpdated : 0
+     */
+
+    private ExpertBean expert;
     /**
      * id : 0
      * pid : 0
@@ -75,28 +88,36 @@ public class MyPersonalTrade {
         this.title = title;
     }
 
-    public String getDescription() {
-        return description;
+    public String getContent() {
+        return content;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setContent(String content) {
+        this.content = content;
     }
 
-    public String getTradeType() {
-        return tradeType;
+    public String getQuestionResolveState() {
+        return questionResolveState;
     }
 
-    public void setTradeType(String tradeType) {
-        this.tradeType = tradeType;
+    public void setQuestionResolveState(String questionResolveState) {
+        this.questionResolveState = questionResolveState;
     }
 
-    public String getTradeState() {
-        return tradeState;
+    public String getQuestionAuditState() {
+        return questionAuditState;
     }
 
-    public void setTradeState(String tradeState) {
-        this.tradeState = tradeState;
+    public void setQuestionAuditState(String questionAuditState) {
+        this.questionAuditState = questionAuditState;
+    }
+
+    public int getSort() {
+        return sort;
+    }
+
+    public void setSort(int sort) {
+        this.sort = sort;
     }
 
     public int getClickCount() {
@@ -115,20 +136,12 @@ public class MyPersonalTrade {
         this.likeCount = likeCount;
     }
 
-    public int getEndTime() {
-        return endTime;
+    public int getCommentCount() {
+        return commentCount;
     }
 
-    public void setEndTime(int endTime) {
-        this.endTime = endTime;
-    }
-
-    public String getImages() {
-        return images;
-    }
-
-    public void setImages(String images) {
-        this.images = images;
+    public void setCommentCount(int commentCount) {
+        this.commentCount = commentCount;
     }
 
     public int getWhenCreated() {
@@ -155,6 +168,14 @@ public class MyPersonalTrade {
         this.user = user;
     }
 
+    public ExpertBean getExpert() {
+        return expert;
+    }
+
+    public void setExpert(ExpertBean expert) {
+        this.expert = expert;
+    }
+
     public CategoryBean getCategory() {
         return category;
     }
@@ -164,6 +185,90 @@ public class MyPersonalTrade {
     }
 
     public static class UserBean {
+        private int id;
+        private String name;
+        private String address;
+        private String avatar;
+        private String industry;
+        private String scale;
+        private String userType;
+        private int whenCreated;
+        private int whenUpdated;
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getAddress() {
+            return address;
+        }
+
+        public void setAddress(String address) {
+            this.address = address;
+        }
+
+        public String getAvatar() {
+            return avatar;
+        }
+
+        public void setAvatar(String avatar) {
+            this.avatar = avatar;
+        }
+
+        public String getIndustry() {
+            return industry;
+        }
+
+        public void setIndustry(String industry) {
+            this.industry = industry;
+        }
+
+        public String getScale() {
+            return scale;
+        }
+
+        public void setScale(String scale) {
+            this.scale = scale;
+        }
+
+        public String getUserType() {
+            return userType;
+        }
+
+        public void setUserType(String userType) {
+            this.userType = userType;
+        }
+
+        public int getWhenCreated() {
+            return whenCreated;
+        }
+
+        public void setWhenCreated(int whenCreated) {
+            this.whenCreated = whenCreated;
+        }
+
+        public int getWhenUpdated() {
+            return whenUpdated;
+        }
+
+        public void setWhenUpdated(int whenUpdated) {
+            this.whenUpdated = whenUpdated;
+        }
+    }
+
+    public static class ExpertBean {
         private int id;
         private String name;
         private String address;

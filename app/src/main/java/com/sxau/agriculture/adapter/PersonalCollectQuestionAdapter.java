@@ -12,24 +12,21 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.sxau.agriculture.agriculture.R;
+import com.sxau.agriculture.bean.MyPersonalCollectionQuestion;
 import com.sxau.agriculture.bean.MyPersonalQuestion;
 import com.sxau.agriculture.utils.TimeUtil;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Handler;
 
 /**
- * 个人中心问题adapter
- *
- * @author 李秉龙
+ * Created by Administrator on 2016/6/1.
  */
-public class PersonalQuestionAdapter extends BaseAdapter {
+public class PersonalCollectQuestionAdapter extends BaseAdapter {
     private Context context;
-    ArrayList<MyPersonalQuestion> dates;
+    ArrayList<MyPersonalCollectionQuestion> dates;
     ViewHolder holder;
 
-    public PersonalQuestionAdapter(Context context, ArrayList<MyPersonalQuestion> dates) {
+    public PersonalCollectQuestionAdapter(Context context, ArrayList<MyPersonalCollectionQuestion> dates) {
         this.context = context;
         this.dates = dates;
     }
@@ -70,21 +67,26 @@ public class PersonalQuestionAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        MyPersonalQuestion myPersonalQuestion = dates.get(position);
+        MyPersonalCollectionQuestion myPersonalQuestion = dates.get(position);
         holder.tv_date.setText(TimeUtil.format(myPersonalQuestion.getWhenCreated()));
         holder.tv_title.setText(myPersonalQuestion.getTitle());
 
         //对是否有回答，items显示的改变
         if (myPersonalQuestion.getQuestionAuditState() != "WAIT_AUDITED" || myPersonalQuestion.getQuestionResolveState() != "WAIT_RESOLVE") {
             holder.tv_content.setText(myPersonalQuestion.getContent());
-            Picasso.with(context).load(myPersonalQuestion.getUser().getAvatar()).resize(150, 150).centerCrop().placeholder(R.mipmap.ic_loading).error(R.mipmap.ic_load_fail).into(holder.rv_head);
+
+//            if (!myPersonalQuestion.getUser().getAvatar().isEmpty()){
+//                Picasso.with(context).load(myPersonalQuestion.getUser().getAvatar()).resize(150, 150).centerCrop().placeholder(R.mipmap.ic_loading).error(R.mipmap.ic_load_fail).into(holder.rv_head);
+//            }else {
+//                holder.rv_head.setImageResource(R.mipmap.img_default_user_portrait_150px);
+//            }
             holder.tv_is_question.setText(R.string.is_question);
             holder.v_left.setBackgroundColor(Color.parseColor("#009688"));
         } else {
             holder.ll_answer.setVisibility(View.GONE);
-//                textViewContent.setVisibility(View.GONE);
+
             holder.tv_is_question.setText(R.string.no_question);
-//                imageViewHead.setVisibility(View.GONE);
+
         }
         return convertView;
     }

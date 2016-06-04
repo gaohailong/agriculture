@@ -11,7 +11,7 @@ import com.sxau.agriculture.bean.Cityinfo;
  * 
  * 城市代码
  * 
- * @author zd
+ * @author 李秉龙
  * 
  */
 public class CitycodeUtil {

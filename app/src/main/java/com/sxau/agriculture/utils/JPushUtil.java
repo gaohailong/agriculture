@@ -18,6 +18,10 @@ import java.util.regex.Pattern;
 
 import cn.jpush.android.api.JPushInterface;
 
+/**
+ * JPushUtil 工具类
+ * @author 高海龙
+ */
 public class JPushUtil {
     public static final String PREFS_NAME = "JPUSH_EXAMPLE";
     public static final String PREFS_DAYS = "JPUSH_EXAMPLE_DAYS";
