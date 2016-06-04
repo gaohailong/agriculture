@@ -84,7 +84,7 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
     private ArrayList<String> imagePath;
     private ArrayList<HomeArticle> homeArticles;
     private ArrayList<ImageView> imageViews;
-    private ArrayList<HomeBannerPicture> bannerPicture;
+    private ArrayList<HomeBannerPicture> bannerData;
     private int currentIndex;
     private long lastTime;
     private int currentPage;
@@ -115,7 +115,7 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
         context = HomeFragment.this.getActivity();
         homeArticles = new ArrayList<HomeArticle>();
         myHandler = new MyHandler(HomeFragment.this);
-        bannerPicture= new ArrayList<>();
+        bannerData= new ArrayList<>();
         imagePath=new ArrayList<>();
 
         imagePath.add("http://file3.u148.net/2011/4/images/1302139153715.jpg");
@@ -127,7 +127,7 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initPictureView();
+//        initPictureView();
         initRefresh();
         initListView();
         myHandler.sendEmptyMessage(ConstantUtil.INIT_DATA);
@@ -194,12 +194,16 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
                     currentPage = 1;
                     if (NetUtil.isNetAvailable(context)) {
                         getHomeArticleData(String.valueOf(currentPage), String.valueOf(ConstantUtil.ITEM_NUMBER), true);
-                        getHomeBannerData();
+//                        getHomeBannerData();
+
                     } else {
                         try {
                             dbUtil.createTableIfNotExist(HomeArticle.class);
+                            dbUtil.createTableIfNotExist(HomeBannerPicture.class);
                             getCacheData();
+                            getPictureInfo();
                             initListView();
+                            initPictureView();
                         } catch (DbException e) {
                             e.printStackTrace();
                         }
@@ -207,7 +211,7 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
                     break;
                 case ConstantUtil.GET_NET_DATA:
                     adapter.notifyDataSetChanged();
-                    initPictureView();
+//                    initPictureView();
                     if (isLoadOver) {
                         RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOAD_OVER);
                     } else {
@@ -280,7 +284,13 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
             @Override
             public void onResponse(Response<ArrayList<HomeBannerPicture>> response, Retrofit retrofit) {
                 if (response.isSuccess()){
-                    bannerPicture=response.body();
+                    bannerData=response.body();
+                    try {
+                        dbUtil.deleteAll(HomeBannerPicture.class);
+                        dbUtil.saveAll(bannerData);
+                    } catch (DbException e) {
+                        e.printStackTrace();
+                    }
                     getPictureInfo();
                     myHandler.sendEmptyMessage(ConstantUtil.GET_NET_DATA);
                 }
@@ -296,8 +306,8 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
     //拼接图片地址
     public void getPictureInfo(){
         imagePath.clear();
-        for (int j=0;j<bannerPicture.size();j++){
-            String img=ConstantUtil.BASE_PICTURE_URL+bannerPicture.get(j).getImage();
+        for (int j=0;j<bannerData.size();j++){
+            String img=ConstantUtil.BASE_PICTURE_URL+bannerData.get(j).getImage();
             imagePath.add(img);
         }
     }
@@ -308,6 +318,8 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
         try {
             List<HomeArticle> list = dbUtil.findAll(HomeArticle.class);
             homeArticles = (ArrayList<HomeArticle>) list;
+            List<HomeBannerPicture> listBanner = dbUtil.findAll(HomeBannerPicture.class);
+            bannerData= (ArrayList<HomeBannerPicture>) listBanner;
         } catch (DbException e) {
             e.printStackTrace();
         }
@@ -338,13 +350,13 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
         lastTime = System.currentTimeMillis();
         //设置轮播文字改变
         final int index=position % imageViews.size();
-        tv_title.setText(bannerPicture.get(index).getName());
+        tv_title.setText(bannerData.get(index).getName());
         //轮播图点击事件
         imageViews.get(index).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.putExtra("ArticleUrl",bannerPicture.get(index).getUrl());
+                intent.putExtra("ArticleUrl",bannerData.get(index).getUrl());
                 intent.setClass(context, WebViewActivity.class);
                 startActivity(intent);
             }
