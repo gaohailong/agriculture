@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sxau.agriculture.adapter.PersonalQuestionAdapter;
@@ -25,7 +24,7 @@ import com.sxau.agriculture.presenter.fragment_presenter.PersonalQuestionPresent
 import com.sxau.agriculture.presenter.fragment_presenter_interface.IPersonalQuestionPresenter;
 import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.LogUtil;
-import com.sxau.agriculture.view.activity.DetailQuestion;
+import com.sxau.agriculture.view.activity.DetailQuestionActivity;
 import com.sxau.agriculture.view.fragment_interface.IPersonalQuestionFragment;
 import com.sxau.agriculture.widgets.RefreshLayout;
 
@@ -109,7 +108,7 @@ public class PersonalQuestionFragment extends BaseFragment implements IPersonalQ
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    DetailQuestion.actionStart(PersonalQuestionFragment.this.getActivity(), position);
+                    DetailQuestionActivity.actionStart(PersonalQuestionFragment.this.getActivity(), position);
                 }
             });
         }
@@ -181,7 +180,7 @@ public class PersonalQuestionFragment extends BaseFragment implements IPersonalQ
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    DetailQuestion.actionStart(PersonalQuestionFragment.this.getActivity(), position);
+                    DetailQuestionActivity.actionStart(PersonalQuestionFragment.this.getActivity(), position);
                 }
             });
         }

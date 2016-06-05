@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -28,7 +27,7 @@ import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.NetUtil;
 import com.sxau.agriculture.utils.RefreshBottomTextUtil;
 import com.sxau.agriculture.utils.RetrofitUtil;
-import com.sxau.agriculture.view.activity.DetailQuestion;
+import com.sxau.agriculture.view.activity.DetailQuestionActivity;
 import com.sxau.agriculture.view.fragment_interface.IQuestionListViewFragment;
 import com.sxau.agriculture.widgets.RefreshLayout;
 
@@ -258,9 +257,8 @@ public class QuestionListViewFragment extends BaseFragment implements IQuestionL
     //item点击事件
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        DetailQuestion.actionStart(context, position);
+        DetailQuestionActivity.actionStart(context, questionDatas.get(position).getId());
     }
-
 
     //------------------接口方法----------------
     @Override
