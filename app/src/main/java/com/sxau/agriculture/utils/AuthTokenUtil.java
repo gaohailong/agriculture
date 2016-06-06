@@ -5,19 +5,18 @@ import com.sxau.agriculture.bean.User;
 
 /**
  * 返回用户存储在本地的AuthToken
- * @author  Yawen_Li on 2016/6/6.
+ *
+ * @author Yawen_Li on 2016/6/6.
  */
 public class AuthTokenUtil {
     public static String authToken;
     private static ACache mCache = ACache.get(AgricultureApplication.getContext());
 
-    private static void findAuthToken(){
+    public static String findAuthToken() {
         User user = (User) mCache.getAsObject(ConstantUtil.CACHE_KEY);
-        authToken = user.getAuthToken();
-    }
-
-    static String getAuthToken(){
-        findAuthToken();
+        if (user != null) {
+            authToken = user.getAuthToken();
+        }
         return authToken;
     }
 }

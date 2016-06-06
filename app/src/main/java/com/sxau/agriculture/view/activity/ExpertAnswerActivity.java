@@ -99,7 +99,7 @@ public class ExpertAnswerActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void submitDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("提示");
         builder.setMessage("您是否提交所填答案？");
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
@@ -110,7 +110,12 @@ public class ExpertAnswerActivity extends BaseActivity implements View.OnClickLi
                 finish();
             }
         });
-        builder.setNegativeButton("取消", null);
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
         builder.show();
     }
 
