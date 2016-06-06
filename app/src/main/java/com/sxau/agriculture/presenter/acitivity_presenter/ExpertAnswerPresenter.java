@@ -15,10 +15,6 @@ public class ExpertAnswerPresenter implements IExpertAnswerPresenter{
     }
 
     //-----------------接口方法---------------------
-    @Override
-    public void setFavState() {
-
-    }
 
     @Override
     public void setUrgeState() {

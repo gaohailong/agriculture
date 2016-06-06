@@ -17,20 +17,24 @@ import android.widget.Toast;
 import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.presenter.acitivity_presenter.ExpertAnswerPresenter;
 import com.sxau.agriculture.presenter.activity_presenter_interface.IExpertAnswerPresenter;
+import com.sxau.agriculture.utils.TopBarUtil;
 import com.sxau.agriculture.view.activity_interface.IExpertAnswerActivity;
 
 /**
  * 回答界面Activity
+ *
  * @author 李秉龙
  */
-public class ExpertAnswerActivity extends BaseActivity implements View.OnClickListener ,IExpertAnswerActivity{
-    private ImageButton ib_Back;
+public class ExpertAnswerActivity extends BaseActivity implements View.OnClickListener, IExpertAnswerActivity {
     private TextView tv_Question;
     private EditText et_answer;
-    private Button btn_Submit;
+    private Button bt_submit;
+    private TopBarUtil topBarUtil;
+
     private String updateQuestion;//更新问题
 
     private IExpertAnswerPresenter iExpertAnswerPresenter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,40 +46,56 @@ public class ExpertAnswerActivity extends BaseActivity implements View.OnClickLi
 
 
     private void initView() {
-        ib_Back = (ImageButton) this.findViewById(R.id.ib_back);
+        topBarUtil = (TopBarUtil) this.findViewById(R.id.topBarUtil);
         tv_Question = (TextView) this.findViewById(R.id.tv_question);
-        btn_Submit = (Button) this.findViewById(R.id.btn_submit);
-        et_answer = (EditText)this.findViewById(R.id.et_answer);
+        bt_submit = (Button) this.findViewById(R.id.bt_submit);
+        et_answer = (EditText) this.findViewById(R.id.et_answer);
 
-        ib_Back.setOnClickListener(this);
-        btn_Submit.setOnClickListener(this);
+        topBarUtil.setLeftImageIsVisible(true);
+        topBarUtil.setLeftImage(R.mipmap.ic_back_left);
+        topBarUtil.setOnTopbarClickListener(new TopBarUtil.TopbarClickListner() {
+            @Override
+            public void onClickLeftRoundImage() {
+
+            }
+
+            @Override
+            public void onClickLeftImage() {
+                topBarUtil.setLeftImage(R.mipmap.ic_back_left);
+            }
+
+            @Override
+            public void onClickRightImage() {
+
+            }
+        });
+        bt_submit.setOnClickListener(this);
 
         Intent intent = getIntent();
         updateQuestion = intent.getStringExtra("question");
-
         tv_Question.setText(updateQuestion);//更新问题
     }
 
-    public static void actionStart(Context context,String question){
-        Intent intent = new Intent(context,ExpertAnswerActivity.class);
-        intent.putExtra("question",question);
+    public static void actionStart(Context context, String question) {
+        Intent intent = new Intent(context, ExpertAnswerActivity.class);
+        intent.putExtra("question", question);
         context.startActivity(intent);
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.ib_back:
                 finish();
                 break;
-            case R.id.btn_submit:
+            case R.id.bt_submit:
                 submitDialog();
                 break;
             default:
         }
     }
 
-    private void submitDialog(){
+    private void submitDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("提示");
         builder.setMessage("您是否提交所填答案？");
@@ -92,23 +112,11 @@ public class ExpertAnswerActivity extends BaseActivity implements View.OnClickLi
     }
 //------------------------接口方法-----------------
 
-    /**
-     * 获取催一下状态
-     * 0 为没有催
-     * 1 为已经催
-     * @return
-     */
     @Override
     public int getUrgeState() {
         return 0;
     }
 
-    /**
-     * 获取赞一下状态（收藏状态）
-     * 0 为没有赞
-     * 1 为已经赞
-     * @return
-     */
     @Override
     public int getFavState() {
         return 0;

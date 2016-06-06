@@ -5,39 +5,29 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.sxau.agriculture.agriculture.R;
-import com.sxau.agriculture.api.IDetailQuestion;
 import com.sxau.agriculture.bean.DetailQuestionData;
 import com.sxau.agriculture.presenter.acitivity_presenter.DetailQuestionPresenter;
 import com.sxau.agriculture.presenter.activity_presenter_interface.IDetailQuestionPresenter;
 import com.sxau.agriculture.utils.ConstantUtil;
-import com.sxau.agriculture.utils.LogUtil;
-import com.sxau.agriculture.utils.RetrofitUtil;
 import com.sxau.agriculture.utils.TimeUtil;
 import com.sxau.agriculture.utils.TopBarUtil;
 import com.sxau.agriculture.view.activity_interface.IDetailQuestionActivity;
 
 import java.lang.ref.WeakReference;
 
-import retrofit.Call;
-import retrofit.Callback;
-import retrofit.Response;
-import retrofit.Retrofit;
-
 /**
  * 问题详细信息页面Activity
  * 问题：1、点赞功能未实现，需发送网络请求（接口没有）
- *2、接口数据部分待修正，问题列出在底部
+ * 2、接口数据部分待修正，问题列出在底部
+ *
  * @author 李秉龙
  */
 public class DetailQuestionActivity extends BaseActivity implements IDetailQuestionActivity, View.OnClickListener {
@@ -84,8 +74,6 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
 
         iv_fav.setOnClickListener(this);
         bt_answer.setOnClickListener(this);
-
-//        question = tv_Question.getText().toString();
     }
 
     private void initTopBar() {
@@ -122,7 +110,7 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
                 }
                 break;
             case R.id.bt_answer:
-                ExpertAnswerActivity.actionStart(DetailQuestionActivity.this, (String) detailQuestionData.getAnswers().get(0));//有问题,接口返回了多个问题的答案
+                ExpertAnswerActivity.actionStart(DetailQuestionActivity.this, detailQuestionData.getTitle());//有问题,接口返回了多个问题的答案
                 break;
             default:
                 break;

@@ -182,31 +182,8 @@
         android:layout_marginBottom="20dp"
         android:layout_marginRight="20dp"
         android:background="@drawable/bg_ask_btn_shape"
-        android:text="我要提问"
+        android:text="我要回答"
         android:textColor="@color/white"
         android:textSize="14sp" />
-
-    <!-- <LinearLayout
-         android:id="@+id/ll_bottom"
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content"
-         android:layout_alignParentBottom="true"
-         android:layout_marginTop="35dp"
-         android:background="@color/white"
-         android:orientation="horizontal">
-
-         <View
-             android:layout_width="1dp"
-             android:layout_height="match_parent"
-             android:background="@color/mainColor" />
-
-         <Button
-             android:id="@+id/bt_answer"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_weight="1"
-             android:background="#00000000"
-             android:text="回答" />
-     </LinearLayout>-->
 
 </RelativeLayout>
