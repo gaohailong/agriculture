@@ -16,7 +16,7 @@
         android:paddingTop="10dp"
         custom:titleContent="体呢"
         custom:titleTextColor="#080707"
-        custom:titleTextSize="25sp" />
+        custom:titleTextSize="@dimen/font_title" />
 
 <ScrollView
     android:layout_width="match_parent"
