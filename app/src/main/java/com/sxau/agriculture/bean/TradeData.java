@@ -1,9 +1,11 @@
 package com.sxau.agriculture.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by Administrator on 2016/4/9.
  */
-public class TradeData {
+public class TradeData implements Serializable{
 
     /**
      * id : 18
@@ -57,6 +59,11 @@ public class TradeData {
     private CategoryBean category;
     private String tradeState;
     private String images;
+    /**
+     * fav : false
+     */
+
+    private boolean fav;
 
     public int getId() {
         return id;
@@ -162,7 +169,15 @@ public class TradeData {
         this.images = images;
     }
 
-    public static class UserBean {
+    public boolean isFav() {
+        return fav;
+    }
+
+    public void setFav(boolean fav) {
+        this.fav = fav;
+    }
+
+    public static class UserBean implements Serializable{
         private int id;
         private long whenCreated;
         private long whenUpdated;
@@ -246,7 +261,7 @@ public class TradeData {
         }
     }
 
-    public static class CategoryBean {
+    public static class CategoryBean implements Serializable{
         private int id;
         private long whenCreated;
         private long whenUpdated;

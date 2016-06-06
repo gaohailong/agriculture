@@ -12,6 +12,7 @@ import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.bean.TradeData;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,19 +20,19 @@ import java.util.List;
  *
  * @author 田帅
  */
-public class TradeDemandAdapter extends BaseAdapter implements View.OnClickListener {
+public class TradeListViewAdapter extends BaseAdapter implements View.OnClickListener {
     /**
      * 上下文 实体类
      */
     private Context context;
-    private List<TradeData> datas;
+    private ArrayList<TradeData> datas;
     ViewHolder holder;
     /**
      * 收藏按钮点击判断
      */
-    private boolean flag = true;
+    private boolean flag;
 
-    public TradeDemandAdapter(Context context, List<TradeData> datas) {
+    public TradeListViewAdapter(Context context, ArrayList<TradeData> datas) {
         this.context = context;
         this.datas = datas;
     }
@@ -84,9 +85,9 @@ public class TradeDemandAdapter extends BaseAdapter implements View.OnClickListe
         /**
          * 给控件赋值
          * */
-        if (infoData.getUser().getAvatar()==null){
+        if (infoData.getUser().getAvatar() == null) {
             holder.ivHead.setImageResource(R.mipmap.img_default_user_portrait_150px);
-        }else {
+        } else {
 
         }
         holder.name.setText(infoData.getUser().getName());
@@ -96,12 +97,20 @@ public class TradeDemandAdapter extends BaseAdapter implements View.OnClickListe
  * */
         holder.distance.setVisibility(View.GONE);
         holder.ivLocation.setVisibility(View.GONE);
+
         holder.distance.setText("2千米");
         holder.title.setText(infoData.getTitle());
         holder.content.setText(infoData.getDescription());
         holder.ivLocation.setImageResource(R.drawable.ic_location_48dp);
-
-        holder.ivCollection.setImageResource(R.mipmap.collection);
+        /**
+         * 用户收藏状态
+         * */
+        flag=infoData.isFav();
+        if (flag) {
+            holder.ivCollection.setImageResource(R.mipmap.collection_fill);
+        } else {
+            holder.ivCollection.setImageResource(R.mipmap.collection);
+        }
         holder.ivCollection.setOnClickListener(this);
         return convertView;
     }

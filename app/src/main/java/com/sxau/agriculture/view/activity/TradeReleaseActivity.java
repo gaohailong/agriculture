@@ -2,15 +2,24 @@ package com.sxau.agriculture.view.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.Spinner;
 
 import com.sxau.agriculture.adapter.SelectPhotoAdapter;
 import com.sxau.agriculture.agriculture.R;
+import com.sxau.agriculture.bean.CategorieData;
+import com.sxau.agriculture.presenter.acitivity_presenter.TradeReleasePresenter;
+import com.sxau.agriculture.presenter.activity_presenter_interface.ITradeReleasePresenter;
+import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.GlideLoaderUtil;
+import com.sxau.agriculture.view.activity_interface.ITradeReleaseActivity;
 import com.yancy.imageselector.ImageConfig;
 import com.yancy.imageselector.ImageSelector;
 import com.yancy.imageselector.ImageSelectorActivity;
@@ -23,20 +32,32 @@ import java.util.List;
  *
  * @author 田帅.
  */
-public class TradeReleaseActivity extends BaseActivity implements View.OnClickListener{
+public class TradeReleaseActivity extends BaseActivity implements View.OnClickListener,ITradeReleaseActivity{
     private ImageView ivPhoto;
     private List<String> photoPath;
+    private Spinner spinner;
 
     public static final int REQUEST_CODE = 1000;
     private SelectPhotoAdapter selectPhotoAdapter;
     private ArrayList<String> path = new ArrayList<>();
+    private ITradeReleasePresenter iTradeReleasePresenter;
+    private Handler mhandler;
+
+    private ArrayList<String> spinData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trade_release);
+        spinner= (Spinner) findViewById(R.id.spinner);
+
         initView();
         ivPhoto.setOnClickListener(this);
+
+        mhandler=new MyHandler();
+        iTradeReleasePresenter=new TradeReleasePresenter(mhandler);
+        spinData=new ArrayList<>();
+        startNet();
     }
 
     public void initView() {
@@ -93,7 +114,39 @@ public class TradeReleaseActivity extends BaseActivity implements View.OnClickLi
             selectPhotoAdapter.notifyDataSetChanged();
         }
     }
+    public void startNet(){
+        initSpin();
+        mhandler.sendEmptyMessage(ConstantUtil.INIT_DATA);
+    }
+    /**
+     * 初始化下拉菜单
+     */
+    public void initSpin(){
+        ArrayAdapter<String> arrayAdapter=new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,spinData);
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(arrayAdapter);
+    }
+    @Override
+    public void updateView() {
 
+    }
+    public class MyHandler extends Handler{
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case ConstantUtil.INIT_DATA:
+                        iTradeReleasePresenter.doRequest();
+                    break;
+                case ConstantUtil.GET_NET_DATA:
+                        spinData=iTradeReleasePresenter.getCategorieinfo();
+                    initSpin();
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
 }
 
 

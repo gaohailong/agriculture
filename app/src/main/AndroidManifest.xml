@@ -69,7 +69,8 @@
         <activity android:name="com.sxau.agriculture.view.activity.LoginActivity" android:launchMode="singleTask" >
 
         </activity>
-        <activity android:name="com.sxau.agriculture.view.activity.RegisterActivity" android:launchMode="singleTask" />
+        <activity android:name="com.sxau.agriculture.view.activity.RegisterActivity" android:launchMode="singleTask" >
+            </activity>
 
 
 
