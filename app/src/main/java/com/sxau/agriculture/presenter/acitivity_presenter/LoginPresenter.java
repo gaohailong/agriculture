@@ -146,7 +146,7 @@ public class LoginPresenter implements ILoginPresenter {
                               //  setAlias();
                                 //执行缓存
                                 ACache mCache = ACache.get(AgricultureApplication.getContext());
-                                mCache.put(ConstantUtil.CACHE_KEY, user);
+                                mCache.put(ConstantUtil.CACHE_KEY,user);
 //                                setAlias();
                                 //打印验证
                                 String userJson = userGson.toJson(user);

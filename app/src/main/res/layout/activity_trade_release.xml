@@ -4,9 +4,9 @@
     android:layout_height="match_parent">
 
     <EditText
+        android:id="@+id/et_trade_title"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:id="@+id/et_title"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:maxEms="45"
@@ -20,13 +20,13 @@
         android:id="@+id/v_divide"
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:layout_below="@+id/et_title"
+        android:layout_below="@+id/et_trade_title"
         android:background="@color/grey" />
 
     <EditText
+        android:id="@+id/et_trade_content"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:id="@+id/editText"
         android:layout_width="match_parent"
         android:layout_height="96dp"
         android:layout_alignParentLeft="true"
@@ -42,7 +42,7 @@
         android:id="@+id/v_divide_two"
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:layout_below="@+id/editText"
+        android:layout_below="@+id/et_trade_content"
         android:background="@color/grey" />
 
     <RelativeLayout
@@ -57,6 +57,7 @@
         android:layout_below="@+id/v_divide_two">
 
         <RadioGroup
+            android:id="@+id/rg_trade_category"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
@@ -73,10 +74,18 @@
             <RadioButton
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="50dp"
+                android:layout_marginLeft="30dp"
                 android:text="@string/demand" />
         </RadioGroup>
-
+        <Spinner
+            android:id="@+id/sp_trade_cotegory"
+            android:layout_toRightOf="@+id/rg_trade_category"
+            android:layout_toLeftOf="@+id/iv_info_release_photo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="10dp"
+            />
         <ImageView
             android:id="@+id/iv_info_release_photo"
             android:layout_width="30dp"
@@ -92,7 +101,8 @@
         android:layout_width="match_parent"
         android:layout_height="15dp"
         android:layout_below="@+id/relativeLayout"
-        android:background="@color/tintGrey" />
+        android:background="@color/tintGrey"
+        android:visibility="gone"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler"
@@ -114,6 +124,7 @@
         android:orientation="horizontal">
 
         <Button
+            android:id="@+id/btn_trade_release"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_marginRight="10dp"

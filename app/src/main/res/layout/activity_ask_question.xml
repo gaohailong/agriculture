@@ -4,7 +4,7 @@
     android:layout_height="match_parent">
 
     <EditText
-        android:id="@+id/et_title"
+        android:id="@+id/et_trade_title"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:paddingLeft="10dp"
@@ -20,11 +20,11 @@
         android:id="@+id/v_divide"
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:layout_below="@+id/et_title"
+        android:layout_below="@+id/et_trade_title"
         android:background="@color/greyBlack" />
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/et_trade_content"
         android:layout_width="match_parent"
         android:layout_height="96dp"
         android:paddingLeft="10dp"
@@ -43,7 +43,7 @@
         android:id="@+id/v_divide_two"
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:layout_below="@+id/editText"
+        android:layout_below="@+id/et_trade_content"
         android:background="@color/greyBlack" />
 
     <RelativeLayout
@@ -58,7 +58,7 @@
         android:layout_below="@+id/v_divide_two">
 
         <Spinner
-            android:id="@+id/spinner"
+            android:id="@+id/sp_trade_cotegory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             />

@@ -9,7 +9,8 @@ import retrofit.http.GET;
 import retrofit.http.Query;
 
 /**
- * Created by Administrator on 2016/5/25.
+ * @author 田帅
+ * 请求交易数据的接口
  */
 public interface ITrade {
     @GET("trades")
