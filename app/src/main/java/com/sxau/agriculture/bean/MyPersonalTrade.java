@@ -1,63 +1,65 @@
 package com.sxau.agriculture.bean;
 
+import java.io.Serializable;
+
 /**
  * 个人中心交易信息bean
  * @author 李秉龙
  */
-public class MyPersonalTrade {
+public class MyPersonalTrade implements Serializable{
 
     /**
-     * id : 0
-     * title : string
-     * description : string
-     * tradeType : string
-     * tradeState : string
-     * clickCount : 0
+     * id : 21
+     * whenCreated : 1464943374000
+     * whenUpdated : 1464964730000
+     * title : 测试供应信息0008
+     * description : 测试供应信息0008测试供应信息0008测试供应信息0008
+     * user : {"id":1,"whenCreated":1463621389000,"whenUpdated":1464943203000,"userType":"PUBLIC","address":null,"name":"guodont","avatar":null,"industry":null,"scale":null}
+     * clickCount : 9
      * likeCount : 0
-     * endTime : 0
-     * images : string
-     * whenCreated : 0
-     * whenUpdated : 0
-     * user : {"id":0,"name":"string","address":"string","avatar":"string","industry":"string","scale":"string","userType":"string","whenCreated":0,"whenUpdated":0}
-     * category : {"id":0,"pid":0,"name":"string","categoryType":"string","image":"string","sort":0,"whenCreated":0,"whenUpdated":0}
+     * endTime : null
+     * tradeType : SUPPLY
+     * category : {"id":14,"whenCreated":1463620231000,"whenUpdated":1463620231000,"pid":10,"name":"瓜类","categoryType":"ARTICLE","image":"images/test.png","sort":255}
+     * tradeState : WAIT_AUDITED
+     * images : o_1akamrdhsi7s1m7n65912i91f1i7.jpg,o_1akamro53u9mqbj1nqdm2t31ic.png,
      */
 
     private int id;
+    private long whenCreated;
+    private long whenUpdated;
     private String title;
     private String description;
-    private String tradeType;
-    private String tradeState;
-    private int clickCount;
-    private int likeCount;
-    private int endTime;
-    private String images;
-    private int whenCreated;
-    private int whenUpdated;
     /**
-     * id : 0
-     * name : string
-     * address : string
-     * avatar : string
-     * industry : string
-     * scale : string
-     * userType : string
-     * whenCreated : 0
-     * whenUpdated : 0
+     * id : 1
+     * whenCreated : 1463621389000
+     * whenUpdated : 1464943203000
+     * userType : PUBLIC
+     * address : null
+     * name : guodont
+     * avatar : null
+     * industry : null
+     * scale : null
      */
 
     private UserBean user;
+    private int clickCount;
+    private int likeCount;
+    private String endTime;
+    private String tradeType;
     /**
-     * id : 0
-     * pid : 0
-     * name : string
-     * categoryType : string
-     * image : string
-     * sort : 0
-     * whenCreated : 0
-     * whenUpdated : 0
+     * id : 14
+     * whenCreated : 1463620231000
+     * whenUpdated : 1463620231000
+     * pid : 10
+     * name : 瓜类
+     * categoryType : ARTICLE
+     * image : images/test.png
+     * sort : 255
      */
 
     private CategoryBean category;
+    private String tradeState;
+    private String images;
 
     public int getId() {
         return id;
@@ -65,6 +67,22 @@ public class MyPersonalTrade {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public long getWhenCreated() {
+        return whenCreated;
+    }
+
+    public void setWhenCreated(long whenCreated) {
+        this.whenCreated = whenCreated;
+    }
+
+    public long getWhenUpdated() {
+        return whenUpdated;
+    }
+
+    public void setWhenUpdated(long whenUpdated) {
+        this.whenUpdated = whenUpdated;
     }
 
     public String getTitle() {
@@ -83,20 +101,12 @@ public class MyPersonalTrade {
         this.description = description;
     }
 
-    public String getTradeType() {
-        return tradeType;
+    public UserBean getUser() {
+        return user;
     }
 
-    public void setTradeType(String tradeType) {
-        this.tradeType = tradeType;
-    }
-
-    public String getTradeState() {
-        return tradeState;
-    }
-
-    public void setTradeState(String tradeState) {
-        this.tradeState = tradeState;
+    public void setUser(UserBean user) {
+        this.user = user;
     }
 
     public int getClickCount() {
@@ -115,44 +125,20 @@ public class MyPersonalTrade {
         this.likeCount = likeCount;
     }
 
-    public int getEndTime() {
+    public String getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(int endTime) {
+    public void setEndTime(String endTime) {
         this.endTime = endTime;
     }
 
-    public String getImages() {
-        return images;
+    public String getTradeType() {
+        return tradeType;
     }
 
-    public void setImages(String images) {
-        this.images = images;
-    }
-
-    public int getWhenCreated() {
-        return whenCreated;
-    }
-
-    public void setWhenCreated(int whenCreated) {
-        this.whenCreated = whenCreated;
-    }
-
-    public int getWhenUpdated() {
-        return whenUpdated;
-    }
-
-    public void setWhenUpdated(int whenUpdated) {
-        this.whenUpdated = whenUpdated;
-    }
-
-    public UserBean getUser() {
-        return user;
-    }
-
-    public void setUser(UserBean user) {
-        this.user = user;
+    public void setTradeType(String tradeType) {
+        this.tradeType = tradeType;
     }
 
     public CategoryBean getCategory() {
@@ -163,16 +149,32 @@ public class MyPersonalTrade {
         this.category = category;
     }
 
-    public static class UserBean {
+    public String getTradeState() {
+        return tradeState;
+    }
+
+    public void setTradeState(String tradeState) {
+        this.tradeState = tradeState;
+    }
+
+    public String getImages() {
+        return images;
+    }
+
+    public void setImages(String images) {
+        this.images = images;
+    }
+
+    public static class UserBean implements Serializable{
         private int id;
-        private String name;
+        private long whenCreated;
+        private long whenUpdated;
+        private String userType;
         private String address;
+        private String name;
         private String avatar;
         private String industry;
         private String scale;
-        private String userType;
-        private int whenCreated;
-        private int whenUpdated;
 
         public int getId() {
             return id;
@@ -182,12 +184,28 @@ public class MyPersonalTrade {
             this.id = id;
         }
 
-        public String getName() {
-            return name;
+        public long getWhenCreated() {
+            return whenCreated;
         }
 
-        public void setName(String name) {
-            this.name = name;
+        public void setWhenCreated(long whenCreated) {
+            this.whenCreated = whenCreated;
+        }
+
+        public long getWhenUpdated() {
+            return whenUpdated;
+        }
+
+        public void setWhenUpdated(long whenUpdated) {
+            this.whenUpdated = whenUpdated;
+        }
+
+        public String getUserType() {
+            return userType;
+        }
+
+        public void setUserType(String userType) {
+            this.userType = userType;
         }
 
         public String getAddress() {
@@ -196,6 +214,14 @@ public class MyPersonalTrade {
 
         public void setAddress(String address) {
             this.address = address;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
         }
 
         public String getAvatar() {
@@ -221,41 +247,17 @@ public class MyPersonalTrade {
         public void setScale(String scale) {
             this.scale = scale;
         }
-
-        public String getUserType() {
-            return userType;
-        }
-
-        public void setUserType(String userType) {
-            this.userType = userType;
-        }
-
-        public int getWhenCreated() {
-            return whenCreated;
-        }
-
-        public void setWhenCreated(int whenCreated) {
-            this.whenCreated = whenCreated;
-        }
-
-        public int getWhenUpdated() {
-            return whenUpdated;
-        }
-
-        public void setWhenUpdated(int whenUpdated) {
-            this.whenUpdated = whenUpdated;
-        }
     }
 
-    public static class CategoryBean {
+    public static class CategoryBean implements Serializable{
         private int id;
+        private long whenCreated;
+        private long whenUpdated;
         private int pid;
         private String name;
         private String categoryType;
         private String image;
         private int sort;
-        private int whenCreated;
-        private int whenUpdated;
 
         public int getId() {
             return id;
@@ -263,6 +265,22 @@ public class MyPersonalTrade {
 
         public void setId(int id) {
             this.id = id;
+        }
+
+        public long getWhenCreated() {
+            return whenCreated;
+        }
+
+        public void setWhenCreated(long whenCreated) {
+            this.whenCreated = whenCreated;
+        }
+
+        public long getWhenUpdated() {
+            return whenUpdated;
+        }
+
+        public void setWhenUpdated(long whenUpdated) {
+            this.whenUpdated = whenUpdated;
         }
 
         public int getPid() {
@@ -303,22 +321,6 @@ public class MyPersonalTrade {
 
         public void setSort(int sort) {
             this.sort = sort;
-        }
-
-        public int getWhenCreated() {
-            return whenCreated;
-        }
-
-        public void setWhenCreated(int whenCreated) {
-            this.whenCreated = whenCreated;
-        }
-
-        public int getWhenUpdated() {
-            return whenUpdated;
-        }
-
-        public void setWhenUpdated(int whenUpdated) {
-            this.whenUpdated = whenUpdated;
         }
     }
 }

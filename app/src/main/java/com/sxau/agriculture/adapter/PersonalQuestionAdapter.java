@@ -73,18 +73,18 @@ public class PersonalQuestionAdapter extends BaseAdapter {
         MyPersonalQuestion myPersonalQuestion = dates.get(position);
         holder.tv_date.setText(TimeUtil.format(myPersonalQuestion.getWhenCreated()));
         holder.tv_title.setText(myPersonalQuestion.getTitle());
-
         //对是否有回答，items显示的改变
-        if (myPersonalQuestion.getQuestionAuditState() != "WAIT_AUDITED" || myPersonalQuestion.getQuestionResolveState() != "WAIT_RESOLVE") {
-            holder.tv_content.setText(myPersonalQuestion.getContent());
+        if (myPersonalQuestion.getQuestionAuditState().equals("WAIT_AUDITED")) {
+            holder.ll_answer.setVisibility(View.GONE);
+            holder.tv_is_question.setText(R.string.no_daudited);
+        } else if (myPersonalQuestion.getQuestionAuditState().equals("WAIT_RESOLVE")) {
+            holder.ll_answer.setVisibility(View.GONE);
+            holder.tv_is_question.setText(R.string.no_question);
+        } else {
+            holder.tv_content.setText(myPersonalQuestion.getAnswer());
             Picasso.with(context).load(myPersonalQuestion.getUser().getAvatar()).resize(150, 150).centerCrop().placeholder(R.mipmap.ic_loading).error(R.mipmap.ic_load_fail).into(holder.rv_head);
             holder.tv_is_question.setText(R.string.is_question);
             holder.v_left.setBackgroundColor(Color.parseColor("#009688"));
-        } else {
-            holder.ll_answer.setVisibility(View.GONE);
-//                textViewContent.setVisibility(View.GONE);
-            holder.tv_is_question.setText(R.string.no_question);
-//                imageViewHead.setVisibility(View.GONE);
         }
         return convertView;
     }
