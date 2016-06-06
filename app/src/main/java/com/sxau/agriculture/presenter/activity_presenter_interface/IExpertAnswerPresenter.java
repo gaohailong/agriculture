@@ -1,9 +1,9 @@
 package com.sxau.agriculture.presenter.activity_presenter_interface;
 
 /**
- * Created by Yawen_Li on 2016/4/22.
+ * 专家回答问题界面
+ * @author 高海龙
  */
 public interface IExpertAnswerPresenter {
-    void setFavState();
-    void setUrgeState();
+    void submitAnswer();
 }

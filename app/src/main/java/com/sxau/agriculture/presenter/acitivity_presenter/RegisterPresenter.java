@@ -168,12 +168,12 @@ public class RegisterPresenter implements IRegisterPresenter {
                                 Gson userGson = new Gson();
                                 User user = new User();
                                 user.setAuthToken(authToken);
-                                user.setPhone(phone);
-                                user.setUserName(username);
+                                user.setPhone(strPhone);
+                                user.setName(username);
 
                                 //执行缓存
                                 ACache mCache = ACache.get(AgricultureApplication.getContext());
-                                mCache.put(ConstantUtil.CACHE_KEY,userGson.toJson(user));
+                                mCache.put(ConstantUtil.CACHE_KEY,user);
 
                                 //打印验证
                                 LogUtil.d("RegisterP", userGson.toJson(user));

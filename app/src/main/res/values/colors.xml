@@ -9,9 +9,9 @@
     <!--主色调-->
     <color name="mainColor">#00b5ad</color>
     <color name="white">#ffffff</color>
-    <!--浅灰色-->
+    <!--白灰色-->
     <color name="tintGrey">#f9fafa</color>
-    <!--灰色-->
+    <!--浅灰色-->
     <color name="whitGrey">#d3d9d9</color>
     <!--灰色-->
     <color name="grey">#a9b7b7</color>

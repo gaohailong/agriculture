@@ -98,13 +98,11 @@ public class PersonalQuestionPresenter implements IPersonalQuestionPresenter {
     @Override
     public void doRequest() {
         //获取缓存中的authToken，添加到请求header中
-        Gson userGson = new Gson();
         User user = new User();
 
-        String userData = new String();
-        userData = mCache.getAsString(ConstantUtil.CACHE_KEY);
-        user = userGson.fromJson(userData, User.class);
+        user = (User) mCache.getAsObject(ConstantUtil.CACHE_KEY);
         authToken = user.getAuthToken();
+
 
         Call<ArrayList<MyPersonalQuestion>> call = RetrofitUtil.getRetrofit().create(IPersonalQuestion.class).getMessage(authToken);
         call.enqueue(new Callback<ArrayList<MyPersonalQuestion>>() {
