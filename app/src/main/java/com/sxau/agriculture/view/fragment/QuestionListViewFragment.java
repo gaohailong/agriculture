@@ -2,10 +2,12 @@ package com.sxau.agriculture.view.fragment;
 
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -14,6 +16,7 @@ import android.view.animation.AlphaAnimation;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.exception.DbException;
@@ -60,6 +63,7 @@ public class QuestionListViewFragment extends BaseFragment implements IQuestionL
     private int currentPage;
     private boolean isLoadOver;
     private DbUtils dbUtil;
+    private int cateId;
 
 
     private IQuestionListViewPresenter iQuestionListViewPresenter;
@@ -71,15 +75,23 @@ public class QuestionListViewFragment extends BaseFragment implements IQuestionL
         iQuestionListViewPresenter = new QuestionListViewPresenter(QuestionListViewFragment.this);
 
         mView = inflater.inflate(R.layout.fragment_question_list, container, false);
+        context = QuestionListViewFragment.this.getActivity();
 
         lvQuestionList = (ListView) mView.findViewById(R.id.lv_question);
-        lvQuestionList.setOnItemClickListener(this);
+        if(NetUtil.isNetAvailable(context)) {
+            lvQuestionList.setOnItemClickListener(this);
+        }else {
+            Toast.makeText(context,"请检查网络设置",Toast.LENGTH_SHORT).show();
+        }
         lvQuestionList.setOnTouchListener(this);
+        questionFragment=new QuestionFragment();
 
         questionDatas = new ArrayList<QuestionData>();
         myHandler = new MyHandler();
 
-        context = QuestionListViewFragment.this.getActivity();
+        pullCategorieId();
+
+        Log.d("555", cateId+"");
 
         //刷新&加载
         rl_refresh = (RefreshLayout) mView.findViewById(R.id.rl_refresh);
@@ -99,6 +111,11 @@ public class QuestionListViewFragment extends BaseFragment implements IQuestionL
         initRefresh();
         initList();
         myHandler.sendEmptyMessage(ConstantUtil.INIT_DATA);
+    }
+
+    public void pullCategorieId(){
+        SharedPreferences sharedPreferences=getActivity().getSharedPreferences("cate",Context.MODE_PRIVATE);
+        cateId=sharedPreferences.getInt("cateId",0);
     }
 
     public void initRefresh() {
@@ -130,13 +147,13 @@ public class QuestionListViewFragment extends BaseFragment implements IQuestionL
             case MotionEvent.ACTION_UP:
                 offsetX = event.getX() - startX;
                 offsetY = event.getY() - startY;
-                if (offsetY < -50) {
+                if (offsetY < 0) {
                     AlphaAnimation animation = new AlphaAnimation(1.0f, 0f);
                     animation.setDuration(500);
                     questionFragment.btn_ask.setAnimation(animation);
                     questionFragment.btn_ask.setVisibility(View.INVISIBLE);
                 }
-                if (offsetY > 50) {
+                if (offsetY > 0) {
                     AlphaAnimation animation = new AlphaAnimation(0f, 1.0f);
                     animation.setDuration(500);
                     questionFragment.btn_ask.setAnimation(animation);

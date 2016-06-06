@@ -164,22 +164,26 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
         tv_title.setText("数据加载中 请稍候……");
         vp_viewpager = (ViewPager) mView.findViewById(R.id.vp_viewpager);
         imageViews = new ArrayList<ImageView>();
-        Log.d("222", imagePath.size()+"");
-        for (int i = 0; i < imagePath.size(); i++) {
-            ImageView img = new ImageView(context);
-            Log.d("111", imagePath.get(i));
-            Picasso.with(context).load(imagePath.get(i)).resize(2000, 150).centerCrop()
-                    .placeholder(R.mipmap.ic_loading).error(R.mipmap.ic_load_fail).into(img);
-            imageViews.add(img);
-
+        if (NetUtil.isNetAvailable(context)) {
+            for (int i = 0; i < imagePath.size(); i++) {
+                ImageView img = new ImageView(context);
+                Picasso.with(context).load(imagePath.get(i)).resize(2000, 150).centerCrop()
+                        .placeholder(R.mipmap.ic_loading).error(R.mipmap.ic_load_fail).into(img);
+                imageViews.add(img);
+                myHandler.postDelayed(runnableForBanner, 2000);
+            }
+        }else {
+            for (int i=0;i<2;i++) {
+                ImageView img = new ImageView(context);
+                Picasso.with(context).load(R.mipmap.ic_phone_green_96px).resize(48, 48).centerCrop().into(img);
+                imageViews.add(img);
+            }
         }
-
         bannerAdapter = new BannerAdapter(imageViews, context);
         vp_viewpager.setOnTouchListener(this);
         vp_viewpager.setAdapter(bannerAdapter);
         vp_viewpager.setCurrentItem(300);
         vp_viewpager.setOnPageChangeListener(this);
-        myHandler.postDelayed(runnableForBanner, 2000);
     }
 
 

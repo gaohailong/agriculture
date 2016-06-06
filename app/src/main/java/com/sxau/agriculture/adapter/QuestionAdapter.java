@@ -2,6 +2,7 @@ package com.sxau.agriculture.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,7 +69,7 @@ public class QuestionAdapter extends BaseAdapter implements View.OnClickListener
         QuestionData questionData = questionDatas.get(position);
         Picasso.with(context).load(R.mipmap.img_default_user_portrait_150px).resize(150,150).centerCrop().placeholder(R.mipmap.img_default_user_portrait_150px)
                 .error(R.mipmap.img_default_user_portrait_150px).into(holder.rv_head);
-        holder.tv_name.setText(questionData.getUser().getName());
+//        holder.tv_name.setText(questionData.getUser().getName());
         holder.tv_title.setText(questionData.getTitle());
         if(questionData.getTitle()!=null && !questionData.getQuestionAuditState().equals("WAIT_AUDITED")
                 && !questionData.getQuestionResolveState().equals("WAIT_RESOLVE")){
