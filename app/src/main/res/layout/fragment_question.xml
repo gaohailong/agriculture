@@ -56,7 +56,7 @@
             android:layout_marginRight="20dp"
             android:background="@drawable/bg_ask_btn_shape"
             android:text="我要提问"
-            android:textSize="14sp"
+            android:textSize="@dimen/font_size"
             android:textColor="@color/white"/>
     </FrameLayout>
 </LinearLayout>
