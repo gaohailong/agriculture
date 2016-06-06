@@ -22,6 +22,7 @@ import com.sxau.agriculture.api.ICategoriesData;
 import com.sxau.agriculture.bean.CategorieData;
 import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.GlideLoaderUtil;
+import com.sxau.agriculture.utils.LogUtil;
 import com.sxau.agriculture.utils.RetrofitUtil;
 import com.yancy.imageselector.ImageConfig;
 import com.yancy.imageselector.ImageSelector;
@@ -39,7 +40,7 @@ import retrofit.Retrofit;
  * 提问页面
  * @author 崔志泽
  */
-public class AskQuestion extends AppCompatActivity implements View.OnClickListener {
+public class AskQuestion extends BaseActivity implements View.OnClickListener {
     private ImageView ib_photo;
     private Button btn_submit;
     private EditText et_title;
@@ -143,7 +144,7 @@ public class AskQuestion extends AppCompatActivity implements View.OnClickListen
             List<String> pathList = data.getStringArrayListExtra(ImageSelectorActivity.EXTRA_RESULT);
             for (String path : pathList) {
                 //TODO 将网络上传写到这
-                Log.i("ImagePathList", path);
+                LogUtil.i("ImagePathList", path);
             }
             path.clear();
             path.addAll(pathList);

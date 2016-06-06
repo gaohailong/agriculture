@@ -142,11 +142,15 @@ public class LoginPresenter implements ILoginPresenter {
                                 Gson userGson = new Gson();
                                 User user = new User();
                                 user.setAuthToken(authToken);
-                                user.setPhone(phone);
+                                user.setPhone(strPhone);
                               //  setAlias();
                                 //执行缓存
                                 ACache mCache = ACache.get(AgricultureApplication.getContext());
+<<<<<<< HEAD
                                 mCache.put(ConstantUtil.CACHE_KEY,user);
+=======
+                                mCache.put(ConstantUtil.CACHE_KEY, user);
+>>>>>>> 3289dd45af5b3d9150528dc90cbe8ea6d0e83cb1
 //                                setAlias();
                                 //打印验证
                                 String userJson = userGson.toJson(user);

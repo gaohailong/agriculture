@@ -57,7 +57,7 @@
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
                 android:text="2016.03.22"
-                android:textSize="12sp"/>
+                android:textSize="@dimen/font_time"/>
         </RelativeLayout>
 
         <TextView
@@ -79,7 +79,7 @@
             android:ellipsize="end"
             android:lines="3"
             android:text="我的他的你的我的他的你的我的他的你的我的他的你的我的他的你的我的他的你的我的他的你的我的他的你的我的他的你的我的他的你的我的他的你的"
-            android:textSize="@dimen/fab_margin" />
+            android:textSize="@dimen/font_size" />
     </LinearLayout>
 
 
