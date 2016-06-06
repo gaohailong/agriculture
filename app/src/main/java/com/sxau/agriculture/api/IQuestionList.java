@@ -14,5 +14,5 @@ import retrofit.http.Query;
  */
 public interface IQuestionList {
     @GET("questions")
-    Call<ArrayList<QuestionData>> getQuestionList(@Query("page") String page,@Query("pageSize") String pageSize/*,@Query("category") String category*/);
+    Call<ArrayList<QuestionData>> getQuestionList(@Query("page") String page,@Query("pageSize") String pageSize,@Query("category") String category);
 }

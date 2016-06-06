@@ -4,15 +4,18 @@ import android.content.Context;
 import android.os.Handler;
 import android.util.Log;
 
-import com.lidroid.xutils.DbUtils;
-import com.lidroid.xutils.exception.DbException;
+
+import com.google.gson.Gson;
 import com.sxau.agriculture.AgricultureApplication;
 import com.sxau.agriculture.api.IPersonalCollectQuestion;
-import com.sxau.agriculture.bean.MyPersonalCollectTrades;
+
 import com.sxau.agriculture.bean.MyPersonalCollectionQuestion;
-import com.sxau.agriculture.bean.MyPersonalQuestion;
+import com.sxau.agriculture.bean.User;
 import com.sxau.agriculture.presenter.fragment_presenter_interface.IPersonalCollectQuestionPresenter;
+import com.sxau.agriculture.utils.ACache;
+import com.sxau.agriculture.utils.AuthTokenUtil;
 import com.sxau.agriculture.utils.ConstantUtil;
+import com.sxau.agriculture.utils.LogUtil;
 import com.sxau.agriculture.utils.NetUtil;
 import com.sxau.agriculture.utils.RetrofitUtil;
 import com.sxau.agriculture.view.fragment.PersonalCollectQuestionFragment;
@@ -30,19 +33,19 @@ import retrofit.Retrofit;
 /**
  * Created by Yawen_Li on 2016/4/22.
  */
-public class PersonalCollectionPresenter implements IPersonalCollectQuestionPresenter {
+public class PersonalCollectionQuestionsPresenter implements IPersonalCollectQuestionPresenter {
     private IPresonalCollectQuestionFragment iPresonalCollectQuestionFragment;
     private ArrayList<MyPersonalCollectionQuestion> myCQuestionsList;
-
-    private DbUtils dbUtils;
+    private String authToken;
     private Context context;
     private Handler handler;
     private MyPersonalCollectionQuestion myPersonalQuestion;
-    public PersonalCollectionPresenter(IPresonalCollectQuestionFragment iPresonalCollectQuestionFragment, Context context,PersonalCollectQuestionFragment.MyHandler handler) {
+    private ACache mCache;
+    public PersonalCollectionQuestionsPresenter(IPresonalCollectQuestionFragment iPresonalCollectQuestionFragment, Context context, PersonalCollectQuestionFragment.MyHandler mhandler) {
         this.iPresonalCollectQuestionFragment = iPresonalCollectQuestionFragment;
         this.context = context;
-        dbUtils = DbUtils.create(context);
-        this.handler = handler;
+        this.handler = mhandler;
+        this.mCache = ACache.get(context);
     }
 
 
@@ -61,23 +64,18 @@ public class PersonalCollectionPresenter implements IPersonalCollectQuestionPres
      */
     @Override
     public ArrayList<MyPersonalCollectionQuestion> getDatas() {
-
+        authToken = AuthTokenUtil.findAuthToken();
+        LogUtil.d("PersonalQuestionP:authToken:",authToken+"");
         myCQuestionsList = new ArrayList<MyPersonalCollectionQuestion>();
         myPersonalQuestion = new MyPersonalCollectionQuestion();
-        try {
-            List<MyPersonalCollectionQuestion> questionslist = new ArrayList<MyPersonalCollectionQuestion>();
-            dbUtils.createTableIfNotExist(MyPersonalCollectionQuestion.class);
-            questionslist = dbUtils.findAll(MyPersonalCollectionQuestion.class);
-            if (!questionslist.isEmpty()){
-                for (int i = 0; i < questionslist.size();i++){
-                    myPersonalQuestion = questionslist.get(i);
-                    myCQuestionsList.add(myPersonalQuestion);
-                }
-            }else {
-                return myCQuestionsList;
+        List<MyPersonalCollectionQuestion> cQuestionList = new ArrayList<MyPersonalCollectionQuestion>();
+        cQuestionList = (List<MyPersonalCollectionQuestion>) mCache.getAsObject(ConstantUtil.CACHE_PERSONALCOLLECTQUESTIION_KEY);
+
+        if (mCache.getAsObject(ConstantUtil.CACHE_PERSONALCOLLECTQUESTIION_KEY) != null) {
+            for (int i = 0; i < cQuestionList.size(); i++) {
+                myPersonalQuestion = cQuestionList.get(i);
+                myCQuestionsList.add(myPersonalQuestion);
             }
-        } catch (DbException e) {
-            e.printStackTrace();
         }
         return myCQuestionsList;
     }
@@ -90,8 +88,12 @@ public class PersonalCollectionPresenter implements IPersonalCollectQuestionPres
 
     @Override
     public void doRequest() {
+        Gson userGson = new Gson();
+        User user = new User();
+
+        authToken = AuthTokenUtil.findAuthToken();
         Log.d("pcqp","doRequest");
-        Call<ArrayList<MyPersonalCollectionQuestion>> call = RetrofitUtil.getRetrofit().create(IPersonalCollectQuestion.class).getMessage();
+        Call<ArrayList<MyPersonalCollectionQuestion>> call = RetrofitUtil.getRetrofit().create(IPersonalCollectQuestion.class).getMessage(authToken);
         call.enqueue(new Callback<ArrayList<MyPersonalCollectionQuestion>>() {
             @Override
             public void onResponse(Response<ArrayList<MyPersonalCollectionQuestion>> response, Retrofit retrofit) {
@@ -99,15 +101,23 @@ public class PersonalCollectionPresenter implements IPersonalCollectQuestionPres
                 if (response.isSuccess()){
                     myCQuestionsList = response.body();
                     Log.d("pcqp","code"+response.code()+"body:"+response.body().toString());
-                    Log.d("pcqp",myCQuestionsList.get(1).getUser().toString());
-                    try {
-                        dbUtils.deleteAll(MyPersonalCollectionQuestion.class);
-                        dbUtils.saveAll(myCQuestionsList);
-                    } catch (DbException e) {
-                        e.printStackTrace();
-                    }
+//                    Log.d("pcqp",myCQuestionsList.get(1).getUser().getName());
+//                    try {
+//                        dbUtils.deleteAll(MyPersonalCollectionQuestion.class);
+//                        dbUtils.saveAll(myCQuestionsList);
+//                    } catch (DbException e) {
+//                        e.printStackTrace();
+//                    }
+
+                    //加入缓存中,先清空缓存
+
+                    //加入缓存中,先清空缓存
+                    mCache.remove(ConstantUtil.CACHE_PERSONALCOLLECTQUESTIION_KEY);
+                    mCache.put(ConstantUtil.CACHE_PERSONALCOLLECTQUESTIION_KEY, myCQuestionsList);
+
                     handler.sendEmptyMessage(ConstantUtil.GET_NET_DATA);
                     iPresonalCollectQuestionFragment.closeRefresh();
+                    LogUtil.d("pcqp", "4、请求成功，已经保存好数据，通知主线程重新拿数据，更新页面");
                 }
             }
 
@@ -127,6 +137,7 @@ public class PersonalCollectionPresenter implements IPersonalCollectQuestionPres
             Log.d("pcqp" ,"doreq");
             doRequest();
         } else {
+            Log.d("pcqp:nopullrefersh" ,"doreq");
             iPresonalCollectQuestionFragment.showNoNetworking();
             iPresonalCollectQuestionFragment.closeRefresh();
         }

@@ -66,16 +66,18 @@ public class PersonalCollectTradesAdapter extends BaseAdapter{
             holder = (ViewHolder)convertView.getTag();
         }
         MyPersonalCollectTrades myPersonalCollectTrades = dates.get(position);
-//        Picasso.with(context).load(myPersonalCollectTrades.getUser().getAvatar().toString()).resize(150,150).centerCrop().placeholder(R.mipmap.ic_loading).error(R.mipmap.ic_load_fail).into(holder.rv_InfoHead);
-        holder.tv_TradeName.setText(myPersonalCollectTrades.getUser().getName());
+
+        Picasso.with(context).load(myPersonalCollectTrades.getTrade().getUser().getAvatar()).resize(150,150).centerCrop().placeholder(R.mipmap.ic_loading).error(R.mipmap.ic_load_fail).into(holder.rv_InfoHead);
+
+        holder.tv_TradeName.setText(myPersonalCollectTrades.getTrade().getUser().getName());
         if (myPersonalCollectTrades.getUser().getAddress() != null) {
-            holder.tv_TradeAddress.setText(myPersonalCollectTrades.getUser().getAddress());
+            holder.tv_TradeAddress.setText(myPersonalCollectTrades.getTrade().getUser().getAddress());
         } else {
             holder.tv_TradeAddress.setText("未知");
         }
         holder.tv_TradeDate.setText(TimeUtil.format(myPersonalCollectTrades.getUser().getWhenUpdated()) );
-        holder.tv_TradeTitle.setText(myPersonalCollectTrades.getTitle());
-        holder.tv_TradeContent.setText(myPersonalCollectTrades.getDescription());
+        holder.tv_TradeTitle.setText(myPersonalCollectTrades.getTrade().getTitle());
+        holder.tv_TradeContent.setText(myPersonalCollectTrades.getTrade().getDescription());
 
         return convertView;
     }

@@ -3,13 +3,20 @@ package com.sxau.agriculture.view.activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
@@ -23,11 +30,17 @@ import com.squareup.okhttp.Request;
 import com.sxau.agriculture.adapter.SelectPhotoAdapter;
 import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.api.ITradeRelease;
+import com.sxau.agriculture.bean.User;
+import com.sxau.agriculture.presenter.acitivity_presenter.TradeReleasePresenter;
+import com.sxau.agriculture.presenter.activity_presenter_interface.ITradeReleasePresenter;
 import com.sxau.agriculture.qiniu.FileUtilsQiNiu;
 import com.sxau.agriculture.qiniu.QiniuLabConfig;
+import com.sxau.agriculture.utils.ACache;
+import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.GlideLoaderUtil;
 import com.sxau.agriculture.utils.LogUtil;
 import com.sxau.agriculture.utils.RetrofitUtil;
+import com.sxau.agriculture.view.activity_interface.ITradeReleaseActivity;
 import com.yancy.imageselector.ImageConfig;
 import com.yancy.imageselector.ImageSelector;
 import com.yancy.imageselector.ImageSelectorActivity;
@@ -43,40 +56,83 @@ import java.util.List;
 import java.util.Map;
 
 import retrofit.Call;
+import retrofit.Callback;
+import retrofit.Response;
+import retrofit.Retrofit;
 
 /**
  * Info发布供求界面
  *
- * 问题：请求没有发完，请在doupdata中去查看
- *
  * @author 田帅.
  */
-public class TradeReleaseActivity extends BaseActivity implements View.OnClickListener {
+public class TradeReleaseActivity extends BaseActivity implements View.OnClickListener, ITradeReleaseActivity {
     private ImageView ivPhoto;
     private List<String> photoPath;
-    private Button btnSubmit;
+    private Spinner spTradeType;
+    private EditText etTradeTitle;
+    private EditText etTradeContent;
+    private RadioGroup rgTradeCategory;
+    private Button btnTradeRelease;
 
-    private TradeReleaseActivity context;
     private String uploadFilePath;
     private UploadManager uploadManager;
+    private TradeReleaseActivity context;
     private ArrayList<String> imageUriList = new ArrayList<String>();
+    /**
+     * 交易类型(供应、需求)、交易标题、交易分类、交易内容、图片
+     */
+    private int tradeCategoryId;
+    private String tradeTitle;
+    private String tradeType;
+    private String tradeContent;
+    private String tradeImage;
 
     public static final int REQUEST_CODE = 1000;
     private SelectPhotoAdapter selectPhotoAdapter;
     private ArrayList<String> path = new ArrayList<>();
+    private ITradeReleasePresenter iTradeReleasePresenter;
+    private Handler mhandler;
+
+    private ArrayList<String> spinData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trade_release);
+/**
+ * 初始化控件
+ * */
         initView();
         ivPhoto.setOnClickListener(this);
-        btnSubmit.setOnClickListener(this);
+        btnTradeRelease.setOnClickListener(this);
+        spTradeType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                tradeType = spinData.get(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        mhandler = new MyHandler();
+        iTradeReleasePresenter = new TradeReleasePresenter(mhandler);
+        spinData = new ArrayList<>();
+        startNet();
     }
 
+    /**
+     * 初始化控件
+     */
     public void initView() {
         ivPhoto = (ImageView) findViewById(R.id.iv_info_release_photo);
-        btnSubmit = (Button) findViewById(R.id.btn_submit);
+        etTradeTitle = (EditText) findViewById(R.id.et_trade_title);
+        etTradeContent = (EditText) findViewById(R.id.et_trade_content);
+        spTradeType = (Spinner) findViewById(R.id.sp_trade_cotegory);
+        rgTradeCategory = (RadioGroup) findViewById(R.id.rg_trade_category);
+        btnTradeRelease = (Button) findViewById(R.id.btn_trade_release);
 
         RecyclerView recycler = (RecyclerView) findViewById(R.id.recycler);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
@@ -92,9 +148,61 @@ public class TradeReleaseActivity extends BaseActivity implements View.OnClickLi
                 //发布供求界面弹出选择照片
                 showPhotoDialog();
                 break;
-            case R.id.btn_submit:
+            case R.id.btn_trade_release:
+                //执行图片上传至七牛操作
                 doupdata();
-                finish();
+                /**
+                 *得到交易的类型
+                 * */
+                tradeCategoryId = rgTradeCategory.getId();
+                /**
+                 * 得到交易的标题
+                 * */
+                tradeTitle = etTradeTitle.getText().toString();
+                /**
+                 *得到交易的内容
+                 * */
+                tradeContent = etTradeContent.getText().toString();
+                /**
+                 *得到交易的分类
+                 * */
+
+                /**
+                 *得到图片地址
+                 * */
+                tradeImage = imageUriList.toString();
+                Map map = new HashMap();
+                map.put("categoryId", tradeCategoryId);
+                map.put("title", tradeTitle);
+                map.put("tradeType", tradeType);
+                map.put("content", tradeContent);
+                map.put("image", tradeImage);
+/**
+ * 获得用户Token
+ * */
+                ACache mCache = ACache.get(TradeReleaseActivity.this);
+                User user = (User) mCache.getAsObject(ConstantUtil.CACHE_KEY);
+                String authToken = user.getAuthToken();
+                /**
+                 * 发送到服务器
+                 * */
+                Log.d("release", "点击点击");
+                Call<JsonObject> call = RetrofitUtil.getRetrofit().create(ITradeRelease.class).postTrade(map, authToken);
+                call.enqueue(new Callback<JsonObject>() {
+                    @Override
+                    public void onResponse(Response<JsonObject> response, Retrofit retrofit) {
+                        Log.d("release", response.code() + "");
+                        if (response.isSuccess()) {
+                            Toast.makeText(TradeReleaseActivity.this, "提交成功", Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Throwable t) {
+
+                    }
+                });
                 break;
             default:
                 break;
@@ -124,17 +232,52 @@ public class TradeReleaseActivity extends BaseActivity implements View.OnClickLi
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE && resultCode == RESULT_OK && data != null) {
             List<String> pathList = data.getStringArrayListExtra(ImageSelectorActivity.EXTRA_RESULT);
-//            for (String path : pathList) {
-//                //TODO 将网络上传写到这
-//                Log.i("ImagePathList", path);
-//            }
+            for (String path : pathList) {
+                //TODO 将网络上传写到这
+                Log.i("ImagePathList", path);
+            }
             path.clear();
             path.addAll(pathList);
-            LogUtil.d("TradeReleaseA", "路径集合：" + pathList.toString());
             selectPhotoAdapter.notifyDataSetChanged();
         }
     }
 
+    public void startNet() {
+        initSpin();
+        mhandler.sendEmptyMessage(ConstantUtil.INIT_DATA);
+    }
+
+    /**
+     * 初始化下拉菜单
+     */
+    public void initSpin() {
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, spinData);
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spTradeType.setAdapter(arrayAdapter);
+    }
+
+    @Override
+    public void updateView() {
+
+    }
+
+    public class MyHandler extends Handler {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case ConstantUtil.INIT_DATA:
+                    iTradeReleasePresenter.doRequest();
+                    break;
+                case ConstantUtil.GET_NET_DATA:
+                    spinData = iTradeReleasePresenter.getCategorieinfo();
+                    initSpin();
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
     public void doupdata() {
         for (String imgpath : path) {
             File photoFile = new File(imgpath);
@@ -142,21 +285,7 @@ public class TradeReleaseActivity extends BaseActivity implements View.OnClickLi
             uploadFilePath = FileUtilsQiNiu.getPath(this, photoUri);
             uploadPicture();
         }
-        doPost();
     }
-
-    public void doPost(){
-        Map map = new HashMap();
-        map.put("categoryId","");
-        map.put("title","");
-        map.put("tradeType","");
-        map.put("content","");
-        map.put("image","");
-
-
-        Call<JsonObject> call = RetrofitUtil.getRetrofit().create(ITradeRelease.class).doPostTradeRelease(map);
-    }
-
     //将图片路径添加到这外部添加一个图片
     public void uploadPicture() {
         LogUtil.d("TradeReleaseA", "uploadPicture execute");

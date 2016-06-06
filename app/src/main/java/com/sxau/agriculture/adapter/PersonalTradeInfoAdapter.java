@@ -65,7 +65,7 @@ public class PersonalTradeInfoAdapter extends BaseAdapter{
         Picasso.with(context).load(myPersonalTrade.getUser().getAvatar()).resize(150,150).centerCrop().placeholder(R.mipmap.ic_loading).error(R.mipmap.ic_load_fail).into(holder.rv_InfoHead);
         holder.tv_TradeName.setText(myPersonalTrade.getUser().getName());
         holder.tv_TradeAddress.setText(myPersonalTrade.getUser().getAddress());
-        holder.tv_TradeDate.setText(TimeUtil.format(myPersonalTrade.getEndTime()) );
+        holder.tv_TradeDate.setText(TimeUtil.format(myPersonalTrade.getWhenUpdated()) );
         holder.tv_TradeTitle.setText(myPersonalTrade.getTitle());
         holder.tv_TradeContent.setText(myPersonalTrade.getDescription());
         return convertView;

@@ -167,7 +167,7 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
         if (NetUtil.isNetAvailable(context)) {
             for (int i = 0; i < imagePath.size(); i++) {
                 ImageView img = new ImageView(context);
-                Picasso.with(context).load(imagePath.get(i)).resize(2000, 150).centerCrop()
+                Picasso.with(context).load(imagePath.get(i)).resize(360, 200).centerCrop()
                         .placeholder(R.mipmap.ic_loading).error(R.mipmap.ic_load_fail).into(img);
                 imageViews.add(img);
                 myHandler.postDelayed(runnableForBanner, 2000);
@@ -203,6 +203,7 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
                     if (NetUtil.isNetAvailable(context)) {
                         getHomeArticleData(String.valueOf(currentPage), String.valueOf(ConstantUtil.ITEM_NUMBER), true);
                         getHomeBannerData();
+
                     } else {
                         try {
                             dbUtil.createTableIfNotExist(HomeArticle.class);
@@ -218,12 +219,14 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
                     break;
                 case ConstantUtil.GET_NET_DATA:
                     adapter.notifyDataSetChanged();
-                    initPictureView();
                     if (isLoadOver) {
                         RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOAD_OVER);
                     } else {
                         RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOAD_MORE);
                     }
+                    break;
+                case ConstantUtil.GET_PICTURE_DATA:
+                    initPictureView();
                     break;
                 case ConstantUtil.PULL_REFRESH:
                     currentPage = 1;
@@ -267,7 +270,7 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
                     if (homeArticles1.size() < Integer.parseInt(ConstantUtil.ITEM_NUMBER)) {
                         isLoadOver = true;
                     }
-
+                    myHandler.sendEmptyMessage(ConstantUtil.GET_NET_DATA);
                 }
             }
 
@@ -306,8 +309,7 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
                         }
                         getPictureInfo();
                     }
-                        myHandler.sendEmptyMessage(ConstantUtil.GET_NET_DATA);
-
+                    myHandler.sendEmptyMessage(ConstantUtil.GET_PICTURE_DATA);
                 }
             }
 

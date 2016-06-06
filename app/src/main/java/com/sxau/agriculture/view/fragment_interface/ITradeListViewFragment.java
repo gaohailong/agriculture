@@ -1,5 +1,9 @@
 package com.sxau.agriculture.view.fragment_interface;
 
+import com.sxau.agriculture.bean.TradeData;
+
+import java.util.ArrayList;
+
 /**
  * 信息专区更新ListView
  * @author 田帅
@@ -8,7 +12,7 @@ public interface ITradeListViewFragment {
 /**
  * 更新数据
  * */
-    void updateView();
+    void updateView(ArrayList<TradeData> supplyDatas);
     void changeItemView();
     int getCollectState();
     /**

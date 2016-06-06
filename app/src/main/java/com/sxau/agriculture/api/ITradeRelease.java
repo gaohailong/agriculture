@@ -6,12 +6,13 @@ import java.util.Map;
 
 import retrofit.Call;
 import retrofit.http.Body;
+import retrofit.http.Header;
 import retrofit.http.POST;
 
 /**
- * Created by Yawen_Li on 2016/6/7.
+ * Created by Administrator on 2016/6/6.
  */
 public interface ITradeRelease {
     @POST("trade")
-    Call<JsonObject> doPostTradeRelease(@Body Map map);
+    Call<JsonObject> postTrade(@Body Map map,@Header("X-AUTH-TOKEN") String authToken);
 }

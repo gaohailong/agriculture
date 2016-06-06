@@ -34,6 +34,7 @@
     <string name="submit">提交</string>
     <string name="is_question">已回答</string>
     <string name="no_question">未回答</string>
+    <string name="no_daudited">未审核</string>
 
 
     <string name="hello">Hello World, JPush!</string>

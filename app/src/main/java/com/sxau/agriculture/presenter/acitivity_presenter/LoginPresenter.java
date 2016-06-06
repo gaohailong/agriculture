@@ -59,6 +59,7 @@ public class LoginPresenter implements ILoginPresenter {
     private long phone;
     private String authToken;
 
+
     public LoginPresenter(ILoginActivty iLoginActivty) {
         this.iLoginActivty = iLoginActivty;
     }
@@ -129,6 +130,7 @@ public class LoginPresenter implements ILoginPresenter {
                     map.put("password", password);
                     map.put("phone", phone);
 
+
                     Call call = RetrofitUtil.getRetrofit().create(IAuthentication.class).doLogin(map);
                     call.enqueue(new retrofit.Callback<JsonObject>() {
                         @Override
@@ -138,15 +140,18 @@ public class LoginPresenter implements ILoginPresenter {
                                 JsonObject joResponseBody = response.body();
                                 authToken = joResponseBody.get("authToken").getAsString();
 
+
                                 //将数据封装成对象，方便缓存
                                 Gson userGson = new Gson();
                                 User user = new User();
                                 user.setAuthToken(authToken);
+                               // user.setPhone(phone);
                                 user.setPhone(strPhone);
+
                               //  setAlias();
                                 //执行缓存
                                 ACache mCache = ACache.get(AgricultureApplication.getContext());
-                                mCache.put(ConstantUtil.CACHE_KEY, user);
+                                mCache.put(ConstantUtil.CACHE_KEY,user);
 //                                setAlias();
                                 //打印验证
                                 String userJson = userGson.toJson(user);

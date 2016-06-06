@@ -46,9 +46,13 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
 
-        <activity android:name="com.sxau.agriculture.view.activity.MainActivity"/>
+        android:theme="@style/AppTheme" >
+        <activity android:name="com.sxau.agriculture.view.activity.MainActivity" >
+
+        </activity>
+
+
         <activity android:name="com.sxau.agriculture.view.activity.BaseActivity" />
         <activity android:name="com.sxau.agriculture.view.activity.PersonalCenterActivity" />
         <activity android:name="com.sxau.agriculture.view.activity.PersonalCompileActivity" />
@@ -57,17 +61,21 @@
         <activity android:name="com.sxau.agriculture.view.activity.ExpertAnswerActivity" />
         <activity android:name="com.sxau.agriculture.view.activity.AskQuestion" />
         <activity android:name="com.sxau.agriculture.view.activity.WebViewActivity" />
-        <activity
-            android:name="com.sxau.agriculture.view.activity.TradeReleaseActivity"
-            android:windowSoftInputMode="adjustPan" />
+        <activity android:name="com.sxau.agriculture.view.activity.TradeReleaseActivity" android:windowSoftInputMode="adjustPan" />
+
+
+        <activity android:name="com.sxau.agriculture.view.activity.ImprovePersonalInfoActivity"/>
+        <activity android:name="com.sxau.agriculture.view.activity.LoginActivity" android:launchMode="singleTask" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.sxau.agriculture.view.activity.RegisterActivity" android:launchMode="singleTask" />
+
         <activity android:name="com.sxau.agriculture.view.activity.ThreeLevelLinkageActivity" />
-        <activity android:name="com.sxau.agriculture.view.activity.ImprovePersonalInfoActivity" />
-        <activity
-            android:name="com.sxau.agriculture.view.activity.LoginActivity"
-            android:launchMode="singleTask"></activity>
-        <activity
-            android:name="com.sxau.agriculture.view.activity.RegisterActivity"
-            android:launchMode="singleTask" />
+
         <activity android:name="com.sxau.agriculture.view.activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
