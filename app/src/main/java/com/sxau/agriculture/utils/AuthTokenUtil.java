@@ -11,12 +11,13 @@ public class AuthTokenUtil {
     public static String authToken;
     private static ACache mCache = ACache.get(AgricultureApplication.getContext());
 
-    private void findAuthToken(){
+    private static void findAuthToken(){
         User user = (User) mCache.getAsObject(ConstantUtil.CACHE_KEY);
         authToken = user.getAuthToken();
     }
 
     static String getAuthToken(){
+        findAuthToken();
         return authToken;
     }
 }
