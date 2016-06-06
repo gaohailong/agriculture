@@ -90,13 +90,12 @@ public class TradeListViewPresenter implements ITradeListViewPresenter {
                      * */
                     if (isRefresh) {
                         tradeDatasList.clear();
-                        if (supplyDatas != null) {
-                            supplyDatas.clear();
-                        }
+                        supplyCacheDatas.clear();
+                        supplyDatas.clear();
                         tradeDatasList.addAll(responseDatas);
                         iInfoListViewFragment.isLoadOver(false);
                     } else {
-                        supplyDatas.clear();
+                        tradeDatasList.clear();
                         tradeDatasList.addAll(responseDatas);
                     }
                     /**

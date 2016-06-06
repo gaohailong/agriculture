@@ -1,6 +1,7 @@
 package com.sxau.agriculture.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +21,7 @@ import java.util.List;
  *
  * @author 田帅
  */
-public class TradeListViewAdapter extends BaseAdapter implements View.OnClickListener {
+public class TradeListViewAdapter extends BaseAdapter{
     /**
      * 上下文 实体类
      */
@@ -77,7 +78,7 @@ public class TradeListViewAdapter extends BaseAdapter implements View.OnClickLis
         /**
          * 根据位置获得数据
          * */
-        TradeData infoData = datas.get(position);
+        final TradeData infoData = datas.get(position);
         /**
          * 日期格式
          * */
@@ -107,31 +108,46 @@ public class TradeListViewAdapter extends BaseAdapter implements View.OnClickLis
          * */
         flag=infoData.isFav();
         if (flag) {
-            holder.ivCollection.setImageResource(R.mipmap.collection_fill);
+            holder.ivCollection.setImageResource(R.drawable.ic_praise_48px);
         } else {
-            holder.ivCollection.setImageResource(R.mipmap.collection);
+            holder.ivCollection.setImageResource(R.drawable.ic_no_praise_48px);
         }
-        holder.ivCollection.setOnClickListener(this);
+        holder.ivCollection.setOnClickListener(new CollectionListener(position,flag));
         return convertView;
+    }
+
+/**
+ * 收藏按钮点击事件
+ * */
+public class CollectionListener implements View.OnClickListener{
+    /**
+     * position是为了获取点击的位置
+     * isCollection是用来保存每个交易信息的收藏状态
+     * */
+    private int position;
+    private boolean isCollection;
+
+    public CollectionListener(int position, boolean isCollection) {
+        this.position = position;
+        this.isCollection = isCollection;
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.iv_demand_collection:
-                holder.ivCollection = (ImageView) v.findViewById(R.id.iv_demand_collection);
-                if (flag) {
-                    holder.ivCollection.setImageResource(R.mipmap.collection);
-                    flag = false;
-                } else {
-                    holder.ivCollection.setImageResource(R.mipmap.collection_fill);
-                    flag = true;
-                }
-
-                break;
+        holder.ivCollection= (ImageView) v.findViewById(R.id.iv_demand_collection);
+        if (holder.ivCollection.getId()==v.getId()){
+            if (isCollection) {
+                holder.ivCollection.setImageResource(R.drawable.ic_no_praise_48px);
+                Log.d("TradeListViewAdapter","取消收藏"+position);
+                isCollection = false;
+            } else {
+                holder.ivCollection.setImageResource(R.drawable.ic_praise_48px);
+                Log.d("TradeListViewAdapter", "收藏成功"+position);
+                isCollection = true;
+            }
         }
     }
-
+}
 
     public class ViewHolder {
         ImageView ivCollection;

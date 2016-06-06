@@ -128,11 +128,7 @@ public class TradeSupplyListViewFragment extends BaseFragment implements ITradeL
                         Log.d("TradeSupplyListView","5、收到通知，数据已经更新，拿数据，更新界面");
                         supplyDatas = iTradeListViewPresenter.getSupplyDatas();
                         updateView(supplyDatas);
-                        if (isLoadOver) {
-                            RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOAD_OVER);
-                        } else {
-                            RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOAD_MORE);
-                        }
+
                         break;
                     /**
                      * 点击加载
@@ -264,7 +260,11 @@ public class TradeSupplyListViewFragment extends BaseFragment implements ITradeL
      * */
     @Override
     public void isLoadOver(boolean isLoadover) {
-        isLoadOver = isLoadover;
+        if (isLoadover){
+            RefreshBottomTextUtil.setTextMore(tv_more,ConstantUtil.LOAD_OVER);
+        }else {
+            RefreshBottomTextUtil.setTextMore(tv_more,ConstantUtil.LOAD_MORE);
+        }
     }
     /**
      * 数据加载失败
