@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/greyWhite"
     android:orientation="vertical">
 
     <LinearLayout
@@ -30,175 +31,207 @@
             android:textSize="18sp" />
 
     </LinearLayout>
-    <LinearLayout
+
+    <View
         android:layout_width="match_parent"
         android:layout_height="20dp"
-        android:background="@color/devideLine">
-    </LinearLayout>
+        android:background="@color/whitGrey" />
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:layout_marginRight="10dp"
-        android:orientation="horizontal">
+        android:layout_height="50dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="10dp">
 
         <TextView
             android:id="@+id/tv_head_portrait"
             style="@style/PersonalInfoTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/head_portrait" />
+            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true"
+            android:text="@string/head_portrait"
+            android:textColor="@color/greyBlack"
+            android:textSize="@dimen/font_personal_info"
+            android:textStyle="bold" />
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
 
         <com.sxau.agriculture.widgets.RoundImageView
             android:id="@+id/rw_head"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
             android:layout_gravity="center"
             android:src="@mipmap/img_default_user_portrait_150px" />
 
-    </LinearLayout>
+    </RelativeLayout>
 
-    <TextView
+    <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/mainColor" />
+        android:layout_height="2dp"
+        android:layout_marginLeft="10dp"
+        android:background="@color/grey" />
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp">
+        android:layout_height="50dp"
+        android:layout_marginLeft="5dp">
 
         <TextView
             android:id="@+id/tv_nick_name"
             style="@style/PersonalInfoTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/nickname" />
+            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true"
+            android:text="@string/nickname"
+            android:textColor="@color/greyBlack"
+            android:textSize="@dimen/font_personal_info"
+            android:textStyle="bold" />
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
 
         <TextView
             android:id="@+id/tv_user_nick"
             style="@style/PersonalInfoTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:textSize="@dimen/font_size"
             android:text="给人民种口粮" />
-    </LinearLayout>
+    </RelativeLayout>
 
-    <TextView
+    <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/mainColor" />
+        android:layout_height="2dp"
+        android:layout_marginLeft="10dp"
+        android:background="@color/grey" />
 
-    <LinearLayout
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp">
+        android:layout_height="50dp"
+        android:layout_marginLeft="5dp">
 
         <TextView
             android:id="@+id/tv_telephone"
             style="@style/PersonalInfoTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/telephone" />
+            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true"
+            android:text="@string/telephone"
+            android:textColor="@color/greyBlack"
+            android:textSize="@dimen/font_personal_info"
+            android:textStyle="bold" />
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
 
         <TextView
             android:id="@+id/tv_phone_number"
             style="@style/PersonalInfoTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:textSize="@dimen/font_size"
             android:text="11100001111" />
-    </LinearLayout>
+    </RelativeLayout>
 
-    <TextView
+    <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/mainColor" />
+        android:layout_height="2dp"
+        android:layout_marginLeft="10dp"
+        android:background="@color/grey" />
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp">
+        android:layout_height="50dp"
+        android:layout_marginLeft="5dp">
 
         <TextView
             android:id="@+id/tv_address"
             style="@style/PersonalInfoTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/address" />
+            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true"
+            android:text="@string/address"
+            android:textColor="@color/greyBlack"
+            android:textSize="@dimen/font_personal_info"
+            android:textStyle="bold" />
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
 
         <TextView
             android:id="@+id/tv_user_address"
             style="@style/PersonalInfoTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:textSize="@dimen/font_size"
             android:text="山西省晋中市太谷县" />
-    </LinearLayout>
+    </RelativeLayout>
 
-    <TextView
+    <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/mainColor" />
+        android:layout_height="2dp"
+        android:layout_marginLeft="10dp"
+        android:background="@color/grey" />
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp">
+        android:layout_height="50dp"
+        android:layout_marginLeft="5dp">
 
         <TextView
             android:id="@+id/tv_identity"
             style="@style/PersonalInfoTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/identity" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true"
+            android:text="@string/identity"
+            android:textColor="@color/greyBlack"
+            android:textSize="@dimen/font_personal_info"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tv_user_identity"
             style="@style/PersonalInfoTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:textSize="@dimen/font_size"
             android:text="@string/common_user" />
-    </LinearLayout>
+    </RelativeLayout>
 
-    <TextView
+    <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/mainColor" />
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:background="@color/devideLine">
-    </LinearLayout>
+        android:layout_height="2dp"
+        android:layout_marginLeft="10dp"
+        android:background="@color/grey" />
 
-    <TextView
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1" />
 
-    <Button
-        android:id="@+id/btn_finish"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="@string/finish"
-        android:textSize="20sp" />
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/btn_finish"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="center"
+            android:layout_marginBottom="30dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/login_button_shape"
+            android:text="@string/finish"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+
+    </RelativeLayout>
 
 </LinearLayout>

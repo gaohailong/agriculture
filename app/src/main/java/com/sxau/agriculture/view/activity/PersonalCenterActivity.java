@@ -1,21 +1,31 @@
 package com.sxau.agriculture.view.activity;
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 import com.sxau.agriculture.agriculture.R;
+import com.sxau.agriculture.bean.User;
+import com.sxau.agriculture.utils.ACache;
+import com.sxau.agriculture.utils.ActivityCollectorUtil;
+import com.sxau.agriculture.utils.ConstantUtil;
+import com.sxau.agriculture.utils.LogUtil;
 import com.sxau.agriculture.view.fragment.PersonalCollectQuestionFragment;
 import com.sxau.agriculture.view.fragment.PersonalCollectTradeFragment;
 import com.sxau.agriculture.view.fragment.PersonalQuestionFragment;
 import com.sxau.agriculture.view.fragment.PersonalTradeInfoFragment;
+
+import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -24,12 +34,14 @@ import java.util.List;
  * @author 李秉龙
  */
 public class PersonalCenterActivity extends BaseActivity implements View.OnClickListener {
-    private ViewPager vPager = null;
     private ViewPager vTitlePaper;
-    private List<View> viewlist;
-    private View MyQusetionView, TradeInfoView;
     private ImageButton ib_back;
     private Button btn_compile;
+    private Button btn_exit;
+    private ACache mCache;
+    private TextView tvUserName;
+    private String userName;
+    private String phone;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,10 +63,41 @@ public class PersonalCenterActivity extends BaseActivity implements View.OnClick
         viewPagerTab.setViewPager(vTitlePaper);
     }
     private void  initView(){
+        mCache = ACache.get(PersonalCenterActivity.this);
+        tvUserName = (TextView) this.findViewById(R.id.tv_personal_nickname);
         ib_back = (ImageButton) this.findViewById(R.id.ib_back);
         btn_compile = (Button) this.findViewById(R.id.btn_compile);
+        btn_exit = (Button) this.findViewById(R.id.btn_exit);
+
+
+//        LogUtil.d("PersonalCenterA",userName);
+
         ib_back.setOnClickListener(this);
+        btn_exit.setOnClickListener(this);
         btn_compile.setOnClickListener(this);
+    }
+    private void showDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(PersonalCenterActivity.this);
+        builder.setTitle("提示");
+        builder.setMessage("确认退出吗？");
+        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                ActivityCollectorUtil.finishAll();
+                //删除所用缓存
+                mCache.clear();
+                Intent intent = new Intent(PersonalCenterActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.create().show();
     }
 
     @Override
@@ -67,6 +110,9 @@ public class PersonalCenterActivity extends BaseActivity implements View.OnClick
                 Intent intent2 = new Intent();
                 intent2.setClass(PersonalCenterActivity.this,PersonalCompileActivity.class);
                 startActivity(intent2);
+                break;
+            case R.id.btn_exit:
+                showDialog();
                 break;
             default:
         }

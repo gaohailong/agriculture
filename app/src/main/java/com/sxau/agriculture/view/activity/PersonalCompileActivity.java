@@ -105,7 +105,7 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
                 finish();
                 break;
             case R.id.rw_head:
-                showDialog();
+                showPhotoDialog();
                 break;
             case R.id.tv_user_nick:
                 showCompileDialog();
@@ -151,7 +151,7 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
     }
 
     //显示Dialog选择拍照还是从相册选择
-    private void showDialog() {
+    private void showPhotoDialog() {
         final Dialog dialog = new Dialog(this, R.style.PhotoDialog);
         final View view = LayoutInflater.from(PersonalCompileActivity.this).inflate(R.layout.diallog_personal_head_select, null);
         dialog.setContentView(view);
@@ -178,7 +178,6 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-
             }
         });
         //设置出现Dialog位置
