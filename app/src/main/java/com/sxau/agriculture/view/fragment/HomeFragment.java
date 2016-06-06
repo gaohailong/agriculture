@@ -167,7 +167,7 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
         if (NetUtil.isNetAvailable(context)) {
             for (int i = 0; i < imagePath.size(); i++) {
                 ImageView img = new ImageView(context);
-                Picasso.with(context).load(imagePath.get(i)).resize(2000, 150).centerCrop()
+                Picasso.with(context).load(imagePath.get(i)).resize(360, 200).centerCrop()
                         .placeholder(R.mipmap.ic_loading).error(R.mipmap.ic_load_fail).into(img);
                 imageViews.add(img);
                 myHandler.postDelayed(runnableForBanner, 2000);
