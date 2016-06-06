@@ -14,7 +14,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 
 import com.sxau.agriculture.adapter.SelectPhotoAdapter;
@@ -63,10 +62,10 @@ public class AskQuestion extends AppCompatActivity implements View.OnClickListen
 
         ib_photo = (ImageView) findViewById(R.id.ib_photo);
         btn_submit = (Button) findViewById(R.id.btn_submit);
-        et_title = (EditText) findViewById(R.id.et_title);
-        editText = (EditText) findViewById(R.id.editText);
+        et_title = (EditText) findViewById(R.id.et_trade_title);
+        editText = (EditText) findViewById(R.id.et_trade_content);
         recycler= (RecyclerView) findViewById(R.id.recycler);
-        spinner= (Spinner) findViewById(R.id.spinner);
+        spinner= (Spinner) findViewById(R.id.sp_trade_cotegory);
 
 
         GridLayoutManager gridLayoutManager =new GridLayoutManager(this,3);

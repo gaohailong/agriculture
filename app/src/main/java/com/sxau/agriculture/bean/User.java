@@ -1,10 +1,12 @@
 package com.sxau.agriculture.bean;
 
+import java.io.Serializable;
+
 /**
  * 用户实体
  * @author  Yawen_Li on 2016/5/17.
  */
-public class User {
+public class User implements Serializable{
     /**
      * password : string
      * userName : string
