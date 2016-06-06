@@ -3,23 +3,24 @@ package com.sxau.agriculture.bean;
 import java.util.List;
 
 /**
- * 问题数据的实体类
- * @author 崔志泽
+ * 文章详情的bean
+ *
+ * @author 高海龙
  */
-public class QuestionData {
+public class DetailQuestionData {
 
     /**
-     * id : 5
-     * whenCreated : 1465123399000
-     * whenUpdated : 1465128144000
-     * category : {"id":38,"whenCreated":1465024109000,"whenUpdated":1465024109000,"pid":34,"name":"行业动态","categoryType":"ARTICLE","image":"null","sort":255}
-     * title : 个人中心我的问题测试数据0002
-     * content : 个人中心我的问题测试数据0002个人中心我的问题测试数据0002个人中心我的问题测试数据0002
-     * clickCount : 0
+     * id : 1
+     * whenCreated : 1465030811000
+     * whenUpdated : 1465172548000
+     * category : {"id":17,"whenCreated":1465023858000,"whenUpdated":1465023858000,"pid":15,"name":"果树","categoryType":"ARTICLE","image":"null","sort":255}
+     * title : 测试问题001
+     * content : 测试问题001测试问题001
+     * clickCount : 10
      * likeCount : 0
-     * expert : null
-     * user : {"id":2,"whenCreated":1465029214000,"whenUpdated":1465136188000,"email":"****","userType":"PUBLIC","address":"shanxiyuci","realName":"****","phone":"****","name":"yuzestar\t","avatar":null,"industry":"huahui","scale":"xiaozuofang","lastIp":"****"}
-     * questionAuditState : AUDITED
+     * expert : {"id":3,"whenCreated":1465030758000,"whenUpdated":1465128255000,"email":null,"userType":"EXPERT","address":null,"realName":null,"phone":"18404968725","name":"guodong","avatar":null,"industry":null,"scale":null,"lastIp":"60.223.239.9"}
+     * user : {"id":3,"whenCreated":1465030758000,"whenUpdated":1465128255000,"email":null,"userType":"EXPERT","address":null,"realName":null,"phone":"18404968725","name":"guodong","avatar":null,"industry":null,"scale":null,"lastIp":"60.223.239.9"}
+     * questionAuditState : WAIT_AUDITED
      * questionResolveState : RESOLVED
      * images :
      * answers : []
@@ -30,11 +31,11 @@ public class QuestionData {
     private long whenCreated;
     private long whenUpdated;
     /**
-     * id : 38
-     * whenCreated : 1465024109000
-     * whenUpdated : 1465024109000
-     * pid : 34
-     * name : 行业动态
+     * id : 17
+     * whenCreated : 1465023858000
+     * whenUpdated : 1465023858000
+     * pid : 15
+     * name : 果树
      * categoryType : ARTICLE
      * image : null
      * sort : 255
@@ -45,21 +46,37 @@ public class QuestionData {
     private String content;
     private int clickCount;
     private int likeCount;
-    private Object expert;
     /**
-     * id : 2
-     * whenCreated : 1465029214000
-     * whenUpdated : 1465136188000
-     * email : ****
-     * userType : PUBLIC
-     * address : shanxiyuci
-     * realName : ****
-     * phone : ****
-     * name : yuzestar
+     * id : 3
+     * whenCreated : 1465030758000
+     * whenUpdated : 1465128255000
+     * email : null
+     * userType : EXPERT
+     * address : null
+     * realName : null
+     * phone : 18404968725
+     * name : guodong
      * avatar : null
-     * industry : huahui
-     * scale : xiaozuofang
-     * lastIp : ****
+     * industry : null
+     * scale : null
+     * lastIp : 60.223.239.9
+     */
+
+    private ExpertBean expert;
+    /**
+     * id : 3
+     * whenCreated : 1465030758000
+     * whenUpdated : 1465128255000
+     * email : null
+     * userType : EXPERT
+     * address : null
+     * realName : null
+     * phone : 18404968725
+     * name : guodong
+     * avatar : null
+     * industry : null
+     * scale : null
+     * lastIp : 60.223.239.9
      */
 
     private UserBean user;
@@ -133,11 +150,11 @@ public class QuestionData {
         this.likeCount = likeCount;
     }
 
-    public Object getExpert() {
+    public ExpertBean getExpert() {
         return expert;
     }
 
-    public void setExpert(Object expert) {
+    public void setExpert(ExpertBean expert) {
         this.expert = expert;
     }
 
@@ -264,19 +281,19 @@ public class QuestionData {
         }
     }
 
-    public static class UserBean {
+    public static class ExpertBean {
         private int id;
         private long whenCreated;
         private long whenUpdated;
-        private String email;
+        private Object email;
         private String userType;
-        private String address;
-        private String realName;
+        private Object address;
+        private Object realName;
         private String phone;
         private String name;
         private Object avatar;
-        private String industry;
-        private String scale;
+        private Object industry;
+        private Object scale;
         private String lastIp;
 
         public int getId() {
@@ -303,11 +320,11 @@ public class QuestionData {
             this.whenUpdated = whenUpdated;
         }
 
-        public String getEmail() {
+        public Object getEmail() {
             return email;
         }
 
-        public void setEmail(String email) {
+        public void setEmail(Object email) {
             this.email = email;
         }
 
@@ -319,19 +336,19 @@ public class QuestionData {
             this.userType = userType;
         }
 
-        public String getAddress() {
+        public Object getAddress() {
             return address;
         }
 
-        public void setAddress(String address) {
+        public void setAddress(Object address) {
             this.address = address;
         }
 
-        public String getRealName() {
+        public Object getRealName() {
             return realName;
         }
 
-        public void setRealName(String realName) {
+        public void setRealName(Object realName) {
             this.realName = realName;
         }
 
@@ -359,19 +376,139 @@ public class QuestionData {
             this.avatar = avatar;
         }
 
-        public String getIndustry() {
+        public Object getIndustry() {
             return industry;
         }
 
-        public void setIndustry(String industry) {
+        public void setIndustry(Object industry) {
             this.industry = industry;
         }
 
-        public String getScale() {
+        public Object getScale() {
             return scale;
         }
 
-        public void setScale(String scale) {
+        public void setScale(Object scale) {
+            this.scale = scale;
+        }
+
+        public String getLastIp() {
+            return lastIp;
+        }
+
+        public void setLastIp(String lastIp) {
+            this.lastIp = lastIp;
+        }
+    }
+
+    public static class UserBean {
+        private int id;
+        private long whenCreated;
+        private long whenUpdated;
+        private Object email;
+        private String userType;
+        private Object address;
+        private Object realName;
+        private String phone;
+        private String name;
+        private String avatar;
+        private Object industry;
+        private Object scale;
+        private String lastIp;
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public long getWhenCreated() {
+            return whenCreated;
+        }
+
+        public void setWhenCreated(long whenCreated) {
+            this.whenCreated = whenCreated;
+        }
+
+        public long getWhenUpdated() {
+            return whenUpdated;
+        }
+
+        public void setWhenUpdated(long whenUpdated) {
+            this.whenUpdated = whenUpdated;
+        }
+
+        public Object getEmail() {
+            return email;
+        }
+
+        public void setEmail(Object email) {
+            this.email = email;
+        }
+
+        public String getUserType() {
+            return userType;
+        }
+
+        public void setUserType(String userType) {
+            this.userType = userType;
+        }
+
+        public Object getAddress() {
+            return address;
+        }
+
+        public void setAddress(Object address) {
+            this.address = address;
+        }
+
+        public Object getRealName() {
+            return realName;
+        }
+
+        public void setRealName(Object realName) {
+            this.realName = realName;
+        }
+
+        public String getPhone() {
+            return phone;
+        }
+
+        public void setPhone(String phone) {
+            this.phone = phone;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getAvatar() {
+            return avatar;
+        }
+
+        public void setAvatar(String avatar) {
+            this.avatar = avatar;
+        }
+
+        public Object getIndustry() {
+            return industry;
+        }
+
+        public void setIndustry(Object industry) {
+            this.industry = industry;
+        }
+
+        public Object getScale() {
+            return scale;
+        }
+
+        public void setScale(Object scale) {
             this.scale = scale;
         }
 

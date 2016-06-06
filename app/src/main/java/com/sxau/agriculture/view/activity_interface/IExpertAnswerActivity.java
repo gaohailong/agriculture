@@ -1,9 +1,10 @@
 package com.sxau.agriculture.view.activity_interface;
 
 /**
- * Created by Yawen_Li on 2016/4/22.
+ * 专家回答
+ * @author 高海龙
  */
 public interface IExpertAnswerActivity {
-    int getUrgeState();
-    int getFavState();
+    int getId();
+    String getAnswerContent();
 }

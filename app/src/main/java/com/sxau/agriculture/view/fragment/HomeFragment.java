@@ -14,6 +14,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -79,6 +80,7 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
     private RefreshLayout rl_refresh;
     private TextView tv_more;
     private View footerLayout;
+    private FrameLayout fl_adv;
     //常量及集合定义部分
     private HomeRotatePicture homeRotatePicture;
     private ArrayList<String> imagePath;
@@ -106,6 +108,7 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
         footerLayout = getLayoutInflater(savedInstanceState).inflate(R.layout.listview_footer, null);
         tv_more = (TextView) footerLayout.findViewById(R.id.tv_more);
         tv_title= (TextView) mView.findViewById(R.id.tv_title);
+        fl_adv= (FrameLayout) mView.findViewById(R.id.fl_adv);
 
         lv_push.setOnItemClickListener(this);
 
@@ -118,7 +121,7 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
         bannerData= new ArrayList<>();
         imagePath=new ArrayList<>();
 
-        imagePath.add("http://file3.u148.net/2011/4/images/1302139153715.jpg");
+        imagePath.add("error");
 
         dbUtil = DbUtils.create(context);
         return mView;
@@ -127,7 +130,7 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-//        initPictureView();
+        initPictureView();
         initRefresh();
         initListView();
         myHandler.sendEmptyMessage(ConstantUtil.INIT_DATA);
@@ -161,21 +164,26 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
         tv_title.setText("数据加载中 请稍候……");
         vp_viewpager = (ViewPager) mView.findViewById(R.id.vp_viewpager);
         imageViews = new ArrayList<ImageView>();
-        Log.d("222", imagePath.size()+"");
-        for (int i = 0; i < imagePath.size(); i++) {
-            ImageView img = new ImageView(context);
-            Log.d("111", imagePath.get(i));
-            Picasso.with(context).load(imagePath.get(i)).resize(2000, 150).centerCrop()
-                    .placeholder(R.mipmap.ic_loading).error(R.mipmap.ic_load_fail).into(img);
-            imageViews.add(img);
+        if (NetUtil.isNetAvailable(context)) {
+            for (int i = 0; i < imagePath.size(); i++) {
+                ImageView img = new ImageView(context);
+                Picasso.with(context).load(imagePath.get(i)).resize(2000, 150).centerCrop()
+                        .placeholder(R.mipmap.ic_loading).error(R.mipmap.ic_load_fail).into(img);
+                imageViews.add(img);
+                myHandler.postDelayed(runnableForBanner, 2000);
+            }
+        }else {
+            for (int i=0;i<2;i++) {
+                ImageView img = new ImageView(context);
+                Picasso.with(context).load(R.mipmap.ic_phone_green_96px).resize(48, 48).centerCrop().into(img);
+                imageViews.add(img);
+            }
         }
-
         bannerAdapter = new BannerAdapter(imageViews, context);
         vp_viewpager.setOnTouchListener(this);
         vp_viewpager.setAdapter(bannerAdapter);
         vp_viewpager.setCurrentItem(300);
         vp_viewpager.setOnPageChangeListener(this);
-        myHandler.postDelayed(runnableForBanner, 2000);
     }
 
 
@@ -194,8 +202,7 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
                     currentPage = 1;
                     if (NetUtil.isNetAvailable(context)) {
                         getHomeArticleData(String.valueOf(currentPage), String.valueOf(ConstantUtil.ITEM_NUMBER), true);
-//                        getHomeBannerData();
-
+                        getHomeBannerData();
                     } else {
                         try {
                             dbUtil.createTableIfNotExist(HomeArticle.class);
@@ -211,7 +218,7 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
                     break;
                 case ConstantUtil.GET_NET_DATA:
                     adapter.notifyDataSetChanged();
-//                    initPictureView();
+                    initPictureView();
                     if (isLoadOver) {
                         RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOAD_OVER);
                     } else {
@@ -260,7 +267,7 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
                     if (homeArticles1.size() < Integer.parseInt(ConstantUtil.ITEM_NUMBER)) {
                         isLoadOver = true;
                     }
-                    myHandler.sendEmptyMessage(ConstantUtil.GET_NET_DATA);
+
                 }
             }
 
@@ -285,20 +292,31 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
             public void onResponse(Response<ArrayList<HomeBannerPicture>> response, Retrofit retrofit) {
                 if (response.isSuccess()){
                     bannerData=response.body();
-                    try {
-                        dbUtil.deleteAll(HomeBannerPicture.class);
-                        dbUtil.saveAll(bannerData);
-                    } catch (DbException e) {
-                        e.printStackTrace();
+                    if ((bannerData==null) || (bannerData.size()==0)){
+                        imagePath.clear();
+                        imagePath.add("error");
+                        imagePath.add("error");
+                        fl_adv.setVisibility(View.GONE);
+                    }else {
+                        try {
+                            dbUtil.deleteAll(HomeBannerPicture.class);
+                            dbUtil.saveAll(bannerData);
+                        } catch (DbException e) {
+                            e.printStackTrace();
+                        }
+                        getPictureInfo();
                     }
-                    getPictureInfo();
-                    myHandler.sendEmptyMessage(ConstantUtil.GET_NET_DATA);
+                        myHandler.sendEmptyMessage(ConstantUtil.GET_NET_DATA);
+
                 }
             }
 
             @Override
             public void onFailure(Throwable t) {
-
+                imagePath.clear();
+                imagePath.add("error");
+                imagePath.add("error");
+                fl_adv.setVisibility(View.GONE);
             }
         });
     }
@@ -350,18 +368,21 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
         lastTime = System.currentTimeMillis();
         //设置轮播文字改变
         final int index=position % imageViews.size();
-        tv_title.setText(bannerData.get(index).getName());
-        //轮播图点击事件
-        imageViews.get(index).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.putExtra("ArticleUrl",bannerData.get(index).getUrl());
-                intent.setClass(context, WebViewActivity.class);
-                startActivity(intent);
-            }
-        });
-
+        if (bannerData==null || bannerData.size()==0){
+            tv_title.setText("暂无数据");
+        }else {
+            tv_title.setText(bannerData.get(index).getName());
+            //轮播图点击事件
+            imageViews.get(index).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.putExtra("ArticleUrl", bannerData.get(index).getUrl());
+                    intent.setClass(context, WebViewActivity.class);
+                    startActivity(intent);
+                }
+            });
+        }
     }
 
 

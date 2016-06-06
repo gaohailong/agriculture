@@ -1,6 +1,5 @@
 package com.sxau.agriculture.view.fragment;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,7 +13,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.sxau.agriculture.adapter.PersonalQuestionAdapter;
 import com.sxau.agriculture.adapter.PersonalTradeInfoAdapter;
 import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.bean.MyPersonalTrade;
@@ -22,15 +20,13 @@ import com.sxau.agriculture.presenter.fragment_presenter.PersonalTradeInfoPresen
 import com.sxau.agriculture.presenter.fragment_presenter_interface.IPersonalTradeInfoPresenter;
 import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.LogUtil;
-import com.sxau.agriculture.view.activity.DetailQuestion;
+import com.sxau.agriculture.view.activity.DetailQuestionActivity;
 import com.sxau.agriculture.view.activity.TradeContentActivity;
 import com.sxau.agriculture.view.fragment_interface.IPersonalTradeInfoFragment;
 import com.sxau.agriculture.widgets.RefreshLayout;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-
-import java.util.logging.LogRecord;
 
 /**
  * 个人中心交易的listView的fragment
@@ -167,7 +163,7 @@ public class PersonalTradeInfoFragment extends BaseFragment implements IPersonal
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    DetailQuestion.actionStart(PersonalTradeInfoFragment.this.getActivity(), position);
+                    DetailQuestionActivity.actionStart(PersonalTradeInfoFragment.this.getActivity(), position);
                 }
             });
         }

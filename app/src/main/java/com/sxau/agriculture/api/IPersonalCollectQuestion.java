@@ -13,6 +13,6 @@ import retrofit.http.Header;
  * Created by Administrator on 2016/5/18.
  */
 public interface IPersonalCollectQuestion {
-    @GET("my/favorite/questions")
+    @GET("user/favorite/questions")
     Call<ArrayList<MyPersonalCollectionQuestion>> getMessage(@Header("X-AUTH-TOKEN")String aunhTokn);
 }
