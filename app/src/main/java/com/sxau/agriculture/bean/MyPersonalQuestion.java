@@ -235,7 +235,7 @@ public class MyPersonalQuestion {
         private String userType;
         private Object address;
         private String name;
-        private Object avatar;
+        private String avatar;
         private Object industry;
         private Object scale;
 
@@ -287,11 +287,11 @@ public class MyPersonalQuestion {
             this.name = name;
         }
 
-        public Object getAvatar() {
+        public String getAvatar() {
             return avatar;
         }
 
-        public void setAvatar(Object avatar) {
+        public void setAvatar(String avatar) {
             this.avatar = avatar;
         }
 

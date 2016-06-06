@@ -44,7 +44,6 @@
         android:layout_marginRight="10dp">
 
         <TextView
-            android:id="@+id/tv_head_portrait"
             style="@style/PersonalInfoTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -79,7 +78,6 @@
         android:layout_marginLeft="5dp">
 
         <TextView
-            android:id="@+id/tv_nick_name"
             style="@style/PersonalInfoTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -115,7 +113,6 @@
         android:layout_marginLeft="5dp">
 
         <TextView
-            android:id="@+id/tv_telephone"
             style="@style/PersonalInfoTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -150,7 +147,6 @@
         android:layout_marginLeft="5dp">
 
         <TextView
-            android:id="@+id/tv_address"
             style="@style/PersonalInfoTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -185,26 +181,25 @@
         android:layout_marginLeft="5dp">
 
         <TextView
-            android:id="@+id/tv_identity"
             style="@style/PersonalInfoTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerInParent="true"
-            android:text="@string/identity"
+            android:text="@string/usertype"
             android:textColor="@color/greyBlack"
             android:textSize="@dimen/font_personal_info"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/tv_user_identity"
+            android:id="@+id/tv_user_type"
             style="@style/PersonalInfoTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerInParent="true"
             android:textSize="@dimen/font_size"
-            android:text="@string/common_user" />
+            android:text="@string/public_user" />
     </RelativeLayout>
 
     <View

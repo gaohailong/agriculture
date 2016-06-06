@@ -11,6 +11,8 @@ public class ConstantUtil {
     //============================字符常量的定义===================================
     //农科项目网络请求的地址
     public static final String BASE_URL = "http://sxnk110.workerhub.cn:9000/api/v1/";
+    //农科项目网络请求图片的地址
+    public static final String BASE_PICTURE_URL = "http://storage.workerhub.cn/";
     //首页文章的基本URL
     public static final String ARTICLE_BASE_URL = "http://sxnk110.workerhub.cn/#/article/";
     //后台资源根地址
@@ -19,6 +21,10 @@ public class ConstantUtil {
     public static final String ITEM_NUMBER = "10";
     //登录成功之后的缓存文件名（主要为了保存authToken）
     public static final String CACHE_KEY = "Cache_User";
+    //收藏交易的缓存文件名
+    public static final String CACHE_PERSONALCOLLECTTRADE_KEY = "Cache_PersonalCollectTradeList";
+    //我的问题的缓存文件名
+    public static final String CACHE_PERSONALQUESTION_KEY = "Cache_PersonalQuestionList";
     //============================整形常量的定义===================================
     //下拉刷新的时间
     public static final int PULL_TIME = 3000;

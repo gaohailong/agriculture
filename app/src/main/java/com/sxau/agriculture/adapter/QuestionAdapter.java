@@ -1,8 +1,8 @@
 package com.sxau.agriculture.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,14 +10,10 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.sxau.agriculture.agriculture.R;
-import com.sxau.agriculture.bean.Question;
 import com.sxau.agriculture.bean.QuestionData;
-import com.sxau.agriculture.utils.ConstantUtil;
-import com.sxau.agriculture.view.activity.DetailQuestion;
 
 import java.util.ArrayList;
 
@@ -66,17 +62,17 @@ public class QuestionAdapter extends BaseAdapter implements View.OnClickListener
             holder.ll_fav_background  = (LinearLayout) convertView.findViewById(R.id.ll_fav_background);
             holder.v_left = convertView.findViewById(R.id.v_left);
             convertView.setTag(holder);
-
         }else {
             holder = (ViewHolder) convertView.getTag();
         }
         QuestionData questionData = questionDatas.get(position);
         Picasso.with(context).load(R.mipmap.img_default_user_portrait_150px).resize(150,150).centerCrop().placeholder(R.mipmap.img_default_user_portrait_150px)
                 .error(R.mipmap.img_default_user_portrait_150px).into(holder.rv_head);
-        holder.tv_name.setText(questionData.getUser().getName());
+//        holder.tv_name.setText(questionData.getUser().getName());
         holder.tv_title.setText(questionData.getTitle());
-        if(questionData.getTitle()!=null && !questionData.getQuestionAuditState().equals("WAIT_AUDITED")){
-        holder.tv_content.setText(questionData.getContent());
+        if(questionData.getTitle()!=null && !questionData.getQuestionAuditState().equals("WAIT_AUDITED")
+                && !questionData.getQuestionResolveState().equals("WAIT_RESOLVE")){
+        holder.tv_content.setText(questionData.getAnswers().toString());
         holder.v_left.setBackgroundColor(Color.parseColor("#009688"));
         }else {
             holder.ll_answer.setVisibility(View.GONE);

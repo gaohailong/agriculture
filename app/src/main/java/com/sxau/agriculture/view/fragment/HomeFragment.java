@@ -14,6 +14,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -31,6 +32,7 @@ import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.api.IHomeArticleList;
 import com.sxau.agriculture.api.IHomeRotatePicture;
 import com.sxau.agriculture.bean.HomeArticle;
+import com.sxau.agriculture.bean.HomeBannerPicture;
 import com.sxau.agriculture.bean.HomeRotatePicture;
 import com.sxau.agriculture.presenter.fragment_presenter_interface.IHomePresenter;
 import com.sxau.agriculture.utils.ACache;
@@ -43,6 +45,7 @@ import com.sxau.agriculture.widgets.RefreshLayout;
 
 
 import java.lang.ref.WeakReference;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,17 +73,20 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
     private BannerAdapter bannerAdapter;
     private HomeArticlesAdapter adapter;
     //控件定义部分
+    private TextView tv_title;
     private ListView lv_push;
     private View mView;
     private ViewPager vp_viewpager;
     private RefreshLayout rl_refresh;
     private TextView tv_more;
     private View footerLayout;
+    private FrameLayout fl_adv;
     //常量及集合定义部分
     private HomeRotatePicture homeRotatePicture;
-    private int[] imagePath;
+    private ArrayList<String> imagePath;
     private ArrayList<HomeArticle> homeArticles;
     private ArrayList<ImageView> imageViews;
+    private ArrayList<HomeBannerPicture> bannerData;
     private int currentIndex;
     private long lastTime;
     private int currentPage;
@@ -101,6 +107,8 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
         rl_refresh.setColorSchemeColors(Color.parseColor("#00b5ad"));
         footerLayout = getLayoutInflater(savedInstanceState).inflate(R.layout.listview_footer, null);
         tv_more = (TextView) footerLayout.findViewById(R.id.tv_more);
+        tv_title= (TextView) mView.findViewById(R.id.tv_title);
+        fl_adv= (FrameLayout) mView.findViewById(R.id.fl_adv);
 
         lv_push.setOnItemClickListener(this);
 
@@ -110,6 +118,10 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
         context = HomeFragment.this.getActivity();
         homeArticles = new ArrayList<HomeArticle>();
         myHandler = new MyHandler(HomeFragment.this);
+        bannerData= new ArrayList<>();
+        imagePath=new ArrayList<>();
+
+        imagePath.add("error");
 
         dbUtil = DbUtils.create(context);
         return mView;
@@ -149,23 +161,31 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
     }
 
     public void initPictureView() {
+        tv_title.setText("数据加载中 请稍候……");
         vp_viewpager = (ViewPager) mView.findViewById(R.id.vp_viewpager);
-        imagePath = new int[]{R.drawable.img_banner_one, R.drawable.img_banner_two, R.drawable.img_banner_three, R.drawable.img_banner_four, R.drawable.img_banner_five};
         imageViews = new ArrayList<ImageView>();
-
-        for (int i = 0; i < imagePath.length; i++) {
-            ImageView img = new ImageView(context);
-            Picasso.with(context).load(imagePath[i]).resize(360, 200).centerCrop().into(img);
-            imageViews.add(img);
+        if (NetUtil.isNetAvailable(context)) {
+            for (int i = 0; i < imagePath.size(); i++) {
+                ImageView img = new ImageView(context);
+                Picasso.with(context).load(imagePath.get(i)).resize(2000, 150).centerCrop()
+                        .placeholder(R.mipmap.ic_loading).error(R.mipmap.ic_load_fail).into(img);
+                imageViews.add(img);
+                myHandler.postDelayed(runnableForBanner, 2000);
+            }
+        }else {
+            for (int i=0;i<2;i++) {
+                ImageView img = new ImageView(context);
+                Picasso.with(context).load(R.mipmap.ic_phone_green_96px).resize(48, 48).centerCrop().into(img);
+                imageViews.add(img);
+            }
         }
-
         bannerAdapter = new BannerAdapter(imageViews, context);
         vp_viewpager.setOnTouchListener(this);
         vp_viewpager.setAdapter(bannerAdapter);
         vp_viewpager.setCurrentItem(300);
         vp_viewpager.setOnPageChangeListener(this);
-        myHandler.postDelayed(runnableForBanner, 2000);
     }
+
 
     public class MyHandler extends Handler {
         WeakReference<HomeFragment> weakReference;
@@ -182,36 +202,39 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
                     currentPage = 1;
                     if (NetUtil.isNetAvailable(context)) {
                         getHomeArticleData(String.valueOf(currentPage), String.valueOf(ConstantUtil.ITEM_NUMBER), true);
+                        getHomeBannerData();
                     } else {
                         try {
                             dbUtil.createTableIfNotExist(HomeArticle.class);
+                            dbUtil.createTableIfNotExist(HomeBannerPicture.class);
                             getCacheData();
+                            getPictureInfo();
                             initListView();
+                            initPictureView();
                         } catch (DbException e) {
                             e.printStackTrace();
                         }
                     }
                     break;
                 case ConstantUtil.GET_NET_DATA:
-                    initListView();
+                    adapter.notifyDataSetChanged();
+                    initPictureView();
+                    if (isLoadOver) {
+                        RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOAD_OVER);
+                    } else {
+                        RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOAD_MORE);
+                    }
                     break;
                 case ConstantUtil.PULL_REFRESH:
                     currentPage = 1;
                     getHomeArticleData(String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER, true);
                     rl_refresh.setRefreshing(false);
-                    adapter.notifyDataSetChanged();
                     RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOAD_MORE);
                     break;
                 case ConstantUtil.UP_LOAD:
                     currentPage++;
                     getHomeArticleData(String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER, false);
                     rl_refresh.setLoading(false);
-                    adapter.notifyDataSetChanged();
-                    if (isLoadOver = true) {
-                        RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOAD_OVER);
-                    } else {
-                        RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOAD_MORE);
-                    }
                     break;
                 default:
                     break;
@@ -233,6 +256,7 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
                             homeArticles.clear();
                             homeArticles.addAll(homeArticles1);
                             dbUtil.saveAll(homeArticles1);
+                            isLoadOver=false;
                         } else {
                             homeArticles.addAll(homeArticles1);
                             dbUtil.saveAll(homeArticles);
@@ -243,13 +267,12 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
                     if (homeArticles1.size() < Integer.parseInt(ConstantUtil.ITEM_NUMBER)) {
                         isLoadOver = true;
                     }
-                    myHandler.sendEmptyMessage(ConstantUtil.GET_NET_DATA);
+
                 }
             }
 
             @Override
             public void onFailure(Throwable t) {
-                tv_more.setText("数据加载失败");
                 RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOAD_FAIL);
                 if (currentPage > 1) {
                     rl_refresh.setRefreshing(false);
@@ -261,12 +284,60 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
         });
     }
 
+    //获取轮播图网络数据
+    public void getHomeBannerData(){
+        Call<ArrayList<HomeBannerPicture>> pictureCall=RetrofitUtil.getRetrofit().create(IHomeArticleList.class).getPicturelist();
+        pictureCall.enqueue(new Callback<ArrayList<HomeBannerPicture>>() {
+            @Override
+            public void onResponse(Response<ArrayList<HomeBannerPicture>> response, Retrofit retrofit) {
+                if (response.isSuccess()){
+                    bannerData=response.body();
+                    if ((bannerData==null) || (bannerData.size()==0)){
+                        imagePath.clear();
+                        imagePath.add("error");
+                        imagePath.add("error");
+                        fl_adv.setVisibility(View.GONE);
+                    }else {
+                        try {
+                            dbUtil.deleteAll(HomeBannerPicture.class);
+                            dbUtil.saveAll(bannerData);
+                        } catch (DbException e) {
+                            e.printStackTrace();
+                        }
+                        getPictureInfo();
+                    }
+                        myHandler.sendEmptyMessage(ConstantUtil.GET_NET_DATA);
+
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                imagePath.clear();
+                imagePath.add("error");
+                imagePath.add("error");
+                fl_adv.setVisibility(View.GONE);
+            }
+        });
+    }
+
+    //拼接图片地址
+    public void getPictureInfo(){
+        imagePath.clear();
+        for (int j=0;j<bannerData.size();j++){
+            String img=ConstantUtil.BASE_PICTURE_URL+bannerData.get(j).getImage();
+            imagePath.add(img);
+        }
+    }
+
 
     //获取缓存数据
     public void getCacheData() {
         try {
             List<HomeArticle> list = dbUtil.findAll(HomeArticle.class);
             homeArticles = (ArrayList<HomeArticle>) list;
+            List<HomeBannerPicture> listBanner = dbUtil.findAll(HomeBannerPicture.class);
+            bannerData= (ArrayList<HomeBannerPicture>) listBanner;
         } catch (DbException e) {
             e.printStackTrace();
         }
@@ -295,7 +366,23 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
     public void onPageSelected(int position) {
         currentIndex = position;
         lastTime = System.currentTimeMillis();
-
+        //设置轮播文字改变
+        final int index=position % imageViews.size();
+        if (bannerData==null || bannerData.size()==0){
+            tv_title.setText("暂无数据");
+        }else {
+            tv_title.setText(bannerData.get(index).getName());
+            //轮播图点击事件
+            imageViews.get(index).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.putExtra("ArticleUrl", bannerData.get(index).getUrl());
+                    intent.setClass(context, WebViewActivity.class);
+                    startActivity(intent);
+                }
+            });
+        }
     }
 
 
@@ -329,12 +416,7 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
         intent.putExtra("ArticleUrl", ConstantUtil.ARTICLE_BASE_URL + homeArticles.get(position).getId());
         intent.setClass(context, WebViewActivity.class);
         startActivity(intent);
-
-
-        Toast.makeText(context, ConstantUtil.ARTICLE_BASE_URL + homeArticles.get(position).getId(), Toast.LENGTH_SHORT).show();
-//        Log.e("连接", ConstantUtil.ARTICLE_BASE_URL + homeArticles.get(position).getId() + "");
     }
-
 
     @Override
     public void onDestroy() {

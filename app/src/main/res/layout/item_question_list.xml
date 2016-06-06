@@ -22,9 +22,9 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="90dp"
+            android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
             android:layout_toLeftOf="@+id/ll_right">
 
             <LinearLayout
@@ -37,12 +37,13 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    >
 
                     <com.sxau.agriculture.widgets.RoundImageView
                         android:id="@+id/rv_head"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:scaleType="centerCrop"
                         android:src="@mipmap/img_default_user_portrait_150px" />
 
@@ -86,7 +87,7 @@
                         android:ellipsize="end"
                         android:gravity="center_vertical"
                         android:lines="2"
-                        android:textSize="@dimen/fab_margin"
+                        android:textSize="@dimen/font_size_large"
                         android:text="概要答案" />
                 </LinearLayout>
             </LinearLayout>

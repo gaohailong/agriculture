@@ -9,6 +9,8 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -23,9 +25,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sxau.agriculture.agriculture.R;
+import com.sxau.agriculture.bean.User;
+import com.sxau.agriculture.utils.ConstantUtil;
+import com.sxau.agriculture.utils.LogUtil;
 import com.sxau.agriculture.widgets.RoundImageView;
 
 import java.io.File;
+import java.lang.ref.WeakReference;
 
 import com.sxau.agriculture.presenter.acitivity_presenter.PersonalCompilePresenter;
 import com.sxau.agriculture.presenter.activity_presenter_interface.IPersonalCompilePresenter;
@@ -39,15 +45,10 @@ import com.sxau.agriculture.view.activity_interface.IPersonalCompileActivity;
 public class PersonalCompileActivity extends BaseActivity implements View.OnClickListener, IPersonalCompileActivity {
     private ImageButton ib_Back;
     private RoundImageView rw_Head;
-    private TextView tv_HeadPortrait;
-    private TextView tv_NickName;
     private TextView tv_UserNick;
-    private TextView tv_Telephone;
     private TextView tv_PhoneNumber;
-    private TextView tv_Address;
     private TextView tv_UserAddress;
-    private TextView tv_Identity;
-    private TextView tv_UserIdentity;
+    private TextView tv_UserType;
     private Button btn_finish;
 
     /**
@@ -61,31 +62,29 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
 
     //编辑个人昵称
     private String compileNickname;
+
     private IPersonalCompilePresenter iPersonalCompilePresenter;
+    private Handler handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_persional_compile);
 
+        handler = new MyHandler(PersonalCompileActivity.this);
         //将Activity与Presenter进行绑定
-        iPersonalCompilePresenter = new PersonalCompilePresenter(PersonalCompileActivity.this);
+        iPersonalCompilePresenter = new PersonalCompilePresenter(PersonalCompileActivity.this,PersonalCompileActivity.this,handler);
 
         initView();
     }
 
     private void initView() {
         ib_Back = (ImageButton) this.findViewById(R.id.ib_back);
-        tv_HeadPortrait = (TextView) this.findViewById(R.id.tv_head_portrait);
         rw_Head = (RoundImageView) this.findViewById(R.id.rw_head);
-        tv_NickName = (TextView) this.findViewById(R.id.tv_nick_name);
         tv_UserNick = (TextView) this.findViewById(R.id.tv_user_nick);
-        tv_Telephone = (TextView) this.findViewById(R.id.tv_telephone);
         tv_PhoneNumber = (TextView) this.findViewById(R.id.tv_phone_number);
-        tv_Address = (TextView) this.findViewById(R.id.tv_address);
         tv_UserAddress = (TextView) this.findViewById(R.id.tv_user_address);
-        tv_Identity = (TextView) this.findViewById(R.id.tv_identity);
-        tv_UserIdentity = (TextView) this.findViewById(R.id.tv_user_identity);
+        tv_UserType = (TextView) this.findViewById(R.id.tv_user_type);
         btn_finish = (Button) this.findViewById(R.id.btn_finish);
 
         ib_Back.setOnClickListener(this);
@@ -93,8 +92,10 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
         tv_UserNick.setOnClickListener(this);
         tv_PhoneNumber.setOnClickListener(this);
         tv_UserAddress.setOnClickListener(this);
-        tv_UserIdentity.setOnClickListener(this);
+        tv_UserType.setOnClickListener(this);
         btn_finish.setOnClickListener(this);
+
+        iPersonalCompilePresenter.requestUserData();
     }
 
 
@@ -192,7 +193,6 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
         // 设置显示位置
         dialog.onWindowAttributesChanged(wl);
         dialog.show();
-
     }
 
     //打开相册方法
@@ -211,11 +211,13 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
             if (!file.exists()) {
                 file.mkdirs();
             }
+            LogUtil.d("PersonalCompileA","文件路径："+file);
             photoFile = new File(file, System.currentTimeMillis() + ".jpg");
             intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
             intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
             startActivityForResult(intent, HEAD_PORTRAIT_CAM);
         } else {
+            LogUtil.d("PersonalCompileA","没SD卡");
             Toast.makeText(this, "请确认已经插入SD卡", Toast.LENGTH_SHORT).show();
         }
     }
@@ -282,31 +284,39 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
     }
 
 
+    public class MyHandler extends Handler {
+
+        WeakReference<PersonalCompileActivity> weakReference;
+
+        public MyHandler(PersonalCompileActivity fragment) {
+            weakReference = new WeakReference<PersonalCompileActivity>(fragment);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case ConstantUtil.GET_NET_DATA:
+                    User user = iPersonalCompilePresenter.getData();
+                    updataView(user);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    private void updataView(User user){
+        tv_UserNick.setText(user.getName());
+        tv_PhoneNumber.setText(user.getPhone());
+        if ("PUBLIC".equals(user.getUserType())){
+            tv_UserType.setText("普通用户");
+        }else {
+            tv_UserType.setText("专家用户");
+        }
+    }
+
     //--------------------接口方法--------------------
-    @Override
-    public void setHead() {
-
-    }
-
-    @Override
-    public void setNickName() {
-
-    }
-
-    @Override
-    public void setPhone() {
-
-    }
-
-    @Override
-    public void setUserPosition() {
-
-    }
-
-    @Override
-    public void setIdentity() {
-
-    }
 
     @Override
     public String getHead() {
@@ -315,22 +325,22 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
 
     @Override
     public String getNickName() {
-        return null;
+        return tv_UserNick.getText().toString();
     }
 
     @Override
     public String getPhone() {
-        return null;
+        return tv_PhoneNumber.getText().toString();
     }
 
     @Override
     public String getUserPosition() {
-        return null;
+        return tv_UserAddress.getText().toString();
     }
 
     @Override
-    public String getIdentity() {
-        return null;
+    public String getUserType() {
+        return tv_UserType.getText().toString();
     }
 //---------------------接口方法结束--------------------
 }

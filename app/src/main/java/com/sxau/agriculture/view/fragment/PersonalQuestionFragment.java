@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sxau.agriculture.adapter.PersonalQuestionAdapter;
@@ -25,7 +24,7 @@ import com.sxau.agriculture.presenter.fragment_presenter.PersonalQuestionPresent
 import com.sxau.agriculture.presenter.fragment_presenter_interface.IPersonalQuestionPresenter;
 import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.LogUtil;
-import com.sxau.agriculture.view.activity.DetailQuestion;
+import com.sxau.agriculture.view.activity.DetailQuestionActivity;
 import com.sxau.agriculture.view.fragment_interface.IPersonalQuestionFragment;
 import com.sxau.agriculture.widgets.RefreshLayout;
 
@@ -57,8 +56,8 @@ public class PersonalQuestionFragment extends BaseFragment implements IPersonalQ
         iPersonalQuestionPresenter = new PersonalQuestionPresenter(PersonalQuestionFragment.this, PersonalQuestionFragment.this.getContext(), myHandler);
 
         View myQuestionView = inflater.inflate(R.layout.frament_personal_myquestion, null);
-        rl_refresh = (RefreshLayout) myQuestionView.findViewById(R.id.srl_refresh);
-        rl_refresh.setColorSchemeColors(Color.parseColor("#00b5ad"));
+            rl_refresh = (RefreshLayout) myQuestionView.findViewById(R.id.srl_refresh);
+            rl_refresh.setColorSchemeColors(Color.parseColor("#00b5ad"));
         listView = (ListView) myQuestionView.findViewById(R.id.lv_MyQuestionListView);
         mquestionslist = new ArrayList<MyPersonalQuestion>();
 
@@ -109,7 +108,7 @@ public class PersonalQuestionFragment extends BaseFragment implements IPersonalQ
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    DetailQuestion.actionStart(PersonalQuestionFragment.this.getActivity(), position);
+                    DetailQuestionActivity.actionStart(PersonalQuestionFragment.this.getActivity(), position);
                 }
             });
         }
@@ -165,7 +164,7 @@ public class PersonalQuestionFragment extends BaseFragment implements IPersonalQ
     @Override
     public void updateView(ArrayList<MyPersonalQuestion> myPersonalQuestions) {
         LogUtil.d("PersonalQuestion", "6、updateView方法执行");
-        if (mquestionslist.isEmpty()) {
+        if (myPersonalQuestions.isEmpty()) {
             LogUtil.d("PersonalQuestin", "7、仍然是空数据");
             listView.setEmptyView(emptyView);
             listView.setVisibility(View.GONE);
@@ -174,14 +173,14 @@ public class PersonalQuestionFragment extends BaseFragment implements IPersonalQ
             emptyView.setVisibility(View.GONE);
             listView.setVisibility(View.VISIBLE);
 
-            adapter = new PersonalQuestionAdapter(PersonalQuestionFragment.this.getActivity(), mquestionslist);
+            adapter = new PersonalQuestionAdapter(PersonalQuestionFragment.this.getActivity(), myPersonalQuestions);
             listView.setAdapter(adapter);
             LogUtil.d("PersonalQuestionF", "2");
 
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    DetailQuestion.actionStart(PersonalQuestionFragment.this.getActivity(), position);
+                    DetailQuestionActivity.actionStart(PersonalQuestionFragment.this.getActivity(), position);
                 }
             });
         }

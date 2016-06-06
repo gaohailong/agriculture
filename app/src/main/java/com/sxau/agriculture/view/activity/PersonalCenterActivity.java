@@ -69,8 +69,14 @@ public class PersonalCenterActivity extends BaseActivity implements View.OnClick
         btn_compile = (Button) this.findViewById(R.id.btn_compile);
         btn_exit = (Button) this.findViewById(R.id.btn_exit);
 
-
-//        LogUtil.d("PersonalCenterA",userName);
+        User user = (User) mCache.getAsObject(ConstantUtil.CACHE_KEY);
+        userName = user.getName();
+        phone = String.valueOf(user.getPhone());
+        if (userName != null){
+            tvUserName.setText(userName);
+        }else {
+            tvUserName.setText(phone);
+        }
 
         ib_back.setOnClickListener(this);
         btn_exit.setOnClickListener(this);
