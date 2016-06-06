@@ -7,10 +7,7 @@ import java.io.Serializable;
  * @author  Yawen_Li on 2016/5/17.
  */
 public class User implements Serializable{
-<<<<<<< HEAD
-=======
 
->>>>>>> 3289dd45af5b3d9150528dc90cbe8ea6d0e83cb1
     /**
      * whenCreated : 1465196803000
      * whenUpdated : 1465212787000

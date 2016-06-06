@@ -48,10 +48,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
         <activity android:name="com.sxau.agriculture.view.activity.MainActivity" >
-<<<<<<< HEAD
 
-=======
->>>>>>> 3289dd45af5b3d9150528dc90cbe8ea6d0e83cb1
         </activity>
         <activity android:name="com.sxau.agriculture.view.activity.BaseActivity" />
         <activity android:name="com.sxau.agriculture.view.activity.PersonalCenterActivity" />
@@ -68,12 +65,7 @@
         <activity android:name="com.sxau.agriculture.view.activity.LoginActivity" android:launchMode="singleTask" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-<<<<<<< HEAD
-=======
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
->>>>>>> 3289dd45af5b3d9150528dc90cbe8ea6d0e83cb1
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>

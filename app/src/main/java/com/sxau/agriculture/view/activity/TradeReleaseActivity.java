@@ -17,6 +17,7 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.gson.JsonObject;
 import com.sxau.agriculture.adapter.SelectPhotoAdapter;
 import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.api.ITradeRelease;
@@ -144,7 +145,7 @@ public class TradeReleaseActivity extends BaseActivity implements View.OnClickLi
                 /**
                  *得到图片地址
                  * */
-                tradeImage="";
+                tradeImage=" ";
                 Map map = new HashMap();
                 map.put("categoryId",tradeCategoryId);
                 map.put("title",tradeTitle);
@@ -159,14 +160,15 @@ public class TradeReleaseActivity extends BaseActivity implements View.OnClickLi
                  * 发送到服务器
                  * */
                 Log.d("release","点击点击");
-                Call<String> call= RetrofitUtil.getRetrofit().create(ITradeRelease.class).postTrade(map,authToken);
-                call.enqueue(new Callback<String>() {
+                Call<JsonObject> call= RetrofitUtil.getRetrofit().create(ITradeRelease.class).postTrade(map,authToken);
+                call.enqueue(new Callback<JsonObject>() {
                     @Override
-                    public void onResponse(Response<String> response, Retrofit retrofit) {
+                    public void onResponse(Response<JsonObject> response, Retrofit retrofit) {
                         Log.d("release",response.code()+"");
                         if (response.isSuccess()){
                             Toast.makeText(TradeReleaseActivity.this,"提交成功",Toast.LENGTH_SHORT).show();
                         }
+finish();
                     }
 
                     @Override

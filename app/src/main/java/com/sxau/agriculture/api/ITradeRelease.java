@@ -1,5 +1,7 @@
 package com.sxau.agriculture.api;
 
+import com.google.gson.JsonObject;
+
 import java.util.Map;
 
 import retrofit.Call;
@@ -14,5 +16,5 @@ import retrofit.http.Query;
  */
 public interface ITradeRelease {
     @POST("trade")
-    Call<String> postTrade(@Body Map map,@Header("X-AUTH-TOKEN") String authToken);
+    Call<JsonObject> postTrade(@Body Map map,@Header("X-AUTH-TOKEN") String authToken);
 }
