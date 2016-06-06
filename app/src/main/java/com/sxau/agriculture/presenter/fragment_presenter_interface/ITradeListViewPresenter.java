@@ -21,4 +21,8 @@ public interface ITradeListViewPresenter {
      * 得到供应数据
      * */
     ArrayList<TradeData> getSupplyDatas();
+    ArrayList<TradeData> getDemandDatas();
+    //判断网络是否可用
+    boolean isNetAvailable();
+
 }

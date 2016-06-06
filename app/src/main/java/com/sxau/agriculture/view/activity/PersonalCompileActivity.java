@@ -160,7 +160,6 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
         TextView tv_PhotoAlbum = (TextView) view.findViewById(R.id.tv_personal_photo_album);
         TextView tv_Cancel = (TextView) view.findViewById(R.id.tv_cancel);
 
-
         tv_PhotoGraph.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

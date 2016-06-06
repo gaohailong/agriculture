@@ -7,11 +7,12 @@ import java.util.ArrayList;
 
 import retrofit.Call;
 import retrofit.http.GET;
+import retrofit.http.Header;
 
 /**
  * Created by Administrator on 2016/5/18.
  */
 public interface IPersonalCollectQuestion {
-    @GET("questions")
-    Call<ArrayList<MyPersonalCollectionQuestion>> getMessage();
+    @GET("user/favorite/questions")
+    Call<ArrayList<MyPersonalCollectionQuestion>> getMessage(@Header("X-AUTH-TOKEN")String aunhTokn);
 }
