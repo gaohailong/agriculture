@@ -212,6 +212,7 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
                 file.mkdirs();
             }
             LogUtil.d("PersonalCompileA","文件路径："+file);
+            Toast.makeText(this,"文件路径："+file,Toast.LENGTH_LONG).show();
             photoFile = new File(file, System.currentTimeMillis() + ".jpg");
             intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
             intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);

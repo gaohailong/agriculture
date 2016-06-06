@@ -8,34 +8,36 @@ import java.util.List;
  * @author 高海龙
  */
 public class DetailQuestionData {
+
     /**
-     * id : 10
-     * whenCreated : 1464264153000
-     * whenUpdated : 1465009668000
-     * category : {"id":11,"whenCreated":1463620170000,"whenUpdated":1463620170000,"pid":10,"name":"农作物","categoryType":"ARTICLE","image":"images/test.png","sort":255}
-     * title : 水稻叶子发黄怎么处理？
-     * content : 水稻叶子发黄怎么处理？ 图片是我家水稻的情况，请看看。
-     * clickCount : 1
+     * id : 1
+     * whenCreated : 1465030811000
+     * whenUpdated : 1465172548000
+     * category : {"id":17,"whenCreated":1465023858000,"whenUpdated":1465023858000,"pid":15,"name":"果树","categoryType":"ARTICLE","image":"null","sort":255}
+     * title : 测试问题001
+     * content : 测试问题001测试问题001
+     * clickCount : 10
      * likeCount : 0
-     * expert : null
-     * user : {"id":1,"whenCreated":1463621389000,"whenUpdated":1464974905000,"userType":"PUBLIC","address":null,"name":"guodont","avatar":null,"industry":null,"scale":null}
+     * expert : {"id":3,"whenCreated":1465030758000,"whenUpdated":1465128255000,"email":null,"userType":"EXPERT","address":null,"realName":null,"phone":"18404968725","name":"guodong","avatar":null,"industry":null,"scale":null,"lastIp":"60.223.239.9"}
+     * user : {"id":3,"whenCreated":1465030758000,"whenUpdated":1465128255000,"email":null,"userType":"EXPERT","address":null,"realName":null,"phone":"18404968725","name":"guodong","avatar":null,"industry":null,"scale":null,"lastIp":"60.223.239.9"}
      * questionAuditState : WAIT_AUDITED
-     * questionResolveState : WAIT_RESOLVE
-     * images : o_1ajmf2vo97ldoaqnb71mjhqs47.jpg,o_1ajmf38l017u91s1kf9b1afm1ds4c.jpg,
+     * questionResolveState : RESOLVED
+     * images :
      * answers : []
+     * fav : false
      */
 
     private int id;
     private long whenCreated;
     private long whenUpdated;
     /**
-     * id : 11
-     * whenCreated : 1463620170000
-     * whenUpdated : 1463620170000
-     * pid : 10
-     * name : 农作物
+     * id : 17
+     * whenCreated : 1465023858000
+     * whenUpdated : 1465023858000
+     * pid : 15
+     * name : 果树
      * categoryType : ARTICLE
-     * image : images/test.png
+     * image : null
      * sort : 255
      */
 
@@ -44,23 +46,44 @@ public class DetailQuestionData {
     private String content;
     private int clickCount;
     private int likeCount;
-    private Object expert;
     /**
-     * id : 1
-     * whenCreated : 1463621389000
-     * whenUpdated : 1464974905000
-     * userType : PUBLIC
+     * id : 3
+     * whenCreated : 1465030758000
+     * whenUpdated : 1465128255000
+     * email : null
+     * userType : EXPERT
      * address : null
-     * name : guodont
+     * realName : null
+     * phone : 18404968725
+     * name : guodong
      * avatar : null
      * industry : null
      * scale : null
+     * lastIp : 60.223.239.9
+     */
+
+    private ExpertBean expert;
+    /**
+     * id : 3
+     * whenCreated : 1465030758000
+     * whenUpdated : 1465128255000
+     * email : null
+     * userType : EXPERT
+     * address : null
+     * realName : null
+     * phone : 18404968725
+     * name : guodong
+     * avatar : null
+     * industry : null
+     * scale : null
+     * lastIp : 60.223.239.9
      */
 
     private UserBean user;
     private String questionAuditState;
     private String questionResolveState;
     private String images;
+    private boolean fav;
     private List<?> answers;
 
     public int getId() {
@@ -127,11 +150,11 @@ public class DetailQuestionData {
         this.likeCount = likeCount;
     }
 
-    public Object getExpert() {
+    public ExpertBean getExpert() {
         return expert;
     }
 
-    public void setExpert(Object expert) {
+    public void setExpert(ExpertBean expert) {
         this.expert = expert;
     }
 
@@ -165,6 +188,14 @@ public class DetailQuestionData {
 
     public void setImages(String images) {
         this.images = images;
+    }
+
+    public boolean isFav() {
+        return fav;
+    }
+
+    public void setFav(boolean fav) {
+        this.fav = fav;
     }
 
     public List<?> getAnswers() {
@@ -250,16 +281,20 @@ public class DetailQuestionData {
         }
     }
 
-    public static class UserBean {
+    public static class ExpertBean {
         private int id;
         private long whenCreated;
         private long whenUpdated;
+        private Object email;
         private String userType;
         private Object address;
+        private Object realName;
+        private String phone;
         private String name;
         private Object avatar;
         private Object industry;
         private Object scale;
+        private String lastIp;
 
         public int getId() {
             return id;
@@ -285,6 +320,14 @@ public class DetailQuestionData {
             this.whenUpdated = whenUpdated;
         }
 
+        public Object getEmail() {
+            return email;
+        }
+
+        public void setEmail(Object email) {
+            this.email = email;
+        }
+
         public String getUserType() {
             return userType;
         }
@@ -299,6 +342,22 @@ public class DetailQuestionData {
 
         public void setAddress(Object address) {
             this.address = address;
+        }
+
+        public Object getRealName() {
+            return realName;
+        }
+
+        public void setRealName(Object realName) {
+            this.realName = realName;
+        }
+
+        public String getPhone() {
+            return phone;
+        }
+
+        public void setPhone(String phone) {
+            this.phone = phone;
         }
 
         public String getName() {
@@ -331,6 +390,134 @@ public class DetailQuestionData {
 
         public void setScale(Object scale) {
             this.scale = scale;
+        }
+
+        public String getLastIp() {
+            return lastIp;
+        }
+
+        public void setLastIp(String lastIp) {
+            this.lastIp = lastIp;
+        }
+    }
+
+    public static class UserBean {
+        private int id;
+        private long whenCreated;
+        private long whenUpdated;
+        private Object email;
+        private String userType;
+        private Object address;
+        private Object realName;
+        private String phone;
+        private String name;
+        private String avatar;
+        private Object industry;
+        private Object scale;
+        private String lastIp;
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public long getWhenCreated() {
+            return whenCreated;
+        }
+
+        public void setWhenCreated(long whenCreated) {
+            this.whenCreated = whenCreated;
+        }
+
+        public long getWhenUpdated() {
+            return whenUpdated;
+        }
+
+        public void setWhenUpdated(long whenUpdated) {
+            this.whenUpdated = whenUpdated;
+        }
+
+        public Object getEmail() {
+            return email;
+        }
+
+        public void setEmail(Object email) {
+            this.email = email;
+        }
+
+        public String getUserType() {
+            return userType;
+        }
+
+        public void setUserType(String userType) {
+            this.userType = userType;
+        }
+
+        public Object getAddress() {
+            return address;
+        }
+
+        public void setAddress(Object address) {
+            this.address = address;
+        }
+
+        public Object getRealName() {
+            return realName;
+        }
+
+        public void setRealName(Object realName) {
+            this.realName = realName;
+        }
+
+        public String getPhone() {
+            return phone;
+        }
+
+        public void setPhone(String phone) {
+            this.phone = phone;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getAvatar() {
+            return avatar;
+        }
+
+        public void setAvatar(String avatar) {
+            this.avatar = avatar;
+        }
+
+        public Object getIndustry() {
+            return industry;
+        }
+
+        public void setIndustry(Object industry) {
+            this.industry = industry;
+        }
+
+        public Object getScale() {
+            return scale;
+        }
+
+        public void setScale(Object scale) {
+            this.scale = scale;
+        }
+
+        public String getLastIp() {
+            return lastIp;
+        }
+
+        public void setLastIp(String lastIp) {
+            this.lastIp = lastIp;
         }
     }
 }
