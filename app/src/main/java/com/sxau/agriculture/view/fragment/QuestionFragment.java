@@ -17,15 +17,18 @@ import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.view.activity.AskQuestion;
 
+import java.util.ArrayList;
+
 /**
  * 问答页面list的Fragment
  * @author 李秉龙
  */
-public class QuestionFragment extends BaseFragment implements View.OnClickListener{
+public class QuestionFragment extends BaseFragment implements View.OnClickListener,ViewPager.OnPageChangeListener{
     private View mView;
     private ViewPager vPager = null;
     public static Button btn_ask;
     private Context context;
+    private ArrayList<String> list;
 
     private FragmentPagerItems.Creator creater;//对标题的动态添加
 
@@ -36,21 +39,38 @@ public class QuestionFragment extends BaseFragment implements View.OnClickListen
 
         vPager = (ViewPager) mView.findViewById(R.id.vp_question_viewpager);
         btn_ask= (Button) mView.findViewById(R.id.btn_ask);
-        //实现动态添加
-        String list[] = {"肥料", "果树", "花卉", "技术"};
-        creater = FragmentPagerItems.with(getContext());
+        list =new ArrayList<>();
         context=QuestionFragment.this.getActivity();
-        for (int i = 0; i < list.length; i++) {
-            creater.add(list[i], QuestionListViewFragment.class);
+
+        list.add("肥料");
+        list.add("农业");
+        list.add("草业");
+        list.add("产后护理");
+        list.add("郭栋");
+        list.add("高海龙");
+        list.add("ddd");
+        list.add("ppp");
+
+        addData();
+
+        btn_ask.setOnClickListener(this);
+        return mView;
+
+    }
+
+    //伴随数据动态加载fragment
+    public void addData(){
+        creater = FragmentPagerItems.with(context);
+        for (int i = 0; i < list.size(); i++) {
+            creater.add(list.get(i), QuestionListViewFragment.class);
         }
         FragmentPagerItemAdapter fragmentadapter = new FragmentPagerItemAdapter(getChildFragmentManager()
                 , creater.create());
-        btn_ask.setOnClickListener(this);
         vPager.setAdapter(fragmentadapter);
+
         SmartTabLayout viewPagerTab = (SmartTabLayout) mView.findViewById(R.id.viewpager_question_title);
         viewPagerTab.setViewPager(vPager);
-        return mView;
-
+        vPager.setOnPageChangeListener(this);
     }
 
 
@@ -59,5 +79,22 @@ public class QuestionFragment extends BaseFragment implements View.OnClickListen
         Intent intent=new Intent();
         intent.setClass(context, AskQuestion.class);
         startActivity(intent);
+    }
+
+
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
     }
 }
