@@ -18,18 +18,22 @@
         android:layout_marginLeft="10dp"
         android:layout_toLeftOf="@id/v_left"
         android:layout_marginRight="20dp"
+        android:padding="8dp"
         android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_margin="3dp"
-            android:layout_height="30dp">
+            android:layout_height="30dp"
+            >
 
             <com.sxau.agriculture.widgets.RoundImageView
                 android:id="@+id/rv_info_head"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@mipmap/img_default_user_portrait_150px" />
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@mipmap/img_default_user_portrait_150px"
+                android:layout_alignTop="@+id/tv_trade_name"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
 
             <TextView
                 android:id="@+id/tv_trade_name"
@@ -77,7 +81,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginTop="5dp"
             android:ellipsize="end"
-            android:lines="3"
+            android:lines="2"
             android:text="我的他的你的我的他的你的我的他的你的我的他的你的我的他的你的我的他的你的我的他的你的我的他的你的我的他的你的我的他的你的我的他的你的"
             android:textSize="@dimen/font_size" />
     </LinearLayout>
