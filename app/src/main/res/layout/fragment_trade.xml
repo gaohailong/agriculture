@@ -114,13 +114,15 @@
 
     <Button
         android:id="@+id/btn_info_float"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/bg_ask_btn_shape"
         android:text="发布供求"
-        android:textColor="#ffffff"
-        android:textSize="18sp"
-        android:background="@drawable/trade_float_button"
-        android:layout_gravity="right|bottom"
+        android:textSize="14sp"
+        android:textColor="@color/white"
         />
 </FrameLayout>
 
