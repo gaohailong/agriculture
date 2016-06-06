@@ -6,5 +6,6 @@ package com.sxau.agriculture.view.activity_interface;
  * @author 高海龙
  */
 public interface IDetailQuestionActivity {
-    int getQuestionId(int id);
+    int getQuestionId();
+    void updateView();
 }

@@ -10,9 +10,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
 import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.api.IDetailQuestion;
 import com.sxau.agriculture.bean.DetailQuestionData;
@@ -21,7 +23,11 @@ import com.sxau.agriculture.presenter.activity_presenter_interface.IDetailQuesti
 import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.LogUtil;
 import com.sxau.agriculture.utils.RetrofitUtil;
+import com.sxau.agriculture.utils.TimeUtil;
+import com.sxau.agriculture.utils.TopBarUtil;
 import com.sxau.agriculture.view.activity_interface.IDetailQuestionActivity;
+
+import java.lang.ref.WeakReference;
 
 import retrofit.Call;
 import retrofit.Callback;
@@ -30,85 +36,116 @@ import retrofit.Retrofit;
 
 /**
  * 问题详细信息页面Activity
- *
+ * 问题：1、点赞功能未实现，需发送网络请求（接口没有）
+ *2、接口数据部分待修正，问题列出在底部
  * @author 李秉龙
  */
 public class DetailQuestionActivity extends BaseActivity implements IDetailQuestionActivity, View.OnClickListener {
-    private ImageButton ib_Back;
-    private ImageView iv_Fav;
-    private ImageView iv_Quick;
-    private Button btn_Answer;
-    private TextView tv_Question;
+    private ImageView rv_question_head, rv_professor_head, iv_fav;
+    private TextView tv_question_name, tv_question_content, tv_question_title, tv_question_time, tv_is_answer, tv_professor_name, tv_professor_content, tv_professor_ok;
+    private Button bt_answer;
+    private LinearLayout ll_expert_answer;
+    private TopBarUtil topBarUtil;
 
     private IDetailQuestionPresenter detailQuestionPresenter;
+    private DetailQuestionData detailQuestionData;
     private MyHandler handler;
-
     private Context context;
 
     private int favIndex = 0;//是否已赞 0：没有；1：已赞
-    private int quickIndex = 0;//是否已催 0：没有；1：已催
-
-    private int id;
-
-    String question = null;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_question);
-
-        detailQuestionPresenter = new DetailQuestionPresenter(DetailQuestionActivity.this,handler);
+        handler = new MyHandler(DetailQuestionActivity.this);
+        detailQuestionPresenter = new DetailQuestionPresenter(DetailQuestionActivity.this, handler);
+        detailQuestionPresenter.getDetailData(String.valueOf(getQuestionId()));
 
         initView();
-        Intent intent = getIntent();
-        int indexPosition = intent.getIntExtra("indexPosition", 0);
-        Toast.makeText(DetailQuestionActivity.this, indexPosition + "", Toast.LENGTH_SHORT).show();
-
+        initTopBar();
     }
 
     private void initView() {
-        ib_Back = (ImageButton) this.findViewById(R.id.ib_back);
-        iv_Fav = (ImageView) this.findViewById(R.id.iv_fav);
-        btn_Answer = (Button) this.findViewById(R.id.btn_answer);
-        tv_Question = (TextView) this.findViewById(R.id.tv_question);
-        ib_Back.setOnClickListener(this);
-        iv_Fav.setOnClickListener(this);
-        btn_Answer.setOnClickListener(this);
-        question = tv_Question.getText().toString();
-        detailQuestionPresenter.getDetailData(String.valueOf(id));
+        iv_fav = (ImageView) this.findViewById(R.id.iv_fav);
+        rv_question_head = (ImageView) findViewById(R.id.rv_question_head);
+        tv_question_content = (TextView) findViewById(R.id.tv_question_content);
+        rv_professor_head = (ImageView) findViewById(R.id.rv_professor_head);
+        tv_question_name = (TextView) findViewById(R.id.tv_question_name);
+        tv_question_title = (TextView) findViewById(R.id.tv_question_title);
+        tv_question_time = (TextView) findViewById(R.id.tv_question_time);
+        tv_is_answer = (TextView) findViewById(R.id.tv_is_answer);
+        tv_professor_name = (TextView) findViewById(R.id.tv_professor_name);
+        tv_professor_content = (TextView) findViewById(R.id.tv_professor_content);
+        tv_professor_ok = (TextView) findViewById(R.id.tv_professor_ok);
+        bt_answer = (Button) findViewById(R.id.bt_answer);
+        ll_expert_answer = (LinearLayout) findViewById(R.id.ll_expert_answer);
+        topBarUtil = (TopBarUtil) findViewById(R.id.topBar_detail);
+
+        iv_fav.setOnClickListener(this);
+        bt_answer.setOnClickListener(this);
+
+//        question = tv_Question.getText().toString();
+    }
+
+    private void initTopBar() {
+        topBarUtil.setLeftImageIsVisible(true);
+        topBarUtil.setLeftImage(R.mipmap.ic_back_left);
+        topBarUtil.setOnTopbarClickListener(new TopBarUtil.TopbarClickListner() {
+            @Override
+            public void onClickLeftRoundImage() {
+
+            }
+
+            @Override
+            public void onClickLeftImage() {
+                finish();
+            }
+
+            @Override
+            public void onClickRightImage() {
+
+            }
+        });
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.ib_back:
-                finish();
-                break;
             case R.id.iv_fav:
                 if (favIndex == 0) {
-                    iv_Fav.setBackgroundResource(R.drawable.ic_praise_48px);
+                    iv_fav.setImageResource(R.drawable.ic_praise_48px);
                     favIndex = 1;
                 } else if (favIndex == 1) {
-                    iv_Fav.setBackgroundResource(R.drawable.ic_no_praise_48px);
+                    iv_fav.setImageResource(R.drawable.ic_no_praise_48px);
                     favIndex = 0;
                 }
                 break;
-            case R.id.btn_answer:
-                ExpertAnswerActivity.actionStart(DetailQuestionActivity.this, question);
+            case R.id.bt_answer:
+                ExpertAnswerActivity.actionStart(DetailQuestionActivity.this, (String) detailQuestionData.getAnswers().get(0));//有问题,接口返回了多个问题的答案
                 break;
             default:
                 break;
         }
     }
 
+
     public class MyHandler extends Handler {
+        WeakReference<DetailQuestionActivity> weakReference;
+
+        public MyHandler(DetailQuestionActivity activity) {
+            weakReference = new WeakReference<DetailQuestionActivity>(activity);
+        }
+
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             switch (msg.what) {
                 case ConstantUtil.GET_NET_DATA:
-
+                    detailQuestionData = detailQuestionPresenter.getData();
+                    updateView();
+                    break;
+                default:
                     break;
             }
         }
@@ -117,33 +154,38 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
     public static void actionStart(Context context, int id) {
         Intent intent = new Intent(context, DetailQuestionActivity.class);
         intent.putExtra("indexPosition", id);
-        Log.e("indexPosition", id + "");
-        id = id;
         context.startActivity(intent);
     }
 
-   /* public void getDetailData(String id) {
-        Call<DetailQuestionData> detailQuestionDataCall = RetrofitUtil.getRetrofit().create(IDetailQuestion.class).getDetailQuestionData(id);
-        detailQuestionDataCall.enqueue(new Callback<DetailQuestionData>() {
-            @Override
-            public void onResponse(Response<DetailQuestionData> response, Retrofit retrofit) {
-                if (response.isSuccess()) {
-                    DetailQuestionData detailQuestionData =response.body();
-                    Toast.makeText(DetailQuestionActivity.this,detailQuestionData.getTitle(),Toast.LENGTH_SHORT).show();
-                    LogUtil.d("dd",detailQuestionData.getTitle());
-                }
-            }
-
-            @Override
-            public void onFailure(Throwable t) {
-
-            }
-        });
-    }*/
-
-    //接口方法
     @Override
-    public int getQuestionId(int id) {
-        return id;
+    public int getQuestionId() {
+        Intent intent = getIntent();
+        return intent.getIntExtra("indexPosition", 0);
+    }
+
+    //视图改变未完成
+    @Override
+    public void updateView() {
+        Picasso.with(context).load(detailQuestionData.getUser().getAvatar()).centerCrop().
+                placeholder(R.mipmap.img_default_user_portrait_150px).error(R.mipmap.img_default_user_portrait_150px).into(rv_question_head);
+        tv_question_name.setText(detailQuestionData.getUser().getName());
+        tv_question_title.setText(detailQuestionData.getTitle());
+        tv_question_content.setText(detailQuestionData.getContent());
+        tv_question_time.setText(TimeUtil.format(detailQuestionData.getWhenCreated()));
+        if (detailQuestionData.getExpert() != null) {
+            ll_expert_answer.setVisibility(View.VISIBLE);
+            bt_answer.setVisibility(View.GONE);
+            tv_is_answer.setText("专家已回答");
+            //专家部分
+            Picasso.with(context).load(detailQuestionData.getUser().getAvatar()).centerCrop().
+                    placeholder(R.mipmap.img_default_user_portrait_150px).error(R.mipmap.img_default_user_portrait_150px).into(rv_professor_head);
+            tv_professor_name.setText(detailQuestionData.getExpert().getName());
+            tv_professor_content.setText((Integer) detailQuestionData.getAnswers().get(0));//有问题,接口返回了多个问题的答案
+            tv_professor_ok.setText("点赞人数" + detailQuestionData.getLikeCount());
+        } else {
+            ll_expert_answer.setVisibility(View.GONE);
+            bt_answer.setVisibility(View.VISIBLE);
+            tv_is_answer.setText("专家未回答");
+        }
     }
 }

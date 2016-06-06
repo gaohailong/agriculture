@@ -1,5 +1,7 @@
 package com.sxau.agriculture.view.fragment;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -38,12 +40,14 @@ public class PersonalCollectQuestionFragment  extends BaseFragment implements IP
     private IPersonalCollectQuestionPresenter iPersonalCollectQuestionPresenter;
     private PersonalCollectQuestionAdapter adapter;
     private MyHandler myHandler;
+    private Context context;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         myHandler = new MyHandler(PersonalCollectQuestionFragment.this);
         //将Fragment对象与Presenter对象绑定
         iPersonalCollectQuestionPresenter = new PersonalCollectionPresenter(PersonalCollectQuestionFragment.this,PersonalCollectQuestionFragment.this.getContext(),myHandler);
 
+        context=PersonalCollectQuestionFragment.this.getActivity();
         View myQuestionView = inflater.inflate(R.layout.frament_personal_myquestion, null);
         rl_refresh = (RefreshLayout) myQuestionView.findViewById(R.id.srl_refresh);
         rl_refresh.setColorSchemeColors(Color.parseColor("#00b5ad"));
@@ -87,7 +91,9 @@ public class PersonalCollectQuestionFragment  extends BaseFragment implements IP
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    DetailQuestionActivity.actionStart(PersonalCollectQuestionFragment.this.getActivity(), position);
+                    Intent intent=new Intent(context,DetailQuestionActivity.class);
+                    intent.putExtra("ItemId",id);
+                    startActivity(intent);
                 }
             });
         }
@@ -156,7 +162,9 @@ public void showRequestTimeout() {
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    DetailQuestionActivity.actionStart(PersonalCollectQuestionFragment.this.getActivity(), position);
+                    Intent intent=new Intent(context,DetailQuestionActivity.class);
+                    intent.putExtra("ItemId",id);
+                    startActivity(intent);
                 }
             });
         }

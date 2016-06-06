@@ -35,10 +35,8 @@ public class ExpertAnswerActivity extends BaseActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_expert_answer);
-
         //将ExpertAnswerActivity 与 ExpertAnswerPresenter绑定
         iExpertAnswerPresenter = new ExpertAnswerPresenter(ExpertAnswerActivity.this);
-
         initView();
     }
 
@@ -56,7 +54,6 @@ public class ExpertAnswerActivity extends BaseActivity implements View.OnClickLi
         updateQuestion = intent.getStringExtra("question");
 
         tv_Question.setText(updateQuestion);//更新问题
-
     }
 
     public static void actionStart(Context context,String question){
@@ -75,7 +72,6 @@ public class ExpertAnswerActivity extends BaseActivity implements View.OnClickLi
                 submitDialog();
                 break;
             default:
-
         }
     }
 

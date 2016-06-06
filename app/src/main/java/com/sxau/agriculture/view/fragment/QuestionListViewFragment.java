@@ -61,7 +61,6 @@ public class QuestionListViewFragment extends BaseFragment implements IQuestionL
     private boolean isLoadOver;
     private DbUtils dbUtil;
 
-
     private IQuestionListViewPresenter iQuestionListViewPresenter;
 
     @Override

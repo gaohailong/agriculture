@@ -4,7 +4,8 @@ import com.sxau.agriculture.presenter.activity_presenter_interface.IExpertAnswer
 import com.sxau.agriculture.view.activity_interface.IExpertAnswerActivity;
 
 /**
- * Created by Yawen_Li on 2016/4/22.
+ * 专家回答的fragment
+ * @author 高海龙
  */
 public class ExpertAnswerPresenter implements IExpertAnswerPresenter{
     private IExpertAnswerActivity iExpertAnswerActivity;

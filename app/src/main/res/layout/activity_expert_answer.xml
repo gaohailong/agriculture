@@ -4,80 +4,81 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/mainColor"
-    tools:context="com.sxau.agriculture.view.activity.ExpertAnswerActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context="com.sxau.agriculture.view.activity.ExpertAnswerActivity">
+
     <RelativeLayout
         android:id="@+id/rl_title"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        >
+        android:layout_marginTop="10dp">
+
         <ImageButton
             android:id="@+id/ib_back"
             android:layout_width="30dip"
             android:layout_height="30dip"
-            android:scaleType="centerCrop"
             android:background="#00000000"
-            android:src="@drawable/ic_actionbar_back_48px"/>
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_actionbar_back_48px" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="25sp"
+            android:layout_centerHorizontal="true"
             android:text="回答问题"
-            android:layout_centerHorizontal="true" />
-
+            android:textSize="25sp" />
     </RelativeLayout>
+
     <TextView
         android:id="@+id/tv_question"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:text="如何在草本中使用农业？"
         android:layout_below="@+id/rl_title"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:text="如何在草本中使用农业？"
+        android:textColor="@color/white"
+        android:textSize="20sp" />
+
     <TextView
         android:id="@+id/tv_answer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_question"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="10dp"
-        android:layout_below="@+id/tv_question"
-        android:textSize="20sp"
+        android:text="您的答案："
         android:textColor="@color/white"
-        android:text="您的答案："/>
-    <LinearLayout
+        android:textSize="20sp" />
+
+
+    <EditText
+        android:id="@+id/et_answer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/tv_answer"
-        android:background="@color/white"
-        android:layout_above="@+id/ll_submit"
-        android:layout_margin="20dp"
-        >
+        android:background="@drawable/bg_linear_layout_shape_10_white"
+        android:gravity="top"
+        android:padding="15px"
+        android:text="fdasfasfsfsafa高房价ad司法解释道发神经开发萨芬将萨科罚金啊师傅ask积分卡发但是"
+        android:textSize="20sp"
+        android:layout_margin="15dp"
+        android:layout_above="@+id/ll_submit" />
 
-        <EditText
-            android:id="@+id/et_answer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:background="@null"
-            android:layout_margin="10dp"/>
 
-    </LinearLayout>
     <LinearLayout
         android:id="@+id/ll_submit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        >
+        android:layout_alignParentBottom="true">
+
         <Button
             android:id="@+id/btn_submit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:layout_marginBottom="10dp"
-            android:text="提交"/>
-
+            android:text="提交" />
     </LinearLayout>
 </RelativeLayout>
