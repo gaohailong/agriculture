@@ -11,6 +11,7 @@ import com.sxau.agriculture.AgricultureApplication;
 import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.bean.User;
 import com.sxau.agriculture.utils.ACache;
+import com.sxau.agriculture.utils.AuthTokenUtil;
 import com.sxau.agriculture.utils.ConstantUtil;
 
 public class SplashActivity extends BaseActivity {
@@ -20,14 +21,7 @@ public class SplashActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-
-        ACache mCache = ACache.get(AgricultureApplication.getContext());
-        String userData = mCache.getAsString(ConstantUtil.CACHE_KEY);
-        Gson gson = new Gson();
-        User user = gson.fromJson(userData, User.class);
-        if (user != null) {
-            authToken = user.getAuthToken();
-        }
+        authToken = AuthTokenUtil.findAuthToken();
         handler.sendEmptyMessageDelayed(ConstantUtil.START_ACTIVITY, 3000);
     }
 

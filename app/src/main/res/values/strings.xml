@@ -23,8 +23,8 @@
     <string name="set_nickname">编辑昵称:</string>
     <string name="telephone">手机号</string>
     <string name="address">地址</string>
-    <string name="identity">身份</string>
-    <string name="common_user">普通用户</string>
+    <string name="usertype">用户类别</string>
+    <string name="public_user">普通用户</string>
     <string name="expert_user">专家用户</string>
     <string name="finish">完成</string>
     <string name="cancel">取消</string>
