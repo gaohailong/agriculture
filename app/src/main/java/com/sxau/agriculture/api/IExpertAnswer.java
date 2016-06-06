@@ -12,6 +12,6 @@ import retrofit.http.POST;
  */
 public interface IExpertAnswer {
     @POST("question/answer")
-    Call<String> doAnswer(@Header("X-AUTH-TOKEN") String token, @Field("questionId") int questionId, @Field("content") String content);
+    Call<String> doAnswer(@Header("X-AUTH-TOKEN") String token, @Field("questionId") String questionId, @Field("content") String content);
 
 }
