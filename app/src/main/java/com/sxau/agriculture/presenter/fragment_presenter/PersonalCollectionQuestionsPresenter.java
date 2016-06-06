@@ -4,13 +4,13 @@ import android.content.Context;
 import android.os.Handler;
 import android.util.Log;
 
-import com.lidroid.xutils.DbUtils;
-import com.lidroid.xutils.exception.DbException;
+
+import com.google.gson.Gson;
 import com.sxau.agriculture.AgricultureApplication;
 import com.sxau.agriculture.api.IPersonalCollectQuestion;
-import com.sxau.agriculture.bean.MyPersonalCollectTrades;
+
 import com.sxau.agriculture.bean.MyPersonalCollectionQuestion;
-import com.sxau.agriculture.bean.MyPersonalQuestion;
+import com.sxau.agriculture.bean.User;
 import com.sxau.agriculture.presenter.fragment_presenter_interface.IPersonalCollectQuestionPresenter;
 import com.sxau.agriculture.utils.ACache;
 import com.sxau.agriculture.utils.ConstantUtil;
@@ -32,16 +32,15 @@ import retrofit.Retrofit;
 /**
  * Created by Yawen_Li on 2016/4/22.
  */
-public class PersonalCollectionPresenter implements IPersonalCollectQuestionPresenter {
+public class PersonalCollectionQuestionsPresenter implements IPersonalCollectQuestionPresenter {
     private IPresonalCollectQuestionFragment iPresonalCollectQuestionFragment;
     private ArrayList<MyPersonalCollectionQuestion> myCQuestionsList;
-
-    private DbUtils dbUtils;
+    private String authToken;
     private Context context;
     private Handler handler;
     private MyPersonalCollectionQuestion myPersonalQuestion;
     private ACache mCache;
-    public PersonalCollectionPresenter(IPresonalCollectQuestionFragment iPresonalCollectQuestionFragment, Context context,PersonalCollectQuestionFragment.MyHandler mhandler) {
+    public PersonalCollectionQuestionsPresenter(IPresonalCollectQuestionFragment iPresonalCollectQuestionFragment, Context context, PersonalCollectQuestionFragment.MyHandler mhandler) {
         this.iPresonalCollectQuestionFragment = iPresonalCollectQuestionFragment;
         this.context = context;
         this.handler = mhandler;
@@ -65,33 +64,25 @@ public class PersonalCollectionPresenter implements IPersonalCollectQuestionPres
     @Override
     public ArrayList<MyPersonalCollectionQuestion> getDatas() {
        Log.d("pcqq:","getDates");
+        Gson userGson = new Gson();
+        User user = new User();
+
+        String userData = new String();
+        userData = mCache.getAsString(ConstantUtil.CACHE_KEY);
+        user = userGson.fromJson(userData, User.class);
+        authToken = user.getAuthToken();
+        LogUtil.d("PersonalQuestionP:authToken:",authToken+"");
         myCQuestionsList = new ArrayList<MyPersonalCollectionQuestion>();
         myPersonalQuestion = new MyPersonalCollectionQuestion();
-        List<MyPersonalCollectionQuestion> cQuestionsList = new ArrayList<MyPersonalCollectionQuestion>();
-        cQuestionsList = (List<MyPersonalCollectionQuestion>) mCache.getAsObject(ConstantUtil.CACHE_PERSONALCOLLECTQUESTIION_KEY);
-//        Log.d("pcqq:",cQuestionsList.get(1).getUser().getName());
+        List<MyPersonalCollectionQuestion> cQuestionList = new ArrayList<MyPersonalCollectionQuestion>();
+        cQuestionList = (List<MyPersonalCollectionQuestion>) mCache.getAsObject(ConstantUtil.CACHE_PERSONALCOLLECTQUESTIION_KEY);
+
         if (mCache.getAsObject(ConstantUtil.CACHE_PERSONALCOLLECTQUESTIION_KEY) != null) {
-            for (int i = 0; i < cQuestionsList.size(); i++) {
-                myPersonalQuestion = cQuestionsList.get(i);
+            for (int i = 0; i < cQuestionList.size(); i++) {
+                myPersonalQuestion = cQuestionList.get(i);
                 myCQuestionsList.add(myPersonalQuestion);
             }
         }
-//        try {
-//            List<MyPersonalCollectionQuestion> questionslist = new ArrayList<MyPersonalCollectionQuestion>();
-//            dbUtils.createTableIfNotExist(MyPersonalCollectionQuestion.class);
-//            questionslist = dbUtils.findAll(MyPersonalCollectionQuestion.class);
-//            if (!questionslist.isEmpty()){
-//                for (int i = 0; i < questionslist.size();i++){
-//                    myPersonalQuestion = questionslist.get(i);
-//                    myCQuestionsList.add(myPersonalQuestion);
-//                    Log.d("pcqp:缓存数据：",myPersonalQuestion.getUser().getName());
-//                }
-//            }else {
-//                return myCQuestionsList;
-//            }
-//        } catch (DbException e) {
-//            e.printStackTrace();
-//        }
         return myCQuestionsList;
     }
 
@@ -103,8 +94,15 @@ public class PersonalCollectionPresenter implements IPersonalCollectQuestionPres
 
     @Override
     public void doRequest() {
+        Gson userGson = new Gson();
+        User user = new User();
+
+        String userData = new String();
+        userData = mCache.getAsString(ConstantUtil.CACHE_KEY);
+        user = userGson.fromJson(userData, User.class);
+        authToken = user.getAuthToken();
         Log.d("pcqp","doRequest");
-        Call<ArrayList<MyPersonalCollectionQuestion>> call = RetrofitUtil.getRetrofit().create(IPersonalCollectQuestion.class).getMessage();
+        Call<ArrayList<MyPersonalCollectionQuestion>> call = RetrofitUtil.getRetrofit().create(IPersonalCollectQuestion.class).getMessage(authToken);
         call.enqueue(new Callback<ArrayList<MyPersonalCollectionQuestion>>() {
             @Override
             public void onResponse(Response<ArrayList<MyPersonalCollectionQuestion>> response, Retrofit retrofit) {
@@ -122,8 +120,8 @@ public class PersonalCollectionPresenter implements IPersonalCollectQuestionPres
 
                     //加入缓存中,先清空缓存
 
+                    //加入缓存中,先清空缓存
                     mCache.remove(ConstantUtil.CACHE_PERSONALCOLLECTQUESTIION_KEY);
-                    Log.d("pcqp",ConstantUtil.CACHE_PERSONALCOLLECTQUESTIION_KEY);
                     mCache.put(ConstantUtil.CACHE_PERSONALCOLLECTQUESTIION_KEY, myCQuestionsList);
 
                     handler.sendEmptyMessage(ConstantUtil.GET_NET_DATA);

@@ -74,6 +74,7 @@ public class PersonalQuestionPresenter implements IPersonalQuestionPresenter {
         List<MyPersonalQuestion> questionList = new ArrayList<MyPersonalQuestion>();
         questionList = (List<MyPersonalQuestion>) mCache.getAsObject(ConstantUtil.CACHE_PERSONALQUESTION_KEY);
         //缓存不为空时将数据填充返回
+//        LogUtil.d("PersonalQusetionP:getDates:questionList",questionList.get(0).getTitle());
         if (mCache.getAsObject(ConstantUtil.CACHE_PERSONALQUESTION_KEY) != null) {
             for (int i = 0; i < questionList.size(); i++) {
                 myPersonalQuestion = questionList.get(i);
@@ -105,7 +106,7 @@ public class PersonalQuestionPresenter implements IPersonalQuestionPresenter {
         userData = mCache.getAsString(ConstantUtil.CACHE_KEY);
         user = userGson.fromJson(userData, User.class);
         authToken = user.getAuthToken();
-
+        LogUtil.d("PersonalQuestionP:authToken:",authToken+"");
         Call<ArrayList<MyPersonalQuestion>> call = RetrofitUtil.getRetrofit().create(IPersonalQuestion.class).getMessage(authToken);
         call.enqueue(new Callback<ArrayList<MyPersonalQuestion>>() {
             @Override
@@ -120,7 +121,7 @@ public class PersonalQuestionPresenter implements IPersonalQuestionPresenter {
 
                     //请求成功之后做的操作
                     //通知主线程重新加载数据
-                    LogUtil.d("PersonalQeustion", "4、请求成功，已经保存好数据，通知主线程重新拿数据，更新页面");
+                    LogUtil.d("PersonalQeustion", "4、请求成功，已经保存好数据，通知主线程重新拿数据，更新页面"+mQuestionsList.get(0).getTitle());
                     handler.sendEmptyMessage(ConstantUtil.GET_NET_DATA);
                     iPersonalQuestionFragment.closeRefresh();
                 }

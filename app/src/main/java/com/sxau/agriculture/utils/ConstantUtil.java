@@ -27,6 +27,10 @@ public class ConstantUtil {
     public static final String CACHE_PERSONALCOLLECTQUESTIION_KEY = "Cache_PersonalCollectQuestionList";
     //我的问题的缓存文件名
     public static final String CACHE_PERSONALQUESTION_KEY = "Cache_PersonalQuestionList";
+    //我的交易的缓存文件名
+    public static final String CACHE_PERSONALTRADES_KEY = "Cache_PersonalTradesList";
+    //个人信息缓存文件名
+    public static final String CACHE_PERSONALUSER_KEY = "Cache_PersonalUserList";
     //============================整形常量的定义===================================
     //下拉刷新的时间
     public static final int PULL_TIME = 3000;

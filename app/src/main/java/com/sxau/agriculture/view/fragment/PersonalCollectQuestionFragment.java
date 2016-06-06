@@ -12,32 +12,19 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.google.gson.JsonArray;
 import com.sxau.agriculture.adapter.PersonalCollectQuestionAdapter;
-import com.sxau.agriculture.adapter.PersonalQuestionAdapter;
 import com.sxau.agriculture.agriculture.R;
-import com.sxau.agriculture.api.IPersonalCollectQuestion;
-import com.sxau.agriculture.api.IPersonalQuestion;
 import com.sxau.agriculture.bean.MyPersonalCollectionQuestion;
-import com.sxau.agriculture.bean.MyPersonalQuestion;
-import com.sxau.agriculture.presenter.fragment_presenter.PersonalCollectionPresenter;
+import com.sxau.agriculture.presenter.fragment_presenter.PersonalCollectionQuestionsPresenter;
 import com.sxau.agriculture.presenter.fragment_presenter_interface.IPersonalCollectQuestionPresenter;
 import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.LogUtil;
-import com.sxau.agriculture.utils.RetrofitUtil;
 import com.sxau.agriculture.view.activity.DetailQuestion;
 import com.sxau.agriculture.view.fragment_interface.IPresonalCollectQuestionFragment;
 import com.sxau.agriculture.widgets.RefreshLayout;
 
-import org.json.JSONArray;
-
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-
-import retrofit.Call;
-import retrofit.Callback;
-import retrofit.Response;
-import retrofit.Retrofit;
 
 /**
  * 个人中心我收藏的问题的listView的fragment
@@ -55,7 +42,7 @@ public class PersonalCollectQuestionFragment  extends BaseFragment implements IP
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         myHandler = new MyHandler(PersonalCollectQuestionFragment.this);
         //将Fragment对象与Presenter对象绑定
-        iPersonalCollectQuestionPresenter = new PersonalCollectionPresenter(PersonalCollectQuestionFragment.this,PersonalCollectQuestionFragment.this.getContext(),myHandler);
+        iPersonalCollectQuestionPresenter = new PersonalCollectionQuestionsPresenter(PersonalCollectQuestionFragment.this,PersonalCollectQuestionFragment.this.getContext(),myHandler);
 
         View myQuestionView = inflater.inflate(R.layout.frament_personal_myquestion, null);
         rl_refresh = (RefreshLayout) myQuestionView.findViewById(R.id.srl_refresh);

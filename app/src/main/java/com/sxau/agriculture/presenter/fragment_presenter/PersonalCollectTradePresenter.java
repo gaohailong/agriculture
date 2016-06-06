@@ -2,15 +2,12 @@ package com.sxau.agriculture.presenter.fragment_presenter;
 
 import android.content.Context;
 import android.os.Handler;
-import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 
-
-import com.lidroid.xutils.DbUtils;
-import com.lidroid.xutils.exception.DbException;
+import com.google.gson.Gson;
 import com.sxau.agriculture.AgricultureApplication;
 import com.sxau.agriculture.api.IPersonalCollectTrades;
 import com.sxau.agriculture.bean.MyPersonalCollectTrades;
+import com.sxau.agriculture.bean.User;
 import com.sxau.agriculture.presenter.fragment_presenter_interface.IPersonalCollectTradePresenter;
 import com.sxau.agriculture.utils.ACache;
 import com.sxau.agriculture.utils.ConstantUtil;
@@ -40,12 +37,13 @@ public class PersonalCollectTradePresenter implements IPersonalCollectTradePrese
     private Handler handler;
     private MyPersonalCollectTrades myPersonalCollectTrades;
     private ACache mCache;
+    private String authToken;
 
     public PersonalCollectTradePresenter(IPersonalCollectTradeFragment iPersonalCollectTradeFragment, Context context, PersonalCollectTradeFragment.Myhandler myhandler) {
         this.iPersonalCollectTradeFragment = iPersonalCollectTradeFragment;
         this.context = context;
         this.handler = myhandler;
-        this.mCache = ACache.get(context);
+        //this.mCache = ACache.get(context);
     }
 
     //-----------------接口方法-----------------
@@ -58,6 +56,7 @@ public class PersonalCollectTradePresenter implements IPersonalCollectTradePrese
     public ArrayList<MyPersonalCollectTrades> getDatas() {
         myCollectTradeslsit = new ArrayList<MyPersonalCollectTrades>();
         myPersonalCollectTrades = new MyPersonalCollectTrades();
+        mCache = ACache.get(context);
         List<MyPersonalCollectTrades> tradesList = new ArrayList<MyPersonalCollectTrades>();
         tradesList = (List<MyPersonalCollectTrades>) mCache.getAsObject(ConstantUtil.CACHE_PERSONALCOLLECTTRADE_KEY);
 
@@ -78,7 +77,14 @@ public class PersonalCollectTradePresenter implements IPersonalCollectTradePrese
 
     @Override
     public void doRequest() {
-        Call<ArrayList<MyPersonalCollectTrades>> call = RetrofitUtil.getRetrofit().create(IPersonalCollectTrades.class).getMessage();
+        Gson userGson = new Gson();
+        User user = new User();
+
+        String userData = new String();
+        userData = mCache.getAsString(ConstantUtil.CACHE_KEY);
+        user = userGson.fromJson(userData, User.class);
+        authToken = user.getAuthToken();
+        Call<ArrayList<MyPersonalCollectTrades>> call = RetrofitUtil.getRetrofit().create(IPersonalCollectTrades.class).getMessage(authToken);
         call.enqueue(new Callback<ArrayList<MyPersonalCollectTrades>>() {
             @Override
             public void onResponse(Response<ArrayList<MyPersonalCollectTrades>> response, Retrofit retrofit) {

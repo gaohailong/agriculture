@@ -1,62 +1,65 @@
 package com.sxau.agriculture.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by Administrator on 2016/4/9.
  */
-public class TradeData {
+public class TradeData implements Serializable{
+
 
     /**
-     * id : 18
-     * whenCreated : 1464091024000
-     * whenUpdated : 1464091024000
-     * title : 测试交供应0001
-     * description : 测试交易供应0001
-     * user : {"id":1,"whenCreated":1463621389000,"whenUpdated":1464090854000,"userType":"PUBLIC","address":null,"name":"guodont","avatar":null,"industry":null,"scale":null}
+     * id : 0
+     * title : string
+     * description : string
+     * tradeType : string
+     * tradeState : string
      * clickCount : 0
      * likeCount : 0
-     * endTime : null
-     * tradeType : SUPPLY
-     * category : {"id":2,"whenCreated":1463620016000,"whenUpdated":1463620016000,"pid":1,"name":"科技前沿","categoryType":"ARTICLE","image":"images/test.png","sort":255}
-     * tradeState : WAIT_AUDITED
-     * images : image
+     * endTime : 0
+     * images : string
+     * whenCreated : 0
+     * whenUpdated : 0
+     * user : {"id":0,"name":"string","address":"string","avatar":"string","industry":"string","scale":"string","userType":"string","whenCreated":0,"whenUpdated":0}
+     * category : {"id":0,"pid":0,"name":"string","categoryType":"string","image":"string","sort":0,"whenCreated":0,"whenUpdated":0}
      */
 
     private int id;
-    private long whenCreated;
-    private long whenUpdated;
     private String title;
     private String description;
+    private String tradeType;
+    private String tradeState;
+    private int clickCount;
+    private int likeCount;
+    private int endTime;
+    private String images;
+    private int whenCreated;
+    private int whenUpdated;
     /**
-     * id : 1
-     * whenCreated : 1463621389000
-     * whenUpdated : 1464090854000
-     * userType : PUBLIC
-     * address : null
-     * name : guodont
-     * avatar : null
-     * industry : null
-     * scale : null
+     * id : 0
+     * name : string
+     * address : string
+     * avatar : string
+     * industry : string
+     * scale : string
+     * userType : string
+     * whenCreated : 0
+     * whenUpdated : 0
      */
 
     private UserBean user;
-    private int clickCount;
-    private int likeCount;
-    private Object endTime;
-    private String tradeType;
     /**
-     * id : 2
-     * whenCreated : 1463620016000
-     * whenUpdated : 1463620016000
-     * pid : 1
-     * name : 科技前沿
-     * categoryType : ARTICLE
-     * image : images/test.png
-     * sort : 255
+     * id : 0
+     * pid : 0
+     * name : string
+     * categoryType : string
+     * image : string
+     * sort : 0
+     * whenCreated : 0
+     * whenUpdated : 0
      */
 
     private CategoryBean category;
-    private String tradeState;
-    private String images;
 
     public int getId() {
         return id;
@@ -64,22 +67,6 @@ public class TradeData {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public long getWhenCreated() {
-        return whenCreated;
-    }
-
-    public void setWhenCreated(long whenCreated) {
-        this.whenCreated = whenCreated;
-    }
-
-    public long getWhenUpdated() {
-        return whenUpdated;
-    }
-
-    public void setWhenUpdated(long whenUpdated) {
-        this.whenUpdated = whenUpdated;
     }
 
     public String getTitle() {
@@ -98,12 +85,20 @@ public class TradeData {
         this.description = description;
     }
 
-    public UserBean getUser() {
-        return user;
+    public String getTradeType() {
+        return tradeType;
     }
 
-    public void setUser(UserBean user) {
-        this.user = user;
+    public void setTradeType(String tradeType) {
+        this.tradeType = tradeType;
+    }
+
+    public String getTradeState() {
+        return tradeState;
+    }
+
+    public void setTradeState(String tradeState) {
+        this.tradeState = tradeState;
     }
 
     public int getClickCount() {
@@ -122,36 +117,12 @@ public class TradeData {
         this.likeCount = likeCount;
     }
 
-    public Object getEndTime() {
+    public int getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(Object endTime) {
+    public void setEndTime(int endTime) {
         this.endTime = endTime;
-    }
-
-    public String getTradeType() {
-        return tradeType;
-    }
-
-    public void setTradeType(String tradeType) {
-        this.tradeType = tradeType;
-    }
-
-    public CategoryBean getCategory() {
-        return category;
-    }
-
-    public void setCategory(CategoryBean category) {
-        this.category = category;
-    }
-
-    public String getTradeState() {
-        return tradeState;
-    }
-
-    public void setTradeState(String tradeState) {
-        this.tradeState = tradeState;
     }
 
     public String getImages() {
@@ -162,16 +133,48 @@ public class TradeData {
         this.images = images;
     }
 
-    public static class UserBean {
+    public int getWhenCreated() {
+        return whenCreated;
+    }
+
+    public void setWhenCreated(int whenCreated) {
+        this.whenCreated = whenCreated;
+    }
+
+    public int getWhenUpdated() {
+        return whenUpdated;
+    }
+
+    public void setWhenUpdated(int whenUpdated) {
+        this.whenUpdated = whenUpdated;
+    }
+
+    public UserBean getUser() {
+        return user;
+    }
+
+    public void setUser(UserBean user) {
+        this.user = user;
+    }
+
+    public CategoryBean getCategory() {
+        return category;
+    }
+
+    public void setCategory(CategoryBean category) {
+        this.category = category;
+    }
+
+    public static class UserBean implements Serializable{
         private int id;
-        private long whenCreated;
-        private long whenUpdated;
-        private String userType;
-        private Object address;
         private String name;
-        private Object avatar;
-        private Object industry;
-        private Object scale;
+        private String address;
+        private String avatar;
+        private String industry;
+        private String scale;
+        private String userType;
+        private int whenCreated;
+        private int whenUpdated;
 
         public int getId() {
             return id;
@@ -179,38 +182,6 @@ public class TradeData {
 
         public void setId(int id) {
             this.id = id;
-        }
-
-        public long getWhenCreated() {
-            return whenCreated;
-        }
-
-        public void setWhenCreated(long whenCreated) {
-            this.whenCreated = whenCreated;
-        }
-
-        public long getWhenUpdated() {
-            return whenUpdated;
-        }
-
-        public void setWhenUpdated(long whenUpdated) {
-            this.whenUpdated = whenUpdated;
-        }
-
-        public String getUserType() {
-            return userType;
-        }
-
-        public void setUserType(String userType) {
-            this.userType = userType;
-        }
-
-        public Object getAddress() {
-            return address;
-        }
-
-        public void setAddress(Object address) {
-            this.address = address;
         }
 
         public String getName() {
@@ -221,40 +192,72 @@ public class TradeData {
             this.name = name;
         }
 
-        public Object getAvatar() {
+        public String getAddress() {
+            return address;
+        }
+
+        public void setAddress(String address) {
+            this.address = address;
+        }
+
+        public String getAvatar() {
             return avatar;
         }
 
-        public void setAvatar(Object avatar) {
+        public void setAvatar(String avatar) {
             this.avatar = avatar;
         }
 
-        public Object getIndustry() {
+        public String getIndustry() {
             return industry;
         }
 
-        public void setIndustry(Object industry) {
+        public void setIndustry(String industry) {
             this.industry = industry;
         }
 
-        public Object getScale() {
+        public String getScale() {
             return scale;
         }
 
-        public void setScale(Object scale) {
+        public void setScale(String scale) {
             this.scale = scale;
+        }
+
+        public String getUserType() {
+            return userType;
+        }
+
+        public void setUserType(String userType) {
+            this.userType = userType;
+        }
+
+        public int getWhenCreated() {
+            return whenCreated;
+        }
+
+        public void setWhenCreated(int whenCreated) {
+            this.whenCreated = whenCreated;
+        }
+
+        public int getWhenUpdated() {
+            return whenUpdated;
+        }
+
+        public void setWhenUpdated(int whenUpdated) {
+            this.whenUpdated = whenUpdated;
         }
     }
 
-    public static class CategoryBean {
+    public static class CategoryBean implements Serializable{
         private int id;
-        private long whenCreated;
-        private long whenUpdated;
         private int pid;
         private String name;
         private String categoryType;
         private String image;
         private int sort;
+        private int whenCreated;
+        private int whenUpdated;
 
         public int getId() {
             return id;
@@ -262,22 +265,6 @@ public class TradeData {
 
         public void setId(int id) {
             this.id = id;
-        }
-
-        public long getWhenCreated() {
-            return whenCreated;
-        }
-
-        public void setWhenCreated(long whenCreated) {
-            this.whenCreated = whenCreated;
-        }
-
-        public long getWhenUpdated() {
-            return whenUpdated;
-        }
-
-        public void setWhenUpdated(long whenUpdated) {
-            this.whenUpdated = whenUpdated;
         }
 
         public int getPid() {
@@ -318,6 +305,22 @@ public class TradeData {
 
         public void setSort(int sort) {
             this.sort = sort;
+        }
+
+        public int getWhenCreated() {
+            return whenCreated;
+        }
+
+        public void setWhenCreated(int whenCreated) {
+            this.whenCreated = whenCreated;
+        }
+
+        public int getWhenUpdated() {
+            return whenUpdated;
+        }
+
+        public void setWhenUpdated(int whenUpdated) {
+            this.whenUpdated = whenUpdated;
         }
     }
 }

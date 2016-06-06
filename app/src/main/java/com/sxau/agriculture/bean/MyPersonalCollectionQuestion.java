@@ -1,42 +1,42 @@
 package com.sxau.agriculture.bean;
 
-import java.util.List;
+import java.io.Serializable;
 
 /**
  * Created by Administrator on 2016/6/1.
  */
-public class MyPersonalCollectionQuestion {
-
+public class MyPersonalCollectionQuestion implements Serializable {
 
     /**
-     * id : 11
-     * whenCreated : 1464943221000
-     * whenUpdated : 1464943221000
-     * category : {"id":15,"whenCreated":1463620310000,"whenUpdated":1463620310000,"pid":0,"name":"特色农业","categoryType":"ARTICLE","image":"images/test.png","sort":255}
-     * title : 测试问题0ooo
-     * content : 测试问题0ooo测试问题0ooo测试问题0ooo测试问题0ooo测试问题0ooo
-     * clickCount : 0
-     * likeCount : 0
+     * id : 24
+     * whenCreated : 1465214682000
+     * whenUpdated : 1465217176000
+     * category : {"id":24,"whenCreated":1465196118000,"whenUpdated":1465196118000,"pid":0,"name":"农产加工","categoryType":"ARTICLE","image":"null","sort":8}
+     * title : yuze个人中心测试发布的问题0001
+     * content : yuze个人中心测试发布的问题0001
+     * clickCount : 22
+     * likeCount : 1
      * expert : null
-     * user : {"id":1,"whenCreated":1463621389000,"whenUpdated":1464974905000,"userType":"PUBLIC","address":null,"name":"guodont","avatar":null,"industry":null,"scale":null}
+     * user : {"id":6,"whenCreated":1465212843000,"whenUpdated":1465219196000,"email":null,"userType":"PUBLIC","address":"shanxiyuci","realName":"libinglong","phone":"13133443006","name":"yuzestar","avatar":null,"industry":"huahui","scale":"dachangye","lastIp":"60.223.239.6"}
      * questionAuditState : WAIT_AUDITED
      * questionResolveState : WAIT_RESOLVE
      * images :
-     * answers : []
+     * answer : null
+     * fav : false
      */
 
     private int id;
     private long whenCreated;
     private long whenUpdated;
     /**
-     * id : 15
-     * whenCreated : 1463620310000
-     * whenUpdated : 1463620310000
+     * id : 24
+     * whenCreated : 1465196118000
+     * whenUpdated : 1465196118000
      * pid : 0
-     * name : 特色农业
+     * name : 农产加工
      * categoryType : ARTICLE
-     * image : images/test.png
-     * sort : 255
+     * image : null
+     * sort : 8
      */
 
     private CategoryBean category;
@@ -46,22 +46,27 @@ public class MyPersonalCollectionQuestion {
     private int likeCount;
     private Object expert;
     /**
-     * id : 1
-     * whenCreated : 1463621389000
-     * whenUpdated : 1464974905000
+     * id : 6
+     * whenCreated : 1465212843000
+     * whenUpdated : 1465219196000
+     * email : null
      * userType : PUBLIC
-     * address : null
-     * name : guodont
+     * address : shanxiyuci
+     * realName : libinglong
+     * phone : 13133443006
+     * name : yuzestar
      * avatar : null
-     * industry : null
-     * scale : null
+     * industry : huahui
+     * scale : dachangye
+     * lastIp : 60.223.239.6
      */
 
     private UserBean user;
     private String questionAuditState;
     private String questionResolveState;
     private String images;
-    private List<?> answers;
+    private String answer;
+    private boolean fav;
 
     public int getId() {
         return id;
@@ -167,12 +172,20 @@ public class MyPersonalCollectionQuestion {
         this.images = images;
     }
 
-    public List<?> getAnswers() {
-        return answers;
+    public String getAnswer() {
+        return answer;
     }
 
-    public void setAnswers(List<?> answers) {
-        this.answers = answers;
+    public void setAnswer(String answer) {
+        this.answer = answer;
+    }
+
+    public boolean isFav() {
+        return fav;
+    }
+
+    public void setFav(boolean fav) {
+        this.fav = fav;
     }
 
     public static class CategoryBean {
@@ -254,12 +267,16 @@ public class MyPersonalCollectionQuestion {
         private int id;
         private long whenCreated;
         private long whenUpdated;
+        private Object email;
         private String userType;
-        private Object address;
+        private String address;
+        private String realName;
+        private String phone;
         private String name;
-        private Object avatar;
-        private Object industry;
-        private Object scale;
+        private String avatar;
+        private String industry;
+        private String scale;
+        private String lastIp;
 
         public int getId() {
             return id;
@@ -285,6 +302,14 @@ public class MyPersonalCollectionQuestion {
             this.whenUpdated = whenUpdated;
         }
 
+        public Object getEmail() {
+            return email;
+        }
+
+        public void setEmail(Object email) {
+            this.email = email;
+        }
+
         public String getUserType() {
             return userType;
         }
@@ -293,12 +318,28 @@ public class MyPersonalCollectionQuestion {
             this.userType = userType;
         }
 
-        public Object getAddress() {
+        public String getAddress() {
             return address;
         }
 
-        public void setAddress(Object address) {
+        public void setAddress(String address) {
             this.address = address;
+        }
+
+        public String getRealName() {
+            return realName;
+        }
+
+        public void setRealName(String realName) {
+            this.realName = realName;
+        }
+
+        public String getPhone() {
+            return phone;
+        }
+
+        public void setPhone(String phone) {
+            this.phone = phone;
         }
 
         public String getName() {
@@ -309,28 +350,36 @@ public class MyPersonalCollectionQuestion {
             this.name = name;
         }
 
-        public Object getAvatar() {
+        public String getAvatar() {
             return avatar;
         }
 
-        public void setAvatar(Object avatar) {
+        public void setAvatar(String avatar) {
             this.avatar = avatar;
         }
 
-        public Object getIndustry() {
+        public String getIndustry() {
             return industry;
         }
 
-        public void setIndustry(Object industry) {
+        public void setIndustry(String industry) {
             this.industry = industry;
         }
 
-        public Object getScale() {
+        public String getScale() {
             return scale;
         }
 
-        public void setScale(Object scale) {
+        public void setScale(String scale) {
             this.scale = scale;
+        }
+
+        public String getLastIp() {
+            return lastIp;
+        }
+
+        public void setLastIp(String lastIp) {
+            this.lastIp = lastIp;
         }
     }
 }

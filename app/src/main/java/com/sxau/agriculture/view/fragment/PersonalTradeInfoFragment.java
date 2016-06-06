@@ -67,14 +67,14 @@ public class PersonalTradeInfoFragment extends BaseFragment implements IPersonal
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initRefresh();
         initListView();
     }
 
     private void initListView() {
-        LogUtil.d("PersonalQuestion", "1、初始化View，获取数据");
+        LogUtil.d("PersonalTrade", "1、初始化View，获取数据");
         myTradesList = iPersonalTradeInfoPresenter.getDate();
         if (myTradesList.isEmpty()){
 
@@ -85,19 +85,20 @@ public class PersonalTradeInfoFragment extends BaseFragment implements IPersonal
             emptyView.setVisibility(View.GONE);
             adapter = new PersonalTradeInfoAdapter(PersonalTradeInfoFragment.this.getActivity(),myTradesList);
             listView.setAdapter(adapter);
-            LogUtil.d("PersonalQuestion", "2、有数据初始化View");
-            listView.setOnClickListener(new View.OnClickListener() {
+            LogUtil.d("PersonalTrade", "2、有数据初始化View");
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
-                public void onClick(View v) {
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     TradeContentActivity.actionStart(PersonalTradeInfoFragment.this.getActivity());
                 }
-            });
-            if (iPersonalTradeInfoPresenter.isNetAvailable()){
-                iPersonalTradeInfoPresenter.doRequest();
-                LogUtil.d("PersonalQuestion", "3、发起请求，请求数据");
-            }else {
-                showNoNetworking();
-            }
+            } );
+
+        }
+        if (iPersonalTradeInfoPresenter.isNetAvailable()){
+            iPersonalTradeInfoPresenter.doRequest();
+            LogUtil.d("PersonalTrade", "3、发起请求，请求数据");
+        }else {
+            showNoNetworking();
         }
 
     }
@@ -125,6 +126,7 @@ public class PersonalTradeInfoFragment extends BaseFragment implements IPersonal
             super.handleMessage(msg);
             switch (msg.what){
                 case ConstantUtil.GET_NET_DATA:
+                    LogUtil.d("PersonalTrade", "5、收到通知，数据已经更新，拿数据，更新页面，执行updateView方法");
                     myTradesList = iPersonalTradeInfoPresenter.getDate();
                     updateView(myTradesList);
                     break;
