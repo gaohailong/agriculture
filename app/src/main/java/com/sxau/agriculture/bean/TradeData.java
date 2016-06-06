@@ -28,11 +28,11 @@ public class TradeData implements Serializable{
     private String title;
     private String description;
     private String tradeType;
-    private String tradeState;
+
     private int clickCount;
     private int likeCount;
     private int endTime;
-    private String images;
+
     private int whenCreated;
     private int whenUpdated;
     /**
@@ -60,6 +60,15 @@ public class TradeData implements Serializable{
      */
 
     private CategoryBean category;
+
+    private String tradeState;
+    private String images;
+    /**
+     * fav : false
+     */
+
+    private boolean fav;
+
 
     public int getId() {
         return id;
@@ -164,6 +173,15 @@ public class TradeData implements Serializable{
     public void setCategory(CategoryBean category) {
         this.category = category;
     }
+
+    public boolean isFav() {
+        return fav;
+    }
+
+    public void setFav(boolean fav) {
+        this.fav = fav;
+    }
+
 
     public static class UserBean implements Serializable{
         private int id;

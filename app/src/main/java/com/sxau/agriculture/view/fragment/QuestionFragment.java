@@ -46,6 +46,8 @@ public class QuestionFragment extends BaseFragment implements View.OnClickListen
     private ArrayList<CategorieData> categorieDatas;
     private MyHandler myHandler;
     private int categorieId;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
 
     private FragmentPagerItems.Creator creater;//对标题的动态添加
 
@@ -61,7 +63,9 @@ public class QuestionFragment extends BaseFragment implements View.OnClickListen
         categorieDatas=new ArrayList<>();
         context=QuestionFragment.this.getActivity();
         list =new ArrayList<>();
-        Log.d("444", categorieId + "");
+
+        sharedPreferences=getActivity().getSharedPreferences("cate",Context.MODE_PRIVATE);
+        editor=sharedPreferences.edit();
 
         list.add("等待加载");
 
@@ -128,6 +132,8 @@ public class QuestionFragment extends BaseFragment implements View.OnClickListen
                         list.clear();
                         getCategorieInfo();
                         categorieId = categorieDatas.get(0).getId();
+                        editor.putInt("cateId",categorieId);
+                        editor.commit();
                         Log.d("333", categorieId + "");
                     }
                 }
@@ -163,9 +169,9 @@ public class QuestionFragment extends BaseFragment implements View.OnClickListen
     }
 
     public void pushCategorieId(int id){
-        SharedPreferences sharedPreferences=getActivity().getSharedPreferences("cate",Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor=sharedPreferences.edit();
+
         editor.putInt("cateId",id);
+        Log.d("444", id+"");
         editor.commit();
     }
 
