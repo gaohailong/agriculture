@@ -62,7 +62,6 @@ public class QuestionAdapter extends BaseAdapter implements View.OnClickListener
             holder.ll_fav_background  = (LinearLayout) convertView.findViewById(R.id.ll_fav_background);
             holder.v_left = convertView.findViewById(R.id.v_left);
             convertView.setTag(holder);
-
         }else {
             holder = (ViewHolder) convertView.getTag();
         }

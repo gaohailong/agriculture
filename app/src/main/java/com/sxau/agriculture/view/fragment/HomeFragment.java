@@ -267,7 +267,7 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
                     if (homeArticles1.size() < Integer.parseInt(ConstantUtil.ITEM_NUMBER)) {
                         isLoadOver = true;
                     }
-                    myHandler.sendEmptyMessage(ConstantUtil.GET_NET_DATA);
+
                 }
             }
 
@@ -313,7 +313,10 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
 
             @Override
             public void onFailure(Throwable t) {
-
+                imagePath.clear();
+                imagePath.add("error");
+                imagePath.add("error");
+                fl_adv.setVisibility(View.GONE);
             }
         });
     }
