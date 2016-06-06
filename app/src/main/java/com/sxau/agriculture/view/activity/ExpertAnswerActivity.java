@@ -31,9 +31,8 @@ public class ExpertAnswerActivity extends BaseActivity implements View.OnClickLi
     private Button bt_submit;
     private TopBarUtil topBarUtil;
 
-    private String updateQuestion;//更新问题
+    private String getQuestion;
     private int id;
-
     private IExpertAnswerPresenter iExpertAnswerPresenter;
 
     @Override
@@ -73,9 +72,9 @@ public class ExpertAnswerActivity extends BaseActivity implements View.OnClickLi
         bt_submit.setOnClickListener(this);
 
         Intent intent = getIntent();
-        updateQuestion = intent.getStringExtra("question");
+        getQuestion = intent.getStringExtra("question");
         this.id = intent.getIntExtra("id", 0);
-        tv_question.setText(updateQuestion);//更新问题
+        tv_question.setText(getQuestion);
     }
 
     public static void actionStart(Context context, String question, int id) {

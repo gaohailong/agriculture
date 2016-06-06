@@ -106,6 +106,7 @@ public class PersonalQuestionPresenter implements IPersonalQuestionPresenter {
             @Override
             public void onResponse(Response<ArrayList<MyPersonalQuestion>> response, Retrofit retrofit) {
                 LogUtil.d("PersonalQuestionP", "请求返回Code：" + response.code() + "  请求返回Body：" + response.body() + "  请求返回Message：" + response.message());
+                  Toast.makeText(AgricultureApplication.getContext(), response.code(),Toast.LENGTH_SHORT).show();
                 if (response.isSuccess()) {
                     mQuestionsList = response.body();
                     //保存到缓存中
