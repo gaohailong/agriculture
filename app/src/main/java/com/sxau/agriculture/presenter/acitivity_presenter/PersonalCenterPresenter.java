@@ -34,9 +34,12 @@ public class PersonalCenterPresenter implements IPersonalCenterPresenter {
     private ACache mCache;
     private String authToken;
     private ArrayList<MyPersonalCenter> myPersonalCentersList;
+    private Handler halder;
 
-    public PersonalCenterPresenter(PersonalCenterActivity activity,IPersonalCenterActivity iPersonalCenterActivity) {
-        this.iPersonalCenter = iPersonalCenterActivity;
+
+    public PersonalCenterPresenter(PersonalCenterActivity activity, PersonalCenterActivity.MyHander myHander) {
+        this.iPersonalCenter = activity;
+        this.halder = myHander;
         mCache = ACache.get(activity);
     }
 
@@ -58,7 +61,7 @@ public class PersonalCenterPresenter implements IPersonalCenterPresenter {
 
     @Override
     public boolean isNetAvailable() {
-      return NetUtil.isNetAvailable(AgricultureApplication.getContext());
+       return NetUtil.isNetAvailable(AgricultureApplication.getContext());
     }
 
     @Override

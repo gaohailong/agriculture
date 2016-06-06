@@ -14,6 +14,7 @@ import com.sxau.agriculture.bean.MyPersonalTrade;
 import com.sxau.agriculture.bean.User;
 import com.sxau.agriculture.presenter.fragment_presenter_interface.IPersonalTradeInfoPresenter;
 import com.sxau.agriculture.utils.ACache;
+import com.sxau.agriculture.utils.AuthTokenUtil;
 import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.LogUtil;
 import com.sxau.agriculture.utils.NetUtil;
@@ -82,13 +83,7 @@ public class PersonalTradeInfoPresenter implements IPersonalTradeInfoPresenter {
 
     @Override
     public void doRequest() {
-        Gson userGson = new Gson();
-        User user = new User();
-        ACache aCache = ACache.get(AgricultureApplication.getContext());
-        String userData = new String();
-        userData = aCache.getAsString(ConstantUtil.CACHE_KEY);
-        user = userGson.fromJson(userData, User.class);
-        authToken = user.getAuthToken();
+        authToken = AuthTokenUtil.findAuthToken();
         LogUtil.d("PersonalTrade","准备执行retrofit方法"+authToken);
         Call<ArrayList<MyPersonalTrade>> call=RetrofitUtil.getRetrofit().create(IPersonalTrades.class).getMessage(authToken);
         call.enqueue(new Callback<ArrayList<MyPersonalTrade>>() {

@@ -10,6 +10,7 @@ import com.sxau.agriculture.bean.MyPersonalCollectTrades;
 import com.sxau.agriculture.bean.User;
 import com.sxau.agriculture.presenter.fragment_presenter_interface.IPersonalCollectTradePresenter;
 import com.sxau.agriculture.utils.ACache;
+import com.sxau.agriculture.utils.AuthTokenUtil;
 import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.LogUtil;
 import com.sxau.agriculture.utils.NetUtil;
@@ -77,13 +78,7 @@ public class PersonalCollectTradePresenter implements IPersonalCollectTradePrese
 
     @Override
     public void doRequest() {
-        Gson userGson = new Gson();
-        User user = new User();
-
-        String userData = new String();
-        userData = mCache.getAsString(ConstantUtil.CACHE_KEY);
-        user = userGson.fromJson(userData, User.class);
-        authToken = user.getAuthToken();
+        authToken = AuthTokenUtil.findAuthToken();
         Call<ArrayList<MyPersonalCollectTrades>> call = RetrofitUtil.getRetrofit().create(IPersonalCollectTrades.class).getMessage(authToken);
         call.enqueue(new Callback<ArrayList<MyPersonalCollectTrades>>() {
             @Override

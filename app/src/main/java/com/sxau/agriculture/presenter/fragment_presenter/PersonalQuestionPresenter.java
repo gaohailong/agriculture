@@ -16,6 +16,7 @@ import com.sxau.agriculture.bean.MyPersonalQuestion;
 import com.sxau.agriculture.bean.User;
 import com.sxau.agriculture.presenter.fragment_presenter_interface.IPersonalQuestionPresenter;
 import com.sxau.agriculture.utils.ACache;
+import com.sxau.agriculture.utils.AuthTokenUtil;
 import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.LogUtil;
 import com.sxau.agriculture.utils.NetUtil;
@@ -98,14 +99,7 @@ public class PersonalQuestionPresenter implements IPersonalQuestionPresenter {
      */
     @Override
     public void doRequest() {
-        //获取缓存中的authToken，添加到请求header中
-        Gson userGson = new Gson();
-        User user = new User();
-
-        String userData = new String();
-        userData = mCache.getAsString(ConstantUtil.CACHE_KEY);
-        user = userGson.fromJson(userData, User.class);
-        authToken = user.getAuthToken();
+        authToken = AuthTokenUtil.findAuthToken();
         LogUtil.d("PersonalQuestionP:authToken:",authToken+"");
         Call<ArrayList<MyPersonalQuestion>> call = RetrofitUtil.getRetrofit().create(IPersonalQuestion.class).getMessage(authToken);
         call.enqueue(new Callback<ArrayList<MyPersonalQuestion>>() {

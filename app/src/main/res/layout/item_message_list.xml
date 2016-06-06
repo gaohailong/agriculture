@@ -101,8 +101,6 @@
                     android:lines="2"
                     android:text="放大镜沙发上看连发三道街发生的法律福建阿萨德理发师傅发动机发达省份克林顿"
                     android:textSize="@dimen/fab_margin" />
-                    android:textSize="@dimen/font_size"
-                    android:text="放大镜沙发上看连发三道街发生的法律福建阿萨德理发师傅发动机发达省份克林顿" />
             </LinearLayout>
 
 

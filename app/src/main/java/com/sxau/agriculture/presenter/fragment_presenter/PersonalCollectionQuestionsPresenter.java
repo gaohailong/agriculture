@@ -13,6 +13,7 @@ import com.sxau.agriculture.bean.MyPersonalCollectionQuestion;
 import com.sxau.agriculture.bean.User;
 import com.sxau.agriculture.presenter.fragment_presenter_interface.IPersonalCollectQuestionPresenter;
 import com.sxau.agriculture.utils.ACache;
+import com.sxau.agriculture.utils.AuthTokenUtil;
 import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.LogUtil;
 import com.sxau.agriculture.utils.NetUtil;
@@ -63,14 +64,7 @@ public class PersonalCollectionQuestionsPresenter implements IPersonalCollectQue
      */
     @Override
     public ArrayList<MyPersonalCollectionQuestion> getDatas() {
-       Log.d("pcqq:","getDates");
-        Gson userGson = new Gson();
-        User user = new User();
-
-        String userData = new String();
-        userData = mCache.getAsString(ConstantUtil.CACHE_KEY);
-        user = userGson.fromJson(userData, User.class);
-        authToken = user.getAuthToken();
+        authToken = AuthTokenUtil.findAuthToken();
         LogUtil.d("PersonalQuestionP:authToken:",authToken+"");
         myCQuestionsList = new ArrayList<MyPersonalCollectionQuestion>();
         myPersonalQuestion = new MyPersonalCollectionQuestion();
@@ -97,10 +91,7 @@ public class PersonalCollectionQuestionsPresenter implements IPersonalCollectQue
         Gson userGson = new Gson();
         User user = new User();
 
-        String userData = new String();
-        userData = mCache.getAsString(ConstantUtil.CACHE_KEY);
-        user = userGson.fromJson(userData, User.class);
-        authToken = user.getAuthToken();
+        authToken = AuthTokenUtil.findAuthToken();
         Log.d("pcqp","doRequest");
         Call<ArrayList<MyPersonalCollectionQuestion>> call = RetrofitUtil.getRetrofit().create(IPersonalCollectQuestion.class).getMessage(authToken);
         call.enqueue(new Callback<ArrayList<MyPersonalCollectionQuestion>>() {
@@ -110,7 +101,7 @@ public class PersonalCollectionQuestionsPresenter implements IPersonalCollectQue
                 if (response.isSuccess()){
                     myCQuestionsList = response.body();
                     Log.d("pcqp","code"+response.code()+"body:"+response.body().toString());
-                    Log.d("pcqp",myCQuestionsList.get(1).getUser().getName());
+//                    Log.d("pcqp",myCQuestionsList.get(1).getUser().getName());
 //                    try {
 //                        dbUtils.deleteAll(MyPersonalCollectionQuestion.class);
 //                        dbUtils.saveAll(myCQuestionsList);
