@@ -9,33 +9,34 @@ import java.util.List;
 public class QuestionData {
 
     /**
-     * id : 10
-     * whenCreated : 1464264153000
-     * whenUpdated : 1464264153000
-     * category : {"id":11,"whenCreated":1463620170000,"whenUpdated":1463620170000,"pid":10,"name":"农作物","categoryType":"ARTICLE","image":"images/test.png","sort":255}
-     * title : 水稻叶子发黄怎么处理？
-     * content : 水稻叶子发黄怎么处理？ 图片是我家水稻的情况，请看看。
+     * id : 5
+     * whenCreated : 1465123399000
+     * whenUpdated : 1465128144000
+     * category : {"id":38,"whenCreated":1465024109000,"whenUpdated":1465024109000,"pid":34,"name":"行业动态","categoryType":"ARTICLE","image":"null","sort":255}
+     * title : 个人中心我的问题测试数据0002
+     * content : 个人中心我的问题测试数据0002个人中心我的问题测试数据0002个人中心我的问题测试数据0002
      * clickCount : 0
      * likeCount : 0
      * expert : null
-     * user : {"id":1,"whenCreated":1463621389000,"whenUpdated":1464861953000,"userType":"PUBLIC","address":null,"name":"guodont","avatar":null,"industry":null,"scale":null}
-     * questionAuditState : WAIT_AUDITED
-     * questionResolveState : WAIT_RESOLVE
-     * images : o_1ajmf2vo97ldoaqnb71mjhqs47.jpg,o_1ajmf38l017u91s1kf9b1afm1ds4c.jpg,
+     * user : {"id":2,"whenCreated":1465029214000,"whenUpdated":1465136188000,"email":"****","userType":"PUBLIC","address":"shanxiyuci","realName":"****","phone":"****","name":"yuzestar\t","avatar":null,"industry":"huahui","scale":"xiaozuofang","lastIp":"****"}
+     * questionAuditState : AUDITED
+     * questionResolveState : RESOLVED
+     * images :
      * answers : []
+     * fav : false
      */
 
     private int id;
     private long whenCreated;
     private long whenUpdated;
     /**
-     * id : 11
-     * whenCreated : 1463620170000
-     * whenUpdated : 1463620170000
-     * pid : 10
-     * name : 农作物
+     * id : 38
+     * whenCreated : 1465024109000
+     * whenUpdated : 1465024109000
+     * pid : 34
+     * name : 行业动态
      * categoryType : ARTICLE
-     * image : images/test.png
+     * image : null
      * sort : 255
      */
 
@@ -46,21 +47,26 @@ public class QuestionData {
     private int likeCount;
     private Object expert;
     /**
-     * id : 1
-     * whenCreated : 1463621389000
-     * whenUpdated : 1464861953000
+     * id : 2
+     * whenCreated : 1465029214000
+     * whenUpdated : 1465136188000
+     * email : ****
      * userType : PUBLIC
-     * address : null
-     * name : guodont
+     * address : shanxiyuci
+     * realName : ****
+     * phone : ****
+     * name : yuzestar
      * avatar : null
-     * industry : null
-     * scale : null
+     * industry : huahui
+     * scale : xiaozuofang
+     * lastIp : ****
      */
 
     private UserBean user;
     private String questionAuditState;
     private String questionResolveState;
     private String images;
+    private boolean fav;
     private List<?> answers;
 
     public int getId() {
@@ -167,6 +173,14 @@ public class QuestionData {
         this.images = images;
     }
 
+    public boolean isFav() {
+        return fav;
+    }
+
+    public void setFav(boolean fav) {
+        this.fav = fav;
+    }
+
     public List<?> getAnswers() {
         return answers;
     }
@@ -254,12 +268,16 @@ public class QuestionData {
         private int id;
         private long whenCreated;
         private long whenUpdated;
+        private String email;
         private String userType;
-        private Object address;
+        private String address;
+        private String realName;
+        private String phone;
         private String name;
         private Object avatar;
-        private Object industry;
-        private Object scale;
+        private String industry;
+        private String scale;
+        private String lastIp;
 
         public int getId() {
             return id;
@@ -285,6 +303,14 @@ public class QuestionData {
             this.whenUpdated = whenUpdated;
         }
 
+        public String getEmail() {
+            return email;
+        }
+
+        public void setEmail(String email) {
+            this.email = email;
+        }
+
         public String getUserType() {
             return userType;
         }
@@ -293,12 +319,28 @@ public class QuestionData {
             this.userType = userType;
         }
 
-        public Object getAddress() {
+        public String getAddress() {
             return address;
         }
 
-        public void setAddress(Object address) {
+        public void setAddress(String address) {
             this.address = address;
+        }
+
+        public String getRealName() {
+            return realName;
+        }
+
+        public void setRealName(String realName) {
+            this.realName = realName;
+        }
+
+        public String getPhone() {
+            return phone;
+        }
+
+        public void setPhone(String phone) {
+            this.phone = phone;
         }
 
         public String getName() {
@@ -317,20 +359,28 @@ public class QuestionData {
             this.avatar = avatar;
         }
 
-        public Object getIndustry() {
+        public String getIndustry() {
             return industry;
         }
 
-        public void setIndustry(Object industry) {
+        public void setIndustry(String industry) {
             this.industry = industry;
         }
 
-        public Object getScale() {
+        public String getScale() {
             return scale;
         }
 
-        public void setScale(Object scale) {
+        public void setScale(String scale) {
             this.scale = scale;
+        }
+
+        public String getLastIp() {
+            return lastIp;
+        }
+
+        public void setLastIp(String lastIp) {
+            this.lastIp = lastIp;
         }
     }
 }

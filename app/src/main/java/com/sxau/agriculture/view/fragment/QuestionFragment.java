@@ -3,9 +3,14 @@ package com.sxau.agriculture.view.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.preference.PreferenceFragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.internal.view.menu.MenuView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +20,18 @@ import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 import com.sxau.agriculture.agriculture.R;
+import com.sxau.agriculture.api.ICategoriesData;
+import com.sxau.agriculture.bean.CategorieData;
+import com.sxau.agriculture.utils.ConstantUtil;
+import com.sxau.agriculture.utils.RetrofitUtil;
 import com.sxau.agriculture.view.activity.AskQuestion;
 
 import java.util.ArrayList;
+
+import retrofit.Call;
+import retrofit.Callback;
+import retrofit.Response;
+import retrofit.Retrofit;
 
 /**
  * 问答页面list的Fragment
@@ -29,6 +43,9 @@ public class QuestionFragment extends BaseFragment implements View.OnClickListen
     public static Button btn_ask;
     private Context context;
     private ArrayList<String> list;
+    private ArrayList<CategorieData> categorieDatas;
+    private MyHandler myHandler;
+    private int categorieId;
 
     private FragmentPagerItems.Creator creater;//对标题的动态添加
 
@@ -39,22 +56,23 @@ public class QuestionFragment extends BaseFragment implements View.OnClickListen
 
         vPager = (ViewPager) mView.findViewById(R.id.vp_question_viewpager);
         btn_ask= (Button) mView.findViewById(R.id.btn_ask);
-        list =new ArrayList<>();
-        context=QuestionFragment.this.getActivity();
-
-        list.add("肥料");
-        list.add("农业");
-        list.add("草业");
-        list.add("产后护理");
-        list.add("郭栋");
-        list.add("高海龙");
-        list.add("ddd");
-        list.add("ppp");
-
-        addData();
-
         btn_ask.setOnClickListener(this);
+        myHandler=new MyHandler();
+        categorieDatas=new ArrayList<>();
+        context=QuestionFragment.this.getActivity();
+        list =new ArrayList<>();
+        Log.d("444", categorieId + "");
+
+        list.add("等待加载");
+
         return mView;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        addData();
+        myHandler.sendEmptyMessage(ConstantUtil.INIT_DATA);
 
     }
 
@@ -73,6 +91,22 @@ public class QuestionFragment extends BaseFragment implements View.OnClickListen
         vPager.setOnPageChangeListener(this);
     }
 
+    public class MyHandler extends Handler{
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case ConstantUtil.INIT_DATA:
+                    getCategorie();
+                    break;
+                case ConstantUtil.GET_NET_DATA:
+                    addData();
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
 
     @Override
     public void onClick(View v) {
@@ -81,6 +115,38 @@ public class QuestionFragment extends BaseFragment implements View.OnClickListen
         startActivity(intent);
     }
 
+    public void getCategorie(){
+        Call<ArrayList<CategorieData>> call= RetrofitUtil.getRetrofit().create(ICategoriesData.class).getCategories();
+        call.enqueue(new Callback<ArrayList<CategorieData>>() {
+            @Override
+            public void onResponse(Response<ArrayList<CategorieData>> response, Retrofit retrofit) {
+                if (response.isSuccess()) {
+                    categorieDatas = response.body();
+                    if (categorieDatas == null || categorieDatas.size() == 0) {
+                        list.add("问题列表");
+                    } else {
+                        list.clear();
+                        getCategorieInfo();
+                        categorieId = categorieDatas.get(0).getId();
+                        Log.d("333", categorieId + "");
+                    }
+                }
+                myHandler.sendEmptyMessage(ConstantUtil.GET_NET_DATA);
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+
+            }
+        });
+    }
+
+
+    public void getCategorieInfo(){
+        for (int i=0;i<categorieDatas.size();i++){
+            list.add(categorieDatas.get(i).getName());
+        }
+    }
 
 
     @Override
@@ -90,7 +156,17 @@ public class QuestionFragment extends BaseFragment implements View.OnClickListen
 
     @Override
     public void onPageSelected(int position) {
+        categorieId=categorieDatas.get(position).getId();
+        Log.d("111", String.valueOf(categorieId));
+        Log.d("222", position+"");
+        pushCategorieId(categorieId);
+    }
 
+    public void pushCategorieId(int id){
+        SharedPreferences sharedPreferences=getActivity().getSharedPreferences("cate",Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor=sharedPreferences.edit();
+        editor.putInt("cateId",id);
+        editor.commit();
     }
 
     @Override

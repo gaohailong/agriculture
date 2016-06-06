@@ -22,6 +22,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="90dp"
+            android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="10dp"
             android:layout_toLeftOf="@+id/ll_right">
@@ -41,8 +42,8 @@
 
                     <com.sxau.agriculture.widgets.RoundImageView
                         android:id="@+id/rv_head"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:scaleType="centerCrop"
                         android:src="@mipmap/img_default_user_portrait_150px" />
 
