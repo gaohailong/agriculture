@@ -40,5 +40,7 @@ public class ConstantUtil {
     public static final int LOAD_MORE = 0x00000005;
     public static final int LOAD_FAIL = 0x00000006;
     public static final int LOAD_OVER = 0x00000007;
+    //启动activity
+    public static final int START_ACTIVITY = 0x00000005;
 
 }
