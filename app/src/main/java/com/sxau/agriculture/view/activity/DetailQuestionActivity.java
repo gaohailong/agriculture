@@ -110,7 +110,7 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
                 }
                 break;
             case R.id.bt_answer:
-                ExpertAnswerActivity.actionStart(DetailQuestionActivity.this, detailQuestionData.getTitle());//有问题,接口返回了多个问题的答案
+                ExpertAnswerActivity.actionStart(DetailQuestionActivity.this, detailQuestionData.getTitle(),detailQuestionData.getId());//有问题,接口返回了多个问题的答案
                 break;
             default:
                 break;

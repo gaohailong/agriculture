@@ -63,4 +63,8 @@ dependencies {
     //推送的依赖
     compile files('libs/jpush-android-2.1.5.jar')
     compile files('libs/Native_Libs2.jar')
+    //七牛云存储依赖
+    compile 'com.qiniu:happy-dns:0.2.3.2'
+    compile 'com.qiniu:qiniu-android-sdk:7.1.+'
+    compile files('libs/android-async-http-1.4.9.jar')
 }

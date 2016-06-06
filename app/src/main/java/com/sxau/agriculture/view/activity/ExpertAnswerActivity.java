@@ -26,12 +26,13 @@ import com.sxau.agriculture.view.activity_interface.IExpertAnswerActivity;
  * @author 李秉龙
  */
 public class ExpertAnswerActivity extends BaseActivity implements View.OnClickListener, IExpertAnswerActivity {
-    private TextView tv_Question;
+    private TextView tv_question;
     private EditText et_answer;
     private Button bt_submit;
     private TopBarUtil topBarUtil;
 
     private String updateQuestion;//更新问题
+    private int id;
 
     private IExpertAnswerPresenter iExpertAnswerPresenter;
 
@@ -47,7 +48,7 @@ public class ExpertAnswerActivity extends BaseActivity implements View.OnClickLi
 
     private void initView() {
         topBarUtil = (TopBarUtil) this.findViewById(R.id.topBarUtil);
-        tv_Question = (TextView) this.findViewById(R.id.tv_question);
+        tv_question = (TextView) this.findViewById(R.id.tv_question);
         bt_submit = (Button) this.findViewById(R.id.bt_submit);
         et_answer = (EditText) this.findViewById(R.id.et_answer);
 
@@ -73,12 +74,14 @@ public class ExpertAnswerActivity extends BaseActivity implements View.OnClickLi
 
         Intent intent = getIntent();
         updateQuestion = intent.getStringExtra("question");
-        tv_Question.setText(updateQuestion);//更新问题
+        this.id = intent.getIntExtra("id", 0);
+        tv_question.setText(updateQuestion);//更新问题
     }
 
-    public static void actionStart(Context context, String question) {
+    public static void actionStart(Context context, String question, int id) {
         Intent intent = new Intent(context, ExpertAnswerActivity.class);
         intent.putExtra("question", question);
+        intent.putExtra("id", id);
         context.startActivity(intent);
     }
 
@@ -102,24 +105,25 @@ public class ExpertAnswerActivity extends BaseActivity implements View.OnClickLi
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(ExpertAnswerActivity.this, et_answer.getText().toString(), Toast.LENGTH_SHORT).show();
+                iExpertAnswerPresenter.submitAnswer();
+//                Toast.makeText(ExpertAnswerActivity.this, et_answer.getText().toString(), Toast.LENGTH_SHORT).show();
                 finish();
             }
         });
         builder.setNegativeButton("取消", null);
         builder.show();
-
     }
+
 //------------------------接口方法-----------------
 
     @Override
-    public int getUrgeState() {
-        return 0;
+    public int getId() {
+        return id;
     }
 
     @Override
-    public int getFavState() {
-        return 0;
+    public String getAnswerContent() {
+        return et_answer.getText().toString();
     }
 //----------------------接口方法结束------------------
 }
