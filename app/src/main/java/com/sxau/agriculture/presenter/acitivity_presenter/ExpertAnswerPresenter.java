@@ -8,9 +8,13 @@ import com.sxau.agriculture.api.IExpertAnswer;
 import com.sxau.agriculture.bean.User;
 import com.sxau.agriculture.presenter.activity_presenter_interface.IExpertAnswerPresenter;
 import com.sxau.agriculture.utils.ACache;
+import com.sxau.agriculture.utils.AuthTokenUtil;
 import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.RetrofitUtil;
 import com.sxau.agriculture.view.activity_interface.IExpertAnswerActivity;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import retrofit.Call;
 import retrofit.Callback;
@@ -33,23 +37,25 @@ public class ExpertAnswerPresenter implements IExpertAnswerPresenter {
     //-----------------接口方法---------------------
     @Override
     public void submitAnswer() {
-        ACache mCache = ACache.get(AgricultureApplication.getContext());
-        String userData = mCache.getAsString(ConstantUtil.CACHE_KEY);
-        Gson gson = new Gson();
-        User user = gson.fromJson(userData, User.class);
-        authToken = user.getAuthToken();
-        Call<String> doAnswer = RetrofitUtil.getRetrofit().create(IExpertAnswer.class).doAnswer(authToken, iExpertAnswerActivity.getId(), iExpertAnswerActivity.getAnswerContent());
+
+        authToken = AuthTokenUtil.findAuthToken();
+
+        Map map = new HashMap();
+        map.put("questionId", iExpertAnswerActivity.getAnswerContent());
+        map.put("content", iExpertAnswerActivity.getId());
+
+        Call<String> doAnswer = RetrofitUtil.getRetrofit().create(IExpertAnswer.class).doAnswer(authToken, (Map) map);
         doAnswer.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Response<String> response, Retrofit retrofit) {
-                if (response.isSuccess()){
-                    Toast.makeText(AgricultureApplication.getContext(),"回答成功!",Toast.LENGTH_SHORT).show();
+                if (response.isSuccess()) {
+                    Toast.makeText(AgricultureApplication.getContext(), "回答成功!", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Throwable t) {
-                Toast.makeText(AgricultureApplication.getContext(),"回答失败!",Toast.LENGTH_SHORT).show();
+                Toast.makeText(AgricultureApplication.getContext(), "回答失败!", Toast.LENGTH_SHORT).show();
             }
         });
     }
