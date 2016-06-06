@@ -40,5 +40,7 @@ public class ConstantUtil {
     public static final int LOAD_MORE = 0x00000005;
     public static final int LOAD_FAIL = 0x00000006;
     public static final int LOAD_OVER = 0x00000007;
+    //获取轮播图网络数据
+    public static final int GET_PICTURE_DATA = 0x00000008;
 
 }

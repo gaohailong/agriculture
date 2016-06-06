@@ -175,7 +175,7 @@ public class QuestionListViewFragment extends BaseFragment implements IQuestionL
                 case ConstantUtil.INIT_DATA:
                     currentPage = 1;
                     if (NetUtil.isNetAvailable(context)) {
-                        getQuestionData(String.valueOf(currentPage), "3", true);
+                        getQuestionData(String.valueOf(currentPage), "3", true,String.valueOf(cateId));
                     } else {
                         try {
                             dbUtil.createTableIfNotExist(QuestionData.class);
@@ -196,13 +196,13 @@ public class QuestionListViewFragment extends BaseFragment implements IQuestionL
                     break;
                 case ConstantUtil.PULL_REFRESH:
                     currentPage = 1;
-                    getQuestionData(String.valueOf(currentPage), "3", true);
+                    getQuestionData(String.valueOf(currentPage), "3", true,String.valueOf(cateId));
                     rl_refresh.setRefreshing(false);
                     RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOAD_MORE);
                     break;
                 case ConstantUtil.UP_LOAD:
                     currentPage++;
-                    getQuestionData(String.valueOf(currentPage), "3", false);
+                    getQuestionData(String.valueOf(currentPage), "3", false,String.valueOf(cateId));
                     rl_refresh.setLoading(false);
                     break;
                 default:
@@ -212,8 +212,9 @@ public class QuestionListViewFragment extends BaseFragment implements IQuestionL
     }
 
     //网络请求方法
-    public void getQuestionData(String page, String pageSize, final boolean isRefresh) {
-        Call<ArrayList<QuestionData>> call = RetrofitUtil.getRetrofit().create(IQuestionList.class).getQuestionList(page, pageSize);
+    public void getQuestionData(String page, String pageSize, final boolean isRefresh,String category) {
+        Log.d("666", category);
+        Call<ArrayList<QuestionData>> call = RetrofitUtil.getRetrofit().create(IQuestionList.class).getQuestionList(page, pageSize,category);
         call.enqueue(new Callback<ArrayList<QuestionData>>() {
             @Override
             public void onResponse(Response<ArrayList<QuestionData>> response, Retrofit retrofit) {
