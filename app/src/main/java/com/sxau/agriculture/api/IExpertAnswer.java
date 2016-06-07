@@ -16,5 +16,4 @@ import retrofit.http.POST;
 public interface IExpertAnswer {
     @POST("question/answer")
     Call<String> doAnswer(@Header("X-AUTH-TOKEN") String token, @Body Map map);
-
 }
