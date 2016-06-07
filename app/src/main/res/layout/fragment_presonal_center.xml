@@ -21,9 +21,10 @@
             android:layout_height="30dip"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
+            android:padding="3dp"
             android:background="#00000000"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_actionbar_back_48px" />
+            android:src="@drawable/ic_richpush_actionbar_back" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -41,7 +42,7 @@
                 android:textSize="30sp" />
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:orientation="horizontal">

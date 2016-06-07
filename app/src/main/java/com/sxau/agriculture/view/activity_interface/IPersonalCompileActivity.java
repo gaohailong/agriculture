@@ -5,7 +5,7 @@ package com.sxau.agriculture.view.activity_interface;
  */
 public interface IPersonalCompileActivity {
     String getHead();
-    String getNickName();
+    String getRealName();
     String getPhone();
     String getUserPosition();
     String getUserType();
