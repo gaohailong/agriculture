@@ -23,7 +23,8 @@ import retrofit.Response;
 import retrofit.Retrofit;
 
 /**
- * Created by Yawen_Li on 2016/4/20.
+ * @author 田帅
+ * 交易界面的p层
  */
 public class TradeListViewPresenter implements ITradeListViewPresenter {
 

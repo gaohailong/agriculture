@@ -23,4 +23,12 @@ public interface ITradeListViewFragment {
      * 数据加载失败
      * */
     void onFailure();
+    /**
+     * toast收藏成功
+     * */
+    void CollectionSuccess();
+    /**
+     * toast收藏失败
+     * */
+    void CollectionFailure();
 }
