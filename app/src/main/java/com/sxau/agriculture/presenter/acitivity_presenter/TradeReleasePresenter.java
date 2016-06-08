@@ -18,6 +18,7 @@ import retrofit.Retrofit;
 
 /**
  * Created by Administrator on 2016/6/4.
+ * @author Yawen_li
  */
 public class TradeReleasePresenter implements ITradeReleasePresenter{
     private ArrayList<CategorieData> responsecategorieDatas=new ArrayList<>();

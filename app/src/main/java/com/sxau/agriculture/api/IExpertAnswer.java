@@ -1,6 +1,11 @@
 package com.sxau.agriculture.api;
 
+import com.google.gson.JsonObject;
+
+import java.util.Map;
+
 import retrofit.Call;
+import retrofit.http.Body;
 import retrofit.http.Field;
 import retrofit.http.Header;
 import retrofit.http.POST;
@@ -12,6 +17,5 @@ import retrofit.http.POST;
  */
 public interface IExpertAnswer {
     @POST("question/answer")
-    Call<String> doAnswer(@Header("X-AUTH-TOKEN") String token, @Field("questionId") int questionId, @Field("content") String content);
-
+    Call<JsonObject> doAnswer(@Header("X-AUTH-TOKEN") String token, @Body Map map);
 }

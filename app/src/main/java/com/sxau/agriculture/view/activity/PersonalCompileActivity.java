@@ -13,6 +13,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,18 +26,32 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.qiniu.android.http.ResponseInfo;
+import com.qiniu.android.storage.UpCompletionHandler;
+import com.qiniu.android.storage.UploadManager;
+import com.qiniu.android.storage.UploadOptions;
+import com.qiniu.android.utils.AsyncRun;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.bean.User;
+import com.sxau.agriculture.qiniu.FileUtilsQiNiu;
+import com.sxau.agriculture.qiniu.QiniuLabConfig;
 import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.LogUtil;
 import com.sxau.agriculture.widgets.RoundImageView;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.ref.WeakReference;
 
 import com.sxau.agriculture.presenter.acitivity_presenter.PersonalCompilePresenter;
 import com.sxau.agriculture.presenter.activity_presenter_interface.IPersonalCompilePresenter;
 import com.sxau.agriculture.view.activity_interface.IPersonalCompileActivity;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * 修改个人信息Activity
@@ -49,6 +65,9 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
     private TextView tv_PhoneNumber;
     private TextView tv_UserAddress;
     private TextView tv_UserType;
+    private TextView tv_UserRealName;
+    private TextView tv_UserIndustry;
+    private TextView tv_UserScale;
     private Button btn_finish;
 
     /**
@@ -60,11 +79,11 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
     private File photoFile;
     private Bitmap photoBitmap;
 
-    //编辑个人昵称
-    private String compileNickname;
+    private String compileRealName;
 
     private IPersonalCompilePresenter iPersonalCompilePresenter;
     private Handler handler;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +92,7 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
 
         handler = new MyHandler(PersonalCompileActivity.this);
         //将Activity与Presenter进行绑定
-        iPersonalCompilePresenter = new PersonalCompilePresenter(PersonalCompileActivity.this,PersonalCompileActivity.this,handler);
+        iPersonalCompilePresenter = new PersonalCompilePresenter(PersonalCompileActivity.this, PersonalCompileActivity.this, handler);
 
         initView();
     }
@@ -85,6 +104,10 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
         tv_PhoneNumber = (TextView) this.findViewById(R.id.tv_phone_number);
         tv_UserAddress = (TextView) this.findViewById(R.id.tv_user_address);
         tv_UserType = (TextView) this.findViewById(R.id.tv_user_type);
+//        tv_UserIndustry = (TextView) this.findViewById(R.id.tv_industry);
+        tv_UserRealName = (TextView) this.findViewById(R.id.tv_realName);
+//        tv_UserScale = (TextView) this.findViewById(R.id.tv_scale);
+
         btn_finish = (Button) this.findViewById(R.id.btn_finish);
 
         ib_Back.setOnClickListener(this);
@@ -93,6 +116,9 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
         tv_PhoneNumber.setOnClickListener(this);
         tv_UserAddress.setOnClickListener(this);
         tv_UserType.setOnClickListener(this);
+        tv_UserRealName.setOnClickListener(this);
+//        tv_UserScale.setOnClickListener(this);
+//        tv_UserIndustry.setOnClickListener(this);
         btn_finish.setOnClickListener(this);
 
         iPersonalCompilePresenter.requestUserData();
@@ -108,7 +134,7 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
             case R.id.rw_head:
                 showPhotoDialog();
                 break;
-            case R.id.tv_user_nick:
+            case R.id.tv_realName:
                 showCompileDialog();
                 break;
             case R.id.tv_user_address:
@@ -119,6 +145,7 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
                 break;
             case R.id.btn_finish:
                 finish();
+                iPersonalCompilePresenter.doUpdate();
                 break;
             default:
                 break;
@@ -133,16 +160,16 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         //使用xml文件定义视图
 
-        builder.setTitle("编辑昵称：");
+        builder.setTitle("编辑真实姓名：");
         builder.setView(et);
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (et.getText().equals(null)) {
-                    Toast.makeText(PersonalCompileActivity.this, "请输入您的昵称！", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PersonalCompileActivity.this, "请输入信息！", Toast.LENGTH_SHORT).show();
                 } else {
-                    compileNickname = et.getText().toString();
-                    tv_UserNick.setText(compileNickname);
+                    compileRealName = et.getText().toString();
+                    tv_UserRealName.setText(compileRealName);
                 }
             }
         });
@@ -210,14 +237,18 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
             if (!file.exists()) {
                 file.mkdirs();
             }
-            LogUtil.d("PersonalCompileA","文件路径："+file);
-            Toast.makeText(this,"文件路径："+file,Toast.LENGTH_LONG).show();
             photoFile = new File(file, System.currentTimeMillis() + ".jpg");
+
+            Uri photoUri = Uri.fromFile(photoFile);
+//            Toast.makeText(this,"Uri地址："+photoUri,Toast.LENGTH_LONG).show();
+//            FileUtilsQiNiu.getPath(this, photoUri);
+            LogUtil.d("PersonalCompileA","文件路径："+photoUri);
+
             intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
             intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
             startActivityForResult(intent, HEAD_PORTRAIT_CAM);
         } else {
-            LogUtil.d("PersonalCompileA","没SD卡");
+            LogUtil.d("PersonalCompileA", "没SD卡");
             Toast.makeText(this, "请确认已经插入SD卡", Toast.LENGTH_SHORT).show();
         }
     }
@@ -243,13 +274,14 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
 
                     if (data != null) {
                         setPicToView(data);
+                        iPersonalCompilePresenter.setImageUri(photoFile);
                     }
                     break;
             }
         }
-        if(requestCode==1000&&resultCode==1001){
+        if (requestCode == 1000 && resultCode == 1001) {
             String citystr = data.getStringExtra("result");
-            Toast.makeText(this,citystr,Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, citystr, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -295,7 +327,7 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            switch (msg.what){
+            switch (msg.what) {
                 case ConstantUtil.GET_NET_DATA:
                     User user = iPersonalCompilePresenter.getData();
                     updataView(user);
@@ -306,15 +338,17 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
         }
     }
 
-    private void updataView(User user){
+    private void updataView(User user) {
         tv_UserNick.setText(user.getName());
         tv_PhoneNumber.setText(user.getPhone());
-        if ("PUBLIC".equals(user.getUserType())){
+        if ("PUBLIC".equals(user.getUserType())) {
             tv_UserType.setText("普通用户");
-        }else {
+        } else {
             tv_UserType.setText("专家用户");
         }
     }
+
+
 
     //--------------------接口方法--------------------
 
@@ -324,7 +358,7 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
     }
 
     @Override
-    public String getNickName() {
+    public String getRealName() {
         return tv_UserNick.getText().toString();
     }
 

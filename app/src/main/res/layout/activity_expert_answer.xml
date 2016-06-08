@@ -37,13 +37,12 @@
     <EditText
         android:id="@+id/et_answer"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="150dp"
         android:layout_below="@+id/tv_answer"
         android:layout_margin="10dp"
         android:background="@drawable/bg_linear_layout_shape_10_white"
         android:gravity="top"
         android:padding="15px"
-        android:text="fdasfasfsfsafa高房价ad司法解释道发神经开发萨芬将萨科罚金啊师傅ask积分卡发但是"
         android:textSize="20sp" />
 
 
