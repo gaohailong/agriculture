@@ -14,7 +14,6 @@ import com.sxau.agriculture.bean.TradeData;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 信息专区ListView的Adapter
@@ -60,7 +59,7 @@ public class TradeListViewAdapter extends BaseAdapter{
 
         if (convertView == null) {
             LayoutInflater inflater = LayoutInflater.from(context);
-            convertView = inflater.inflate(R.layout.fragment_trade_demand, null);
+            convertView = inflater.inflate(R.layout.item_trade_demand, null);
             holder = new ViewHolder();
             holder.ivHead = (ImageView) convertView.findViewById(R.id.rv_info_head);
             holder.name = (TextView) convertView.findViewById(R.id.tv_demand_name);
