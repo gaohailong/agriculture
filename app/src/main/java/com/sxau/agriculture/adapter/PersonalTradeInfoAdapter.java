@@ -1,6 +1,7 @@
 package com.sxau.agriculture.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,6 +52,7 @@ public class PersonalTradeInfoAdapter extends BaseAdapter {
             LayoutInflater inflater = LayoutInflater.from(context);
             convertView = inflater.inflate(R.layout.items_presonal_mytrade, null);
             holder = new ViewHolder();
+            holder.v_left = convertView.findViewById(R.id.v_left);
             holder.tv_TradeDate = (TextView) convertView.findViewById(R.id.tv_trade_date);
             holder.tv_TradeTitle = (TextView) convertView.findViewById(R.id.tv_trade_title);
             holder.tv_TradeContent = (TextView) convertView.findViewById(R.id.tv_trade_content);
@@ -64,29 +66,30 @@ public class PersonalTradeInfoAdapter extends BaseAdapter {
         holder.tv_TradeDate.setText(TimeUtil.format(myPersonalTrade.getWhenUpdated()));
         holder.tv_TradeTitle.setText(myPersonalTrade.getTitle());
         holder.tv_TradeContent.setText(myPersonalTrade.getDescription());
-    /*    switch (myPersonalTrade.getTradeState()) {
+        switch (myPersonalTrade.getTradeState()) {
             case "WAIT_AUDITED":
                 holder.tv_is_question.setText("待审核");
+                holder.v_left.setBackgroundColor(Color.parseColor("#FF6446"));
                 break;
             case "FAILED":
                 holder.tv_is_question.setText("未通过");
+                holder.v_left.setBackgroundColor(Color.parseColor("#FF6446"));
                 break;
             case "AUDITED":
                 holder.tv_is_question.setText("已通过");
+                holder.v_left.setBackgroundColor(Color.parseColor("#4CAF50"));
                 break;
             default:
                 break;
-        }*/
+        }
         return convertView;
     }
 
     private class ViewHolder {
-        //        ImageView rv_InfoHead;
-//        TextView tv_TradeName;
-//        TextView tv_TradeAddress;
         TextView tv_TradeDate;
         TextView tv_TradeTitle;
         TextView tv_TradeContent;
         TextView tv_is_question;
+        View v_left;
     }
 }

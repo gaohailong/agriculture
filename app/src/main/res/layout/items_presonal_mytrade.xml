@@ -14,10 +14,10 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="100dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginLeft="5dp"
-        android:layout_weight="5"
         android:layout_gravity="center_vertical"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_weight="5"
         android:orientation="vertical">
 
         <TextView
@@ -25,8 +25,8 @@
             android:layout_width="wrap_content"
             android:layout_height="20dp"
             android:layout_gravity="center_vertical"
-            android:text="2016.03.22"
             android:layout_margin="5dp"
+            android:text="2016.03.22"
             android:textSize="@dimen/font_time" />
 
         <TextView
@@ -56,60 +56,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
+        android:layout_marginRight="10dp"
         android:background="@drawable/bg_tv_shape_7"
         android:gravity="center_horizontal"
         android:text="@string/no_daudited"
-        android:layout_marginRight="10dp"
         android:textColor="@color/white" />
-
-    <!-- <LinearLayout
-        android:id="@+id/ll_left"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_weight="2"
-        android:orientation="vertical"
-        android:paddingBottom="5dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="5dp"
-        android:paddingTop="5dp">
-
-        <TextView
-            android:id="@+id/tv_trade_date"
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:gravity="center_vertical"
-            android:text="2016.03.22"
-            android:textSize="@dimen/font_time" />
-
-        <TextView
-            android:id="@+id/tv_trade_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:ellipsize="end"
-            android:lines="1"
-            android:text="收购苹果两万斤收购苹果两万斤收购苹果两万斤收购苹果两万斤"
-            android:textSize="@dimen/font_title" />
-
-        <TextView
-            android:id="@+id/tv_trade_content"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
-            android:ellipsize="end"
-            android:lines="2"
-            android:text="我的他的你的我的他的你的我的他的你的我的他的你的我的他的你的我的他的你的我的他的你的我的他的你的我的他的你的我的他的你的我的他的你的"
-            android:textSize="@dimen/font_size" />
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/tv_is_question"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginRight="10dp"
-        android:background="@drawable/bg_tv_shape_7"
-        android:text="@string/no_daudited"
-        android:textColor="@color/white"
-        android:visibility="visible" />-->
 </LinearLayout>

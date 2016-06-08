@@ -62,7 +62,7 @@ public class PersonalCollectTradesAdapter extends BaseAdapter {
             holder.tv_TradeDate = (TextView) convertView.findViewById(R.id.tv_trade_date);
             holder.tv_TradeTitle = (TextView) convertView.findViewById(R.id.tv_trade_title);
             holder.tv_TradeContent = (TextView) convertView.findViewById(R.id.tv_trade_content);
-//            holder.tv_is_question = (TextView) convertView.findViewById(R.id.tv_is_question);
+            holder.tv_is_question = (TextView) convertView.findViewById(R.id.tv_is_question);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -72,7 +72,7 @@ public class PersonalCollectTradesAdapter extends BaseAdapter {
         holder.tv_TradeDate.setText(TimeUtil.format(myPersonalCollectTrades.getUser().getWhenUpdated()));
         holder.tv_TradeTitle.setText(myPersonalCollectTrades.getTrade().getTitle());
         holder.tv_TradeContent.setText(myPersonalCollectTrades.getTrade().getDescription());
-   /*     switch (myPersonalCollectTrades.getTrade().getTradeState()) {
+        switch (myPersonalCollectTrades.getTrade().getTradeState()) {
             case "WAIT_AUDITED":
                 holder.tv_is_question.setText("待审核");
                 holder.v_left.setBackgroundColor(Color.parseColor("#FF6446"));
@@ -87,7 +87,7 @@ public class PersonalCollectTradesAdapter extends BaseAdapter {
                 break;
             default:
                 break;
-        }*/
+        }
         return convertView;
     }
 
@@ -95,7 +95,7 @@ public class PersonalCollectTradesAdapter extends BaseAdapter {
         TextView tv_TradeDate;
         TextView tv_TradeTitle;
         TextView tv_TradeContent;
-//        TextView tv_is_question;
+        TextView tv_is_question;
         View v_left;
     }
 }
