@@ -100,13 +100,13 @@ public class PersonalQuestionPresenter implements IPersonalQuestionPresenter {
     @Override
     public void doRequest() {
         authToken = AuthTokenUtil.findAuthToken();
-        LogUtil.d("PersonalQuestionP:authToken:",authToken+"");
+        LogUtil.d("PersonalQuestionP:authToken:", authToken + "");
         Call<ArrayList<MyPersonalQuestion>> call = RetrofitUtil.getRetrofit().create(IPersonalQuestion.class).getMessage(authToken);
         call.enqueue(new Callback<ArrayList<MyPersonalQuestion>>() {
             @Override
             public void onResponse(Response<ArrayList<MyPersonalQuestion>> response, Retrofit retrofit) {
-                LogUtil.d("PersonalQuestionP", "请求返回Code：" + response.code() + "  请求返回Body：" + response.body() + "  请求返回Message：" + response.message());
-                  Toast.makeText(AgricultureApplication.getContext(), response.code(),Toast.LENGTH_SHORT).show();
+//                LogUtil.d("PersonalQuestionP", "请求返回Code：" + response.code() + "  请求返回Body：" + response.body() + "  请求返回Message：" + response.message());
+//                  Toast.makeText(AgricultureApplication.getContext(), response.code(),Toast.LENGTH_SHORT).show();
                 if (response.isSuccess()) {
                     mQuestionsList = response.body();
                     //保存到缓存中
@@ -116,7 +116,7 @@ public class PersonalQuestionPresenter implements IPersonalQuestionPresenter {
 
                     //请求成功之后做的操作
                     //通知主线程重新加载数据
-                    LogUtil.d("PersonalQeustion", "4、请求成功，已经保存好数据，通知主线程重新拿数据，更新页面"+mQuestionsList.get(0).getTitle());
+                    LogUtil.d("PersonalQeustion", "4、请求成功，已经保存好数据，通知主线程重新拿数据，更新页面" + mQuestionsList.get(0).getTitle());
                     handler.sendEmptyMessage(ConstantUtil.GET_NET_DATA);
                     iPersonalQuestionFragment.closeRefresh();
                 }

@@ -2,8 +2,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
+    
+    <com.sxau.agriculture.utils.TopBarUtil
+        android:id="@+id/top_question"
+        android:padding="4dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"/>
     <EditText
+        android:layout_below="@+id/top_question"
         android:id="@+id/et_trade_title"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -108,7 +114,5 @@
             android:textColor="@color/white"
             android:background="@drawable/trade_release_submit_button"
             android:text="@string/submit" />
-
-
     </LinearLayout>
 </RelativeLayout>

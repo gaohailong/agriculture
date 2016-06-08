@@ -61,7 +61,7 @@ public class ExpertAnswerActivity extends BaseActivity implements View.OnClickLi
 
             @Override
             public void onClickLeftImage() {
-                topBarUtil.setLeftImage(R.mipmap.ic_back_left);
+                finish();
             }
 
             @Override
@@ -105,7 +105,6 @@ public class ExpertAnswerActivity extends BaseActivity implements View.OnClickLi
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 iExpertAnswerPresenter.submitAnswer();
-//                Toast.makeText(ExpertAnswerActivity.this, et_answer.getText().toString(), Toast.LENGTH_SHORT).show();
                 finish();
             }
         });

@@ -7,9 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.preference.PreferenceFragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.internal.view.menu.MenuView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +22,7 @@ import com.sxau.agriculture.api.ICategoriesData;
 import com.sxau.agriculture.bean.CategorieData;
 import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.RetrofitUtil;
-import com.sxau.agriculture.view.activity.AskQuestion;
+import com.sxau.agriculture.view.activity.AskQuestionActivity;
 
 import java.util.ArrayList;
 
@@ -115,7 +113,7 @@ public class QuestionFragment extends BaseFragment implements View.OnClickListen
     @Override
     public void onClick(View v) {
         Intent intent=new Intent();
-        intent.setClass(context, AskQuestion.class);
+        intent.setClass(context, AskQuestionActivity.class);
         startActivity(intent);
     }
 

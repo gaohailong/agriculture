@@ -1,8 +1,10 @@
 package com.sxau.agriculture.presenter.acitivity_presenter;
 
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.sxau.agriculture.AgricultureApplication;
 import com.sxau.agriculture.api.IExpertAnswer;
 import com.sxau.agriculture.bean.User;
@@ -23,6 +25,7 @@ import retrofit.Retrofit;
 
 /**
  * 专家回答的fragment
+ * 问题：服务器问题
  *
  * @author 高海龙
  */
@@ -39,15 +42,15 @@ public class ExpertAnswerPresenter implements IExpertAnswerPresenter {
     public void submitAnswer() {
 
         authToken = AuthTokenUtil.findAuthToken();
-
         Map map = new HashMap();
-        map.put("questionId", iExpertAnswerActivity.getAnswerContent());
-        map.put("content", iExpertAnswerActivity.getId());
-
-        Call<String> doAnswer = RetrofitUtil.getRetrofit().create(IExpertAnswer.class).doAnswer(authToken, (Map) map);
-        doAnswer.enqueue(new Callback<String>() {
+        map.put("questionId", iExpertAnswerActivity.getId());
+        map.put("content", iExpertAnswerActivity.getAnswerContent());
+        Log.e("authToken", authToken);
+        Call<JsonObject> doAnswer = RetrofitUtil.getRetrofit().create(IExpertAnswer.class).doAnswer(authToken, map);
+        doAnswer.enqueue(new Callback<JsonObject>() {
             @Override
-            public void onResponse(Response<String> response, Retrofit retrofit) {
+            public void onResponse(Response<JsonObject> response, Retrofit retrofit) {
+                Log.e("responsecode", response.code() + "");//TODO 服务器问题500
                 if (response.isSuccess()) {
                     Toast.makeText(AgricultureApplication.getContext(), "回答成功!", Toast.LENGTH_SHORT).show();
                 }
