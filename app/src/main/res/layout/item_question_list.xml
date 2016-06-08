@@ -12,12 +12,66 @@
         android:layout_height="match_parent"
         android:background="@color/croci" />
 
-
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        >
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:text="标题:高海龙你是不是傻！"
+            android:textSize="@dimen/font_title"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:layout_weight="1"
+            />
+        <TextView
+            android:id="@+id/tv_answer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:text="概要答案:不是复反反复复反反复复反反复复反反复复反反复复"
+            android:gravity="center_vertical"
+            android:textSize="@dimen/font_size_large"
+            android:ellipsize="end"
+            android:lines="2"
+            android:layout_weight="1"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/tv_ntdmix"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="名字+提问于+日期"
+            android:textSize="@dimen/font_size"
+            android:layout_centerVertical="true"/>
+
+            <ImageView
+                android:id="@+id/iv_fav"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/collection"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"/>
+
+        </RelativeLayout>
+    </LinearLayout>
+
+<!--
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -118,5 +172,6 @@
 
         </LinearLayout>
     </RelativeLayout>
+-->
 
 </LinearLayout>

@@ -19,6 +19,7 @@ import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+<<<<<<< HEAD
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +28,8 @@ import retrofit.Call;
 import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
+=======
+>>>>>>> f5d376d06d53f612e774b393869147c42ceed0e0
 
 /**
  * 信息专区ListView的Adapter
@@ -76,7 +79,7 @@ public class TradeListViewAdapter extends BaseAdapter{
 
         if (convertView == null) {
             LayoutInflater inflater = LayoutInflater.from(context);
-            convertView = inflater.inflate(R.layout.fragment_trade_demand, null);
+            convertView = inflater.inflate(R.layout.item_trade_demand, null);
             holder = new ViewHolder();
             holder.ivHead = (ImageView) convertView.findViewById(R.id.rv_info_head);
             holder.name = (TextView) convertView.findViewById(R.id.tv_demand_name);

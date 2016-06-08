@@ -1,38 +1,43 @@
 package com.sxau.agriculture.bean;
 
+import java.io.Serializable;
+
 /**
  * 个人中心问题bean
  * @author 李秉龙
  */
-public class MyPersonalQuestion {
+public class MyPersonalQuestion implements Serializable {
 
     /**
-     * id : 1
-     * whenCreated : 1463400201000
-     * whenUpdated : 1463557399000
-     * category : {"id":1,"whenCreated":1463156226000,"whenUpdated":1463156226000,"pid":0,"name":"test01","categoryType":"ARTICLE","image":"images/test.png","sort":255}
-     * title : test question01
-     * content : question01
-     * clickCount : 1
-     * likeCount : 0
+     * id : 24
+     * whenCreated : 1465214682000
+     * whenUpdated : 1465217176000
+     * category : {"id":24,"whenCreated":1465196118000,"whenUpdated":1465196118000,"pid":0,"name":"农产加工","categoryType":"ARTICLE","image":"null","sort":8}
+     * title : yuze个人中心测试发布的问题0001
+     * content : yuze个人中心测试发布的问题0001
+     * clickCount : 22
+     * likeCount : 1
      * expert : null
-     * user : {"id":3,"whenCreated":1463389022000,"whenUpdated":1463402028000,"userType":"PUBLIC","address":null,"name":"guodont2","avatar":null,"industry":null,"scale":null}
+     * user : {"id":6,"whenCreated":1465212843000,"whenUpdated":1465219196000,"email":null,"userType":"PUBLIC","address":"shanxiyuci","realName":"libinglong","phone":"13133443006","name":"yuzestar","avatar":null,"industry":"huahui","scale":"dachangye","lastIp":"60.223.239.6"}
      * questionAuditState : WAIT_AUDITED
      * questionResolveState : WAIT_RESOLVE
+     * images :
+     * answer : null
+     * fav : false
      */
 
     private int id;
     private long whenCreated;
     private long whenUpdated;
     /**
-     * id : 1
-     * whenCreated : 1463156226000
-     * whenUpdated : 1463156226000
+     * id : 24
+     * whenCreated : 1465196118000
+     * whenUpdated : 1465196118000
      * pid : 0
-     * name : test01
+     * name : 农产加工
      * categoryType : ARTICLE
-     * image : images/test.png
-     * sort : 255
+     * image : null
+     * sort : 8
      */
 
     private CategoryBean category;
@@ -42,20 +47,27 @@ public class MyPersonalQuestion {
     private int likeCount;
     private Object expert;
     /**
-     * id : 3
-     * whenCreated : 1463389022000
-     * whenUpdated : 1463402028000
+     * id : 6
+     * whenCreated : 1465212843000
+     * whenUpdated : 1465219196000
+     * email : null
      * userType : PUBLIC
-     * address : null
-     * name : guodont2
+     * address : shanxiyuci
+     * realName : libinglong
+     * phone : 13133443006
+     * name : yuzestar
      * avatar : null
-     * industry : null
-     * scale : null
+     * industry : huahui
+     * scale : dachangye
+     * lastIp : 60.223.239.6
      */
 
     private UserBean user;
     private String questionAuditState;
     private String questionResolveState;
+    private String images;
+    private String answer;
+    private boolean fav;
 
     public int getId() {
         return id;
@@ -153,7 +165,31 @@ public class MyPersonalQuestion {
         this.questionResolveState = questionResolveState;
     }
 
-    public static class CategoryBean {
+    public String getImages() {
+        return images;
+    }
+
+    public void setImages(String images) {
+        this.images = images;
+    }
+
+    public String getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
+    }
+
+    public boolean isFav() {
+        return fav;
+    }
+
+    public void setFav(boolean fav) {
+        this.fav = fav;
+    }
+
+    public static class CategoryBean implements Serializable{
         private int id;
         private long whenCreated;
         private long whenUpdated;
@@ -228,16 +264,20 @@ public class MyPersonalQuestion {
         }
     }
 
-    public static class UserBean {
+    public static class UserBean implements Serializable{
         private int id;
         private long whenCreated;
         private long whenUpdated;
+        private Object email;
         private String userType;
-        private Object address;
+        private String address;
+        private String realName;
+        private String phone;
         private String name;
         private String avatar;
-        private Object industry;
-        private Object scale;
+        private String industry;
+        private String scale;
+        private String lastIp;
 
         public int getId() {
             return id;
@@ -263,6 +303,14 @@ public class MyPersonalQuestion {
             this.whenUpdated = whenUpdated;
         }
 
+        public Object getEmail() {
+            return email;
+        }
+
+        public void setEmail(Object email) {
+            this.email = email;
+        }
+
         public String getUserType() {
             return userType;
         }
@@ -271,12 +319,28 @@ public class MyPersonalQuestion {
             this.userType = userType;
         }
 
-        public Object getAddress() {
+        public String getAddress() {
             return address;
         }
 
-        public void setAddress(Object address) {
+        public void setAddress(String address) {
             this.address = address;
+        }
+
+        public String getRealName() {
+            return realName;
+        }
+
+        public void setRealName(String realName) {
+            this.realName = realName;
+        }
+
+        public String getPhone() {
+            return phone;
+        }
+
+        public void setPhone(String phone) {
+            this.phone = phone;
         }
 
         public String getName() {
@@ -295,20 +359,28 @@ public class MyPersonalQuestion {
             this.avatar = avatar;
         }
 
-        public Object getIndustry() {
+        public String getIndustry() {
             return industry;
         }
 
-        public void setIndustry(Object industry) {
+        public void setIndustry(String industry) {
             this.industry = industry;
         }
 
-        public Object getScale() {
+        public String getScale() {
             return scale;
         }
 
-        public void setScale(Object scale) {
+        public void setScale(String scale) {
             this.scale = scale;
+        }
+
+        public String getLastIp() {
+            return lastIp;
+        }
+
+        public void setLastIp(String lastIp) {
+            this.lastIp = lastIp;
         }
     }
 }

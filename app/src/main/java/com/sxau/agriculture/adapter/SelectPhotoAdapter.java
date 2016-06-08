@@ -9,6 +9,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.sxau.agriculture.agriculture.R;
+import com.sxau.agriculture.utils.LogUtil;
 
 import java.util.List;
 

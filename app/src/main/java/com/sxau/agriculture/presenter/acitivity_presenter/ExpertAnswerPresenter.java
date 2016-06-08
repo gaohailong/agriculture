@@ -1,16 +1,22 @@
 package com.sxau.agriculture.presenter.acitivity_presenter;
 
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.sxau.agriculture.AgricultureApplication;
 import com.sxau.agriculture.api.IExpertAnswer;
 import com.sxau.agriculture.bean.User;
 import com.sxau.agriculture.presenter.activity_presenter_interface.IExpertAnswerPresenter;
 import com.sxau.agriculture.utils.ACache;
+import com.sxau.agriculture.utils.AuthTokenUtil;
 import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.RetrofitUtil;
 import com.sxau.agriculture.view.activity_interface.IExpertAnswerActivity;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import retrofit.Call;
 import retrofit.Callback;
@@ -19,6 +25,7 @@ import retrofit.Retrofit;
 
 /**
  * 专家回答的fragment
+ * 问题：服务器问题500
  *
  * @author 高海龙
  */
@@ -33,23 +40,25 @@ public class ExpertAnswerPresenter implements IExpertAnswerPresenter {
     //-----------------接口方法---------------------
     @Override
     public void submitAnswer() {
-        ACache mCache = ACache.get(AgricultureApplication.getContext());
-        String userData = mCache.getAsString(ConstantUtil.CACHE_KEY);
-        Gson gson = new Gson();
-        User user = gson.fromJson(userData, User.class);
-        authToken = user.getAuthToken();
-        Call<String> doAnswer = RetrofitUtil.getRetrofit().create(IExpertAnswer.class).doAnswer(authToken, iExpertAnswerActivity.getId(), iExpertAnswerActivity.getAnswerContent());
-        doAnswer.enqueue(new Callback<String>() {
+
+        authToken = AuthTokenUtil.findAuthToken();
+        Map map = new HashMap();
+        map.put("questionId", iExpertAnswerActivity.getId());
+        map.put("content", iExpertAnswerActivity.getAnswerContent());
+        Log.e("authToken", authToken);
+        Call<JsonObject> doAnswer = RetrofitUtil.getRetrofit().create(IExpertAnswer.class).doAnswer(authToken, map);
+        doAnswer.enqueue(new Callback<JsonObject>() {
             @Override
-            public void onResponse(Response<String> response, Retrofit retrofit) {
-                if (response.isSuccess()){
-                    Toast.makeText(AgricultureApplication.getContext(),"回答成功!",Toast.LENGTH_SHORT).show();
+            public void onResponse(Response<JsonObject> response, Retrofit retrofit) {
+                Log.e("responsecode", response.code() + "");//TODO 服务器问题500
+                if (response.isSuccess()) {
+                    Toast.makeText(AgricultureApplication.getContext(), "回答成功!", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Throwable t) {
-                Toast.makeText(AgricultureApplication.getContext(),"回答失败!",Toast.LENGTH_SHORT).show();
+                Toast.makeText(AgricultureApplication.getContext(), "回答失败!", Toast.LENGTH_SHORT).show();
             }
         });
     }

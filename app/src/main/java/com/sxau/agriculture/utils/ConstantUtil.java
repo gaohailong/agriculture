@@ -23,8 +23,14 @@ public class ConstantUtil {
     public static final String CACHE_KEY = "Cache_User";
     //收藏交易的缓存文件名
     public static final String CACHE_PERSONALCOLLECTTRADE_KEY = "Cache_PersonalCollectTradeList";
+    //收藏问题的缓存文件名
+    public static final String CACHE_PERSONALCOLLECTQUESTIION_KEY = "Cache_PersonalCollectQuestionList";
     //我的问题的缓存文件名
     public static final String CACHE_PERSONALQUESTION_KEY = "Cache_PersonalQuestionList";
+    //我的交易的缓存文件名
+    public static final String CACHE_PERSONALTRADES_KEY = "Cache_PersonalTradesList";
+    //个人信息缓存文件名
+    public static final String CACHE_PERSONALUSER_KEY = "Cache_PersonalUserList";
     //供应交易的缓存文件名
     public static final String CACHE_TRADESUPPLY_KEY = "Cache_TradeSupplyList";
     //需求交易的缓存文件名
@@ -44,7 +50,12 @@ public class ConstantUtil {
     public static final int LOAD_MORE = 0x00000005;
     public static final int LOAD_FAIL = 0x00000006;
     public static final int LOAD_OVER = 0x00000007;
+
+    //获取轮播图网络数据
+    public static final int GET_PICTURE_DATA = 0x00000008;
+
     //启动activity
-    public static final int START_ACTIVITY = 0x00000005;
+    public static final int START_ACTIVITY = 0x00000009;
+
 
 }

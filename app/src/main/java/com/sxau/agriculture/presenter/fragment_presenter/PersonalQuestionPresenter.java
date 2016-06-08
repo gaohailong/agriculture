@@ -16,6 +16,7 @@ import com.sxau.agriculture.bean.MyPersonalQuestion;
 import com.sxau.agriculture.bean.User;
 import com.sxau.agriculture.presenter.fragment_presenter_interface.IPersonalQuestionPresenter;
 import com.sxau.agriculture.utils.ACache;
+import com.sxau.agriculture.utils.AuthTokenUtil;
 import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.LogUtil;
 import com.sxau.agriculture.utils.NetUtil;
@@ -74,6 +75,7 @@ public class PersonalQuestionPresenter implements IPersonalQuestionPresenter {
         List<MyPersonalQuestion> questionList = new ArrayList<MyPersonalQuestion>();
         questionList = (List<MyPersonalQuestion>) mCache.getAsObject(ConstantUtil.CACHE_PERSONALQUESTION_KEY);
         //缓存不为空时将数据填充返回
+//        LogUtil.d("PersonalQusetionP:getDates:questionList",questionList.get(0).getTitle());
         if (mCache.getAsObject(ConstantUtil.CACHE_PERSONALQUESTION_KEY) != null) {
             for (int i = 0; i < questionList.size(); i++) {
                 myPersonalQuestion = questionList.get(i);
@@ -97,18 +99,14 @@ public class PersonalQuestionPresenter implements IPersonalQuestionPresenter {
      */
     @Override
     public void doRequest() {
-        //获取缓存中的authToken，添加到请求header中
-        User user = new User();
-
-        user = (User) mCache.getAsObject(ConstantUtil.CACHE_KEY);
-        authToken = user.getAuthToken();
-
-
+        authToken = AuthTokenUtil.findAuthToken();
+        LogUtil.d("PersonalQuestionP:authToken:", authToken + "");
         Call<ArrayList<MyPersonalQuestion>> call = RetrofitUtil.getRetrofit().create(IPersonalQuestion.class).getMessage(authToken);
         call.enqueue(new Callback<ArrayList<MyPersonalQuestion>>() {
             @Override
             public void onResponse(Response<ArrayList<MyPersonalQuestion>> response, Retrofit retrofit) {
-                LogUtil.d("PersonalQuestionP", "请求返回Code：" + response.code() + "  请求返回Body：" + response.body() + "  请求返回Message：" + response.message());
+//                LogUtil.d("PersonalQuestionP", "请求返回Code：" + response.code() + "  请求返回Body：" + response.body() + "  请求返回Message：" + response.message());
+//                  Toast.makeText(AgricultureApplication.getContext(), response.code(),Toast.LENGTH_SHORT).show();
                 if (response.isSuccess()) {
                     mQuestionsList = response.body();
                     //保存到缓存中
@@ -118,7 +116,7 @@ public class PersonalQuestionPresenter implements IPersonalQuestionPresenter {
 
                     //请求成功之后做的操作
                     //通知主线程重新加载数据
-                    LogUtil.d("PersonalQeustion", "4、请求成功，已经保存好数据，通知主线程重新拿数据，更新页面");
+                    LogUtil.d("PersonalQeustion", "4、请求成功，已经保存好数据，通知主线程重新拿数据，更新页面" + mQuestionsList.get(0).getTitle());
                     handler.sendEmptyMessage(ConstantUtil.GET_NET_DATA);
                     iPersonalQuestionFragment.closeRefresh();
                 }
