@@ -17,9 +17,10 @@ import java.util.ArrayList;
 
 /**
  * 个人中心交易信息adapter
+ *
  * @author 李秉龙
  */
-public class PersonalTradeInfoAdapter extends BaseAdapter{
+public class PersonalTradeInfoAdapter extends BaseAdapter {
     private Context context;
     private ArrayList<MyPersonalTrade> dates;
     ViewHolder holder;
@@ -50,34 +51,42 @@ public class PersonalTradeInfoAdapter extends BaseAdapter{
             LayoutInflater inflater = LayoutInflater.from(context);
             convertView = inflater.inflate(R.layout.items_presonal_mytrade, null);
             holder = new ViewHolder();
-            holder.rv_InfoHead= (ImageView) convertView.findViewById(R.id.rv_info_head);
-            holder.tv_TradeName = (TextView) convertView.findViewById(R.id.tv_trade_name);
-            holder.tv_TradeAddress = (TextView) convertView.findViewById(R.id.tv_trade_address);
             holder.tv_TradeDate = (TextView) convertView.findViewById(R.id.tv_trade_date);
             holder.tv_TradeTitle = (TextView) convertView.findViewById(R.id.tv_trade_title);
             holder.tv_TradeContent = (TextView) convertView.findViewById(R.id.tv_trade_content);
+            holder.tv_is_question = (TextView) convertView.findViewById(R.id.tv_is_question);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
         MyPersonalTrade myPersonalTrade = dates.get(position);
-        Picasso.with(context).load(myPersonalTrade.getUser().getAvatar()).resize(150,150).centerCrop().placeholder(R.mipmap.ic_loading).error(R.mipmap.ic_load_fail).into(holder.rv_InfoHead);
-        holder.tv_TradeName.setText(myPersonalTrade.getUser().getName());
-        holder.tv_TradeAddress.setText(myPersonalTrade.getUser().getAddress());
-        holder.tv_TradeDate.setText(TimeUtil.format(myPersonalTrade.getWhenUpdated()) );
+        holder.tv_TradeDate.setText(TimeUtil.format(myPersonalTrade.getWhenUpdated()));
         holder.tv_TradeTitle.setText(myPersonalTrade.getTitle());
         holder.tv_TradeContent.setText(myPersonalTrade.getDescription());
+    /*    switch (myPersonalTrade.getTradeState()) {
+            case "WAIT_AUDITED":
+                holder.tv_is_question.setText("待审核");
+                break;
+            case "FAILED":
+                holder.tv_is_question.setText("未通过");
+                break;
+            case "AUDITED":
+                holder.tv_is_question.setText("已通过");
+                break;
+            default:
+                break;
+        }*/
         return convertView;
     }
 
-    private class ViewHolder{
-        ImageView rv_InfoHead;
-        TextView tv_TradeName;
-        TextView tv_TradeAddress;
+    private class ViewHolder {
+        //        ImageView rv_InfoHead;
+//        TextView tv_TradeName;
+//        TextView tv_TradeAddress;
         TextView tv_TradeDate;
         TextView tv_TradeTitle;
         TextView tv_TradeContent;
-
+        TextView tv_is_question;
     }
 }

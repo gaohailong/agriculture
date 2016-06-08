@@ -25,7 +25,7 @@ import retrofit.Retrofit;
 
 /**
  * 专家回答的fragment
- * 问题：服务器问题
+ * 问题：服务器问题500
  *
  * @author 高海龙
  */

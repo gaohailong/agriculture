@@ -27,10 +27,7 @@ import com.sxau.agriculture.utils.LogUtil;
 import com.sxau.agriculture.view.activity_interface.IPersonalCenterActivity;
 
 import com.sxau.agriculture.bean.User;
-import com.sxau.agriculture.utils.ACache;
 import com.sxau.agriculture.utils.ActivityCollectorUtil;
-import com.sxau.agriculture.utils.ConstantUtil;
-import com.sxau.agriculture.utils.LogUtil;
 
 import com.sxau.agriculture.view.fragment.PersonalCollectQuestionFragment;
 import com.sxau.agriculture.view.fragment.PersonalCollectTradeFragment;
@@ -40,9 +37,6 @@ import com.sxau.agriculture.view.fragment.PersonalTradeInfoFragment;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
-import org.w3c.dom.Text;
-
-import java.util.List;
 
 /**
  * 个人中心Activity
@@ -105,7 +99,6 @@ public class PersonalCenterActivity extends BaseActivity implements View.OnClick
         } else {
             tvUserName.setText(phone);
         }
-
 
         ib_back.setOnClickListener(this);
         btn_exit.setOnClickListener(this);
