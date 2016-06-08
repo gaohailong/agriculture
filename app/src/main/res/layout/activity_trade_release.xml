@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    android:background="@color/mainColor">
 
     <EditText
         android:id="@+id/et_trade_title"
@@ -10,11 +12,12 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:maxEms="45"
-        android:background="#ffffff"
+        android:background="@drawable/rounded_edittext"
         android:lines="1"
         android:gravity="center_vertical"
         android:hint="请输入标题(不能超于45个字)"
-        android:textSize="@dimen/font_title" />
+        android:textSize="@dimen/font_size_large"
+        />
 
     <View
         android:id="@+id/v_divide"
@@ -32,11 +35,13 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/v_divide"
-        android:background="#ffffff"
+        android:background="@drawable/rounded_edittext"
         android:gravity="top"
         android:lines="4"
         android:hint="请输入内容(不能超于255个字)"
-        android:maxEms="255" />
+        android:maxEms="255"
+        android:layout_marginTop="10dp"
+        android:textSize="@dimen/font_size_large"/>
 
     <View
         android:id="@+id/v_divide_two"
@@ -49,12 +54,13 @@
         android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:background="@color/white"
+        android:background="@drawable/rounded_edittext"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/v_divide_two">
+        android:layout_below="@+id/v_divide_two"
+        android:layout_marginTop="10dp">
 
         <RadioGroup
             android:id="@+id/rg_trade_category"
@@ -85,6 +91,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="10dp"
+            android:layout_centerVertical="true"
             />
         <ImageView
             android:id="@+id/iv_info_release_photo"
@@ -112,6 +119,8 @@
         android:paddingRight="10dp"
         android:paddingLeft="10dp"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/rounded_edittext"
      />
 
     <LinearLayout

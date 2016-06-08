@@ -48,7 +48,7 @@ import retrofit.Retrofit;
  *
  * @author 田帅.
  */
-public class TradeReleaseActivity extends BaseActivity implements View.OnClickListener,ITradeReleaseActivity{
+public class TradeReleaseActivity extends BaseActivity implements View.OnClickListener, ITradeReleaseActivity {
     private ImageView ivPhoto;
     private List<String> photoPath;
     private Spinner spTradeType;
@@ -58,7 +58,7 @@ public class TradeReleaseActivity extends BaseActivity implements View.OnClickLi
     private Button btnTradeRelease;
     /**
      * 交易类型(供应、需求)、交易标题、交易分类、交易内容、图片
-     * */
+     */
     private int tradeCategoryId;
     private String tradeTitle;
     private String tradeType;
@@ -86,7 +86,7 @@ public class TradeReleaseActivity extends BaseActivity implements View.OnClickLi
         spTradeType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                tradeType=spinData.get(position);
+                tradeType = spinData.get(position);
             }
 
             @Override
@@ -95,23 +95,24 @@ public class TradeReleaseActivity extends BaseActivity implements View.OnClickLi
             }
         });
 
-        mhandler=new MyHandler();
-        iTradeReleasePresenter=new TradeReleasePresenter(mhandler);
-        spinData=new ArrayList<>();
+        mhandler = new MyHandler();
+        iTradeReleasePresenter = new TradeReleasePresenter(mhandler);
+        spinData = new ArrayList<>();
         startNet();
     }
-/**
- *  初始化控件
- * */
+
+    /**
+     * 初始化控件
+     */
     public void initView() {
         ivPhoto = (ImageView) findViewById(R.id.iv_info_release_photo);
-        etTradeTitle= (EditText) findViewById(R.id.et_trade_title);
-        etTradeContent= (EditText) findViewById(R.id.et_trade_content);
+        etTradeTitle = (EditText) findViewById(R.id.et_trade_title);
+        etTradeContent = (EditText) findViewById(R.id.et_trade_content);
         spTradeType = (Spinner) findViewById(R.id.sp_trade_cotegory);
-        rgTradeCategory= (RadioGroup) findViewById(R.id.rg_trade_category);
-        btnTradeRelease= (Button) findViewById(R.id.btn_trade_release);
+        rgTradeCategory = (RadioGroup) findViewById(R.id.rg_trade_category);
+        btnTradeRelease = (Button) findViewById(R.id.btn_trade_release);
 
-        RecyclerView recycler = (RecyclerView)findViewById(R.id.recycler);
+        RecyclerView recycler = (RecyclerView) findViewById(R.id.recycler);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
         recycler.setLayoutManager(gridLayoutManager);
         selectPhotoAdapter = new SelectPhotoAdapter(this, path);
@@ -122,22 +123,22 @@ public class TradeReleaseActivity extends BaseActivity implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_info_release_photo:
-            //发布供求界面弹出选择照片
-            showPhotoDialog();
-            break;
+                //发布供求界面弹出选择照片
+                showPhotoDialog();
+                break;
             case R.id.btn_trade_release:
                 /**
                  *得到交易的类型
                  * */
-                tradeCategoryId=rgTradeCategory.getId();
+                tradeCategoryId = rgTradeCategory.getId();
                 /**
                  * 得到交易的标题
                  * */
-                tradeTitle=etTradeTitle.getText().toString();
+                tradeTitle = etTradeTitle.getText().toString();
                 /**
                  *得到交易的内容
                  * */
-                tradeContent=etTradeContent.getText().toString();
+                tradeContent = etTradeContent.getText().toString();
                 /**
                  *得到交易的分类
                  * */
@@ -145,30 +146,32 @@ public class TradeReleaseActivity extends BaseActivity implements View.OnClickLi
                 /**
                  *得到图片地址
                  * */
-                tradeImage=" ";
+                tradeImage = " ";
                 Map map = new HashMap();
-                map.put("categoryId",tradeCategoryId);
-                map.put("title",tradeTitle);
-                map.put("tradeType",tradeType);
-                map.put("content",tradeContent);
+                map.put("categoryId", tradeCategoryId);
+                map.put("title", tradeTitle);
+                map.put("tradeType", tradeType);
+                map.put("content", tradeContent);
                 map.put("image", tradeImage);
-
+/**
+ * 获得用户Token
+ * */
                 ACache mCache = ACache.get(TradeReleaseActivity.this);
                 User user = (User) mCache.getAsObject(ConstantUtil.CACHE_KEY);
                 String authToken = user.getAuthToken();
                 /**
                  * 发送到服务器
                  * */
-                Log.d("release","点击点击");
-                Call<JsonObject> call= RetrofitUtil.getRetrofit().create(ITradeRelease.class).postTrade(map,authToken);
+                Log.d("release", "点击点击");
+                Call<JsonObject> call = RetrofitUtil.getRetrofit().create(ITradeRelease.class).postTrade(map, authToken);
                 call.enqueue(new Callback<JsonObject>() {
                     @Override
                     public void onResponse(Response<JsonObject> response, Retrofit retrofit) {
-                        Log.d("release",response.code()+"");
-                        if (response.isSuccess()){
-                            Toast.makeText(TradeReleaseActivity.this,"提交成功",Toast.LENGTH_SHORT).show();
+                        Log.d("release", response.code() + "");
+                        if (response.isSuccess()) {
+                            Toast.makeText(TradeReleaseActivity.this, "提交成功", Toast.LENGTH_SHORT).show();
+                            finish();
                         }
-finish();
                     }
 
                     @Override
@@ -214,32 +217,36 @@ finish();
             selectPhotoAdapter.notifyDataSetChanged();
         }
     }
-    public void startNet(){
+
+    public void startNet() {
         initSpin();
         mhandler.sendEmptyMessage(ConstantUtil.INIT_DATA);
     }
+
     /**
      * 初始化下拉菜单
      */
-    public void initSpin(){
-        ArrayAdapter<String> arrayAdapter=new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,spinData);
+    public void initSpin() {
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, spinData);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spTradeType.setAdapter(arrayAdapter);
     }
+
     @Override
     public void updateView() {
 
     }
-    public class MyHandler extends Handler{
+
+    public class MyHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            switch (msg.what){
+            switch (msg.what) {
                 case ConstantUtil.INIT_DATA:
-                        iTradeReleasePresenter.doRequest();
+                    iTradeReleasePresenter.doRequest();
                     break;
                 case ConstantUtil.GET_NET_DATA:
-                        spinData=iTradeReleasePresenter.getCategorieinfo();
+                    spinData = iTradeReleasePresenter.getCategorieinfo();
                     initSpin();
                     break;
                 default:

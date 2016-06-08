@@ -22,6 +22,7 @@ import com.sxau.agriculture.adapter.TradeListViewAdapter;
 import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.bean.TradeData;
 
+import com.sxau.agriculture.bean.User;
 import com.sxau.agriculture.utils.ACache;
 import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.LogUtil;
@@ -73,6 +74,10 @@ public class TradeSupplyListViewFragment extends BaseFragment implements ITradeL
     private Handler handler;
     private boolean isLoadOver;
     /**
+     * 用户Token
+     * */
+    private String authToken;
+    /**
      * 实体类集合
      */
 //    private List<TradeData> infoDatas = new ArrayList<TradeData>();
@@ -101,6 +106,12 @@ public class TradeSupplyListViewFragment extends BaseFragment implements ITradeL
          * */
         lv_Info = (ListView) mview.findViewById(R.id.lv_info);
         iv_collection = (ImageView) mview.findViewById(R.id.iv_demand_collection);
+        /**
+         * 获取用户Token
+         * */
+        ACache mCache=ACache.get(TradeSupplyListViewFragment.this.getActivity());
+        User user= (User) mCache.getAsObject(ConstantUtil.CACHE_KEY);
+        authToken=user.getAuthToken();
         /**
          * 无数据时显示空界面
          * */
@@ -199,7 +210,7 @@ public class TradeSupplyListViewFragment extends BaseFragment implements ITradeL
         }else {
             emptyView.setVisibility(View.GONE);
 
-            adapter = new TradeListViewAdapter(TradeSupplyListViewFragment.this.getActivity(), supplyDatas);
+            adapter = new TradeListViewAdapter(TradeSupplyListViewFragment.this.getActivity(), supplyDatas,authToken);
         lv_Info.setAdapter(adapter);
             Log.d("TradeSupplyListView", "2、有数据的话初始化View");
         }
@@ -238,7 +249,7 @@ public class TradeSupplyListViewFragment extends BaseFragment implements ITradeL
             emptyView.setVisibility(View.GONE);
             lv_Info.setVisibility(View.VISIBLE);
 
-            adapter = new TradeListViewAdapter(TradeSupplyListViewFragment.this.getActivity(), supplyDatas);
+            adapter = new TradeListViewAdapter(TradeSupplyListViewFragment.this.getActivity(), supplyDatas,authToken);
             lv_Info.setAdapter(adapter);
         }
 //       adapter.notifyDataSetChanged();
@@ -280,6 +291,21 @@ public class TradeSupplyListViewFragment extends BaseFragment implements ITradeL
             rl_refresh.setRefreshing(false);
         }
     }
+/**
+ * 通知收藏成功
+ * */
+    @Override
+    public void CollectionSuccess() {
+        Toast.makeText(TradeSupplyListViewFragment.this.getContext(),"收藏成功",Toast.LENGTH_SHORT).show();
+    }
+/**
+ * 通知收藏失败
+ * */
+    @Override
+    public void CollectionFailure() {
+
+    }
+
     /**
      * 实现滑动屏幕隐藏浮动按钮和显示按钮效果
      */

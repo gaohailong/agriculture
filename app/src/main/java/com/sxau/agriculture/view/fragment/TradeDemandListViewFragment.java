@@ -21,6 +21,8 @@ import com.sxau.agriculture.adapter.TradeListViewAdapter;
 import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.bean.TradeData;
 
+import com.sxau.agriculture.bean.User;
+import com.sxau.agriculture.utils.ACache;
 import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.RefreshBottomTextUtil;
 import com.sxau.agriculture.view.activity.TradeContentActivity;
@@ -48,6 +50,10 @@ public class TradeDemandListViewFragment extends BaseFragment implements ITradeL
     private ListView lv_Info;
     private ImageView iv_collection;
     private BaseAdapter adapter;
+    /**
+     * 用户token
+     * */
+    private String authToken;
     /**
      * 浮动按钮
      */
@@ -97,6 +103,12 @@ public class TradeDemandListViewFragment extends BaseFragment implements ITradeL
          * */
         lv_Info = (ListView) mview.findViewById(R.id.lv_info);
         iv_collection = (ImageView) mview.findViewById(R.id.iv_demand_collection);
+/**
+ * 获取用户Token
+ * */
+        ACache mCache=ACache.get(TradeDemandListViewFragment.this.getActivity());
+        User user= (User) mCache.getAsObject(ConstantUtil.CACHE_KEY);
+        authToken=user.getAuthToken();
 
         isLoadOver = false;
         handler = new Handler() {
@@ -152,7 +164,7 @@ public class TradeDemandListViewFragment extends BaseFragment implements ITradeL
         /**
          * 配置适配器
          * */
-        adapter = new TradeListViewAdapter(TradeDemandListViewFragment.this.getActivity(), demandDatas);
+        adapter = new TradeListViewAdapter(TradeDemandListViewFragment.this.getActivity(), demandDatas,authToken);
         lv_Info.setAdapter(adapter);
         /**
          * ListviewItem点击事件与浮动按钮动画效果
@@ -209,7 +221,7 @@ public class TradeDemandListViewFragment extends BaseFragment implements ITradeL
 //            emptyView.setVisibility(View.GONE);
             lv_Info.setVisibility(View.VISIBLE);
 
-            adapter = new TradeListViewAdapter(TradeDemandListViewFragment.this.getActivity(), demandDatas);
+            adapter = new TradeListViewAdapter(TradeDemandListViewFragment.this.getActivity(), demandDatas,authToken);
             lv_Info.setAdapter(adapter);
         }
     }
@@ -247,6 +259,17 @@ public class TradeDemandListViewFragment extends BaseFragment implements ITradeL
             rl_refresh.setRefreshing(false);
         }
     }
+
+    @Override
+    public void CollectionSuccess() {
+
+    }
+
+    @Override
+    public void CollectionFailure() {
+
+    }
+
     /**
      * 实现滑动屏幕隐藏浮动按钮和显示按钮效果
      */
