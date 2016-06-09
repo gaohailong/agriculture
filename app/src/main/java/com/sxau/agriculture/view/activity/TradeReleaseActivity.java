@@ -132,9 +132,7 @@ public class TradeReleaseActivity extends BaseActivity implements View.OnClickLi
         spTradeType = (Spinner) findViewById(R.id.sp_trade_cotegory);
         rgTradeCategory = (RadioGroup) findViewById(R.id.rg_trade_category);
         btnTradeRelease = (Button) findViewById(R.id.btn_trade_release);
-<<<<<<< HEAD
 
-=======
         topBarUtil = (TopBarUtil) findViewById(R.id.top_trade);
         topBarUtil.setLeftImageIsVisible(true);
         topBarUtil.setLeftImage(R.mipmap.ic_back_left);
@@ -155,7 +153,6 @@ public class TradeReleaseActivity extends BaseActivity implements View.OnClickLi
             }
         });
 
->>>>>>> f5d376d06d53f612e774b393869147c42ceed0e0
         RecyclerView recycler = (RecyclerView) findViewById(R.id.recycler);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
         recycler.setLayoutManager(gridLayoutManager);
@@ -192,11 +189,8 @@ public class TradeReleaseActivity extends BaseActivity implements View.OnClickLi
                 /**
                  *得到图片地址
                  * */
-<<<<<<< HEAD
                 tradeImage = " ";
-=======
                 tradeImage = imageUriList.toString();
->>>>>>> f5d376d06d53f612e774b393869147c42ceed0e0
                 Map map = new HashMap();
                 map.put("categoryId", tradeCategoryId);
                 map.put("title", tradeTitle);

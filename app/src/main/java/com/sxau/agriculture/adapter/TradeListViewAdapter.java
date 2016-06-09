@@ -10,26 +10,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.sxau.agriculture.agriculture.R;
-import com.sxau.agriculture.api.ICollectionSuccess;
 import com.sxau.agriculture.bean.TradeData;
-import com.sxau.agriculture.utils.RetrofitUtil;
-import com.sxau.agriculture.view.fragment_interface.ITradeListViewFragment;
-
-import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-<<<<<<< HEAD
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import retrofit.Call;
-import retrofit.Callback;
-import retrofit.Response;
-import retrofit.Retrofit;
-=======
->>>>>>> f5d376d06d53f612e774b393869147c42ceed0e0
 
 /**
  * 信息专区ListView的Adapter
@@ -43,18 +28,14 @@ public class TradeListViewAdapter extends BaseAdapter{
     private Context context;
     private ArrayList<TradeData> datas;
     ViewHolder holder;
-    private String authToken;
-    private int tradeId;
     /**
      * 收藏按钮点击判断
      */
     private boolean flag;
-    private ITradeListViewFragment iTradeListViewFragment;
 
-    public TradeListViewAdapter(Context context, ArrayList<TradeData> datas,String authToken) {
+    public TradeListViewAdapter(Context context, ArrayList<TradeData> datas) {
         this.context = context;
         this.datas = datas;
-        this.authToken=authToken;
     }
 
 
@@ -94,10 +75,12 @@ public class TradeListViewAdapter extends BaseAdapter{
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
+        Log.e("responseCode", datas.size()+"") ;
+
         /**
          * 根据位置获得数据
          * */
-        final TradeData tradeData = datas.get(position);
+        final TradeData infoData = datas.get(position);
         /**
          * 日期格式
          * */
@@ -105,13 +88,13 @@ public class TradeListViewAdapter extends BaseAdapter{
         /**
          * 给控件赋值
          * */
-        if (tradeData.getUser().getAvatar() == null) {
+        if (infoData.getUser().getAvatar() == null) {
             holder.ivHead.setImageResource(R.mipmap.img_default_user_portrait_150px);
         } else {
 
         }
-        holder.name.setText(tradeData.getUser().getName());
-        holder.date.setText(sdf.format(tradeData.getWhenCreated()));
+        holder.name.setText(infoData.getUser().getName());
+        holder.date.setText(sdf.format(infoData.getWhenCreated()));
 /**
  * 隐藏距离和图标
  * */
@@ -119,19 +102,19 @@ public class TradeListViewAdapter extends BaseAdapter{
         holder.ivLocation.setVisibility(View.GONE);
 
         holder.distance.setText("2千米");
-        holder.title.setText(tradeData.getTitle());
-        holder.content.setText(tradeData.getDescription());
+        holder.title.setText(infoData.getTitle());
+        holder.content.setText(infoData.getDescription());
         holder.ivLocation.setImageResource(R.drawable.ic_location_48dp);
         /**
          * 用户收藏状态
          * */
-        flag=tradeData.isFav();
+        flag=infoData.isFav();
         if (flag) {
             holder.ivCollection.setImageResource(R.drawable.ic_praise_48px);
         } else {
             holder.ivCollection.setImageResource(R.drawable.ic_no_praise_48px);
         }
-        holder.ivCollection.setOnClickListener(new CollectionListener(position,flag,tradeData));
+        holder.ivCollection.setOnClickListener(new CollectionListener(position,flag));
         return convertView;
     }
 
@@ -145,12 +128,10 @@ public class CollectionListener implements View.OnClickListener{
      * */
     private int position;
     private boolean isCollection;
-    private TradeData tradeData;
 
-    public CollectionListener(int position, boolean isCollection, TradeData tradeData) {
+    public CollectionListener(int position, boolean isCollection) {
         this.position = position;
         this.isCollection = isCollection;
-        this.tradeData = tradeData;
     }
 
     @Override
@@ -159,32 +140,12 @@ public class CollectionListener implements View.OnClickListener{
         if (holder.ivCollection.getId()==v.getId()){
             if (isCollection) {
                 holder.ivCollection.setImageResource(R.drawable.ic_no_praise_48px);
-                Log.d("TradeListViewAdapter", "取消收藏" + position);
+                Log.d("TradeListViewAdapter","取消收藏"+position);
                 isCollection = false;
-
             } else {
                 holder.ivCollection.setImageResource(R.drawable.ic_praise_48px);
                 Log.d("TradeListViewAdapter", "收藏成功"+position);
                 isCollection = true;
-                tradeId=tradeData.getId();
-                /**
-                 * 将收藏成功状态发送给服务器
-                 * */
-                Call<JSONObject> call= RetrofitUtil.getRetrofit().create(ICollectionSuccess.class).postCollection(tradeId,authToken);
-                call.enqueue(new Callback<JSONObject>() {
-                    @Override
-                    public void onResponse(Response<JSONObject> response, Retrofit retrofit) {
-                        Log.d("tradeListViewAdapter",response.code()+"");
-                        if (response.isSuccess()){
-                            iTradeListViewFragment.CollectionSuccess();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Throwable t) {
-
-                    }
-                });
             }
         }
     }

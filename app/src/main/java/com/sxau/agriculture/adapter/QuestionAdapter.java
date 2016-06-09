@@ -25,7 +25,7 @@ import java.util.ArrayList;
 public class QuestionAdapter extends BaseAdapter implements View.OnClickListener{
     private Context context;
     private ArrayList<QuestionData> questionDatas;
-    private int favIndex = 0;//判断是否收藏0：没有收藏；1：以收藏
+    private boolean favIndex;//判断是否收藏
 
 
     public QuestionAdapter(Context context, ArrayList<QuestionData> questionDatas) {
@@ -56,7 +56,7 @@ public class QuestionAdapter extends BaseAdapter implements View.OnClickListener
             holder = new ViewHolder();
             holder.iv_fav = (ImageView) convertView.findViewById(R.id.iv_fav);
             holder.tv_title = (TextView) convertView.findViewById(R.id.tv_title);
-            holder.tv_answer = (TextView) convertView.findViewById(R.id.tv_answer);
+            holder.tv_content = (TextView) convertView.findViewById(R.id.tv_content);
             holder.v_left = convertView.findViewById(R.id.v_left);
             holder.tv_ntdmix= (TextView) convertView.findViewById(R.id.tv_ntdmix);
             convertView.setTag(holder);
@@ -65,13 +65,12 @@ public class QuestionAdapter extends BaseAdapter implements View.OnClickListener
         }
         QuestionData questionData = questionDatas.get(position);
         holder.tv_title.setText(questionData.getTitle());
+        holder.tv_content.setText(questionData.getContent());
         holder.tv_ntdmix.setText(questionData.getUser().getName()+"提问于"+ TimeUtil.format(questionData.getWhenCreated()));
+        favIndex=questionData.isFav();
         if(questionData.getTitle()!=null && !questionData.getQuestionAuditState().equals("WAIT_AUDITED")
                 && !questionData.getQuestionResolveState().equals("WAIT_RESOLVE")){
-        holder.tv_answer.setText(questionData.getAnswers().toString());
         holder.v_left.setBackgroundColor(Color.parseColor("#009688"));
-        }else {
-            holder.tv_answer.setVisibility(View.GONE);
         }
 
         holder.iv_fav.setOnClickListener(this);
@@ -86,12 +85,12 @@ public class QuestionAdapter extends BaseAdapter implements View.OnClickListener
         holder.iv_fav = (ImageView) v.findViewById(R.id.iv_fav);
         switch (v.getId()){
             case R.id.iv_fav:
-                if (favIndex==0){
-                    holder.iv_fav.setImageResource(R.drawable.collection_fill);
-                    favIndex=1;
-                }else {
+                if (favIndex){
                     holder.iv_fav.setImageResource(R.drawable.collection);
-                    favIndex=0;
+                    favIndex=false;
+                }else {
+                    holder.iv_fav.setImageResource(R.drawable.collection_fill);
+                    favIndex=true;
                 }
                 break;
 
@@ -102,10 +101,9 @@ public class QuestionAdapter extends BaseAdapter implements View.OnClickListener
 
     private class ViewHolder{
         private ImageView iv_fav;
-
         private TextView tv_ntdmix;
         private TextView tv_title;
-        private TextView tv_answer;
+        private TextView tv_content;
         private View v_left;
 
     }
