@@ -88,11 +88,9 @@ public class PersonalCollectionQuestionsPresenter implements IPersonalCollectQue
 
     @Override
     public void doRequest() {
-        Gson userGson = new Gson();
-        User user = new User();
 
         authToken = AuthTokenUtil.findAuthToken();
-        Log.d("pcqp","doRequest");
+        Log.d("collectionQuestion",authToken);
         Call<ArrayList<MyPersonalCollectionQuestion>> call = RetrofitUtil.getRetrofit().create(IPersonalCollectQuestion.class).getMessage(authToken);
         call.enqueue(new Callback<ArrayList<MyPersonalCollectionQuestion>>() {
             @Override

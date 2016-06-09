@@ -117,7 +117,6 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
         }
     }
 
-
     public class MyHandler extends Handler {
         WeakReference<DetailQuestionActivity> weakReference;
 

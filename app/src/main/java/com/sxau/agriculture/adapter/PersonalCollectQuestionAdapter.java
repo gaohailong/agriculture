@@ -19,7 +19,8 @@ import com.sxau.agriculture.utils.TimeUtil;
 import java.util.ArrayList;
 
 /**
- * Created by Administrator on 2016/6/1.
+ * 个人中心收藏的adapter
+ * @author 李炳龙
  */
 public class PersonalCollectQuestionAdapter extends BaseAdapter {
     private Context context;
