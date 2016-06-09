@@ -60,7 +60,7 @@ public class TradeListViewAdapter extends BaseAdapter{
 
         if (convertView == null) {
             LayoutInflater inflater = LayoutInflater.from(context);
-            convertView = inflater.inflate(R.layout.fragment_trade_demand, null);
+            convertView = inflater.inflate(R.layout.item_trade_demand, null);
             holder = new ViewHolder();
             holder.ivHead = (ImageView) convertView.findViewById(R.id.rv_info_head);
             holder.name = (TextView) convertView.findViewById(R.id.tv_demand_name);
@@ -75,6 +75,8 @@ public class TradeListViewAdapter extends BaseAdapter{
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
+        Log.e("responseCode", datas.size()+"") ;
+
         /**
          * 根据位置获得数据
          * */

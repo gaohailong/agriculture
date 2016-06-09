@@ -132,6 +132,7 @@ public class TradeReleaseActivity extends BaseActivity implements View.OnClickLi
         spTradeType = (Spinner) findViewById(R.id.sp_trade_cotegory);
         rgTradeCategory = (RadioGroup) findViewById(R.id.rg_trade_category);
         btnTradeRelease = (Button) findViewById(R.id.btn_trade_release);
+
         topBarUtil = (TopBarUtil) findViewById(R.id.top_trade);
         topBarUtil.setLeftImageIsVisible(true);
         topBarUtil.setLeftImage(R.mipmap.ic_back_left);
@@ -188,6 +189,7 @@ public class TradeReleaseActivity extends BaseActivity implements View.OnClickLi
                 /**
                  *得到图片地址
                  * */
+                tradeImage = " ";
                 tradeImage = imageUriList.toString();
                 Map map = new HashMap();
                 map.put("categoryId", tradeCategoryId);
@@ -195,7 +197,9 @@ public class TradeReleaseActivity extends BaseActivity implements View.OnClickLi
                 map.put("tradeType", tradeType);
                 map.put("content", tradeContent);
                 map.put("image", tradeImage);
-
+/**
+ * 获得用户Token
+ * */
                 ACache mCache = ACache.get(TradeReleaseActivity.this);
                 User user = (User) mCache.getAsObject(ConstantUtil.CACHE_KEY);
                 String authToken = user.getAuthToken();

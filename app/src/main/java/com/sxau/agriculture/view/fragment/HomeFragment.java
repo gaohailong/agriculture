@@ -8,7 +8,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -18,19 +17,14 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.exception.DbException;
 import com.squareup.picasso.Picasso;
 import com.sxau.agriculture.adapter.BannerAdapter;
-
-
 import com.sxau.agriculture.adapter.HomeArticlesAdapter;
 import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.api.IHomeArticleList;
-import com.sxau.agriculture.api.IHomeRotatePicture;
 import com.sxau.agriculture.bean.HomeArticle;
 import com.sxau.agriculture.bean.HomeBannerPicture;
 import com.sxau.agriculture.bean.HomeRotatePicture;
@@ -43,9 +37,7 @@ import com.sxau.agriculture.utils.RetrofitUtil;
 import com.sxau.agriculture.view.activity.WebViewActivity;
 import com.sxau.agriculture.widgets.RefreshLayout;
 
-
 import java.lang.ref.WeakReference;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -393,9 +385,8 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
 
     }
 
-    /**
-     * 解决下拉刷新与viewpager滑动冲突
-     */
+
+    //解决下拉刷新与viewpager滑动冲突
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         switch (event.getAction()) {

@@ -3,6 +3,7 @@ package com.sxau.agriculture.view.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +29,7 @@ public class TradeContentActivity extends BaseActivity {
     private TextView tv_name;
     private TextView tv_title;
     private TextView tv_info;
+    private ImageView iv_collection;
     /**
      * 实体类对象
      */
@@ -57,6 +59,7 @@ public class TradeContentActivity extends BaseActivity {
         tv_name = (TextView) findViewById(R.id.tv_name);
         tv_title = (TextView) findViewById(R.id.tv_title);
         tv_info= (TextView) findViewById(R.id.tv_info);
+        iv_collection= (ImageView) findViewById(R.id.iv_trade_content_collection);
     }
 
     /**
@@ -97,6 +100,10 @@ public class TradeContentActivity extends BaseActivity {
         tv_name.setText(tradeData.getUser().getName());
         tv_title.setText(tradeData.getTitle());
         tv_info.setText(tradeData.getDescription());
+            if (tradeData.isFav()){
+                iv_collection.setImageResource(R.drawable.ic_praise_48px);
+            }else{
+                iv_collection.setImageResource(R.drawable.ic_no_praise_48px);
+            }
     }
-
 }

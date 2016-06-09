@@ -189,7 +189,7 @@ public class TradeSupplyListViewFragment extends BaseFragment implements ITradeL
     public void initInfoData(String page, String pageSize, final boolean isRefresh) {
         Log.d("TradeSupplyListView","1、初始化View，获得数据");
         supplyDatas = iTradeListViewPresenter.getSupplyDatas();
-        if (supplyDatas.isEmpty()){
+        if (supplyDatas==null){
 //            iTradeListViewPresenter.doRequest(page,pageSize,isRefresh);
             /**
              * 无数据时显示空界面

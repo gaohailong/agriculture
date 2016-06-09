@@ -83,6 +83,7 @@ public class TradeListViewPresenter implements ITradeListViewPresenter {
         call.enqueue(new Callback<ArrayList<TradeData>>() {
             @Override
             public void onResponse(Response<ArrayList<TradeData>> response, Retrofit retrofit) {
+                Log.e("responseCode", response.code()+"") ;
                 if (response.isSuccess()) {
                     ArrayList<TradeData> responseDatas = response.body();
                     /**
@@ -116,6 +117,7 @@ public class TradeListViewPresenter implements ITradeListViewPresenter {
                     mCache.put(ConstantUtil.CACHE_TRADESUPPLY_KEY, supplyCacheDatas);
                     mCache.put(ConstantUtil.CACHE_TRADEDEMAND_KEY, demandCacheDatas);
                     Log.d("TradeSupplyListView", "4、请求成功，通知主线程重新拿数据，更新界面");
+                    Log.d("TradeSupplyListView",supplyCacheDatas.size()+"");
                     handler.sendEmptyMessage(ConstantUtil.GET_NET_DATA);
                     if (responseDatas.size() < Integer.parseInt(ConstantUtil.ITEM_NUMBER)) {
                         iInfoListViewFragment.isLoadOver(true);

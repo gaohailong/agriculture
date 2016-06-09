@@ -9,66 +9,52 @@ public class TradeData implements Serializable{
 
 
     /**
-     * id : 0
-     * title : string
-     * description : string
-     * tradeType : string
-     * tradeState : string
+     * id : 21
+     * whenCreated : 1465389929000
+     * whenUpdated : 1465389929000
+     * title : hhy
+     * description : gghg
+     * user : {"id":7,"whenCreated":1465224391000,"whenUpdated":1465346755000,"email":"****","userType":"PUBLIC","address":"太谷","realName":"****","phone":"****","name":"Ghelen","avatar":null,"industry":"铲屎大军","scale":"老大了","lastIp":"****"}
      * clickCount : 0
      * likeCount : 0
-     * endTime : 0
-     * images : string
-     * whenCreated : 0
-     * whenUpdated : 0
-     * user : {"id":0,"name":"string","address":"string","avatar":"string","industry":"string","scale":"string","userType":"string","whenCreated":0,"whenUpdated":0}
-     * category : {"id":0,"pid":0,"name":"string","categoryType":"string","image":"string","sort":0,"whenCreated":0,"whenUpdated":0}
-     */
-
-    private int id;
-    private String title;
-    private String description;
-    private String tradeType;
-
-    private int clickCount;
-    private int likeCount;
-    private int endTime;
-
-    private int whenCreated;
-    private int whenUpdated;
-    /**
-     * id : 0
-     * name : string
-     * address : string
-     * avatar : string
-     * industry : string
-     * scale : string
-     * userType : string
-     * whenCreated : 0
-     * whenUpdated : 0
-     */
-
-    private UserBean user;
-    /**
-     * id : 0
-     * pid : 0
-     * name : string
-     * categoryType : string
-     * image : string
-     * sort : 0
-     * whenCreated : 0
-     * whenUpdated : 0
-     */
-
-    private CategoryBean category;
-
-    private String tradeState;
-    private String images;
-    /**
+     * endTime : null
+     * tradeType : SUPPLY
+     * category : null
+     * tradeState : WAIT_AUDITED
+     * images : []
      * fav : false
      */
 
-    private boolean fav;
+    private int id;
+    private long whenCreated;
+    private long whenUpdated;
+    private String title;
+    private String description;
+    /**
+     * id : 7
+     * whenCreated : 1465224391000
+     * whenUpdated : 1465346755000
+     * email : ****
+     * userType : PUBLIC
+     * address : 太谷
+     * realName : ****
+     * phone : ****
+     * name : Ghelen
+     * avatar : null
+     * industry : 铲屎大军
+     * scale : 老大了
+     * lastIp : ****
+     */
 
+    private UserBean user;
+    private int clickCount;
+    private int likeCount;
+    private Object endTime;
+    private String tradeType;
+    private Object category;
+    private String tradeState;
+    private String images;
+    private boolean fav;
 
     public int getId() {
         return id;
@@ -76,6 +62,22 @@ public class TradeData implements Serializable{
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public long getWhenCreated() {
+        return whenCreated;
+    }
+
+    public void setWhenCreated(long whenCreated) {
+        this.whenCreated = whenCreated;
+    }
+
+    public long getWhenUpdated() {
+        return whenUpdated;
+    }
+
+    public void setWhenUpdated(long whenUpdated) {
+        this.whenUpdated = whenUpdated;
     }
 
     public String getTitle() {
@@ -94,20 +96,12 @@ public class TradeData implements Serializable{
         this.description = description;
     }
 
-    public String getTradeType() {
-        return tradeType;
+    public UserBean getUser() {
+        return user;
     }
 
-    public void setTradeType(String tradeType) {
-        this.tradeType = tradeType;
-    }
-
-    public String getTradeState() {
-        return tradeState;
-    }
-
-    public void setTradeState(String tradeState) {
-        this.tradeState = tradeState;
+    public void setUser(UserBean user) {
+        this.user = user;
     }
 
     public int getClickCount() {
@@ -126,12 +120,36 @@ public class TradeData implements Serializable{
         this.likeCount = likeCount;
     }
 
-    public int getEndTime() {
+    public Object getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(int endTime) {
+    public void setEndTime(Object endTime) {
         this.endTime = endTime;
+    }
+
+    public String getTradeType() {
+        return tradeType;
+    }
+
+    public void setTradeType(String tradeType) {
+        this.tradeType = tradeType;
+    }
+
+    public Object getCategory() {
+        return category;
+    }
+
+    public void setCategory(Object category) {
+        this.category = category;
+    }
+
+    public String getTradeState() {
+        return tradeState;
+    }
+
+    public void setTradeState(String tradeState) {
+        this.tradeState = tradeState;
     }
 
     public String getImages() {
@@ -142,38 +160,6 @@ public class TradeData implements Serializable{
         this.images = images;
     }
 
-    public int getWhenCreated() {
-        return whenCreated;
-    }
-
-    public void setWhenCreated(int whenCreated) {
-        this.whenCreated = whenCreated;
-    }
-
-    public int getWhenUpdated() {
-        return whenUpdated;
-    }
-
-    public void setWhenUpdated(int whenUpdated) {
-        this.whenUpdated = whenUpdated;
-    }
-
-    public UserBean getUser() {
-        return user;
-    }
-
-    public void setUser(UserBean user) {
-        this.user = user;
-    }
-
-    public CategoryBean getCategory() {
-        return category;
-    }
-
-    public void setCategory(CategoryBean category) {
-        this.category = category;
-    }
-
     public boolean isFav() {
         return fav;
     }
@@ -182,17 +168,20 @@ public class TradeData implements Serializable{
         this.fav = fav;
     }
 
-
-    public static class UserBean implements Serializable{
+    public static class UserBean {
         private int id;
-        private String name;
+        private long whenCreated;
+        private long whenUpdated;
+        private String email;
+        private String userType;
         private String address;
-        private String avatar;
+        private String realName;
+        private String phone;
+        private String name;
+        private Object avatar;
         private String industry;
         private String scale;
-        private String userType;
-        private int whenCreated;
-        private int whenUpdated;
+        private String lastIp;
 
         public int getId() {
             return id;
@@ -202,12 +191,36 @@ public class TradeData implements Serializable{
             this.id = id;
         }
 
-        public String getName() {
-            return name;
+        public long getWhenCreated() {
+            return whenCreated;
         }
 
-        public void setName(String name) {
-            this.name = name;
+        public void setWhenCreated(long whenCreated) {
+            this.whenCreated = whenCreated;
+        }
+
+        public long getWhenUpdated() {
+            return whenUpdated;
+        }
+
+        public void setWhenUpdated(long whenUpdated) {
+            this.whenUpdated = whenUpdated;
+        }
+
+        public String getEmail() {
+            return email;
+        }
+
+        public void setEmail(String email) {
+            this.email = email;
+        }
+
+        public String getUserType() {
+            return userType;
+        }
+
+        public void setUserType(String userType) {
+            this.userType = userType;
         }
 
         public String getAddress() {
@@ -218,11 +231,35 @@ public class TradeData implements Serializable{
             this.address = address;
         }
 
-        public String getAvatar() {
+        public String getRealName() {
+            return realName;
+        }
+
+        public void setRealName(String realName) {
+            this.realName = realName;
+        }
+
+        public String getPhone() {
+            return phone;
+        }
+
+        public void setPhone(String phone) {
+            this.phone = phone;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public Object getAvatar() {
             return avatar;
         }
 
-        public void setAvatar(String avatar) {
+        public void setAvatar(Object avatar) {
             this.avatar = avatar;
         }
 
@@ -242,103 +279,12 @@ public class TradeData implements Serializable{
             this.scale = scale;
         }
 
-        public String getUserType() {
-            return userType;
+        public String getLastIp() {
+            return lastIp;
         }
 
-        public void setUserType(String userType) {
-            this.userType = userType;
-        }
-
-        public int getWhenCreated() {
-            return whenCreated;
-        }
-
-        public void setWhenCreated(int whenCreated) {
-            this.whenCreated = whenCreated;
-        }
-
-        public int getWhenUpdated() {
-            return whenUpdated;
-        }
-
-        public void setWhenUpdated(int whenUpdated) {
-            this.whenUpdated = whenUpdated;
-        }
-    }
-
-    public static class CategoryBean implements Serializable{
-        private int id;
-        private int pid;
-        private String name;
-        private String categoryType;
-        private String image;
-        private int sort;
-        private int whenCreated;
-        private int whenUpdated;
-
-        public int getId() {
-            return id;
-        }
-
-        public void setId(int id) {
-            this.id = id;
-        }
-
-        public int getPid() {
-            return pid;
-        }
-
-        public void setPid(int pid) {
-            this.pid = pid;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public String getCategoryType() {
-            return categoryType;
-        }
-
-        public void setCategoryType(String categoryType) {
-            this.categoryType = categoryType;
-        }
-
-        public String getImage() {
-            return image;
-        }
-
-        public void setImage(String image) {
-            this.image = image;
-        }
-
-        public int getSort() {
-            return sort;
-        }
-
-        public void setSort(int sort) {
-            this.sort = sort;
-        }
-
-        public int getWhenCreated() {
-            return whenCreated;
-        }
-
-        public void setWhenCreated(int whenCreated) {
-            this.whenCreated = whenCreated;
-        }
-
-        public int getWhenUpdated() {
-            return whenUpdated;
-        }
-
-        public void setWhenUpdated(int whenUpdated) {
-            this.whenUpdated = whenUpdated;
+        public void setLastIp(String lastIp) {
+            this.lastIp = lastIp;
         }
     }
 }
