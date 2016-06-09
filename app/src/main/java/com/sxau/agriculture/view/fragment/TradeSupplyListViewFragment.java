@@ -126,8 +126,8 @@ public class TradeSupplyListViewFragment extends BaseFragment implements ITradeL
                      * */
                     case ConstantUtil.GET_NET_DATA:
                         Log.d("TradeSupplyListView","5、收到通知，数据已经更新，拿数据，更新界面");
-                        supplyDatas = iTradeListViewPresenter.getSupplyDatas();
-                        updateView(supplyDatas);
+                   /*     supplyDatas = iTradeListViewPresenter.getSupplyDatas();
+                        updateView(supplyDatas);*/
 
                         break;
                     /**
@@ -146,7 +146,7 @@ public class TradeSupplyListViewFragment extends BaseFragment implements ITradeL
         /**
          * 将InfoLvFragment与InfolvPresenter绑定
          * */
-        iTradeListViewPresenter = new TradeListViewPresenter(TradeSupplyListViewFragment.this, TradeSupplyListViewFragment.this.getContext(), handler);
+//        iTradeListViewPresenter = new TradeListViewPresenter(TradeSupplyListViewFragment.this, TradeSupplyListViewFragment.this.getContext(), handler);
         /**
          * 初始化数据
          * */
@@ -188,7 +188,7 @@ public class TradeSupplyListViewFragment extends BaseFragment implements ITradeL
      */
     public void initInfoData(String page, String pageSize, final boolean isRefresh) {
         Log.d("TradeSupplyListView","1、初始化View，获得数据");
-        supplyDatas = iTradeListViewPresenter.getSupplyDatas();
+//        supplyDatas = iTradeListViewPresenter.getSupplyDatas();
         if (supplyDatas==null){
 //            iTradeListViewPresenter.doRequest(page,pageSize,isRefresh);
             /**
@@ -204,12 +204,12 @@ public class TradeSupplyListViewFragment extends BaseFragment implements ITradeL
             Log.d("TradeSupplyListView", "2、有数据的话初始化View");
         }
 
-        if (iTradeListViewPresenter.isNetAvailable()){
+   /*     if (iTradeListViewPresenter.isNetAvailable()){
             iTradeListViewPresenter.doRequest(page, pageSize, isRefresh);
             Log.d("TradeSupplyListView", "3、发起请求，请求数据");
         }else {
             showNoNetworking();
-        }
+        }*/
     }
     /**
      * Item事件
@@ -226,7 +226,7 @@ public class TradeSupplyListViewFragment extends BaseFragment implements ITradeL
         Toast.makeText(TradeSupplyListViewFragment.this.getActivity(), "没有网络连接，请检查网络", Toast.LENGTH_LONG).show();
     }
     //------------------接口方法-------------------
-    @Override
+ /*   @Override
     public void updateView(ArrayList<TradeData> supplyDatas) {
         Log.d("TradeSupplyListView","6、updata方法执行");
         if(supplyDatas.isEmpty()){
@@ -242,22 +242,22 @@ public class TradeSupplyListViewFragment extends BaseFragment implements ITradeL
             lv_Info.setAdapter(adapter);
         }
 //       adapter.notifyDataSetChanged();
-    }
-    @Override
+    }*/
+  /*  @Override
     public void changeItemView() {
     }
-    /**
+    *//**
      * 获取收藏的状态，是否已经收藏
      * 1代表已经收藏
      * 2代表没有收藏
-     */
+     *//*
     @Override
     public int getCollectState() {
         return 0;
     }
-    /**
+    *//**
      * 点击加载判断
-     * */
+     * *//*
     @Override
     public void isLoadOver(boolean isLoadover) {
         if (isLoadover){
@@ -266,9 +266,9 @@ public class TradeSupplyListViewFragment extends BaseFragment implements ITradeL
             RefreshBottomTextUtil.setTextMore(tv_more,ConstantUtil.LOAD_MORE);
         }
     }
-    /**
+    *//**
      * 数据加载失败
-     * */
+     * *//*
     @Override
     public void onFailure() {
         tv_more.setText("数据加载失败");
@@ -279,7 +279,7 @@ public class TradeSupplyListViewFragment extends BaseFragment implements ITradeL
         } else {
             rl_refresh.setRefreshing(false);
         }
-    }
+    }*/
     /**
      * 实现滑动屏幕隐藏浮动按钮和显示按钮效果
      */
@@ -319,6 +319,11 @@ public class TradeSupplyListViewFragment extends BaseFragment implements ITradeL
     @Override
     public void onRefresh() {
         handler.sendEmptyMessage(ConstantUtil.PULL_REFRESH);
+    }
+
+    @Override
+    public void updateView(ArrayList<TradeData> supplyDatas) {
+
     }
 //----------------接口方法结束-------------------
 }

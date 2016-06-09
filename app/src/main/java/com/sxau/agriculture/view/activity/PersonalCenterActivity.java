@@ -92,9 +92,9 @@ public class PersonalCenterActivity extends BaseActivity implements View.OnClick
         btn_exit = (Button) this.findViewById(R.id.btn_exit);
 
         User user = (User) mCache.getAsObject(ConstantUtil.CACHE_KEY);
-        userName = user.getName();
-        phone = String.valueOf(user.getPhone());
         if (userName != null) {
+            userName = user.getName();
+            phone = String.valueOf(user.getPhone());
             tvUserName.setText(userName);
         } else {
             tvUserName.setText(phone);

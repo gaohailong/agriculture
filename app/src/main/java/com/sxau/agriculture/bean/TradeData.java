@@ -7,14 +7,13 @@ import java.io.Serializable;
  */
 public class TradeData implements Serializable{
 
-
     /**
      * id : 21
      * whenCreated : 1465389929000
      * whenUpdated : 1465389929000
      * title : hhy
      * description : gghg
-     * user : {"id":7,"whenCreated":1465224391000,"whenUpdated":1465346755000,"email":"****","userType":"PUBLIC","address":"太谷","realName":"****","phone":"****","name":"Ghelen","avatar":null,"industry":"铲屎大军","scale":"老大了","lastIp":"****"}
+     * user : {"id":7,"whenCreated":1465224391000,"whenUpdated":1465443137000,"email":"****","userType":"PUBLIC","address":"太谷","realName":"****","phone":"****","name":"Ghelen","avatar":null,"industry":"铲屎大军","scale":"老大了","lastIp":"****"}
      * clickCount : 0
      * likeCount : 0
      * endTime : null
@@ -33,7 +32,7 @@ public class TradeData implements Serializable{
     /**
      * id : 7
      * whenCreated : 1465224391000
-     * whenUpdated : 1465346755000
+     * whenUpdated : 1465443137000
      * email : ****
      * userType : PUBLIC
      * address : 太谷
@@ -178,7 +177,7 @@ public class TradeData implements Serializable{
         private String realName;
         private String phone;
         private String name;
-        private Object avatar;
+        private String avatar;
         private String industry;
         private String scale;
         private String lastIp;
@@ -255,11 +254,11 @@ public class TradeData implements Serializable{
             this.name = name;
         }
 
-        public Object getAvatar() {
+        public String getAvatar() {
             return avatar;
         }
 
-        public void setAvatar(Object avatar) {
+        public void setAvatar(String avatar) {
             this.avatar = avatar;
         }
 

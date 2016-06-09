@@ -10,7 +10,8 @@ import android.widget.Toast;
 import com.sxau.agriculture.agriculture.R;
 
 /**
- * Created by Yawen_Li on 2016/4/8.
+ * 交易需求的Fragment
+ * @author 李雅文
  */
 public class TradeDemandFragment extends BaseFragment{
     private static final String TAG = "TestFragment";
@@ -21,10 +22,7 @@ public class TradeDemandFragment extends BaseFragment{
         Bundle bundle = new Bundle();
         bundle.putString("hello", s);
         newFragment.setArguments(bundle);
-
         //bundle还可以在每个标签里传送数据
-
-
         return newFragment;
 
     }
