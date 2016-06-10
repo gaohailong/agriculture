@@ -28,6 +28,7 @@ import com.sxau.agriculture.bean.TradeData;
 import com.sxau.agriculture.utils.ACache;
 import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.LogUtil;
+import com.sxau.agriculture.utils.NetUtil;
 import com.sxau.agriculture.utils.RefreshBottomTextUtil;
 import com.sxau.agriculture.view.activity.TradeContentActivity;
 
@@ -83,16 +84,18 @@ public class TradeSupplyListViewFragment extends BaseFragment implements ITradeL
         rl_refresh.setColorSchemeColors(Color.parseColor("#00b5ad"));
         footerLayout = getLayoutInflater(savedInstanceState).inflate(R.layout.listview_footer, null);
         tv_more = (TextView) footerLayout.findViewById(R.id.tv_more);
-        initRefresh();
-
-        iTradeListViewPresenter.doRequest(String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER, true);
 //        iv_collection = (ImageView) mview.findViewById(R.id.iv_demand_collection);
 //        emptyView = mview.findViewById(R.id.emptyView);
-
-//        handler.sendEmptyMessage(ConstantUtil.INIT_DATA);
-
-       lv_Info.setOnItemClickListener(this);
+        lv_Info.setOnItemClickListener(this);
         return mview;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        initRefresh();
+        initListView();
+        handler.sendEmptyMessage(ConstantUtil.INIT_DATA);
     }
 
     public void initRefresh() {
@@ -113,6 +116,11 @@ public class TradeSupplyListViewFragment extends BaseFragment implements ITradeL
         });
     }
 
+    public void initListView() {
+        adapter = new TradeListViewAdapter(context, supplyDatas);
+        lv_Info.setAdapter(adapter);
+    }
+
     public class MyHandler extends Handler {
         WeakReference<TradeSupplyListViewFragment> tradeSupplyListViewFragment;
 
@@ -124,8 +132,19 @@ public class TradeSupplyListViewFragment extends BaseFragment implements ITradeL
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             switch (msg.what) {
+                case ConstantUtil.INIT_DATA:
+                    if (NetUtil.isNetAvailable(context)) {
+                        iTradeListViewPresenter.doRequest(String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER, true);
+                    } else {
+                        Toast.makeText(context, "没有网络连接", Toast.LENGTH_SHORT).show();
+                    }
+                    break;
                 case ConstantUtil.GET_NET_DATA:
                     supplyDatas = iTradeListViewPresenter.getSupplyDatas();
+                    Log.e("supplyDatasListV", supplyDatas.size() + "");
+                    //TODO 数据获取到了，却无法改变
+                    Log.e("supplyDatasListV", adapter.getClass() + "1111111");
+//                    adapter.notifyDataSetChanged();
                     updateView(supplyDatas);
                     break;
                 case ConstantUtil.PULL_REFRESH:
@@ -162,17 +181,19 @@ public class TradeSupplyListViewFragment extends BaseFragment implements ITradeL
         } else {
         /*    emptyView.setVisibility(View.GONE);
             lv_Info.setVisibility(View.VISIBLE);*/
-            adapter = new TradeListViewAdapter(context, supplyDatas);
-            lv_Info.setAdapter(adapter);
+          /*  adapter = new TradeListViewAdapter(context, supplyDatas);
+            lv_Info.setAdapter(adapter);*/
+            Log.e("supplyData", supplyDatas.size() + "");
+            adapter.notifyDataSetChanged();
         }
     }
 
     @Override
     public void isLoadOver(boolean isLoadover) {
-        if (isLoadover){
-            RefreshBottomTextUtil.setTextMore(tv_more,ConstantUtil.LOAD_OVER);
-        }else {
-            RefreshBottomTextUtil.setTextMore(tv_more,ConstantUtil.LOAD_MORE);
+        if (isLoadover) {
+            RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOAD_OVER);
+        } else {
+            RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOAD_MORE);
         }
     }
 
@@ -265,7 +286,5 @@ public class TradeSupplyListViewFragment extends BaseFragment implements ITradeL
         }
         return false;
     }
-
-
 //----------------接口方法结束-------------------
 }

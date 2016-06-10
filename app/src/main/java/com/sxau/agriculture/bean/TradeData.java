@@ -167,7 +167,7 @@ public class TradeData implements Serializable{
         this.fav = fav;
     }
 
-    public static class UserBean {
+    public static class UserBean implements Serializable {
         private int id;
         private long whenCreated;
         private long whenUpdated;

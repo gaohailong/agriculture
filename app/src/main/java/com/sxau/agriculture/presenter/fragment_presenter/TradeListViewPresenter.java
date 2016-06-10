@@ -69,8 +69,8 @@ public class TradeListViewPresenter implements ITradeListViewPresenter {
                     }
                     int s = supplyDatasList.size();
                     int s2 = demandDatasList.size();
-                    Log.e("supplyDatasList", s + "");
-                    Log.e("demandDatasList", s2 + "");
+//                    Log.e("supplyDatasList", s + "");
+//                    Log.e("demandDatasList", s2 + "");
                     aCache.put(ConstantUtil.CACHE_TRADESUPPLY_KEY, supplyDatasList);
                     aCache.put(ConstantUtil.CACHE_TRADEDEMAND_KEY, demandDatasList);
                     if (tradeDatas.size() < Integer.parseInt(ConstantUtil.ITEM_NUMBER)) {
