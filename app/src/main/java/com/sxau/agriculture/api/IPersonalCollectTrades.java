@@ -1,7 +1,6 @@
 package com.sxau.agriculture.api;
 
 import com.sxau.agriculture.bean.MyPersonalCollectTrades;
-import com.sxau.agriculture.bean.MyPersonalTrade;
 
 import java.util.ArrayList;
 
