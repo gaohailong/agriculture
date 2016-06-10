@@ -10,7 +10,8 @@ import java.util.ArrayList;
  */
 public interface ITradeListViewFragment {
     void updateView(ArrayList<TradeData> supplyDatas);
-  /*  void updateView(ArrayList<TradeData> supplyDatas);
+    void isLoadOver(boolean isLoadover);
+  /*     void updateView(ArrayList<TradeData> supplyDatas);
     void changeItemView();
     int getCollectState();
     *//**

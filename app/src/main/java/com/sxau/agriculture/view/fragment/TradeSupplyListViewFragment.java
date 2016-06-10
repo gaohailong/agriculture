@@ -1,10 +1,13 @@
 package com.sxau.agriculture.view.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -33,184 +36,174 @@ import com.sxau.agriculture.presenter.fragment_presenter_interface.ITradeListVie
 import com.sxau.agriculture.view.fragment_interface.ITradeListViewFragment;
 import com.sxau.agriculture.widgets.RefreshLayout;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 信息专区ListView
+ * 信息供应专区ListView
+ * 问题：1.每次都在不停的new adapter
  *
  * @author 田帅
  */
 
+public class TradeSupplyListViewFragment extends BaseFragment implements ITradeListViewFragment, AdapterView.OnItemClickListener, View.OnTouchListener {
 
-public class TradeSupplyListViewFragment extends BaseFragment implements ITradeListViewFragment, AdapterView.OnItemClickListener, View.OnTouchListener, RefreshLayout.OnRefreshListener {
-    /**
-     * 控件
-     */
     private View mview;
     private ListView lv_Info;
     private ImageView iv_collection;
     private BaseAdapter adapter;
-    /**
-     * 空界面
-     * */
     private View emptyView;
-    /**
-     * 浮动按钮
-     */
     private float startX, startY, offsetX, offsetY; //计算触摸偏移量
-    /**
-     * 网络请求
-     */
-    private int currentPage;
-    private String tradeType = "SUPPLY";
-    /**
-     * 下拉刷新上拉加载
-     */
     private View footerLayout;
     private TextView tv_more;
     private RefreshLayout rl_refresh;
-    private Handler handler;
     private boolean isLoadOver;
-    /**
-     * 实体类集合
-     */
-//    private List<TradeData> infoDatas = new ArrayList<TradeData>();
+    //    private List<TradeData> infoDatas = new ArrayList<TradeData>();
     private TradeData infoData;
+
     private ArrayList<TradeData> supplyDatas = new ArrayList<TradeData>();
-    /**
-     * 接口
-     */
     private ITradeListViewPresenter iTradeListViewPresenter;
 
-    public TradeSupplyListViewFragment() {
-    }
-
+    private MyHandler handler;
+    private Context context;
+    private int currentPage;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-
-        /**
-         * 绑定视图
-         * */
-        mview = inflater.inflate(R.layout.fragment_trade_listview, container, false);
-        /**
-         * 初始化控件
-         * */
-        lv_Info = (ListView) mview.findViewById(R.id.lv_info);
-        iv_collection = (ImageView) mview.findViewById(R.id.iv_demand_collection);
-        /**
-         * 无数据时显示空界面
-         * */
-        emptyView = mview.findViewById(R.id.emptyView);
-        isLoadOver = false;
-        handler = new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                super.handleMessage(msg);
-                switch (msg.what) {
-                    /**
-                     * 下拉刷新
-                     * */
-                    case ConstantUtil.PULL_REFRESH:
-                        currentPage = 1;
-                        initInfoData(String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER, true);
-                        rl_refresh.setRefreshing(false);
-                        adapter.notifyDataSetChanged();
-                        RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOAD_MORE);
-                        break;
-                    /**
-                     * 得到数据
-                     * */
-                    case ConstantUtil.GET_NET_DATA:
-                        Log.d("TradeSupplyListView","5、收到通知，数据已经更新，拿数据，更新界面");
-                   /*     supplyDatas = iTradeListViewPresenter.getSupplyDatas();
-                        updateView(supplyDatas);*/
-
-                        break;
-                    /**
-                     * 点击加载
-                     * */
-                    case ConstantUtil.UP_LOAD:
-                        currentPage++;
-                        initInfoData(String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER, false);
-                        rl_refresh.setLoading(false);
-                        break;
-                    default:
-                        break;
-                }
-            }
-        };
-        /**
-         * 将InfoLvFragment与InfolvPresenter绑定
-         * */
-//        iTradeListViewPresenter = new TradeListViewPresenter(TradeSupplyListViewFragment.this, TradeSupplyListViewFragment.this.getContext(), handler);
-        /**
-         * 初始化数据
-         * */
+        context = TradeSupplyListViewFragment.this.getActivity();
+        handler = new MyHandler(TradeSupplyListViewFragment.this);
+        iTradeListViewPresenter = new TradeListViewPresenter(TradeSupplyListViewFragment.this, context, handler);
         currentPage = 1;
-//        supplyDatas=iTradeListViewPresenter.getSupplyDatas();
-        initInfoData(String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER, true);
 
-/**
- * 配置适配器
- * */
-//        adapter = new TradeListViewAdapter(TradeSupplyListViewFragment.this.getActivity(), supplyDatas);
-//        lv_Info.setAdapter(adapter);
-        /**
-         * ListviewItem点击事件与浮动按钮动画效果
-         * */
-        lv_Info.setOnItemClickListener(this);
-        lv_Info.setOnTouchListener(this);
-        /**
-         * 下拉刷新与加载
-         * */
+        mview = inflater.inflate(R.layout.fragment_trade_listview, container, false);
+        lv_Info = (ListView) mview.findViewById(R.id.lv_info);
         rl_refresh = (RefreshLayout) mview.findViewById(R.id.srl_refresh);
         rl_refresh.setColorSchemeColors(Color.parseColor("#00b5ad"));
-        rl_refresh.setOnRefreshListener(this);
         footerLayout = getLayoutInflater(savedInstanceState).inflate(R.layout.listview_footer, null);
         tv_more = (TextView) footerLayout.findViewById(R.id.tv_more);
+        initRefresh();
+
+        iTradeListViewPresenter.doRequest(String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER, true);
+//        iv_collection = (ImageView) mview.findViewById(R.id.iv_demand_collection);
+//        emptyView = mview.findViewById(R.id.emptyView);
+
+//        handler.sendEmptyMessage(ConstantUtil.INIT_DATA);
+
+       lv_Info.setOnItemClickListener(this);
+        return mview;
+    }
+
+    public void initRefresh() {
         lv_Info.addFooterView(footerLayout);
         rl_refresh.setChildView(lv_Info);
+        rl_refresh.setOnRefreshListener(new RefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                handler.sendEmptyMessage(ConstantUtil.PULL_REFRESH);
+            }
+        });
+
         tv_more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 handler.sendEmptyMessage(ConstantUtil.UP_LOAD);
             }
         });
-
-        return mview;
     }
+
+    public class MyHandler extends Handler {
+        WeakReference<TradeSupplyListViewFragment> tradeSupplyListViewFragment;
+
+        public MyHandler(TradeSupplyListViewFragment fragment) {
+            tradeSupplyListViewFragment = new WeakReference<TradeSupplyListViewFragment>(fragment);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case ConstantUtil.GET_NET_DATA:
+                    supplyDatas = iTradeListViewPresenter.getSupplyDatas();
+                    updateView(supplyDatas);
+                    break;
+                case ConstantUtil.PULL_REFRESH:
+                    currentPage = 1;
+                    iTradeListViewPresenter.doRequest(String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER, true);
+                    rl_refresh.setRefreshing(false);
+                    RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOAD_MORE);
+                    break;
+                case ConstantUtil.UP_LOAD:
+                    currentPage++;
+                    iTradeListViewPresenter.doRequest(String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER, false);
+                    rl_refresh.setLoading(false);
+                    break;
+                case ConstantUtil.LOAD_FAIL:
+                    if (currentPage > 1) {
+                        rl_refresh.setRefreshing(false);
+                        currentPage--;
+                    } else {
+                        rl_refresh.setRefreshing(false);
+                    }
+                    RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOAD_FAIL);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    @Override
+    public void updateView(ArrayList<TradeData> supplyDatas) {
+        if (supplyDatas.isEmpty()) {
+        /*    lv_Info.setEmptyView(emptyView);
+            lv_Info.setVisibility(View.GONE);*/
+        } else {
+        /*    emptyView.setVisibility(View.GONE);
+            lv_Info.setVisibility(View.VISIBLE);*/
+            adapter = new TradeListViewAdapter(context, supplyDatas);
+            lv_Info.setAdapter(adapter);
+        }
+    }
+
+    @Override
+    public void isLoadOver(boolean isLoadover) {
+        if (isLoadover){
+            RefreshBottomTextUtil.setTextMore(tv_more,ConstantUtil.LOAD_OVER);
+        }else {
+            RefreshBottomTextUtil.setTextMore(tv_more,ConstantUtil.LOAD_MORE);
+        }
+    }
+
     /**
      * 初始化交易信息
      */
+/*
     public void initInfoData(String page, String pageSize, final boolean isRefresh) {
-        Log.d("TradeSupplyListView","1、初始化View，获得数据");
+        Log.d("TradeSupplyListView", "1、初始化View，获得数据");
 //        supplyDatas = iTradeListViewPresenter.getSupplyDatas();
-        if (supplyDatas==null){
+        if (supplyDatas == null) {
 //            iTradeListViewPresenter.doRequest(page,pageSize,isRefresh);
-            /**
-             * 无数据时显示空界面
-             * */
             lv_Info.setEmptyView(emptyView);
             lv_Info.setVisibility(View.GONE);
-        }else {
+        } else {
             emptyView.setVisibility(View.GONE);
 
             adapter = new TradeListViewAdapter(TradeSupplyListViewFragment.this.getActivity(), supplyDatas);
-        lv_Info.setAdapter(adapter);
+            lv_Info.setAdapter(adapter);
             Log.d("TradeSupplyListView", "2、有数据的话初始化View");
         }
-
-   /*     if (iTradeListViewPresenter.isNetAvailable()){
+   */
+/*     if (iTradeListViewPresenter.isNetAvailable()){
             iTradeListViewPresenter.doRequest(page, pageSize, isRefresh);
             Log.d("TradeSupplyListView", "3、发起请求，请求数据");
         }else {
             showNoNetworking();
-        }*/
+        }*//*
     }
+*/
+
     /**
      * Item事件
      */
@@ -221,28 +214,10 @@ public class TradeSupplyListViewFragment extends BaseFragment implements ITradeL
         intent.setClass(TradeSupplyListViewFragment.this.getActivity(), TradeContentActivity.class);
         startActivity(intent);
     }
-    //提示没有网络
-    public void showNoNetworking() {
-        Toast.makeText(TradeSupplyListViewFragment.this.getActivity(), "没有网络连接，请检查网络", Toast.LENGTH_LONG).show();
-    }
-    //------------------接口方法-------------------
- /*   @Override
-    public void updateView(ArrayList<TradeData> supplyDatas) {
-        Log.d("TradeSupplyListView","6、updata方法执行");
-        if(supplyDatas.isEmpty()){
-            Log.d("TradeSupplyListView", "7、仍然是空数据");
-            lv_Info.setEmptyView(emptyView);
-            lv_Info.setVisibility(View.GONE);
-        }else {
-            Log.d("TradeSupplyListView","8、成功拿到数据，更新界面");
-            emptyView.setVisibility(View.GONE);
-            lv_Info.setVisibility(View.VISIBLE);
 
-            adapter = new TradeListViewAdapter(TradeSupplyListViewFragment.this.getActivity(), supplyDatas);
-            lv_Info.setAdapter(adapter);
-        }
-//       adapter.notifyDataSetChanged();
-    }*/
+    //提示没有网络
+    //------------------接口方法-------------------
+
   /*  @Override
     public void changeItemView() {
     }
@@ -255,31 +230,8 @@ public class TradeSupplyListViewFragment extends BaseFragment implements ITradeL
     public int getCollectState() {
         return 0;
     }
-    *//**
-     * 点击加载判断
-     * *//*
-    @Override
-    public void isLoadOver(boolean isLoadover) {
-        if (isLoadover){
-            RefreshBottomTextUtil.setTextMore(tv_more,ConstantUtil.LOAD_OVER);
-        }else {
-            RefreshBottomTextUtil.setTextMore(tv_more,ConstantUtil.LOAD_MORE);
-        }
-    }
-    *//**
-     * 数据加载失败
-     * *//*
-    @Override
-    public void onFailure() {
-        tv_more.setText("数据加载失败");
-        RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOAD_FAIL);
-        if (currentPage > 1) {
-            rl_refresh.setRefreshing(false);
-            currentPage--;
-        } else {
-            rl_refresh.setRefreshing(false);
-        }
-    }*/
+    */
+
     /**
      * 实现滑动屏幕隐藏浮动按钮和显示按钮效果
      */
@@ -313,17 +265,7 @@ public class TradeSupplyListViewFragment extends BaseFragment implements ITradeL
         }
         return false;
     }
-    /**
-     * 下拉刷新
-     */
-    @Override
-    public void onRefresh() {
-        handler.sendEmptyMessage(ConstantUtil.PULL_REFRESH);
-    }
 
-    @Override
-    public void updateView(ArrayList<TradeData> supplyDatas) {
 
-    }
 //----------------接口方法结束-------------------
 }
