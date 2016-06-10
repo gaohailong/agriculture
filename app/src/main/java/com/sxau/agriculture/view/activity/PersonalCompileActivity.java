@@ -15,6 +15,7 @@ import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,8 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,6 +43,7 @@ import com.sxau.agriculture.qiniu.FileUtilsQiNiu;
 import com.sxau.agriculture.qiniu.QiniuLabConfig;
 import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.LogUtil;
+import com.sxau.agriculture.widgets.CityPicker;
 import com.sxau.agriculture.widgets.RoundImageView;
 
 import java.io.File;
@@ -55,8 +59,11 @@ import org.json.JSONObject;
 
 /**
  * 修改个人信息Activity
- *
+ *问题:1、修改信息的部分没有写完
+ * 2、修改地址的部分待写，进行到点击完成事件
  * @author 李秉龙
+ * @update 高海龙
+ *
  */
 public class PersonalCompileActivity extends BaseActivity implements View.OnClickListener, IPersonalCompileActivity {
     private ImageButton ib_Back;
@@ -69,6 +76,7 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
     private TextView tv_UserIndustry;
     private TextView tv_UserScale;
     private Button btn_finish;
+    private RelativeLayout rl_address, rl_name, rl_head;
 
     /**
      * 定义三种状态
@@ -84,12 +92,13 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
     private IPersonalCompilePresenter iPersonalCompilePresenter;
     private Handler handler;
 
+    private String citystr;
+    private String codeStr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_persional_compile);
-
         handler = new MyHandler(PersonalCompileActivity.this);
         //将Activity与Presenter进行绑定
         iPersonalCompilePresenter = new PersonalCompilePresenter(PersonalCompileActivity.this, PersonalCompileActivity.this, handler);
@@ -107,16 +116,18 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
 //        tv_UserIndustry = (TextView) this.findViewById(R.id.tv_industry);
         tv_UserRealName = (TextView) this.findViewById(R.id.tv_realName);
 //        tv_UserScale = (TextView) this.findViewById(R.id.tv_scale);
-
         btn_finish = (Button) this.findViewById(R.id.btn_finish);
+        rl_head = (RelativeLayout) this.findViewById(R.id.rl_head);
+        rl_name = (RelativeLayout) this.findViewById(R.id.rl_name);
+        rl_address = (RelativeLayout) this.findViewById(R.id.rl_address);
 
+        rl_head.setOnClickListener(this);
+        rl_name.setOnClickListener(this);
+        rl_address.setOnClickListener(this);
         ib_Back.setOnClickListener(this);
-        rw_Head.setOnClickListener(this);
         tv_UserNick.setOnClickListener(this);
         tv_PhoneNumber.setOnClickListener(this);
-        tv_UserAddress.setOnClickListener(this);
         tv_UserType.setOnClickListener(this);
-        tv_UserRealName.setOnClickListener(this);
 //        tv_UserScale.setOnClickListener(this);
 //        tv_UserIndustry.setOnClickListener(this);
         btn_finish.setOnClickListener(this);
@@ -131,17 +142,18 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
             case R.id.ib_back:
                 finish();
                 break;
-            case R.id.rw_head:
+            case R.id.rl_head:
                 showPhotoDialog();
                 break;
-            case R.id.tv_realName:
+            case R.id.rl_name:
                 showCompileDialog();
                 break;
-            case R.id.tv_user_address:
-                Intent intent = new Intent(PersonalCompileActivity.this,
+            case R.id.rl_address:
+                //TODO 将populwindow写到这
+           /*     Intent intent = new Intent(PersonalCompileActivity.this,
                         ThreeLevelLinkageActivity.class);
-                startActivityForResult(intent, 1000);// requestCode
-
+                startActivityForResult(intent, 1000);// requestCode*/
+                showAddressSelector();
                 break;
             case R.id.btn_finish:
                 finish();
@@ -153,13 +165,52 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
 
     }
 
+    public void showAddressSelector() {
+        View view = getLayoutInflater().inflate(R.layout.activity_three_level_linkage, null);
+        TextView btn_cancel = (TextView) view.findViewById(R.id.btn_cancel);
+        TextView btn_finish = (TextView) view.findViewById(R.id.btn_finish);
+        final CityPicker cityPicker = (CityPicker) view.findViewById(R.id.citypicker);
+        final PopupWindow popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        popupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        popupWindow.setAnimationStyle(android.R.style.Animation_Translucent);
+        //显示位置
+        popupWindow.showAtLocation(rl_head, Gravity.BOTTOM, 0, 0);
+        //点击窗口外边消失
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setFocusable(true);
+        popupWindow.setTouchable(true);
+
+        cityPicker.setOnSelectingListener(new CityPicker.OnSelectingListener() {
+            @Override
+            public void selected(boolean selected) {
+                citystr = cityPicker.getCity_string();
+                codeStr = cityPicker.getCity_code_string();
+            }
+        });
+        btn_finish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+              /*  Intent intent = new Intent();
+                intent.putExtra("result", citystr);
+                //设置回传的意图p
+                setResult(1001, intent);
+                finish();*/
+                //TODO 获取最终的数据citystr
+                popupWindow.dismiss();
+            }
+        });
+        btn_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+    }
 
     //编辑昵称等 调用的dialog
     private void showCompileDialog() {
         final EditText et = new EditText(this);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        //使用xml文件定义视图
-
         builder.setTitle("编辑真实姓名：");
         builder.setView(et);
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
@@ -242,7 +293,7 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
             Uri photoUri = Uri.fromFile(photoFile);
 //            Toast.makeText(this,"Uri地址："+photoUri,Toast.LENGTH_LONG).show();
 //            FileUtilsQiNiu.getPath(this, photoUri);
-            LogUtil.d("PersonalCompileA","文件路径："+photoUri);
+            LogUtil.d("PersonalCompileA", "文件路径：" + photoUri);
 
             intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
             intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
@@ -263,12 +314,10 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
                     startPhotoZoom(Uri.fromFile(photoFile));
                     break;
                 case HEAD_PORTRAIT_PIC:
-
                     if (data == null || data.getData() == null) {
                         return;
                     }
                     startPhotoZoom(data.getData());
-
                     break;
                 case HEAD_PORTRAIT_CUT:
 
@@ -347,7 +396,6 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
             tv_UserType.setText("专家用户");
         }
     }
-
 
 
     //--------------------接口方法--------------------

@@ -75,7 +75,7 @@ public class TradeListViewAdapter extends BaseAdapter {
             Picasso.with(context).load(infoData.getUser().getAvatar()).resize(150, 150).centerCrop().placeholder(R.mipmap.ic_loading).error(R.mipmap.ic_load_fail).into(holder.ivHead);
         }
         holder.name.setText(infoData.getUser().getName());
-        Log.e("responseCode1", infoData.getUser().getName());
+//        Log.e("responseCode1", infoData.getUser().getName());
         holder.date.setText(TimeUtil.format(infoData.getWhenCreated()));
         holder.distance.setText(infoData.getUser().getAddress());
         holder.title.setText(infoData.getTitle());
@@ -94,10 +94,6 @@ public class TradeListViewAdapter extends BaseAdapter {
      * 收藏按钮点击事件
      */
     public class CollectionListener implements View.OnClickListener {
-        /**
-         * position是为了获取点击的位置
-         * isCollection是用来保存每个交易信息的收藏状态
-         */
         private int position;
         private boolean isCollection;
 
