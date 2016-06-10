@@ -77,11 +77,13 @@ public class QuestionListViewFragment extends BaseFragment implements IQuestionL
         context = QuestionListViewFragment.this.getActivity();
 
         lvQuestionList = (ListView) mView.findViewById(R.id.lv_question);
+
         if(NetUtil.isNetAvailable(context)) {
             lvQuestionList.setOnItemClickListener(this);
         }else {
             Toast.makeText(context,"请检查网络设置",Toast.LENGTH_SHORT).show();
         }
+
         lvQuestionList.setOnTouchListener(this);
         questionFragment=new QuestionFragment();
 

@@ -1,12 +1,10 @@
 package com.sxau.agriculture.view.fragment;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,10 +14,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.sxau.agriculture.adapter.PersonalCollectTradesAdapter;
-import com.sxau.agriculture.adapter.PersonalTradeInfoAdapter;
 import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.bean.MyPersonalCollectTrades;
-import com.sxau.agriculture.bean.MyPersonalTrade;
 import com.sxau.agriculture.presenter.fragment_presenter.PersonalCollectTradePresenter;
 import com.sxau.agriculture.presenter.fragment_presenter_interface.IPersonalCollectTradePresenter;
 import com.sxau.agriculture.utils.ConstantUtil;
@@ -84,7 +80,7 @@ public class PersonalCollectTradeFragment extends BaseFragment implements IPerso
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TradeContentActivity.actionStart(PersonalCollectTradeFragment.this.getActivity());
+                TradeContentActivity.actionStart(PersonalCollectTradeFragment.this.getActivity(),mCollectTradeList.get(position).getTrade().getId());
             }
         });
         if (iPersonalCollectTradePresenter.isNetAvailable()){
@@ -142,7 +138,7 @@ public class PersonalCollectTradeFragment extends BaseFragment implements IPerso
         Toast.makeText(PersonalCollectTradeFragment.this.getActivity(), "没有网络连接，请检查网络", Toast.LENGTH_LONG).show();
     }
     @Override
-    public void updateView(ArrayList<MyPersonalCollectTrades> myPersonalCollectTrades) {
+    public void updateView(final ArrayList<MyPersonalCollectTrades> myPersonalCollectTrades) {
         LogUtil.d("PersonalCollectTradeF", "6、updateView方法执行");
         if (myPersonalCollectTrades.isEmpty()){
             listView.setVisibility(View.GONE);
@@ -157,7 +153,7 @@ public class PersonalCollectTradeFragment extends BaseFragment implements IPerso
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    TradeContentActivity.actionStart(PersonalCollectTradeFragment.this.getActivity());
+                    TradeContentActivity.actionStart(PersonalCollectTradeFragment.this.getActivity(),mCollectTradeList.get(position).getTrade().getId());
                 }
             });
         }

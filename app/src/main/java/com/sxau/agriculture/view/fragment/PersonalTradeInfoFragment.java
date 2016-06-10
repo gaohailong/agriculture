@@ -85,7 +85,7 @@ public class PersonalTradeInfoFragment extends BaseFragment implements IPersonal
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    TradeContentActivity.actionStart(PersonalTradeInfoFragment.this.getActivity());
+                    TradeContentActivity.actionStart(PersonalTradeInfoFragment.this.getActivity(),position);
                 }
             } );
 

@@ -1,7 +1,6 @@
 package com.sxau.agriculture.presenter.fragment_presenter_interface;
 
 import com.sxau.agriculture.bean.MyPersonalCollectTrades;
-import com.sxau.agriculture.bean.MyPersonalTrade;
 
 import java.util.ArrayList;
 

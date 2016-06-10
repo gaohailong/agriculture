@@ -2,20 +2,14 @@ package com.sxau.agriculture.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
 import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.bean.MyPersonalCollectTrades;
-import com.sxau.agriculture.bean.MyPersonalTrade;
-import com.sxau.agriculture.utils.LogUtil;
 import com.sxau.agriculture.utils.TimeUtil;
 
 import java.util.ArrayList;
