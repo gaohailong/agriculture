@@ -31,11 +31,12 @@ import com.sxau.agriculture.presenter.fragment_presenter_interface.ITradeListVie
 import com.sxau.agriculture.view.fragment_interface.ITradeListViewFragment;
 import com.sxau.agriculture.widgets.RefreshLayout;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 消息ListView
+ * 消息专区需求ListView
  *
  * @author 田帅
  */
@@ -52,63 +53,54 @@ public class TradeDemandListViewFragment extends BaseFragment implements ITradeL
     private BaseAdapter adapter;
 
     private float startX, startY, offsetX, offsetY; //计算触摸偏移量
-    private int currentPage;
     private RefreshLayout rl_refresh;
     private MyHandler handler;
-    private boolean isLoadOver;
     private Context context;
 
-//    private TradeData infoData;
     private ArrayList<TradeData> demandDatas = new ArrayList<TradeData>();
-
     private ITradeListViewPresenter iTradeListViewPresenter;
+    private int currentPage;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        handler = new MyHandler();
-        context=TradeDemandListViewFragment.this.getActivity();
+        handler = new MyHandler(TradeDemandListViewFragment.this);
+        context = TradeDemandListViewFragment.this.getActivity();
         iTradeListViewPresenter = new TradeListViewPresenter(TradeDemandListViewFragment.this, context, handler);
+        currentPage = 1;
 
         mview = inflater.inflate(R.layout.fragment_trade_listview, container, false);
         lv_Info = (ListView) mview.findViewById(R.id.lv_info);
-        iv_collection = (ImageView) mview.findViewById(R.id.iv_demand_collection);
         rl_refresh = (RefreshLayout) mview.findViewById(R.id.srl_refresh);
         rl_refresh.setColorSchemeColors(Color.parseColor("#00b5ad"));
-
-        lv_Info.setOnItemClickListener(this);
-
-        adapter = new TradeListViewAdapter(TradeDemandListViewFragment.this.getActivity(), demandDatas);
-        lv_Info.setAdapter(adapter);
-
-        iTradeListViewPresenter.doRequest();
-
-//        rl_refresh.setOnRefreshListener(this);
-
-//        lv_Info.setOnTouchListener(this);
-
- /*       footerLayout = getLayoutInflater(savedInstanceState).inflate(R.layout.listview_footer, null);
+        footerLayout = getLayoutInflater(savedInstanceState).inflate(R.layout.listview_footer, null);
         tv_more = (TextView) footerLayout.findViewById(R.id.tv_more);
-        lv_Info.addFooterView(footerLayout);
-        rl_refresh.setChildView(lv_Info);*/
-//        initInfoData(String.valueOf(currentPage), String.valueOf(ConstantUtil.ITEM_NUMBER), true);
-//        isLoadOver = false;
-//        demandDatas = iTradeListViewPresenter.getDemandDatas();
 
-//        currentPage = 1;
-      /*  tv_more.setOnClickListener(new View.OnClickListener() {
+        initRefresh();
+    /*    iv_collection = (ImageView) mview.findViewById(R.id.iv_demand_collection);
+        lv_Info.setOnItemClickListener(this);*/
+        iTradeListViewPresenter.doRequest(String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER, true);
+        return mview;
+    }
+
+    public void initRefresh() {
+        lv_Info.addFooterView(footerLayout);
+        rl_refresh.setChildView(lv_Info);
+        rl_refresh.setOnRefreshListener(new RefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                handler.sendEmptyMessage(ConstantUtil.PULL_REFRESH);
+            }
+        });
+
+        tv_more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 handler.sendEmptyMessage(ConstantUtil.UP_LOAD);
             }
-        });*/
-        return mview;
+        });
     }
 
- /*   public void initInfoData(String page, String pageSize, final boolean isRefresh) {
-        iTradeListViewPresenter.doRequest(page, pageSize, isRefresh);
-    }
-*/
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
      /*   Intent intent = new Intent();
@@ -118,30 +110,40 @@ public class TradeDemandListViewFragment extends BaseFragment implements ITradeL
     }
 
     public class MyHandler extends Handler {
+        WeakReference<TradeDemandListViewFragment> weakReference;
+
+        public MyHandler(TradeDemandListViewFragment fragment) {
+            weakReference = new WeakReference<TradeDemandListViewFragment>(fragment);
+        }
+
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             switch (msg.what) {
                 case ConstantUtil.GET_NET_DATA:
-                    demandDatas = iTradeListViewPresenter.getDemandDatas();
+                    //TODO 数据方法一换就可以getDemandDatas()
+                    demandDatas = iTradeListViewPresenter.getSupplyDatas();
                     updateView(demandDatas);
-              /*      if (isLoadOver) {
-                        RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOAD_OVER);
-                    } else {
-                        RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOAD_MORE);
-                    }*/
                     break;
                 case ConstantUtil.PULL_REFRESH:
                     currentPage = 1;
-//                    initInfoData(String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER, true);
+                    iTradeListViewPresenter.doRequest(String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER, true);
                     rl_refresh.setRefreshing(false);
-                    adapter.notifyDataSetChanged();
                     RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOAD_MORE);
                     break;
                 case ConstantUtil.UP_LOAD:
                     currentPage++;
-//                    initInfoData(String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER, false);
+                    iTradeListViewPresenter.doRequest(String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER, false);
                     rl_refresh.setLoading(false);
+                    break;
+                case ConstantUtil.LOAD_FAIL:
+                    if (currentPage > 1) {
+                        rl_refresh.setRefreshing(false);
+                        currentPage--;
+                    } else {
+                        rl_refresh.setRefreshing(false);
+                    }
+                    RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOAD_FAIL);
                     break;
                 default:
                     break;
@@ -163,9 +165,18 @@ public class TradeDemandListViewFragment extends BaseFragment implements ITradeL
         } else {
 //            emptyView.setVisibility(View.GONE);
 //            lv_Info.setVisibility(View.VISIBLE);
-            Log.e("demandDatas",demandDatas.size()+"");
+            Log.e("demandDatas", demandDatas.size() + "");
             adapter = new TradeListViewAdapter(context, demandDatas);
             lv_Info.setAdapter(adapter);
+        }
+    }
+
+    @Override
+    public void isLoadOver(boolean isLoadover) {
+        if (isLoadover) {
+            RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOAD_OVER);
+        } else {
+            RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOAD_MORE);
         }
     }
 
@@ -173,7 +184,9 @@ public class TradeDemandListViewFragment extends BaseFragment implements ITradeL
     public void changeItemView() {
     }
 
-    *//**
+    */
+
+    /**
      * 获取收藏的状态，是否已经收藏
      * 1代表已经收藏
      * 2代表没有收藏
@@ -182,29 +195,6 @@ public class TradeDemandListViewFragment extends BaseFragment implements ITradeL
     public int getCollectState() {
         return 0;
     }
-
-    *//**
-     * 点击加载判断
-     *//*
-    @Override
-    public void isLoadOver(boolean isLoadover) {
-        isLoadOver = isLoadover;
-    }
-
-    *//**
-     * 数据加载失败
-     *//*
-    @Override
-    public void onFailure() {
-        tv_more.setText("数据加载失败");
-        RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOAD_FAIL);
-        if (currentPage > 1) {
-            rl_refresh.setRefreshing(false);
-            currentPage--;
-        } else {
-            rl_refresh.setRefreshing(false);
-        }
-    }*/
 
     /**
      * 实现滑动屏幕隐藏浮动按钮和显示按钮效果
@@ -239,12 +229,5 @@ public class TradeDemandListViewFragment extends BaseFragment implements ITradeL
         return false;
     }
 
-  /*  *//**
-     * 下拉刷新
-     *//*
-    @Override
-    public void onRefresh() {
-        handler.sendEmptyMessage(ConstantUtil.PULL_REFRESH);
-    }*/
 //----------------接口方法结束-------------------
 }

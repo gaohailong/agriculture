@@ -2,6 +2,8 @@ package com.sxau.agriculture.presenter.fragment_presenter_interface;
 
 import com.sxau.agriculture.bean.TradeData;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 /**
@@ -11,8 +13,9 @@ import java.util.ArrayList;
  */
 public interface ITradeListViewPresenter {
 
-    void doRequest();
+    void doRequest(String page,String pagesize,boolean isRefresh);
     ArrayList<TradeData> getDemandDatas();
+    ArrayList<TradeData> getSupplyDatas();
 //    void doRequest(String page,String pageSize,final boolean isRefresh);
    /* Object findItemByPosition(int position);
     void setCollectState();

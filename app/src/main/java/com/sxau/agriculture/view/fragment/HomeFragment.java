@@ -126,7 +126,6 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
         initRefresh();
         initListView();
         myHandler.sendEmptyMessage(ConstantUtil.INIT_DATA);
-
     }
 
     public void initRefresh() {
@@ -195,7 +194,6 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
                     if (NetUtil.isNetAvailable(context)) {
                         getHomeArticleData(String.valueOf(currentPage), String.valueOf(ConstantUtil.ITEM_NUMBER), true);
                         getHomeBannerData();
-
                     } else {
                         try {
                             dbUtil.createTableIfNotExist(HomeArticle.class);
