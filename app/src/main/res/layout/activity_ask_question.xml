@@ -17,7 +17,7 @@
         android:paddingRight="10dp"
         android:paddingTop="10dp"
         android:maxLength="45"
-        android:background="#ffffff"
+        android:background="@color/white"
         android:lines="1"
         android:gravity="top"
         android:hint="请输入标题(不能超于45个字)"
@@ -28,7 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:layout_below="@+id/et_trade_title"
-        android:background="@color/white" />
+        android:background="@color/greyWhite" />
 
     <EditText
         android:id="@+id/et_trade_content"
