@@ -50,7 +50,7 @@ public class TradeDemandListViewFragment extends BaseFragment implements ITradeL
     private View footerLayout;
     private TextView tv_more;
 
-    private BaseAdapter adapter;
+    private TradeListViewAdapter adapter;
 
     private float startX, startY, offsetX, offsetY; //计算触摸偏移量
     private RefreshLayout rl_refresh;
@@ -79,7 +79,7 @@ public class TradeDemandListViewFragment extends BaseFragment implements ITradeL
         initRefresh();
     /*    iv_collection = (ImageView) mview.findViewById(R.id.iv_demand_collection);
         lv_Info.setOnItemClickListener(this);*/
-        iTradeListViewPresenter.doRequest(String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER, true);
+//        iTradeListViewPresenter.doRequest(String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER, true);
         return mview;
     }
 

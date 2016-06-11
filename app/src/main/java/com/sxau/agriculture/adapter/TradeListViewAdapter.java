@@ -14,9 +14,7 @@ import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.bean.TradeData;
 import com.sxau.agriculture.utils.TimeUtil;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 信息专区ListView的Adapter
@@ -27,7 +25,6 @@ public class TradeListViewAdapter extends BaseAdapter {
 
     private Context context;
     private ArrayList<TradeData> datas;
-    ViewHolder holder;
 
     public TradeListViewAdapter(Context context, ArrayList<TradeData> datas) {
         this.context = context;
@@ -51,10 +48,11 @@ public class TradeListViewAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
+        ViewHolder holder;
         if (convertView == null) {
+            holder = new ViewHolder();
             LayoutInflater inflater = LayoutInflater.from(context);
             convertView = inflater.inflate(R.layout.item_trade_demand, null);
-            holder = new ViewHolder();
             holder.ivHead = (ImageView) convertView.findViewById(R.id.rv_info_head);
             holder.name = (TextView) convertView.findViewById(R.id.tv_demand_name);
             holder.date = (TextView) convertView.findViewById(R.id.tv_demand_date);
@@ -62,13 +60,13 @@ public class TradeListViewAdapter extends BaseAdapter {
             holder.title = (TextView) convertView.findViewById(R.id.tv_demand_title);
             holder.content = (TextView) convertView.findViewById(R.id.tv_demand_content);
             holder.ivCollection = (ImageView) convertView.findViewById(R.id.iv_demand_collection);
-
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        Log.e("responseCode1", datas.size() + "");
         TradeData infoData = datas.get(position);
+        Log.e("step6.0","获取数据赋值"+datas.size());
+        Log.e("step6","获取数据赋值"+infoData.getTradeType());
         if (infoData.getUser().getAvatar() == null) {
             holder.ivHead.setImageResource(R.mipmap.img_default_user_portrait_150px);
         } else {
@@ -86,6 +84,7 @@ public class TradeListViewAdapter extends BaseAdapter {
         } else {
             holder.ivCollection.setImageResource(R.drawable.ic_no_praise_48px);
         }
+        Log.e("4、supplyData4", datas.size() + "");
 //        holder.ivCollection.setOnClickListener(new CollectionListener(position, flag));
         return convertView;
     }
@@ -93,7 +92,7 @@ public class TradeListViewAdapter extends BaseAdapter {
     /**
      * 收藏按钮点击事件
      */
-    public class CollectionListener implements View.OnClickListener {
+  /*  public class CollectionListener implements View.OnClickListener {
         private int position;
         private boolean isCollection;
 
@@ -117,7 +116,7 @@ public class TradeListViewAdapter extends BaseAdapter {
                 }
             }
         }
-    }
+    }*/
 
     public class ViewHolder {
         ImageView ivCollection;

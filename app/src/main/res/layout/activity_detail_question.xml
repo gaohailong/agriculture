@@ -6,12 +6,10 @@
     android:background="@color/mainColor"
     tools:context="com.sxau.agriculture.view.activity.DetailQuestionActivity">
 
-    <com.sxau.agriculture.utils.TopBarUtil
+    <com.sxau.agriculture.utils.TitleBarTwo
         android:id="@+id/topBar_detail"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:gravity="center_vertical"
-        android:paddingLeft="5dp" />
+        android:layout_height="50dp"/>
 
     <ScrollView
         android:layout_width="match_parent"
