@@ -64,24 +64,28 @@ import retrofit.Retrofit;
  * @author 崔志泽
  */
 public class AskQuestionActivity extends BaseActivity implements View.OnClickListener {
+    //控件定义部分
     private ImageView ib_photo;
     private Button btn_submit;
     private EditText et_title;
     private EditText et_trade_content;
     private TopBarUtil top_question;
     private RecyclerView recycler;
-    private SelectPhotoAdapter selectPhotoAdapter;
-    private ArrayList<String> path = new ArrayList<>();
     private Spinner spinner;
+    //adapter
+    private SelectPhotoAdapter selectPhotoAdapter;
+    //数据集合定义部分
+    private ArrayList<String> path = new ArrayList<>();
     private ArrayList<String> spinData;
-    private MyHandler myHandler;
     private ArrayList<CategorieData> categorieDatas;
+    private ArrayList<String> imageUriList = new ArrayList<String>();
+
+    private MyHandler myHandler;
     private String cat;
 
     private String uploadFilePath;
     private UploadManager uploadManager;
     private TradeReleaseActivity context;
-    private ArrayList<String> imageUriList = new ArrayList<String>();
 
     private String questionImage;
     private String questionTitle;
@@ -155,12 +159,10 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
         myHandler.sendEmptyMessage(ConstantUtil.INIT_DATA);
     }
 
-    /**
-     * 初始化下拉菜单
-     */
+    //初始化下拉菜单
     public void initSpin() {
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, spinData);
-        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, R.layout.item_spinner, spinData);
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
         spinner.setAdapter(arrayAdapter);
     }
 
@@ -203,10 +205,7 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
         }
     }
 
-
-    /**
-     * 获取图片的方法
-     */
+    //获取图片的方法
     public void showPhotoDialog() {
         ImageConfig imageConfig
                 = new ImageConfig.Builder(
@@ -225,9 +224,7 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
         ImageSelector.open(AskQuestionActivity.this, imageConfig);
     }
 
-    /**
-     * 回调函数
-     */
+    //回调函数
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -261,9 +258,7 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
         }
     }
 
-    /**
-     * 网络请求
-     */
+    //网络请求分类数据
     public void getCategories() {
         Call<ArrayList<CategorieData>> call = RetrofitUtil.getRetrofit().create(ICategoriesData.class).getCategories();
         call.enqueue(new Callback<ArrayList<CategorieData>>() {
@@ -282,9 +277,7 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
         });
     }
 
-    /**
-     * 遍历请求数据获取分类信息
-     */
+    //遍历请求数据获取分类信息
     public void getCategorieinfo() {
         for (int i = 0; i < categorieDatas.size(); i++) {
             cat = categorieDatas.get(i).getName();
