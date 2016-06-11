@@ -59,11 +59,11 @@ import org.json.JSONObject;
 
 /**
  * 修改个人信息Activity
- *问题:1、修改信息的部分没有写完
+ * 问题:1、修改信息的部分没有写完
  * 2、修改地址的部分待写，进行到点击完成事件
+ *
  * @author 李秉龙
  * @update 高海龙
- *
  */
 public class PersonalCompileActivity extends BaseActivity implements View.OnClickListener, IPersonalCompileActivity {
     private ImageButton ib_Back;
@@ -171,15 +171,17 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
         TextView btn_finish = (TextView) view.findViewById(R.id.btn_finish);
         final CityPicker cityPicker = (CityPicker) view.findViewById(R.id.citypicker);
         final PopupWindow popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
         popupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         popupWindow.setAnimationStyle(android.R.style.Animation_Translucent);
-        //显示位置
-        popupWindow.showAtLocation(rl_head, Gravity.BOTTOM, 0, 0);
+        popupWindow.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_pop_alert));
+
         //点击窗口外边消失
         popupWindow.setOutsideTouchable(true);
         popupWindow.setFocusable(true);
         popupWindow.setTouchable(true);
-
+        //显示位置
+        popupWindow.showAtLocation(rl_address, Gravity.BOTTOM, 0, 0);
         cityPicker.setOnSelectingListener(new CityPicker.OnSelectingListener() {
             @Override
             public void selected(boolean selected) {
