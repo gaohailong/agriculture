@@ -93,10 +93,7 @@ public class QuestionAdapter extends BaseAdapter implements View.OnClickListener
                     favIndex=true;
                 }
                 break;
-
-
         }
-
     }
 
     private class ViewHolder{
