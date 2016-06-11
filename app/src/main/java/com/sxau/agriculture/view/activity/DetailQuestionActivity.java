@@ -2,6 +2,7 @@ package com.sxau.agriculture.view.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -18,6 +19,7 @@ import com.sxau.agriculture.presenter.acitivity_presenter.DetailQuestionPresente
 import com.sxau.agriculture.presenter.activity_presenter_interface.IDetailQuestionPresenter;
 import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.TimeUtil;
+import com.sxau.agriculture.utils.TitleBarTwo;
 import com.sxau.agriculture.utils.TopBarUtil;
 import com.sxau.agriculture.view.activity_interface.IDetailQuestionActivity;
 
@@ -35,7 +37,7 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
     private TextView tv_question_name, tv_question_content, tv_question_title, tv_question_time, tv_is_answer, tv_professor_name, tv_professor_content, tv_professor_ok;
     private Button bt_answer;
     private LinearLayout ll_expert_answer;
-    private TopBarUtil topBarUtil;
+    private TitleBarTwo topBarUtil;
 
     private IDetailQuestionPresenter detailQuestionPresenter;
     private DetailQuestionData detailQuestionData;
@@ -70,31 +72,25 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
         tv_professor_ok = (TextView) findViewById(R.id.tv_professor_ok);
         bt_answer = (Button) findViewById(R.id.bt_answer);
         ll_expert_answer = (LinearLayout) findViewById(R.id.ll_expert_answer);
-        topBarUtil = (TopBarUtil) findViewById(R.id.topBar_detail);
+        topBarUtil = (TitleBarTwo) findViewById(R.id.topBar_detail);
 
         iv_fav.setOnClickListener(this);
         bt_answer.setOnClickListener(this);
     }
 
     private void initTopBar() {
-        topBarUtil.setLeftImageIsVisible(true);
-        topBarUtil.setLeftImage(R.mipmap.ic_back_left);
-        topBarUtil.setOnTopbarClickListener(new TopBarUtil.TopbarClickListner() {
+        topBarUtil.setBackgroundColor(Color.parseColor("#00b5ad"));
+        topBarUtil.setLeftImageResource(R.mipmap.ic_back_left);
+        topBarUtil.setLeftTextColor(Color.WHITE);
+        topBarUtil.setDividerColor(Color.GRAY);
+        topBarUtil.setLeftClickListener(new View.OnClickListener() {
             @Override
-            public void onClickLeftRoundImage() {
-
-            }
-
-            @Override
-            public void onClickLeftImage() {
+            public void onClick(View v) {
                 finish();
             }
-
-            @Override
-            public void onClickRightImage() {
-
-            }
         });
+        topBarUtil.setTitle("问答详情");
+        topBarUtil.setTitleColor(Color.WHITE);
     }
 
     @Override
