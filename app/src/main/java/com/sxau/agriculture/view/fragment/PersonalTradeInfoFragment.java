@@ -21,6 +21,7 @@ import com.sxau.agriculture.presenter.fragment_presenter_interface.IPersonalTrad
 import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.LogUtil;
 import com.sxau.agriculture.view.activity.DetailQuestionActivity;
+import com.sxau.agriculture.view.activity.PersonTradeActivity;
 import com.sxau.agriculture.view.activity.TradeContentActivity;
 import com.sxau.agriculture.view.fragment_interface.IPersonalTradeInfoFragment;
 import com.sxau.agriculture.widgets.RefreshLayout;
@@ -85,7 +86,7 @@ public class PersonalTradeInfoFragment extends BaseFragment implements IPersonal
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    TradeContentActivity.actionStart(PersonalTradeInfoFragment.this.getActivity(),position);
+                    PersonTradeActivity.actionStart(PersonalTradeInfoFragment.this.getActivity(),myTradesList.get(position).getId());
                 }
             } );
 
@@ -163,7 +164,7 @@ public class PersonalTradeInfoFragment extends BaseFragment implements IPersonal
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    DetailQuestionActivity.actionStart(PersonalTradeInfoFragment.this.getActivity(), position);
+                    PersonTradeActivity.actionStart(PersonalTradeInfoFragment.this.getActivity(), myTradesList.get(position).getId());
                 }
             });
         }
