@@ -77,7 +77,7 @@ public class TradeSupplyListViewFragment extends BaseFragment implements ITradeL
         footerLayout = getLayoutInflater(savedInstanceState).inflate(R.layout.listview_footer, null);
         tv_more = (TextView) footerLayout.findViewById(R.id.tv_more);
 //        iv_collection = (ImageView) mview.findViewById(R.id.iv_demand_collection);
-//        emptyView = mview.findViewById(R.id.emptyView);
+        emptyView = mview.findViewById(R.id.emptyView);
         lv_Info.setOnItemClickListener(this);
         return mview;
     }
@@ -127,22 +127,17 @@ public class TradeSupplyListViewFragment extends BaseFragment implements ITradeL
                 case ConstantUtil.INIT_DATA:
                     currentPage = 1;
                     if (NetUtil.isNetAvailable(context)) {
-                        Log.e("step1", "进行方法初始化");
                         iTradeListViewPresenter.doRequest(String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER, true);
                     } else {
                         Toast.makeText(context, "没有网络连接", Toast.LENGTH_SHORT).show();
                     }
                     break;
                 case ConstantUtil.GET_NET_DATA:
-                    supplyDatas = iTradeListViewPresenter.getSupplyDatas();
-                    Log.e("step4", "准备通知更新");
-                    Log.e("2、supplyData2", supplyDatas.size() + "");
-                    //TODO 数据获取到了，却无法改变
-                    updateView(supplyDatas);
+                    updateView(iTradeListViewPresenter.getSupplyDatas());
                     break;
                 case ConstantUtil.PULL_REFRESH:
                     currentPage = 1;
-//                    iTradeListViewPresenter.doRequest(String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER, true);
+                    iTradeListViewPresenter.doRequest(String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER, true);
                     rl_refresh.setRefreshing(false);
                     RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOAD_MORE);
                     break;
@@ -167,21 +162,16 @@ public class TradeSupplyListViewFragment extends BaseFragment implements ITradeL
     }
 
     @Override
-    public void updateView(ArrayList<TradeData> supplyDatas) {
+    public void updateView(ArrayList<TradeData> supplyDataGet) {
+        supplyDatas.clear();
+        supplyDatas.addAll(supplyDataGet);
         if (supplyDatas.isEmpty()) {
-        /*    lv_Info.setEmptyView(emptyView);
-            lv_Info.setVisibility(View.GONE);*/
+            lv_Info.setEmptyView(emptyView);
+            lv_Info.setVisibility(View.GONE);
         } else {
-        /*    emptyView.setVisibility(View.GONE);
-            lv_Info.setVisibility(View.VISIBLE);*/
-          /*  adapter = new TradeListViewAdapter(context, supplyDatas);
-            lv_Info.setAdapter(adapter);*/
-            Log.e("3、supplyData3", supplyDatas.size() + "");
-            Log.e("step5", "adapter更新" + supplyDatas.size() + "");
+            emptyView.setVisibility(View.GONE);
+            lv_Info.setVisibility(View.VISIBLE);
             tradeListViewAdapter.notifyDataSetChanged();
-            Log.e("step5.1", "adapter更新" + supplyDatas.size() + "");
-            Log.e("3.0、supplyData3", tradeListViewAdapter.getClass() + "");
-            Log.e("3.1、supplyData3", supplyDatas.size() + "");
         }
     }
 
@@ -207,7 +197,9 @@ public class TradeSupplyListViewFragment extends BaseFragment implements ITradeL
   /*  @Override
     public void changeItemView() {
     }
-    *//**
+    */
+
+    /**
      * 获取收藏的状态，是否已经收藏
      * 1代表已经收藏
      * 2代表没有收藏
@@ -217,10 +209,6 @@ public class TradeSupplyListViewFragment extends BaseFragment implements ITradeL
         return 0;
     }
     */
-
-    /**
-     * 实现滑动屏幕隐藏浮动按钮和显示按钮效果
-     */
     @Override
     public boolean onTouch(View v, MotionEvent event) {
 

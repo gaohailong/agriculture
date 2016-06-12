@@ -2,6 +2,7 @@ package com.sxau.agriculture.view.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -14,6 +15,7 @@ import com.sxau.agriculture.bean.TradeData;
 import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.RetrofitUtil;
 import com.sxau.agriculture.utils.TimeUtil;
+import com.sxau.agriculture.utils.TitleBarTwo;
 
 import retrofit.Call;
 import retrofit.Callback;
@@ -25,7 +27,7 @@ import retrofit.Retrofit;
  * 具体问题、内容的详情activity
  * Created by Yawen_Li on 2016/4/13.
  */
-public class TradeContentActivity extends BaseActivity implements View.OnClickListener{
+public class TradeContentActivity extends BaseActivity implements View.OnClickListener {
     //控件定义部分
     private TextView tv_name;
     private TextView tv_title;
@@ -42,6 +44,7 @@ public class TradeContentActivity extends BaseActivity implements View.OnClickLi
     private int tradeContentId;
     //控制收藏的变量
     private boolean collection;
+    private TitleBarTwo topBarUtil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,10 +52,8 @@ public class TradeContentActivity extends BaseActivity implements View.OnClickLi
         setContentView(R.layout.activity_trade_content);
 
         initView();
-        iv_collection.setOnClickListener(this);
-        Toast.makeText(TradeContentActivity.this, "click", Toast.LENGTH_LONG).show();
+        initTopBar();
         getTradeId();
-        Toast.makeText(this, "我是" + tradeContentId, Toast.LENGTH_SHORT).show();
         getTradeContent();
     }
 
@@ -62,26 +63,40 @@ public class TradeContentActivity extends BaseActivity implements View.OnClickLi
     public void initView() {
         tv_name = (TextView) findViewById(R.id.tv_name);
         tv_title = (TextView) findViewById(R.id.tv_title);
-        tv_info= (TextView) findViewById(R.id.tv_info);
-        tv_attentionNum= (TextView) findViewById(R.id.tv_attentionNum);
-        tv_location= (TextView) findViewById(R.id.tv_location);
-        iv_collection= (ImageView) findViewById(R.id.iv_trade_content_collection);
-        tv_timeStart= (TextView) findViewById(R.id.tv_timeStart);
-        tv_timeEnd= (TextView) findViewById(R.id.tv_timeEnd);
-        tv_phone= (TextView) findViewById(R.id.tv_phone);
+        tv_info = (TextView) findViewById(R.id.tv_info);
+        tv_attentionNum = (TextView) findViewById(R.id.tv_attentionNum);
+        tv_location = (TextView) findViewById(R.id.tv_location);
+        iv_collection = (ImageView) findViewById(R.id.iv_trade_content_collection);
+        tv_timeStart = (TextView) findViewById(R.id.tv_timeStart);
+        tv_timeEnd = (TextView) findViewById(R.id.tv_timeEnd);
+        tv_phone = (TextView) findViewById(R.id.tv_phone);
+        topBarUtil = (TitleBarTwo) findViewById(R.id.topBar_detail);
 
+        iv_collection.setOnClickListener(this);
     }
 
-    /**
-     *
-     * */
-    public static void actionStart(Context context,int id) {
+    private void initTopBar() {
+        topBarUtil.setBackgroundColor(Color.parseColor("#00b5ad"));
+        topBarUtil.setLeftImageResource(R.mipmap.ic_back_left);
+        topBarUtil.setLeftTextColor(Color.WHITE);
+        topBarUtil.setDividerColor(Color.GRAY);
+        topBarUtil.setLeftClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        topBarUtil.setTitle("交易详情");
+        topBarUtil.setTitleColor(Color.WHITE);
+    }
+
+    public static void actionStart(Context context, int id) {
         Intent intent = new Intent(context, TradeContentActivity.class);
-        intent.putExtra("TradeId",id);
+        intent.putExtra("TradeId", id);
         context.startActivity(intent);
     }
 
-    public void getTradeId(){
+    public void getTradeId() {
         Intent intent = getIntent();
         tradeContentId = intent.getIntExtra("TradeId", 0);
     }
@@ -114,26 +129,26 @@ public class TradeContentActivity extends BaseActivity implements View.OnClickLi
         tv_name.setText(tradeData.getUser().getName());
         tv_title.setText(tradeData.getTitle());
         tv_info.setText(tradeData.getDescription());
-        tv_attentionNum.setText(tradeData.getLikeCount()+"");
+        tv_attentionNum.setText(tradeData.getLikeCount() + "");
         tv_location.setText(tradeData.getUser().getAddress());
         tv_timeStart.setText(TimeUtil.format(tradeData.getWhenCreated()));
-        tv_timeEnd.setText("-"+TimeUtil.format(tradeData.getWhenUpdated()));
+        tv_timeEnd.setText("-" + TimeUtil.format(tradeData.getWhenUpdated()));
         tv_phone.setText(tradeData.getUser().getPhone());
-        if (tradeData.isFav()){
+        if (tradeData.isFav()) {
             iv_collection.setImageResource(R.drawable.collection_fill);
-        }else {
+        } else {
             iv_collection.setImageResource(R.drawable.collection);
         }
     }
 
     @Override
     public void onClick(View v) {
-        if (collection){
+        if (collection) {
             iv_collection.setImageResource(R.drawable.collection);
-            collection=false;
-        }else {
+            collection = false;
+        } else {
             iv_collection.setImageResource(R.drawable.collection_fill);
-            collection=true;
+            collection = true;
         }
     }
 }
