@@ -6,128 +6,231 @@
     android:descendantFocusability="blocksDescendants">
 
     <View
+        android:id="@+id/view_green"
         android:layout_width="5dp"
         android:layout_height="match_parent"
         android:background="@color/mainColor" />
 
     <LinearLayout
-        android:id="@+id/ll_right"
-        android:layout_width="90dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@+id/view_green"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:gravity="center_horizontal|center_vertical">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_demand_title"
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:text="啦啦啦啦啦拉拉拉拉啊啦啦啦啦阿拉啦啦啦啊啦啦"
+                android:textSize="@dimen/font_title"
+                android:singleLine="true"
+                android:ellipsize="end"/>
 
             <ImageView
                 android:id="@+id/iv_demand_location"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:layout_marginBottom="7dp"
-                android:layout_marginTop="10dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_location_48dp" />
+                android:layout_marginLeft="5dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_location_48dp"/>
 
             <TextView
                 android:id="@+id/tv_demand_distance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="7dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="12dp"
                 android:text="山西"
-                android:textSize="@dimen/font_size" />
+                android:lines="2"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:layout_gravity="center_vertical"/>
 
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="25dp"
-            android:gravity="center_horizontal|center_vertical">
-
-            <ImageView
-                android:id="@+id/iv_demand_collection"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:focusable="false"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_collect_having_48dp"/>
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_left"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_marginRight="20dp"
-        android:layout_toLeftOf="@id/ll_right"
-        android:orientation="vertical">
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="50dp">
-
-            <com.sxau.agriculture.widgets.RoundImageView
-                android:id="@+id/rv_info_head"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp"
-                android:src="@mipmap/img_default_user_portrait_150px" />
-
-            <TextView
-                android:id="@+id/tv_demand_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="5dp"
-                android:layout_toRightOf="@+id/rv_info_head"
-                android:text="天和集团"
-                android:textSize="@dimen/font_size" />
-
-            <TextView
-                android:id="@+id/tv_demand_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginBottom="10dp"
-                android:text="2016.03.22"
-                android:textSize="@dimen/font_time" />
-
-        </RelativeLayout>
-
-        <TextView
-            android:id="@+id/tv_demand_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:ellipsize="end"
-            android:lines="1"
-            android:text="收购苹果两万斤收购苹果两万斤收购苹果两万斤收购苹果两万斤"
-            android:textSize="@dimen/font_title" />
 
         <TextView
             android:id="@+id/tv_demand_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
+            android:lines="3"
+            android:text="我他妈就不信了靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
             android:ellipsize="end"
-            android:lines="2"
-            android:text="我的他的你的我的他的你的我的他的你的我的他的你的我的他的你的我的他的你的我的他的你的我的他的你的我的他的你的我的他的你的我的他的你的"
-            android:textSize="@dimen/font_size" />
+            android:textSize="@dimen/font_size_large" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.sxau.agriculture.widgets.RoundImageView
+                android:id="@+id/rv_info_head"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:src="@mipmap/img_default_user_portrait_150px"/>
+
+            <TextView
+                android:id="@+id/tv_demand_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="天和集团"
+                android:layout_toRightOf="@+id/rv_info_head"
+                android:textSize="@dimen/font_size"
+                android:layout_marginLeft="10dp"
+                android:layout_centerVertical="true"/>
+
+            <TextView
+                android:id="@+id/tv_demand_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:layout_toRightOf="@+id/tv_demand_name"
+                android:text="2016-6-12"
+                android:textSize="@dimen/font_time"
+                android:layout_centerVertical="true"/>
+
+            <ImageView
+                android:id="@+id/iv_demand_collection"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="50dp"
+                android:src="@drawable/collection"
+                />
+
+        </RelativeLayout>
 
     </LinearLayout>
+
+    <!--<LinearLayout-->
+        <!--android:id="@+id/ll_right"-->
+        <!--android:layout_width="60dp"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:orientation="vertical">-->
+
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="50dp"-->
+            <!--android:gravity="center_horizontal|center_vertical">-->
+
+            <!--<ImageView-->
+                <!--android:id="@+id/iv_demand_location"-->
+                <!--android:layout_width="20dp"-->
+                <!--android:layout_height="20dp"-->
+                <!--android:layout_marginBottom="7dp"-->
+                <!--android:layout_marginTop="10dp"-->
+                <!--android:scaleType="centerCrop"-->
+                <!--android:src="@drawable/ic_location_48dp" />-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/tv_demand_distance"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginBottom="7dp"-->
+                <!--android:layout_marginLeft="5dp"-->
+                <!--android:layout_marginTop="12dp"-->
+                <!--android:text="山西"-->
+                <!--android:textSize="@dimen/font_size" />-->
+
+        <!--</LinearLayout>-->
+
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_marginTop="25dp"-->
+            <!--android:gravity="center_horizontal|center_vertical">-->
+
+            <!--<ImageView-->
+                <!--android:id="@+id/iv_demand_collection"-->
+                <!--android:layout_width="40dp"-->
+                <!--android:layout_height="40dp"-->
+                <!--android:focusable="false"-->
+                <!--android:scaleType="centerCrop"-->
+                <!--android:src="@drawable/ic_collect_having_48dp"/>-->
+
+        <!--</LinearLayout>-->
+
+    <!--</LinearLayout>-->
+
+    <!--<LinearLayout-->
+        <!--android:id="@+id/ll_left"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_marginRight="20dp"-->
+        <!--android:layout_toLeftOf="@id/ll_right"-->
+        <!--android:orientation="vertical">-->
+
+
+        <!--<TextView-->
+            <!--android:id="@+id/tv_demand_title"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="20dp"-->
+            <!--android:ellipsize="end"-->
+            <!--android:lines="1"-->
+            <!--android:layout_marginTop="20dp"-->
+            <!--android:text="收购苹果两万斤收购苹果两万斤收购苹果两万斤收购苹果两万斤"-->
+            <!--android:textSize="@dimen/font_title" />-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/tv_demand_content"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginBottom="10dp"-->
+            <!--android:layout_marginLeft="20dp"-->
+            <!--android:layout_marginTop="10dp"-->
+            <!--android:ellipsize="end"-->
+            <!--android:lines="2"-->
+            <!--android:text="我的他的你的我的他的你的我的他的你的我的他的你的我的他的你的我的他的你的我的他的你的我的他的你的我的他的你的我的他的你的我的他的你的"-->
+            <!--android:textSize="@dimen/font_size" />-->
+
+        <!--<RelativeLayout-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="30dp">-->
+
+            <!--<com.sxau.agriculture.widgets.RoundImageView-->
+                <!--android:id="@+id/rv_info_head"-->
+                <!--android:layout_width="20dp"-->
+                <!--android:layout_height="20dp"-->
+                <!--android:layout_marginLeft="20dp"-->
+                <!--android:layout_marginTop="5dp"-->
+                <!--android:layout_alignBottom="@+id/tv_demand_name"-->
+                <!--android:src="@mipmap/img_default_user_portrait_150px" />-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/tv_demand_name"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignParentBottom="true"-->
+                <!--android:layout_marginBottom="10dp"-->
+                <!--android:layout_marginLeft="5dp"-->
+                <!--android:layout_toRightOf="@+id/rv_info_head"-->
+                <!--android:text="天和集团"-->
+                <!--android:textSize="@dimen/font_size" />-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/tv_demand_date"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignParentBottom="true"-->
+                <!--android:layout_alignParentRight="true"-->
+                <!--android:layout_alignBaseline="@+id/tv_demand_name"-->
+                <!--android:text="2016.03.22"-->
+                <!--android:textSize="@dimen/font_time" />-->
+
+        <!--</RelativeLayout>-->
+
+
+    <!--</LinearLayout>-->
 
 </RelativeLayout>
 
