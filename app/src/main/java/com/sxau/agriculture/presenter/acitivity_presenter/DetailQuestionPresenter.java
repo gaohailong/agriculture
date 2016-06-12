@@ -17,7 +17,8 @@ import retrofit.Response;
 import retrofit.Retrofit;
 
 /**
- * Created by gaohailong on 2016/6/4.
+ * 问题详情的p
+ * @author 高海龙
  */
 public class DetailQuestionPresenter implements IDetailQuestionPresenter {
     private DetailQuestionActivity.MyHandler handler;
