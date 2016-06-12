@@ -3,7 +3,7 @@
     <string name="app_name">Agriculture</string>
     <!--MainActivity-->
     <string name="home">首页</string>
-    <string name="question">回答</string>
+    <string name="question">问答</string>
     <string name="trade">交易</string>
     <string name="message">消息</string>
     <string name="phone110">农科110热线</string>

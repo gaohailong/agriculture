@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -40,23 +41,20 @@ import java.util.List;
  *
  * @author 田帅
  */
-
-
 public class TradeDemandListViewFragment extends BaseFragment implements ITradeListViewFragment, AdapterView.OnItemClickListener, View.OnTouchListener {
-
     private View mview;
     private ListView lv_Info;
     private ImageView iv_collection;
     private View footerLayout;
     private TextView tv_more;
-
-    private TradeListViewAdapter adapter;
+    private View emptyView;
 
     private float startX, startY, offsetX, offsetY; //计算触摸偏移量
     private RefreshLayout rl_refresh;
     private MyHandler handler;
     private Context context;
 
+    private TradeListViewAdapter adapter;
     private ArrayList<TradeData> demandDatas = new ArrayList<TradeData>();
     private ITradeListViewPresenter iTradeListViewPresenter;
     private int currentPage;
@@ -75,12 +73,19 @@ public class TradeDemandListViewFragment extends BaseFragment implements ITradeL
         rl_refresh.setColorSchemeColors(Color.parseColor("#00b5ad"));
         footerLayout = getLayoutInflater(savedInstanceState).inflate(R.layout.listview_footer, null);
         tv_more = (TextView) footerLayout.findViewById(R.id.tv_more);
+        emptyView = mview.findViewById(R.id.emptyView);
 
-        initRefresh();
-    /*    iv_collection = (ImageView) mview.findViewById(R.id.iv_demand_collection);
-        lv_Info.setOnItemClickListener(this);*/
-//        iTradeListViewPresenter.doRequest(String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER, true);
+        lv_Info.setOnItemClickListener(this);
+//    iv_collection = (ImageView) mview.findViewById(R.id.iv_demand_collection);
         return mview;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        initRefresh();
+        initListView();
+        handler.sendEmptyMessage(ConstantUtil.PULL_REFRESH);
     }
 
     public void initRefresh() {
@@ -101,13 +106,11 @@ public class TradeDemandListViewFragment extends BaseFragment implements ITradeL
         });
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-     /*   Intent intent = new Intent();
-        intent.putExtra("TradeId", demandDatas.get(position).getId());
-        intent.setClass(TradeDemandListViewFragment.this.getActivity(), TradeContentActivity.class);
-        startActivity(intent);*/
+    public void initListView() {
+        adapter = new TradeListViewAdapter(context, demandDatas);
+        lv_Info.setAdapter(adapter);
     }
+
 
     public class MyHandler extends Handler {
         WeakReference<TradeDemandListViewFragment> weakReference;
@@ -121,9 +124,8 @@ public class TradeDemandListViewFragment extends BaseFragment implements ITradeL
             super.handleMessage(msg);
             switch (msg.what) {
                 case ConstantUtil.GET_NET_DATA:
-                    //TODO 数据方法一换就可以getDemandDatas()
-                    demandDatas = iTradeListViewPresenter.getSupplyDatas();
-                    updateView(demandDatas);
+                    //TODO 有需求数据接口时只需要将方法换为getDemandDatas即可
+                    updateView(iTradeListViewPresenter.getSupplyDatas());
                     break;
                 case ConstantUtil.PULL_REFRESH:
                     currentPage = 1;
@@ -151,23 +153,18 @@ public class TradeDemandListViewFragment extends BaseFragment implements ITradeL
         }
     }
 
-    ;
-
     //------------------接口方法-------------------
-
     @Override
-    public void updateView(ArrayList<TradeData> demandDatas) {
-        if (demandDatas == null) {
-//            lv_Info.setEmptyView(emptyView);
-//            lv_Info.setVisibility(View.GONE);
-//            currentPage = 1;
-//            iTradeListViewPresenter.doRequest(String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER, true);
+    public void updateView(ArrayList<TradeData> supplyDataGet) {
+        demandDatas.clear();
+        demandDatas.addAll(supplyDataGet);
+        if (demandDatas.isEmpty()) {
+            lv_Info.setEmptyView(emptyView);
+            lv_Info.setVisibility(View.GONE);
         } else {
-//            emptyView.setVisibility(View.GONE);
-//            lv_Info.setVisibility(View.VISIBLE);
-            Log.e("demandDatas", demandDatas.size() + "");
-            adapter = new TradeListViewAdapter(context, demandDatas);
-            lv_Info.setAdapter(adapter);
+            emptyView.setVisibility(View.GONE);
+            lv_Info.setVisibility(View.VISIBLE);
+            adapter.notifyDataSetChanged();
         }
     }
 
@@ -178,6 +175,14 @@ public class TradeDemandListViewFragment extends BaseFragment implements ITradeL
         } else {
             RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOAD_MORE);
         }
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Intent intent = new Intent();
+        intent.putExtra("TradeId", demandDatas.get(position).getId());
+        intent.setClass(TradeDemandListViewFragment.this.getActivity(), TradeContentActivity.class);
+        startActivity(intent);
     }
 
  /*   @Override
@@ -228,6 +233,5 @@ public class TradeDemandListViewFragment extends BaseFragment implements ITradeL
         }
         return false;
     }
-
 //----------------接口方法结束-------------------
 }

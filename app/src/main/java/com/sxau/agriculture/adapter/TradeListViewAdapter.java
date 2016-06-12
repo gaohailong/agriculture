@@ -65,8 +65,6 @@ public class TradeListViewAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         TradeData infoData = datas.get(position);
-        Log.e("step6.0","获取数据赋值"+datas.size());
-        Log.e("step6","获取数据赋值"+infoData.getTradeType());
         if (infoData.getUser().getAvatar() == null) {
             holder.ivHead.setImageResource(R.mipmap.img_default_user_portrait_150px);
         } else {
@@ -84,7 +82,6 @@ public class TradeListViewAdapter extends BaseAdapter {
         } else {
             holder.ivCollection.setImageResource(R.drawable.ic_no_praise_48px);
         }
-        Log.e("4、supplyData4", datas.size() + "");
 //        holder.ivCollection.setOnClickListener(new CollectionListener(position, flag));
         return convertView;
     }

@@ -186,6 +186,7 @@ public class QuestionListViewFragment extends BaseFragment implements IQuestionL
                             e.printStackTrace();
                         }
                     }
+                    //adapter第一次没有数据导致页面不加载，第二次通知也不改变，因为他原来也没有数据，所以他认为改变的没有
                     break;
                 case ConstantUtil.GET_NET_DATA:
                     adapter.notifyDataSetChanged();
