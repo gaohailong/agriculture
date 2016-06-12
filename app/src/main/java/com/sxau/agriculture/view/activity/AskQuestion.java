@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.sxau.agriculture.adapter.SelectPhotoAdapter;
 import com.sxau.agriculture.agriculture.R;
@@ -106,6 +107,8 @@ public class AskQuestion extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.btn_submit:
                 //提交网络请求发送问题
+                Toast.makeText(AskQuestion.this,"提交成功",Toast.LENGTH_LONG).show();
+                finish();
                 break;
             default:
                 break;

@@ -66,11 +66,6 @@
 
         <activity android:name="com.sxau.agriculture.view.activity.ImprovePersonalInfoActivity"/>
         <activity android:name="com.sxau.agriculture.view.activity.LoginActivity" android:launchMode="singleTask" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name="com.sxau.agriculture.view.activity.RegisterActivity" android:launchMode="singleTask" />
 
