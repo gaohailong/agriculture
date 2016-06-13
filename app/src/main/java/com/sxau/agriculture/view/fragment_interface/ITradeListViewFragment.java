@@ -9,18 +9,17 @@ import java.util.ArrayList;
  * @author 田帅
  */
 public interface ITradeListViewFragment {
-/**
- * 更新数据
- * */
-    void updateView(ArrayList<TradeData> supplyDatas);
+    void updateView(ArrayList<TradeData> supplyDataGet);
+    void isLoadOver(boolean isLoadover);
+  /*     void updateView(ArrayList<TradeData> supplyDatas);
     void changeItemView();
     int getCollectState();
-    /**
+    *//**
      * 点击加载判断
-     * */
+     * *//*
     void isLoadOver(boolean isLoadover);
-    /**
+    *//**
      * 数据加载失败
-     * */
-    void onFailure();
+     * *//*
+    void onFailure();*/
 }

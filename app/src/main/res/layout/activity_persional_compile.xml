@@ -39,6 +39,7 @@
         android:background="@color/whitGrey" />
 
     <RelativeLayout
+        android:id="@+id/rl_head"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginLeft="5dp"
@@ -98,7 +99,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerInParent="true"
             android:textSize="@dimen/font_size"
-            android:text="给人民种口粮" />
+            android:text="" />
     </RelativeLayout>
 
     <View
@@ -133,7 +134,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerInParent="true"
             android:textSize="@dimen/font_size"
-            android:text="11100001111" />
+            android:text="" />
     </RelativeLayout>
 
     <View
@@ -143,6 +144,7 @@
         android:background="@color/grey" />
 
     <RelativeLayout
+        android:id="@+id/rl_name"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginLeft="5dp">
@@ -167,7 +169,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerInParent="true"
             android:textSize="@dimen/font_size"
-            android:text="雅文" />
+            android:text="未设置" />
     </RelativeLayout>
 
     <View
@@ -176,8 +178,8 @@
         android:layout_marginLeft="10dp"
         android:background="@color/grey" />
 
-    <!--
     <RelativeLayout
+        android:id="@+id/rl_industry"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginLeft="5dp">
@@ -202,7 +204,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerInParent="true"
             android:textSize="@dimen/font_size"
-            android:text="行业" />
+            android:text="未设置" />
     </RelativeLayout>
 
     <View
@@ -212,6 +214,7 @@
         android:background="@color/grey" />
 
     <RelativeLayout
+        android:id="@+id/rl_scale"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginLeft="5dp">
@@ -236,17 +239,17 @@
             android:layout_alignParentRight="true"
             android:layout_centerInParent="true"
             android:textSize="@dimen/font_size"
-            android:text="规模" />
+            android:text="未设置" />
     </RelativeLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:layout_marginLeft="10dp"
         android:background="@color/grey" />
--->
-
 
     <RelativeLayout
+        android:id="@+id/rl_address"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginLeft="5dp">
@@ -271,7 +274,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerInParent="true"
             android:textSize="@dimen/font_size"
-            android:text="山西省晋中市太谷县" />
+            android:text="未设置" />
     </RelativeLayout>
 
     <View

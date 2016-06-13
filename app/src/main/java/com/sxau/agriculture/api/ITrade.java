@@ -10,9 +10,10 @@ import retrofit.http.Query;
 
 /**
  * @author 田帅
- * 请求交易数据的接口
+ * 请求交易数据
  */
 public interface ITrade {
     @GET("trades")
+//    Call<ArrayList<TradeData>> getInfoTrade();
     Call<ArrayList<TradeData>> getInfoTrade(@Query("page") String page,@Query("pageSize") String pageSize);
 }

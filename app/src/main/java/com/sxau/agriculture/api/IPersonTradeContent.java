@@ -1,6 +1,5 @@
 package com.sxau.agriculture.api;
 
-import com.sxau.agriculture.bean.MyPersonalTrade;
 import com.sxau.agriculture.bean.TradeData;
 
 import retrofit.Call;
@@ -8,9 +7,9 @@ import retrofit.http.GET;
 import retrofit.http.Path;
 
 /**
- * Created by Administrator on 2016/5/27.
+ * Created by czz on 2016/6/10.
  */
-public interface ITradeContent {
+public interface IPersonTradeContent {
     @GET("trade/{id}")
-    Call<TradeData> getTrade(@Path("id") int id);
+    Call<TradeData> getTradeContent(@Path("id") int id);
 }

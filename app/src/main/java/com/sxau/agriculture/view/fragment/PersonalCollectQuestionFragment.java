@@ -31,6 +31,8 @@ import java.util.ArrayList;
 
 /**
  * 个人中心我收藏的问题的listView的fragment
+ * 问题
+ *
  * @author 李秉龙
  */
 public class PersonalCollectQuestionFragment  extends BaseFragment implements IPresonalCollectQuestionFragment{
@@ -166,9 +168,9 @@ public void showRequestTimeout() {
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Intent intent=new Intent(context,DetailQuestionActivity.class);
-                    intent.putExtra("ItemId",id);
-                    startActivity(intent);
+                    LogUtil.d("收藏", "2");
+                    DetailQuestionActivity.actionStart(PersonalCollectQuestionFragment.this.getActivity(), mquestionslist.get(position).getQuestion().getId());
+                    Log.e("collectionQuestion", mquestionslist.get(position).getId()+"");
                 }
             });
         }

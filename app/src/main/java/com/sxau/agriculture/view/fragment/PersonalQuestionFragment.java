@@ -180,7 +180,7 @@ public class PersonalQuestionFragment extends BaseFragment implements IPersonalQ
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    DetailQuestionActivity.actionStart(PersonalQuestionFragment.this.getActivity(), position);
+                    DetailQuestionActivity.actionStart(PersonalQuestionFragment.this.getActivity(), mquestionslist.get(position).getId());
                 }
             });
         }

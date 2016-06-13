@@ -100,12 +100,13 @@ public class PersonalQuestionPresenter implements IPersonalQuestionPresenter {
     @Override
     public void doRequest() {
         authToken = AuthTokenUtil.findAuthToken();
-        LogUtil.d("PersonalQuestionP:authToken:",authToken+"");
+        LogUtil.d("PersonalQuestionP:authToken:", authToken + "");
         Call<ArrayList<MyPersonalQuestion>> call = RetrofitUtil.getRetrofit().create(IPersonalQuestion.class).getMessage(authToken);
         call.enqueue(new Callback<ArrayList<MyPersonalQuestion>>() {
             @Override
             public void onResponse(Response<ArrayList<MyPersonalQuestion>> response, Retrofit retrofit) {
                 LogUtil.d("PersonalQuestionP", "请求返回Code：" + response.code() + "  请求返回Body：" + response.body() + "  请求返回Message：" + response.message());
+//                LogUtil.d("PersonalQuestionP", "请求返回Code：" + response.code() + "  请求返回Body：" + response.body() + "  请求返回Message：" + response.message());
 //                  Toast.makeText(AgricultureApplication.getContext(), response.code(),Toast.LENGTH_SHORT).show();
                 if (response.isSuccess()) {
                     mQuestionsList = response.body();

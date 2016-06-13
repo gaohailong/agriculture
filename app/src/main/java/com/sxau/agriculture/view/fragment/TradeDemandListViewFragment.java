@@ -1,10 +1,12 @@
 package com.sxau.agriculture.view.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -30,162 +32,151 @@ import com.sxau.agriculture.presenter.fragment_presenter_interface.ITradeListVie
 import com.sxau.agriculture.view.fragment_interface.ITradeListViewFragment;
 import com.sxau.agriculture.widgets.RefreshLayout;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 信息专区ListView
+ * 消息专区需求ListView
  *
  * @author 田帅
  */
-
-
-public class TradeDemandListViewFragment extends BaseFragment implements ITradeListViewFragment, AdapterView.OnItemClickListener, View.OnTouchListener, RefreshLayout.OnRefreshListener {
-    /**
-     * 控件
-     */
+public class TradeDemandListViewFragment extends BaseFragment implements ITradeListViewFragment, AdapterView.OnItemClickListener, View.OnTouchListener {
     private View mview;
     private ListView lv_Info;
     private ImageView iv_collection;
-    private BaseAdapter adapter;
-    /**
-     * 浮动按钮
-     */
-    private float startX, startY, offsetX, offsetY; //计算触摸偏移量
-    /**
-     * 网络请求
-     */
-    private int currentPage;
-    //private String tradeType = "SUPPLY";
-    /**
-     * 下拉刷新上拉加载
-     */
     private View footerLayout;
     private TextView tv_more;
+    private View emptyView;
+
+    private float startX, startY, offsetX, offsetY; //计算触摸偏移量
     private RefreshLayout rl_refresh;
-    private Handler handler;
-    private boolean isLoadOver;
-    /**
-     * 实体类集合
-     */
-//    private List<TradeData> infoDatas = new ArrayList<TradeData>();
-    private TradeData infoData;
+    private MyHandler handler;
+    private Context context;
+
+    private TradeListViewAdapter adapter;
     private ArrayList<TradeData> demandDatas = new ArrayList<TradeData>();
-    /**
-     * 接口
-     */
     private ITradeListViewPresenter iTradeListViewPresenter;
-
-    /**
-     * 这个不知道干嘛用的
-     */
-    public TradeDemandListViewFragment() {
-    }
-
+    private int currentPage;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-
-        /**
-         * 绑定视图
-         * */
-        mview = inflater.inflate(R.layout.fragment_trade_listview, container, false);
-        /**
-         * 初始化控件
-         * */
-        lv_Info = (ListView) mview.findViewById(R.id.lv_info);
-        iv_collection = (ImageView) mview.findViewById(R.id.iv_demand_collection);
-
-        isLoadOver = false;
-        handler = new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                super.handleMessage(msg);
-                switch (msg.what) {
-                    /**
-                     * 下拉刷新
-                     * */
-                    case ConstantUtil.PULL_REFRESH:
-                        currentPage = 1;
-                        initInfoData(String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER, true);
-                        rl_refresh.setRefreshing(false);
-                        adapter.notifyDataSetChanged();
-                        RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOAD_MORE);
-                        break;
-                    /**
-                     * 得到数据
-                     * */
-                    case ConstantUtil.GET_NET_DATA:
-                        demandDatas = iTradeListViewPresenter.getDemandDatas();
-                        updateView(demandDatas);
-                        if (isLoadOver) {
-                            RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOAD_OVER);
-                        } else {
-                            RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOAD_MORE);
-                        }
-                        break;
-                    /**
-                     * 点击加载
-                     * */
-                    case ConstantUtil.UP_LOAD:
-                        currentPage++;
-                        initInfoData(String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER, false);
-                        rl_refresh.setLoading(false);
-                        break;
-                    default:
-                        break;
-                }
-            }
-        };
-        /**
-         * 将InfoLvFragment与InfolvPresenter绑定
-         * */
-        iTradeListViewPresenter = new TradeListViewPresenter(TradeDemandListViewFragment.this, TradeDemandListViewFragment.this.getContext(), handler);
-        /**
-         * 请求数据
-         * */
+        handler = new MyHandler(TradeDemandListViewFragment.this);
+        context = TradeDemandListViewFragment.this.getActivity();
+        iTradeListViewPresenter = new TradeListViewPresenter(TradeDemandListViewFragment.this, context, handler);
         currentPage = 1;
-        initInfoData(String.valueOf(currentPage), String.valueOf(ConstantUtil.ITEM_NUMBER), true);
-        demandDatas = iTradeListViewPresenter.getDemandDatas();
-        /**
-         * 配置适配器
-         * */
-        adapter = new TradeListViewAdapter(TradeDemandListViewFragment.this.getActivity(), demandDatas);
-        lv_Info.setAdapter(adapter);
-        /**
-         * ListviewItem点击事件与浮动按钮动画效果
-         * */
-        lv_Info.setOnItemClickListener(this);
-        lv_Info.setOnTouchListener(this);
-        /**
-         * 下拉刷新与加载
-         * */
+
+        mview = inflater.inflate(R.layout.fragment_trade_listview, container, false);
+        lv_Info = (ListView) mview.findViewById(R.id.lv_info);
         rl_refresh = (RefreshLayout) mview.findViewById(R.id.srl_refresh);
         rl_refresh.setColorSchemeColors(Color.parseColor("#00b5ad"));
-        rl_refresh.setOnRefreshListener(this);
         footerLayout = getLayoutInflater(savedInstanceState).inflate(R.layout.listview_footer, null);
         tv_more = (TextView) footerLayout.findViewById(R.id.tv_more);
+        emptyView = mview.findViewById(R.id.emptyView);
+
+        lv_Info.setOnItemClickListener(this);
+//    iv_collection = (ImageView) mview.findViewById(R.id.iv_demand_collection);
+        return mview;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        initRefresh();
+        initListView();
+        handler.sendEmptyMessage(ConstantUtil.PULL_REFRESH);
+    }
+
+    public void initRefresh() {
         lv_Info.addFooterView(footerLayout);
         rl_refresh.setChildView(lv_Info);
+        rl_refresh.setOnRefreshListener(new RefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                handler.sendEmptyMessage(ConstantUtil.PULL_REFRESH);
+            }
+        });
+
         tv_more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 handler.sendEmptyMessage(ConstantUtil.UP_LOAD);
             }
         });
-        return mview;
     }
-    /**
-     * 初始化交易信息
-     */
-    public void initInfoData(String page, String pageSize, final boolean isRefresh) {
-        iTradeListViewPresenter.doRequest(page, pageSize, isRefresh);
+
+    public void initListView() {
+        adapter = new TradeListViewAdapter(context, demandDatas);
+        lv_Info.setAdapter(adapter);
     }
-    /**
-     * Item事件
-     */
+
+
+    public class MyHandler extends Handler {
+        WeakReference<TradeDemandListViewFragment> weakReference;
+
+        public MyHandler(TradeDemandListViewFragment fragment) {
+            weakReference = new WeakReference<TradeDemandListViewFragment>(fragment);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case ConstantUtil.GET_NET_DATA:
+                    //TODO 有需求数据接口时只需要将方法换为getDemandDatas即可
+                    updateView(iTradeListViewPresenter.getSupplyDatas());
+                    break;
+                case ConstantUtil.PULL_REFRESH:
+                    currentPage = 1;
+                    iTradeListViewPresenter.doRequest(String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER, true);
+                    rl_refresh.setRefreshing(false);
+                    RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOAD_MORE);
+                    break;
+                case ConstantUtil.UP_LOAD:
+                    currentPage++;
+                    iTradeListViewPresenter.doRequest(String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER, false);
+                    rl_refresh.setLoading(false);
+                    break;
+                case ConstantUtil.LOAD_FAIL:
+                    if (currentPage > 1) {
+                        rl_refresh.setRefreshing(false);
+                        currentPage--;
+                    } else {
+                        rl_refresh.setRefreshing(false);
+                    }
+                    RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOAD_FAIL);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    //------------------接口方法-------------------
+    @Override
+    public void updateView(ArrayList<TradeData> supplyDataGet) {
+        demandDatas.clear();
+        demandDatas.addAll(supplyDataGet);
+        if (demandDatas.isEmpty()) {
+            lv_Info.setEmptyView(emptyView);
+            lv_Info.setVisibility(View.GONE);
+        } else {
+            emptyView.setVisibility(View.GONE);
+            lv_Info.setVisibility(View.VISIBLE);
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void isLoadOver(boolean isLoadover) {
+        if (isLoadover) {
+            RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOAD_OVER);
+        } else {
+            RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOAD_MORE);
+        }
+    }
+
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent intent = new Intent();
@@ -193,66 +184,28 @@ public class TradeDemandListViewFragment extends BaseFragment implements ITradeL
         intent.setClass(TradeDemandListViewFragment.this.getActivity(), TradeContentActivity.class);
         startActivity(intent);
     }
-    //------------------接口方法-------------------
 
-    @Override
-    public void updateView(ArrayList<TradeData> demandDatas) {
-        Log.d("TradeSupplyListView", "6、updata方法执行");
-        if(demandDatas==null){
-            Log.d("TradeSupplyListView", "7、仍然是空数据");
-//            lv_Info.setEmptyView(emptyView);
-            lv_Info.setVisibility(View.GONE);
-            currentPage=1;
-            iTradeListViewPresenter.doRequest(String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER, true);
-        }else {
-            Log.d("TradeSupplyListView", "8、成功拿到数据，更新界面");
-//            emptyView.setVisibility(View.GONE);
-            lv_Info.setVisibility(View.VISIBLE);
-
-            adapter = new TradeListViewAdapter(TradeDemandListViewFragment.this.getActivity(), demandDatas);
-            lv_Info.setAdapter(adapter);
-        }
-    }
-
-    @Override
+ /*   @Override
     public void changeItemView() {
     }
+
+    */
+
     /**
      * 获取收藏的状态，是否已经收藏
      * 1代表已经收藏
      * 2代表没有收藏
-     */
+     *//*
     @Override
     public int getCollectState() {
         return 0;
     }
-    /**
-     * 点击加载判断
-     * */
-    @Override
-    public void isLoadOver(boolean isLoadover) {
-        isLoadOver = isLoadover;
-    }
-    /**
-     * 数据加载失败
-     * */
-    @Override
-    public void onFailure() {
-        tv_more.setText("数据加载失败");
-        RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOAD_FAIL);
-        if (currentPage > 1) {
-            rl_refresh.setRefreshing(false);
-            currentPage--;
-        } else {
-            rl_refresh.setRefreshing(false);
-        }
-    }
+
     /**
      * 实现滑动屏幕隐藏浮动按钮和显示按钮效果
      */
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 startX = event.getX();
@@ -279,13 +232,6 @@ public class TradeDemandListViewFragment extends BaseFragment implements ITradeL
                 break;
         }
         return false;
-    }
-    /**
-     * 下拉刷新
-     */
-    @Override
-    public void onRefresh() {
-        handler.sendEmptyMessage(ConstantUtil.PULL_REFRESH);
     }
 //----------------接口方法结束-------------------
 }

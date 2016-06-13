@@ -2,17 +2,24 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
+    
+    <com.sxau.agriculture.utils.TopBarUtil
+        android:id="@+id/top_question"
+        android:padding="4dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"/>
     <EditText
+        android:layout_below="@+id/top_question"
         android:id="@+id/et_trade_title"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="70dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
+        android:paddingTop="10dp"
         android:maxLength="45"
-        android:background="#ffffff"
+        android:background="@color/white"
         android:lines="1"
-        android:gravity="center_vertical"
+        android:gravity="top"
         android:hint="请输入标题(不能超于45个字)"
         android:textSize="@dimen/font_title" />
 
@@ -21,12 +28,12 @@
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:layout_below="@+id/et_trade_title"
-        android:background="@color/greyBlack" />
+        android:background="@color/greyWhite" />
 
     <EditText
         android:id="@+id/et_trade_content"
         android:layout_width="match_parent"
-        android:layout_height="96dp"
+        android:layout_height="130dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:paddingTop="10dp"
@@ -37,6 +44,7 @@
         android:gravity="top"
         android:lines="4"
         android:hint="请输入内容(不能超于255个字)"
+        android:textSize="@dimen/font_title"
         android:maxLength="255" />
 
     <View
@@ -44,7 +52,7 @@
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:layout_below="@+id/et_trade_content"
-        android:background="@color/greyBlack" />
+        android:background="@color/greyWhite" />
 
     <RelativeLayout
         android:id="@+id/relativeLayout"
@@ -61,7 +69,7 @@
             android:id="@+id/sp_trade_cotegory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            />
+            android:layout_centerVertical="true"/>
 
         <ImageView
             android:id="@+id/ib_photo"
@@ -108,7 +116,5 @@
             android:textColor="@color/white"
             android:background="@drawable/trade_release_submit_button"
             android:text="@string/submit" />
-
-
     </LinearLayout>
 </RelativeLayout>

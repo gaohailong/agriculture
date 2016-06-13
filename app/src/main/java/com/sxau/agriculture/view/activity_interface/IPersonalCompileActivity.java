@@ -4,9 +4,12 @@ package com.sxau.agriculture.view.activity_interface;
  * Created by Yawen_Li on 2016/4/22.
  */
 public interface IPersonalCompileActivity {
-    String getHead();
     String getRealName();
-    String getPhone();
     String getUserPosition();
-    String getUserType();
+    String getUserIndustry();
+    String getUserScale();
+    void showUpdataSuccess();
+    void showUpdataFailed();
+    void showNoNet();
+    void showProgress(boolean flag);
 }

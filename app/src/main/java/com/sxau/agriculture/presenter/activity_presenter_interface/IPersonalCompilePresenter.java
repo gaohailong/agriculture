@@ -1,5 +1,7 @@
 package com.sxau.agriculture.presenter.activity_presenter_interface;
 
+import android.net.Uri;
+
 import com.sxau.agriculture.bean.User;
 
 import java.io.File;
@@ -9,9 +11,7 @@ import java.io.File;
  */
 public interface IPersonalCompilePresenter {
     void doUpdate();
-    void setInformation();
     User getData();
     void requestUserData();
-    void setImageUri(File photoFile);
-    Object getInformation();
+    void setImageUri(Uri photoUri);
 }

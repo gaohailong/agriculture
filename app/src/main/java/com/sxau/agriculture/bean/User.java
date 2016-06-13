@@ -24,6 +24,7 @@ public class User implements Serializable{
 
     private long whenCreated;
     private long whenUpdated;
+    private String id;
     private String email;
     private String userType;
     private String address;
@@ -34,6 +35,14 @@ public class User implements Serializable{
     private String industry;
     private String scale;
     private String authToken;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getAuthToken() {
         return authToken;

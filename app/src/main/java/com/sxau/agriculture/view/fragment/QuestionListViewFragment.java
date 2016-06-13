@@ -77,20 +77,22 @@ public class QuestionListViewFragment extends BaseFragment implements IQuestionL
         context = QuestionListViewFragment.this.getActivity();
 
         lvQuestionList = (ListView) mView.findViewById(R.id.lv_question);
-        if(NetUtil.isNetAvailable(context)) {
+
+        if (NetUtil.isNetAvailable(context)) {
             lvQuestionList.setOnItemClickListener(this);
-        }else {
-            Toast.makeText(context,"请检查网络设置",Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(context, "请检查网络设置", Toast.LENGTH_SHORT).show();
         }
+
         lvQuestionList.setOnTouchListener(this);
-        questionFragment=new QuestionFragment();
+        questionFragment = new QuestionFragment();
 
         questionDatas = new ArrayList<QuestionData>();
         myHandler = new MyHandler();
 
         pullCategorieId();
 
-        Log.d("555", cateId+"");
+        Log.d("555", cateId + "");
 
         //刷新&加载
         rl_refresh = (RefreshLayout) mView.findViewById(R.id.rl_refresh);
@@ -112,9 +114,9 @@ public class QuestionListViewFragment extends BaseFragment implements IQuestionL
         myHandler.sendEmptyMessage(ConstantUtil.INIT_DATA);
     }
 
-    public void pullCategorieId(){
-        SharedPreferences sharedPreferences=getActivity().getSharedPreferences("cate",Context.MODE_PRIVATE);
-        cateId=sharedPreferences.getInt("cateId",0);
+    public void pullCategorieId() {
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("cate", Context.MODE_PRIVATE);
+        cateId = sharedPreferences.getInt("cateId", 0);
     }
 
     public void initRefresh() {
@@ -174,7 +176,7 @@ public class QuestionListViewFragment extends BaseFragment implements IQuestionL
                 case ConstantUtil.INIT_DATA:
                     currentPage = 1;
                     if (NetUtil.isNetAvailable(context)) {
-                        getQuestionData(String.valueOf(currentPage), "3", true,String.valueOf(cateId));
+                        getQuestionData(String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER, true, String.valueOf(cateId));
                     } else {
                         try {
                             dbUtil.createTableIfNotExist(QuestionData.class);
@@ -184,6 +186,7 @@ public class QuestionListViewFragment extends BaseFragment implements IQuestionL
                             e.printStackTrace();
                         }
                     }
+                    //adapter第一次没有数据导致页面不加载，第二次通知也不改变，因为他原来也没有数据，所以他认为改变的没有
                     break;
                 case ConstantUtil.GET_NET_DATA:
                     adapter.notifyDataSetChanged();
@@ -195,13 +198,13 @@ public class QuestionListViewFragment extends BaseFragment implements IQuestionL
                     break;
                 case ConstantUtil.PULL_REFRESH:
                     currentPage = 1;
-                    getQuestionData(String.valueOf(currentPage), "3", true,String.valueOf(cateId));
+                    getQuestionData(String.valueOf(currentPage) , ConstantUtil.ITEM_NUMBER, true, String.valueOf(cateId));
                     rl_refresh.setRefreshing(false);
                     RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOAD_MORE);
                     break;
                 case ConstantUtil.UP_LOAD:
                     currentPage++;
-                    getQuestionData(String.valueOf(currentPage), "3", false,String.valueOf(cateId));
+                    getQuestionData(String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER, false, String.valueOf(cateId));
                     rl_refresh.setLoading(false);
                     break;
                 default:
@@ -211,9 +214,9 @@ public class QuestionListViewFragment extends BaseFragment implements IQuestionL
     }
 
     //网络请求方法
-    public void getQuestionData(String page, String pageSize, final boolean isRefresh,String category) {
+    public void getQuestionData(String page, String pageSize, final boolean isRefresh, String category) {
         Log.d("666", category);
-        Call<ArrayList<QuestionData>> call = RetrofitUtil.getRetrofit().create(IQuestionList.class).getQuestionList(page, pageSize,category);
+        Call<ArrayList<QuestionData>> call = RetrofitUtil.getRetrofit().create(IQuestionList.class).getQuestionList(page, pageSize, category);
         call.enqueue(new Callback<ArrayList<QuestionData>>() {
             @Override
             public void onResponse(Response<ArrayList<QuestionData>> response, Retrofit retrofit) {
@@ -225,7 +228,7 @@ public class QuestionListViewFragment extends BaseFragment implements IQuestionL
                             questionDatas.clear();
                             questionDatas.addAll(questionDatas1);
                             dbUtil.saveAll(questionDatas1);
-                            isLoadOver=false;
+                            isLoadOver = false;
                         } else {
                             questionDatas.addAll(questionDatas1);
                             dbUtil.saveAll(questionDatas);
