@@ -79,6 +79,7 @@ public class TradeSupplyListViewFragment extends BaseFragment implements ITradeL
 //        iv_collection = (ImageView) mview.findViewById(R.id.iv_demand_collection);
         emptyView = mview.findViewById(R.id.emptyView);
         lv_Info.setOnItemClickListener(this);
+        lv_Info.setOnTouchListener(this);
         return mview;
     }
 
