@@ -3,6 +3,7 @@ package com.sxau.agriculture.view.activity;
 
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -43,6 +44,7 @@ import com.sxau.agriculture.qiniu.FileUtilsQiNiu;
 import com.sxau.agriculture.qiniu.QiniuLabConfig;
 import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.LogUtil;
+import com.sxau.agriculture.utils.NetUtil;
 import com.sxau.agriculture.widgets.CityPicker;
 import com.sxau.agriculture.widgets.RoundImageView;
 
@@ -64,19 +66,24 @@ import org.json.JSONObject;
  *
  * @author 李秉龙
  * @update 高海龙
+ * @update 李雅文
  */
 public class PersonalCompileActivity extends BaseActivity implements View.OnClickListener, IPersonalCompileActivity {
-    private ImageButton ib_Back;
-    private RoundImageView rw_Head;
-    private TextView tv_UserNick;
-    private TextView tv_PhoneNumber;
-    private TextView tv_UserAddress;
-    private TextView tv_UserType;
-    private TextView tv_UserRealName;
-    private TextView tv_UserIndustry;
-    private TextView tv_UserScale;
-    private Button btn_finish;
-    private RelativeLayout rl_address, rl_name, rl_head;
+
+    private ImageButton ib_Back;        //返回按钮
+    private RoundImageView rw_Head;     //头像图标按钮
+    private TextView tv_UserNick;       //昵称
+    private TextView tv_PhoneNumber;    //电话号码
+    private TextView tv_UserAddress;    //用户地址
+    private TextView tv_UserType;       //用户类型
+    private TextView tv_UserRealName;   //用户真实姓名
+    private TextView tv_UserIndustry;   //用户产业
+    private TextView tv_UserScale;      //用户规模
+    private Button btn_finish;          //完成按钮
+    //可编辑行
+    private RelativeLayout rl_address, rl_name, rl_head,rl_industry,rl_scale;
+    private ProgressDialog pdUpdatawait;
+    private User user;
 
     /**
      * 定义三种状态
@@ -87,7 +94,7 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
     private File photoFile;
     private Bitmap photoBitmap;
 
-    private String compileRealName;
+    private String compilestr;  //编辑后的文本
 
     private IPersonalCompilePresenter iPersonalCompilePresenter;
     private Handler handler;
@@ -113,26 +120,36 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
         tv_PhoneNumber = (TextView) this.findViewById(R.id.tv_phone_number);
         tv_UserAddress = (TextView) this.findViewById(R.id.tv_user_address);
         tv_UserType = (TextView) this.findViewById(R.id.tv_user_type);
-//        tv_UserIndustry = (TextView) this.findViewById(R.id.tv_industry);
+        tv_UserIndustry = (TextView) this.findViewById(R.id.tv_industry);
         tv_UserRealName = (TextView) this.findViewById(R.id.tv_realName);
-//        tv_UserScale = (TextView) this.findViewById(R.id.tv_scale);
+        tv_UserScale = (TextView) this.findViewById(R.id.tv_scale);
         btn_finish = (Button) this.findViewById(R.id.btn_finish);
         rl_head = (RelativeLayout) this.findViewById(R.id.rl_head);
         rl_name = (RelativeLayout) this.findViewById(R.id.rl_name);
         rl_address = (RelativeLayout) this.findViewById(R.id.rl_address);
+        rl_industry = (RelativeLayout) this.findViewById(R.id.rl_industry);
+        rl_scale = (RelativeLayout) this.findViewById(R.id.rl_scale);
 
+        rl_industry.setOnClickListener(this);
+        rl_scale.setOnClickListener(this);
         rl_head.setOnClickListener(this);
         rl_name.setOnClickListener(this);
         rl_address.setOnClickListener(this);
         ib_Back.setOnClickListener(this);
-        tv_UserNick.setOnClickListener(this);
-        tv_PhoneNumber.setOnClickListener(this);
-        tv_UserType.setOnClickListener(this);
-//        tv_UserScale.setOnClickListener(this);
-//        tv_UserIndustry.setOnClickListener(this);
         btn_finish.setOnClickListener(this);
 
-        iPersonalCompilePresenter.requestUserData();
+        pdUpdatawait = new ProgressDialog(PersonalCompileActivity.this);
+        pdUpdatawait.setMessage("更新中...");
+        pdUpdatawait.setCanceledOnTouchOutside(false);
+        pdUpdatawait.setCancelable(true);
+
+        user = iPersonalCompilePresenter.getData();
+        updataView(user);
+        if (NetUtil.isNetAvailable(PersonalCompileActivity.this)){
+            iPersonalCompilePresenter.requestUserData();
+        }else {
+            showNoNet();
+        }
     }
 
 
@@ -146,18 +163,27 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
                 showPhotoDialog();
                 break;
             case R.id.rl_name:
-                showCompileDialog();
+                compilestr = tv_UserRealName.getText().toString()+"en";
+                showCompileDialog(R.id.rl_name);
+                break;
+            case R.id.rl_industry:
+                compilestr = tv_UserIndustry.getText().toString();
+                showCompileDialog(R.id.rl_industry);
+                break;
+            case R.id.rl_scale:
+                compilestr = tv_UserScale.getText().toString();
+                showCompileDialog(R.id.rl_scale);
                 break;
             case R.id.rl_address:
                 //TODO 将populwindow写到这
-           /*     Intent intent = new Intent(PersonalCompileActivity.this,
-                        ThreeLevelLinkageActivity.class);
-                startActivityForResult(intent, 1000);// requestCode*/
                 showAddressSelector();
                 break;
             case R.id.btn_finish:
-                finish();
-                iPersonalCompilePresenter.doUpdate();
+                if (NetUtil.isNetAvailable(PersonalCompileActivity.this)){
+                    iPersonalCompilePresenter.doUpdate();
+                }else {
+                    showNoNet();
+                }
                 break;
             default:
                 break;
@@ -165,6 +191,7 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
 
     }
 
+    //编辑用户地址dialog
     public void showAddressSelector() {
         View view = getLayoutInflater().inflate(R.layout.activity_three_level_linkage, null);
         TextView btn_cancel = (TextView) view.findViewById(R.id.btn_cancel);
@@ -192,12 +219,8 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
         btn_finish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              /*  Intent intent = new Intent();
-                intent.putExtra("result", citystr);
-                //设置回传的意图p
-                setResult(1001, intent);
-                finish();*/
                 //TODO 获取最终的数据citystr
+                tv_UserAddress.setText(citystr);
                 popupWindow.dismiss();
             }
         });
@@ -209,26 +232,55 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
         });
     }
 
-    //编辑昵称等 调用的dialog
-    private void showCompileDialog() {
+    //判断输入是否为空
+    public boolean ismEmpty( String input )
+    {
+        if ( input == null || "".equals( input ) )
+            return true;
+
+        for ( int i = 0; i < input.length(); i++ )
+        {
+            char c = input.charAt( i );
+            if ( c != ' ' && c != '\t' && c != '\r' && c != '\n' )
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    //编辑昵称、用户行业、规模 调用的dialog
+    private void showCompileDialog(final int id) {
         final EditText et = new EditText(this);
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("编辑真实姓名：");
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("编辑：");
         builder.setView(et);
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if (et.getText().equals(null)) {
+                if (ismEmpty(et.getText().toString())) {
                     Toast.makeText(PersonalCompileActivity.this, "请输入信息！", Toast.LENGTH_SHORT).show();
                 } else {
-                    compileRealName = et.getText().toString();
-                    tv_UserRealName.setText(compileRealName);
+                    compilestr = et.getText().toString();
+                    switch (id){
+                        case R.id.rl_name:
+                            tv_UserRealName.setText(compilestr);
+                            break;
+                        case R.id.rl_industry:
+                            tv_UserIndustry.setText(compilestr);
+                            break;
+                        case R.id.rl_scale:
+                            tv_UserScale.setText(compilestr);
+                            break;
+                        default:
+                            break;
+                    }
+                    LogUtil.d("PersonalCompileA","compilestr:"+compilestr);
                 }
             }
         });
         builder.setNegativeButton("取消", null);
         builder.show();
-
     }
 
     //显示Dialog选择拍照还是从相册选择
@@ -293,8 +345,6 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
             photoFile = new File(file, System.currentTimeMillis() + ".jpg");
 
             Uri photoUri = Uri.fromFile(photoFile);
-//            Toast.makeText(this,"Uri地址："+photoUri,Toast.LENGTH_LONG).show();
-//            FileUtilsQiNiu.getPath(this, photoUri);
             LogUtil.d("PersonalCompileA", "文件路径：" + photoUri);
 
             intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
@@ -322,11 +372,14 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
                     startPhotoZoom(data.getData());
                     break;
                 case HEAD_PORTRAIT_CUT:
-
                     if (data != null) {
                         setPicToView(data);
-                        iPersonalCompilePresenter.setImageUri(photoFile);
+                        LogUtil.d("Head_portrait_cut", "data:" + Uri.parse(data.toUri(Intent.URI_ANDROID_APP_SCHEME)));
+//                        LogUtil.d("Head_portrait_cut", "photoFile:" +Uri.fromFile(photoFile));
+                        //将data转换成uri传进去
+                        iPersonalCompilePresenter.setImageUri(Uri.parse(data.toUri(Intent.URI_ANDROID_APP_SCHEME)));
                     }
+
                     break;
             }
         }
@@ -340,7 +393,6 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
     private void setPicToView(Intent data) {
         Bundle bundle = data.getExtras();
         if (bundle != null) {
-            //这里也可以做文件上传
             photoBitmap = bundle.getParcelable("data");
             rw_Head.setImageBitmap(photoBitmap);
         }
@@ -348,7 +400,6 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
 
     /**
      * 打开系统图片裁剪功能
-     *
      * @param uri
      */
     private void startPhotoZoom(Uri uri) {
@@ -380,7 +431,7 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
             super.handleMessage(msg);
             switch (msg.what) {
                 case ConstantUtil.GET_NET_DATA:
-                    User user = iPersonalCompilePresenter.getData();
+                    user = iPersonalCompilePresenter.getData();
                     updataView(user);
                     break;
                 default:
@@ -390,8 +441,22 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
     }
 
     private void updataView(User user) {
+        //本地一定存在的
         tv_UserNick.setText(user.getName());
         tv_PhoneNumber.setText(user.getPhone());
+        //不一定有值
+        if (!ismEmpty(user.getRealName())){
+            tv_UserRealName.setText(user.getRealName());
+        }
+        if (!ismEmpty(user.getAddress())){
+            tv_UserAddress.setText(user.getAddress());
+        }
+        if (!ismEmpty(user.getIndustry())){
+            tv_UserIndustry.setText(user.getIndustry());
+        }
+        if (!ismEmpty(user.getScale())){
+            tv_UserScale.setText(user.getScale());
+        }
         if ("PUBLIC".equals(user.getUserType())) {
             tv_UserType.setText("普通用户");
         } else {
@@ -403,19 +468,10 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
     //--------------------接口方法--------------------
 
     @Override
-    public String getHead() {
-        return null;
-    }
-
-    @Override
     public String getRealName() {
         return tv_UserNick.getText().toString();
     }
 
-    @Override
-    public String getPhone() {
-        return tv_PhoneNumber.getText().toString();
-    }
 
     @Override
     public String getUserPosition() {
@@ -423,8 +479,38 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
     }
 
     @Override
-    public String getUserType() {
-        return tv_UserType.getText().toString();
+    public String getUserIndustry() {
+        return tv_UserIndustry.getText().toString();
     }
+
+    @Override
+    public String getUserScale() {
+        return tv_UserScale.getText().toString();
+    }
+
+    @Override
+    public void showUpdataSuccess() {
+        Toast.makeText(PersonalCompileActivity.this,"修改信息成功",Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void showUpdataFailed() {
+        Toast.makeText(PersonalCompileActivity.this,"修改信息失败",Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void showNoNet() {
+        Toast.makeText(PersonalCompileActivity.this,"请检查网络",Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void showProgress(boolean flag) {
+        if (flag) {
+            pdUpdatawait.show();
+        } else {
+            pdUpdatawait.cancel();
+        }
+    }
+
 //---------------------接口方法结束--------------------
 }
