@@ -43,7 +43,7 @@ import retrofit.Retrofit;
 
 /**
  * Created by Yawen_Li on 2016/4/22.
- *
+ * <p/>
  * 目前的问题：上传图片操作方法不执行，原因还未找到
  */
 public class PersonalCompilePresenter implements IPersonalCompilePresenter {
@@ -66,7 +66,8 @@ public class PersonalCompilePresenter implements IPersonalCompilePresenter {
 
 
     /**
-     *  请求部分还没写完
+     * 请求部分还没写完
+     *
      * @param iPersonalCompileActivity
      * @param context
      * @param handler
@@ -80,7 +81,6 @@ public class PersonalCompilePresenter implements IPersonalCompilePresenter {
     }
 
 
-
     //将图片路径添加到这外部添加一个图片
     public void uploadPicture() {
         if (this.uploadFilePath == null) {
@@ -90,7 +90,7 @@ public class PersonalCompilePresenter implements IPersonalCompilePresenter {
             @Override
             public void run() {
                 final OkHttpClient httpClient = new OkHttpClient();
-                LogUtil.d("uploadPic","execute");
+                LogUtil.d("uploadPic", "execute");
                 Request req = new Request.Builder().url(QiniuLabConfig.makeUrl(
                         QiniuLabConfig.REMOTE_SERVICE_SERVER,
                         QiniuLabConfig.QUICK_START_IMAGE_DEMO_PATH)).method("GET", null).build();
@@ -168,14 +168,13 @@ public class PersonalCompilePresenter implements IPersonalCompilePresenter {
     //-----------------------接口方法---------------------
 
     @Override
-    public void setImageUri(Uri photoUri){
-        try {
-            String path = FileUtilsQiNiu.getPath(context, photoUri);
-            this.uploadFilePath = path;
-        } catch (Exception e) {
-            Toast.makeText(context, "没有找到文件", Toast.LENGTH_LONG).show();
-        }
+    public void setImagePath(String photoPath) {
+        LogUtil.e("qiniu", "photoUri:" + photoPath);
+        this.uploadFilePath = photoPath;
+        //在选择完图片之后就执行上传操作
+        uploadPicture();
     }
+
     @Override
     public void doUpdate() {
         realName = iPersonalCompileActivity.getRealName();
@@ -183,17 +182,17 @@ public class PersonalCompilePresenter implements IPersonalCompilePresenter {
         industry = iPersonalCompileActivity.getUserIndustry();
         scale = iPersonalCompileActivity.getUserScale();
         id = user.getId();
-        uploadPicture();
 
         Map map = new HashMap();
-        map.put("realName",realName);
-        map.put("address",address);
-        LogUtil.d("P","avatar:"+avatar);
-        map.put("avatar",avatar);
-        map.put("industry",industry);
-        map.put("scale",scale);
+        map.put("realName", realName);
+        map.put("address", address);
+        LogUtil.d("P", "avatar:" + avatar);
+        LogUtil.d("P", "id:" + id);
+        map.put("avatar", avatar);
+        map.put("industry", industry);
+        map.put("scale", scale);
 
-       /* Call<JsonObject> call = RetrofitUtil.getRetrofit().create(IUserData.class).upDataUserData(authToken,id,map);
+        Call<JsonObject> call = RetrofitUtil.getRetrofit().create(IUserData.class).upDataUserData(authToken,id,map);
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Response<JsonObject> response, Retrofit retrofit) {
@@ -214,7 +213,7 @@ public class PersonalCompilePresenter implements IPersonalCompilePresenter {
                 iPersonalCompileActivity.showUpdataFailed();
             }
         });
-*/
+
     }
 
 
@@ -233,12 +232,12 @@ public class PersonalCompilePresenter implements IPersonalCompilePresenter {
         user = new User();
         user = (User) mCache.getAsObject(ConstantUtil.CACHE_KEY);
         authToken = user.getAuthToken();
-        LogUtil.d("PersonalCompileP",authToken);
+        LogUtil.d("PersonalCompileP", authToken);
         Call<User> call = RetrofitUtil.getRetrofit().create(IUserData.class).getUserData(authToken);
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Response<User> response, Retrofit retrofit) {
-                if (response.isSuccess()){
+                if (response.isSuccess()) {
                     User user = response.body();
                     //因为请求下来的数据是不包含token的，所以需要手动添加进去，保存后不丢失
                     user.setAuthToken(authToken);
@@ -247,7 +246,7 @@ public class PersonalCompilePresenter implements IPersonalCompilePresenter {
                     mCache.put(ConstantUtil.CACHE_KEY, user);
                     //通知主线程更新UI数据
                     handler.sendEmptyMessage(ConstantUtil.GET_NET_DATA);
-                }else {
+                } else {
                     //请求失败
                 }
             }

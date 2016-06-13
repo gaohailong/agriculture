@@ -25,6 +25,7 @@ public class TradeListViewAdapter extends BaseAdapter {
 
     private Context context;
     private ArrayList<TradeData> datas;
+    private ViewHolder holder;
 
     public TradeListViewAdapter(Context context, ArrayList<TradeData> datas) {
         this.context = context;
@@ -48,7 +49,6 @@ public class TradeListViewAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
         if (convertView == null) {
             holder = new ViewHolder();
             LayoutInflater inflater = LayoutInflater.from(context);
@@ -82,14 +82,14 @@ public class TradeListViewAdapter extends BaseAdapter {
         } else {
             holder.ivCollection.setImageResource(R.drawable.collection);
         }
-//        holder.ivCollection.setOnClickListener(new CollectionListener(position, flag));
+        holder.ivCollection.setOnClickListener(new CollectionListener(position, infoData.isFav()));
         return convertView;
     }
 
     /**
      * 收藏按钮点击事件
      */
-  /*  public class CollectionListener implements View.OnClickListener {
+   public class CollectionListener implements View.OnClickListener {
         private int position;
         private boolean isCollection;
 
@@ -103,17 +103,17 @@ public class TradeListViewAdapter extends BaseAdapter {
             holder.ivCollection = (ImageView) v.findViewById(R.id.iv_demand_collection);
             if (holder.ivCollection.getId() == v.getId()) {
                 if (isCollection) {
-                    holder.ivCollection.setImageResource(R.drawable.ic_no_praise_48px);
+                    holder.ivCollection.setImageResource(R.drawable.collection);
                     Log.d("TradeListViewAdapter", "取消收藏" + position);
                     isCollection = false;
                 } else {
-                    holder.ivCollection.setImageResource(R.drawable.ic_praise_48px);
+                    holder.ivCollection.setImageResource(R.drawable.collection_fill);
                     Log.d("TradeListViewAdapter", "收藏成功" + position);
                     isCollection = true;
                 }
             }
         }
-    }*/
+    }
 
     public class ViewHolder {
         ImageView ivCollection;

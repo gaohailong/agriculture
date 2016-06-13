@@ -35,6 +35,8 @@ public class ConstantUtil {
     public static final String CACHE_TRADESUPPLY_KEY = "Cache_TradeSupplyList";
     //需求交易的缓存文件名
     public static final String CACHE_TRADEDEMAND_KEY = "Cache_TradeDemandList";
+    //用户头像存放文件名
+    public static final String AVATAR_FILE_PATH = "/nongke110_avatar.jpg";
     //============================整形常量的定义===================================
     //下拉刷新的时间
     public static final int PULL_TIME = 3000;

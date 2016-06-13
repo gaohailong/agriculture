@@ -25,6 +25,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -43,6 +44,7 @@ import com.sxau.agriculture.bean.User;
 import com.sxau.agriculture.qiniu.FileUtilsQiNiu;
 import com.sxau.agriculture.qiniu.QiniuLabConfig;
 import com.sxau.agriculture.utils.ConstantUtil;
+import com.sxau.agriculture.utils.ImageUtils;
 import com.sxau.agriculture.utils.LogUtil;
 import com.sxau.agriculture.utils.NetUtil;
 import com.sxau.agriculture.widgets.CityPicker;
@@ -373,11 +375,20 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
                     break;
                 case HEAD_PORTRAIT_CUT:
                     if (data != null) {
-                        setPicToView(data);
-                        LogUtil.d("Head_portrait_cut", "data:" + Uri.parse(data.toUri(Intent.URI_ANDROID_APP_SCHEME)));
-//                        LogUtil.d("Head_portrait_cut", "photoFile:" +Uri.fromFile(photoFile));
-                        //将data转换成uri传进去
-                        iPersonalCompilePresenter.setImageUri(Uri.parse(data.toUri(Intent.URI_ANDROID_APP_SCHEME)));
+                        photoBitmap = data.getParcelableExtra("data");
+                        rw_Head.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                        rw_Head.setImageBitmap(photoBitmap);
+                        try {
+                            File SDCardRoot = Environment.getExternalStorageDirectory();
+                            if (ImageUtils.saveBitmap2file(photoBitmap)) {
+                                LogUtil.e("PersonalCompileA", "保存图片文件成功");
+                                LogUtil.e("PersonalCompileA", "保存图片路径：" + SDCardRoot + ConstantUtil.AVATAR_FILE_PATH);
+                                String photoPath = SDCardRoot + ConstantUtil.AVATAR_FILE_PATH;
+                                iPersonalCompilePresenter.setImagePath(photoPath);
+                            }
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
                     }
 
                     break;
@@ -389,14 +400,6 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
         }
     }
 
-    //将图片加载到View上
-    private void setPicToView(Intent data) {
-        Bundle bundle = data.getExtras();
-        if (bundle != null) {
-            photoBitmap = bundle.getParcelable("data");
-            rw_Head.setImageBitmap(photoBitmap);
-        }
-    }
 
     /**
      * 打开系统图片裁剪功能
