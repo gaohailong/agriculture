@@ -76,6 +76,7 @@ public class TradeDemandListViewFragment extends BaseFragment implements ITradeL
         emptyView = mview.findViewById(R.id.emptyView);
 
         lv_Info.setOnItemClickListener(this);
+        lv_Info.setOnTouchListener(this);
 //    iv_collection = (ImageView) mview.findViewById(R.id.iv_demand_collection);
         return mview;
     }
@@ -214,7 +215,6 @@ public class TradeDemandListViewFragment extends BaseFragment implements ITradeL
             case MotionEvent.ACTION_UP:
                 offsetX = event.getX() - startX;
                 offsetY = event.getY() - startY;
-
                 if (offsetY < 0) {
                     AlphaAnimation aa = new AlphaAnimation(1.0f, 0f);
                     aa.setDuration(500);
