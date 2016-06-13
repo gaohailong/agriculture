@@ -78,9 +78,9 @@ public class TradeListViewAdapter extends BaseAdapter {
         holder.content.setText(infoData.getDescription());
 
         if (infoData.isFav()) {
-            holder.ivCollection.setImageResource(R.drawable.ic_praise_48px);
+            holder.ivCollection.setImageResource(R.drawable.collection_fill);
         } else {
-            holder.ivCollection.setImageResource(R.drawable.ic_no_praise_48px);
+            holder.ivCollection.setImageResource(R.drawable.collection);
         }
 //        holder.ivCollection.setOnClickListener(new CollectionListener(position, flag));
         return convertView;
