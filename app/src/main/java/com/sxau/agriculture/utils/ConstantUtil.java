@@ -37,6 +37,8 @@ public class ConstantUtil {
     public static final String CACHE_TRADEDEMAND_KEY = "Cache_TradeDemandList";
     //用户头像存放文件名
     public static final String AVATAR_FILE_PATH = "/nongke110_avatar.jpg";
+    //用户头像存放文件名
+    public static final String CACHE_QUESTION_KEY = "Cache_QuestionList";
     //============================整形常量的定义===================================
     //下拉刷新的时间
     public static final int PULL_TIME = 3000;
@@ -56,6 +58,8 @@ public class ConstantUtil {
     public static final int GET_PICTURE_DATA = 0x00000008;
     //启动activity
     public static final int START_ACTIVITY = 0x00000009;
+    //问答界面
+    public static final int GET_CATEGEORYDATA = 0x00000010;
 
 
 }

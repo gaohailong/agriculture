@@ -1,12 +1,13 @@
 package com.sxau.agriculture.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * 问题数据的实体类
  * @author 崔志泽
  */
-public class QuestionData {
+public class QuestionData implements Serializable {
 
     /**
      * id : 5
@@ -189,7 +190,7 @@ public class QuestionData {
         this.answers = answers;
     }
 
-    public static class CategoryBean {
+    public static class CategoryBean implements Serializable {
         private int id;
         private long whenCreated;
         private long whenUpdated;
@@ -264,7 +265,7 @@ public class QuestionData {
         }
     }
 
-    public static class UserBean {
+    public static class UserBean  implements Serializable{
         private int id;
         private long whenCreated;
         private long whenUpdated;
