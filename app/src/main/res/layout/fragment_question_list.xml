@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.sxau.agriculture.widgets.RefreshLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.sxau.agriculture.widgets.RefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/rl_refresh"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-        <ListView
-            android:id="@+id/lv_question"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-        </ListView>
+    <ListView
+        android:id="@+id/lv_question"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></ListView>
+    <!--  <TextView
+          android:id="@+id/tv_text"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content" />-->
 </com.sxau.agriculture.widgets.RefreshLayout>
