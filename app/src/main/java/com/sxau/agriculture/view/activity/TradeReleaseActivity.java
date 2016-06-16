@@ -207,21 +207,29 @@ public class TradeReleaseActivity extends BaseActivity implements View.OnClickLi
                  * 发送到服务器
                  * */
                 Log.d("release", "点击点击");
-                Call<JsonObject> call = RetrofitUtil.getRetrofit().create(ITradeRelease.class).postTrade(map, authToken);
-                call.enqueue(new Callback<JsonObject>() {
-                    @Override
-                    public void onResponse(Response<JsonObject> response, Retrofit retrofit) {
-                        Log.d("release", response.code() + "");
-                        if (response.isSuccess()) {
-                            Toast.makeText(TradeReleaseActivity.this, "提交成功", Toast.LENGTH_SHORT).show();
-                            finish();
-                        }
-                    }
-                    @Override
-                    public void onFailure(Throwable t) {
+                if (tradeTitle.equals("")){
+                    Toast.makeText(TradeReleaseActivity.this,"请输入标题",Toast.LENGTH_SHORT).show();
+                }else if (tradeContent.equals("")){
+                    Toast.makeText(TradeReleaseActivity.this,"请输入内容",Toast.LENGTH_SHORT).show();
+                }else{
 
-                    }
-                });
+                    Call<JsonObject> call = RetrofitUtil.getRetrofit().create(ITradeRelease.class).postTrade(map, authToken);
+                    call.enqueue(new Callback<JsonObject>() {
+                        @Override
+                        public void onResponse(Response<JsonObject> response, Retrofit retrofit) {
+                            Log.d("release", response.code() + "");
+                            if (response.isSuccess()) {
+                                Toast.makeText(TradeReleaseActivity.this, "提交成功", Toast.LENGTH_SHORT).show();
+                                finish();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Throwable t) {
+
+                        }
+                    });
+                }
                 break;
             default:
                 break;
