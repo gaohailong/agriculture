@@ -21,6 +21,7 @@ import com.sxau.agriculture.presenter.fragment_presenter.PersonalCollectionQuest
 import com.sxau.agriculture.presenter.fragment_presenter_interface.IPersonalCollectQuestionPresenter;
 import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.LogUtil;
+import com.sxau.agriculture.utils.NetUtil;
 import com.sxau.agriculture.view.activity.DetailQuestionActivity;
 
 import com.sxau.agriculture.view.fragment_interface.IPresonalCollectQuestionFragment;
@@ -96,9 +97,14 @@ public class PersonalCollectQuestionFragment  extends BaseFragment implements IP
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Intent intent=new Intent(context,DetailQuestionActivity.class);
-                    intent.putExtra("ItemId",id);
-                    startActivity(intent);
+                   if (NetUtil.isNetAvailable(getActivity())){
+                       Intent intent=new Intent(context,DetailQuestionActivity.class);
+                       intent.putExtra("ItemId",id);
+                       startActivity(intent);
+                   }else {
+                       Toast.makeText(getActivity(),"无网络连接,请检查网络！",Toast.LENGTH_SHORT).show();
+                   }
+
                 }
             });
         }
@@ -135,7 +141,7 @@ public class PersonalCollectQuestionFragment  extends BaseFragment implements IP
 //-------------------接口方法-------------
 @Override
 public void showRequestTimeout() {
-    Toast.makeText(PersonalCollectQuestionFragment.this.getActivity(), "请求超时，请检查网络", Toast.LENGTH_LONG).show();
+    Toast.makeText(PersonalCollectQuestionFragment.this.getActivity(), "请求超时，请检查网络", Toast.LENGTH_SHORT).show();
 }
 
     @Override
@@ -146,7 +152,7 @@ public void showRequestTimeout() {
     //提示没有网络
     @Override
     public void showNoNetworking() {
-        Toast.makeText(PersonalCollectQuestionFragment.this.getActivity(), "没有网络连接，请检查网络", Toast.LENGTH_LONG).show();
+        Toast.makeText(PersonalCollectQuestionFragment.this.getActivity(), "没有网络连接，请检查网络", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -168,9 +174,13 @@ public void showRequestTimeout() {
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    if(NetUtil.isNetAvailable(getActivity())){
                     LogUtil.d("收藏", "2");
                     DetailQuestionActivity.actionStart(PersonalCollectQuestionFragment.this.getActivity(), mquestionslist.get(position).getQuestion().getId());
                     Log.e("collectionQuestion", mquestionslist.get(position).getId()+"");
+                    }else {
+                        Toast.makeText(getActivity(),"无网络连接,请检查网络！",Toast.LENGTH_SHORT).show();
+                    }
                 }
             });
         }
