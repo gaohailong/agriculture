@@ -383,7 +383,6 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
 
     }
 
-
     //解决下拉刷新与viewpager滑动冲突
     @Override
     public boolean onTouch(View v, MotionEvent event) {

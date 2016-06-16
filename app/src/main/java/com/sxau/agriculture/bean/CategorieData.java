@@ -1,10 +1,12 @@
 package com.sxau.agriculture.bean;
 
+import java.io.Serializable;
+
 /**
  * 分类数据的实体类
  * @author 崔志泽
  */
-public class CategorieData {
+public class CategorieData implements Serializable{
 
     /**
      * id : 20
