@@ -200,6 +200,7 @@ public class TradeReleaseActivity extends BaseActivity implements View.OnClickLi
 /**
  * 获得用户Token
  * */
+
                 ACache mCache = ACache.get(TradeReleaseActivity.this);
                 User user = (User) mCache.getAsObject(ConstantUtil.CACHE_KEY);
                 String authToken = user.getAuthToken();
@@ -212,7 +213,7 @@ public class TradeReleaseActivity extends BaseActivity implements View.OnClickLi
                 }else if (tradeContent.equals("")){
                     Toast.makeText(TradeReleaseActivity.this,"请输入内容",Toast.LENGTH_SHORT).show();
                 }else{
-
+                    finish();
                     Call<JsonObject> call = RetrofitUtil.getRetrofit().create(ITradeRelease.class).postTrade(map, authToken);
                     call.enqueue(new Callback<JsonObject>() {
                         @Override
@@ -220,7 +221,7 @@ public class TradeReleaseActivity extends BaseActivity implements View.OnClickLi
                             Log.d("release", response.code() + "");
                             if (response.isSuccess()) {
                                 Toast.makeText(TradeReleaseActivity.this, "提交成功", Toast.LENGTH_SHORT).show();
-                                finish();
+
                             }
                         }
 

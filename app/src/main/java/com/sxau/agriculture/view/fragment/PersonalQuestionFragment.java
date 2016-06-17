@@ -24,6 +24,7 @@ import com.sxau.agriculture.presenter.fragment_presenter.PersonalQuestionPresent
 import com.sxau.agriculture.presenter.fragment_presenter_interface.IPersonalQuestionPresenter;
 import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.LogUtil;
+import com.sxau.agriculture.utils.NetUtil;
 import com.sxau.agriculture.view.activity.DetailQuestionActivity;
 import com.sxau.agriculture.view.fragment_interface.IPersonalQuestionFragment;
 import com.sxau.agriculture.widgets.RefreshLayout;
@@ -108,7 +109,11 @@ public class PersonalQuestionFragment extends BaseFragment implements IPersonalQ
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    if (NetUtil.isNetAvailable(getActivity())){
                     DetailQuestionActivity.actionStart(PersonalQuestionFragment.this.getActivity(), position);
+                    }else {
+                        Toast.makeText(getActivity(),"无网络连接,请检查网络！",Toast.LENGTH_SHORT).show();
+                    }
                 }
             });
         }
@@ -147,7 +152,7 @@ public class PersonalQuestionFragment extends BaseFragment implements IPersonalQ
     //网络请求超时，请检查网络
     @Override
     public void showRequestTimeout() {
-        Toast.makeText(PersonalQuestionFragment.this.getActivity(), "请求超时，请检查网络", Toast.LENGTH_LONG).show();
+        Toast.makeText(PersonalQuestionFragment.this.getActivity(), "请求超时，请检查网络", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -158,7 +163,7 @@ public class PersonalQuestionFragment extends BaseFragment implements IPersonalQ
     //提示没有网络
     @Override
     public void showNoNetworking() {
-        Toast.makeText(PersonalQuestionFragment.this.getActivity(), "没有网络连接，请检查网络", Toast.LENGTH_LONG).show();
+        Toast.makeText(PersonalQuestionFragment.this.getActivity(), "没有网络连接，请检查网络", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -180,7 +185,11 @@ public class PersonalQuestionFragment extends BaseFragment implements IPersonalQ
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    if (NetUtil.isNetAvailable(getActivity())){
                     DetailQuestionActivity.actionStart(PersonalQuestionFragment.this.getActivity(), mquestionslist.get(position).getId());
+                    }else {
+                        Toast.makeText(getActivity(),"无网络连接,请检查网络！",Toast.LENGTH_SHORT).show();
+                    }
                 }
             });
         }
