@@ -8,6 +8,7 @@ import com.sxau.agriculture.api.ITrade;
 import com.sxau.agriculture.bean.TradeData;
 import com.sxau.agriculture.presenter.fragment_presenter_interface.ITradeListViewPresenter;
 import com.sxau.agriculture.utils.ACache;
+import com.sxau.agriculture.utils.AuthTokenUtil;
 import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.RetrofitUtil;
 import com.sxau.agriculture.view.fragment_interface.ITradeListViewFragment;
@@ -35,17 +36,19 @@ public class TradeListViewPresenter implements ITradeListViewPresenter {
     private ArrayList<TradeData> demandDatasList = new ArrayList<TradeData>();//获取需求的数据
     private ArrayList<TradeData> supplyDatasList = new ArrayList<TradeData>();//获取供应的数据
     private ACache aCache;
+    private String authToken;
 
     public TradeListViewPresenter(ITradeListViewFragment iInfoListViewFragment, Context context, Handler myHandler) {
         this.iInfoListViewFragment = iInfoListViewFragment;
         this.context = context;
         this.myHandler = myHandler;
         aCache = ACache.get(context);
+        authToken = AuthTokenUtil.findAuthToken();
     }
 
     @Override
     public void doRequest(String page, String pageSize, final boolean isRefresh) {
-        Call<ArrayList<TradeData>> call = RetrofitUtil.getRetrofit().create(ITrade.class).getInfoTrade(page, pageSize);
+        Call<ArrayList<TradeData>> call = RetrofitUtil.getRetrofit().create(ITrade.class).getInfoTrade(authToken,page, pageSize);
         call.enqueue(new Callback<ArrayList<TradeData>>() {
             @Override
             public void onResponse(Response<ArrayList<TradeData>> response, Retrofit retrofit) {
@@ -74,6 +77,11 @@ public class TradeListViewPresenter implements ITradeListViewPresenter {
                         iInfoListViewFragment.isLoadOver(true);
                     }
                     myHandler.sendEmptyMessage(ConstantUtil.GET_NET_DATA);
+
+                    Log.e("Trade","code:"+response.code()+"  message:"+response.message());
+
+                }else{
+                    Log.e("Trade","code:"+response.code()+"  message:"+response.message());
                 }
 
             }
