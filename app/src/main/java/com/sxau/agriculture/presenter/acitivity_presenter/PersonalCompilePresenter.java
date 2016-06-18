@@ -44,7 +44,7 @@ import retrofit.Retrofit;
 /**
  * Created by Yawen_Li on 2016/4/22.
  * <p/>
- * 目前的问题：上传图片操作方法不执行，原因还未找到
+ * 目前的问题：服务器更新用户信息接口有问题，错误代码500 错误信息Server error
  */
 public class PersonalCompilePresenter implements IPersonalCompilePresenter {
 
@@ -184,13 +184,14 @@ public class PersonalCompilePresenter implements IPersonalCompilePresenter {
         id = user.getId();
 
         Map map = new HashMap();
-        map.put("realName", realName);
-        map.put("address", address);
+        map.put("realName", "yawen");
+        map.put("address", "taiyuan");
         LogUtil.d("P", "avatar:" + avatar);
         LogUtil.d("P", "id:" + id);
         map.put("avatar", avatar);
-        map.put("industry", industry);
-        map.put("scale", scale);
+        map.put("industry", "hangye");
+        map.put("scale", "guimo");
+        map.put("email","youxiang");
 
         Call<JsonObject> call = RetrofitUtil.getRetrofit().create(IUserData.class).upDataUserData(authToken,id,map);
         call.enqueue(new Callback<JsonObject>() {
@@ -203,6 +204,7 @@ public class PersonalCompilePresenter implements IPersonalCompilePresenter {
                 }else {
                     //更新请求失败
                     LogUtil.d("P","code:"+response.code()+"  body:"+response.body()+"  message:"+response.message());
+                    Log.e("p","请求失败"+"  code:"+response.code()+"  message:"+response.message());
                     iPersonalCompileActivity.showUpdataFailed();
                 }
             }
@@ -210,6 +212,7 @@ public class PersonalCompilePresenter implements IPersonalCompilePresenter {
             @Override
             public void onFailure(Throwable t) {
                 //请求出错
+                Log.e("p","请求错误");
                 iPersonalCompileActivity.showUpdataFailed();
             }
         });

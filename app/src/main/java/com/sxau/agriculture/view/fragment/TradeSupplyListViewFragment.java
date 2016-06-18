@@ -131,6 +131,8 @@ public class TradeSupplyListViewFragment extends BaseFragment implements ITradeL
                         iTradeListViewPresenter.doRequest(String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER, true);
                     } else {
                         Toast.makeText(context, "没有网络连接", Toast.LENGTH_SHORT).show();
+
+                        supplyDatas = iTradeListViewPresenter.getSupplyDatas();
                     }
                     break;
                 case ConstantUtil.GET_NET_DATA:

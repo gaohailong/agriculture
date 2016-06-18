@@ -5,6 +5,8 @@ import com.sxau.agriculture.bean.TradeData;
 
 import retrofit.Call;
 import retrofit.http.GET;
+import retrofit.http.Header;
+import retrofit.http.PUT;
 import retrofit.http.Path;
 
 /**
@@ -12,5 +14,5 @@ import retrofit.http.Path;
  */
 public interface ITradeContent {
     @GET("trade/{id}")
-    Call<TradeData> getTrade(@Path("id") int id);
+    Call<TradeData> getTrade(@Header("X-AUTH-TOKEN") String authToken, @Path("id") int id);
 }
