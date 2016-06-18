@@ -68,7 +68,6 @@ public class QuestionListViewFragment extends BaseFragment implements IQuestionL
     private ArrayList<CategorieData> categorieDatas;
     private int currentPage;
     private boolean isLoadOver;
-    //    private DbUtils dbUtil;
     private int cateId;
     private ACache aCache;
     private IQuestionListViewPresenter iQuestionListViewPresenter;
@@ -206,20 +205,15 @@ public class QuestionListViewFragment extends BaseFragment implements IQuestionL
                         questionDatas.addAll(questionDatas1);
                         Log.e("data1", questionDatas1.size()+"");
                         Log.e("data2", questionDatas.size()+"");
-//                            dbUtil.saveAll(questionDatas1);
                         isLoadOver = false;
                     } else {
                         questionDatas.addAll(questionDatas1);
                         Log.d("rqstline", "4添加数据"+questionDatas.size());
-//                            dbUtil.saveAll(questionDatas);
                     }
                     aCache.remove(ConstantUtil.CACHE_QUESTION_KEY);
                     Log.d("rqstline", "5清空缓存");
                     aCache.put(ConstantUtil.CACHE_QUESTION_KEY, questionDatas);
                     Log.d("rqstline", "6填数据进缓存");
-                  /*  } catch (DbException e) {
-                        e.printStackTrace();
-                    }*/
                     if (questionDatas1.size() < Integer.parseInt(ConstantUtil.ITEM_NUMBER)) {
                         isLoadOver = true;
                         Log.d("rqstline", "7判断是否加载完成"+isLoadOver);

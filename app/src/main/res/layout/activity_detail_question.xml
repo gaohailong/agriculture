@@ -3,20 +3,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/mainColor"
+    android:background="@color/white"
     tools:context="com.sxau.agriculture.view.activity.DetailQuestionActivity">
 
     <com.sxau.agriculture.utils.TitleBarTwo
         android:id="@+id/topBar_detail"
         android:layout_width="match_parent"
-        android:layout_height="50dp"/>
+        android:layout_height="50dp" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/topBar_detail"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp">
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp">
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -27,11 +27,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:background="@drawable/bg_linear_layout_shape_10_white"
-                android:orientation="vertical"
-                android:padding="20dp">
+                android:orientation="vertical">
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -40,6 +38,7 @@
                         android:id="@+id/rv_question_head"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
+                        android:layout_alignParentLeft="true"
                         android:scaleType="centerCrop"
                         android:src="@mipmap/img_default_user_portrait_150px" />
 
@@ -50,9 +49,21 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginBottom="5dp"
                         android:layout_marginLeft="10dp"
+                        android:layout_toRightOf="@id/rv_question_head"
                         android:text="123123"
                         android:textSize="@dimen/font_title" />
-                </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/iv_collection"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginRight="20dp"
+                        android:src="@drawable/collection"
+                        android:visibility="visible" />
+                </RelativeLayout>
 
                 <TextView
                     android:id="@+id/tv_question_title"
@@ -70,6 +81,17 @@
                     android:layout_height="wrap_content"
                     android:text="sdf"
                     android:textSize="@dimen/font_size" />
+
+                <com.jaeger.ninegridimageview.NineGridImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/mNineGridImageView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    app:imgGap="4dp"
+                    app:maxSize="9"
+                    app:showStyle="fill"
+                    app:singleImgSize="120dp" />
+
 
                 <View
                     android:layout_width="match_parent"
@@ -110,8 +132,8 @@
                 android:layout_marginTop="20dp"
                 android:background="@drawable/bg_linear_layout_shape_10_white"
                 android:orientation="vertical"
-                android:visibility="gone"
-                android:padding="20dp">
+                android:padding="20dp"
+                android:visibility="gone">
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
@@ -174,7 +196,6 @@
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_alignParentBottom="true"
-        android:visibility="gone"
         android:layout_alignParentRight="true"
         android:layout_gravity="bottom|right"
         android:layout_marginBottom="20dp"
@@ -182,6 +203,7 @@
         android:background="@drawable/bg_ask_btn_shape"
         android:text="我要回答"
         android:textColor="@color/white"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        android:visibility="gone" />
 
 </RelativeLayout>
