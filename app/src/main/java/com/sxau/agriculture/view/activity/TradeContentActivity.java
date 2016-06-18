@@ -48,6 +48,7 @@ public class TradeContentActivity extends BaseActivity implements View.OnClickLi
     //点击的交易的id
     private int tradeContentId;
     //控制收藏的变量
+    private boolean needCollect;
     private boolean collection;
     private TitleBarTwo topBarUtil;
 
@@ -64,6 +65,11 @@ public class TradeContentActivity extends BaseActivity implements View.OnClickLi
         initView();
         initTopBar();
         getTradeId();
+        if (needCollect){
+            iv_collection.setVisibility(View.VISIBLE);
+        }else {
+            iv_collection.setVisibility(View.GONE);
+        }
         getTradeContent();
     }
 
@@ -100,22 +106,24 @@ public class TradeContentActivity extends BaseActivity implements View.OnClickLi
         topBarUtil.setTitleColor(Color.WHITE);
     }
 
-    public static void actionStart(Context context, int id) {
+    public static void actionStart(Context context, int id,boolean needCollect) {
         Intent intent = new Intent(context, TradeContentActivity.class);
         intent.putExtra("TradeId", id);
+        intent.putExtra("needCollect", needCollect);
         context.startActivity(intent);
     }
 
     public void getTradeId() {
         Intent intent = getIntent();
         tradeContentId = intent.getIntExtra("TradeId", 0);
+        needCollect=intent.getBooleanExtra("needCollect",true);
     }
 
     /**
      * 请求数据
      */
     public void getTradeContent() {
-        Call<TradeData> call = RetrofitUtil.getRetrofit().create(ITradeContent.class).getTrade(authToken,tradeContentId);
+        Call<TradeData> call = RetrofitUtil.getRetrofit().create(ITradeContent.class).getTrade(authToken, tradeContentId);
         call.enqueue(new Callback<TradeData>() {
             @Override
             public void onResponse(Response<TradeData> response, Retrofit retrofit) {
@@ -139,13 +147,13 @@ public class TradeContentActivity extends BaseActivity implements View.OnClickLi
         tv_name.setText(tradeData.getUser().getName());
         tv_title.setText(tradeData.getTitle());
         tv_info.setText(tradeData.getDescription());
-        tv_attentionNum.setText(tradeData.getLikeCount() + "");
+        tv_attentionNum.setText("关注人数："+tradeData.getLikeCount() + "");
         tv_location.setText(tradeData.getUser().getAddress());
         tv_timeStart.setText(TimeUtil.format(tradeData.getWhenCreated()));
-        tv_timeEnd.setText("-" + TimeUtil.format(tradeData.getWhenUpdated()));
-        tv_phone.setText(tradeData.getUser().getPhone());
+        tv_timeEnd.setText("至" + TimeUtil.format(tradeData.getWhenUpdated()));
+        tv_phone.setText("联系电话："+tradeData.getUser().getPhone());
         collection = tradeData.isFav();
-        Log.e("Trade","isFav:"+collection);
+        Log.e("Trade", "isFav:" + collection);
         if (tradeData.isFav()) {
             iv_collection.setImageResource(R.drawable.collection_fill);
         } else {
@@ -207,7 +215,7 @@ public class TradeContentActivity extends BaseActivity implements View.OnClickLi
 
                         } else {
                             //收藏执行失败
-                            Log.e("TradeListViewAdapter", "code:" + response.code() + " body:" + response.body() +"  message:" + response.message());
+                            Log.e("TradeListViewAdapter", "code:" + response.code() + " body:" + response.body() + "  message:" + response.message());
                             showServerError();
                         }
                     }

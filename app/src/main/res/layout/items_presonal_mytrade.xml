@@ -47,6 +47,7 @@
             android:ellipsize="end"
             android:lines="2"
             android:text="我的他的你的我的他的你的我的他的你的我的他的你的我的他的你的我的他的你的我的他的你的我的他的你的我的他的你的我的他的你的我的他的你的"
+            android:lineSpacingExtra="@dimen/font_space"
             android:textSize="@dimen/font_size" />
     </LinearLayout>
 

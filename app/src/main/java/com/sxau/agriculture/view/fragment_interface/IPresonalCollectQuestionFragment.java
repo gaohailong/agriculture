@@ -6,7 +6,8 @@ import com.sxau.agriculture.bean.MyPersonalQuestion;
 import java.util.ArrayList;
 
 /**
- * Created by Yawen_Li on 2016/4/22.
+ * 个人收藏问题p的接口
+ * @author 李秉龙
  */
 public interface IPresonalCollectQuestionFragment {
     //显示网络请求失败

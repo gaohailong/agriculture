@@ -82,7 +82,7 @@ public class PersonalCollectTradeFragment extends BaseFragment implements IPerso
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (NetUtil.isNetAvailable(getActivity())){
-                TradeContentActivity.actionStart(PersonalCollectTradeFragment.this.getActivity(),mCollectTradeList.get(position).getTrade().getId());
+                TradeContentActivity.actionStart(PersonalCollectTradeFragment.this.getActivity(),mCollectTradeList.get(position).getTrade().getId(),true);
                 }else {
                     Toast.makeText(getActivity(),"无网络连接,请检查网络！",Toast.LENGTH_SHORT).show();
                 }
@@ -159,7 +159,7 @@ public class PersonalCollectTradeFragment extends BaseFragment implements IPerso
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     if (NetUtil.isNetAvailable(getActivity())){
-                    TradeContentActivity.actionStart(PersonalCollectTradeFragment.this.getActivity(),mCollectTradeList.get(position).getTrade().getId());
+                    TradeContentActivity.actionStart(PersonalCollectTradeFragment.this.getActivity(),mCollectTradeList.get(position).getTrade().getId(),true);
                     }else {
                         Toast.makeText(getActivity(),"无网络连接,请检查网络！",Toast.LENGTH_SHORT).show();
                     }

@@ -203,6 +203,7 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
 
                     }
                 });
+                finish();
                 break;
             default:
                 break;

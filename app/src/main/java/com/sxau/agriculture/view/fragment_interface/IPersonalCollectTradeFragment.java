@@ -7,7 +7,8 @@ import com.sxau.agriculture.bean.MyPersonalCollectTrades;
 import java.util.ArrayList;
 
 /**
- * Created by Yawen_Li on 2016/4/22.
+ * 个人收藏交易p的接口
+ * @author 李秉龙
  */
 public interface IPersonalCollectTradeFragment {
 

@@ -80,7 +80,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="sdf"
-                    android:textSize="@dimen/font_size" />
+                    android:textSize="@dimen/font_size_large"
+                    android:lineSpacingExtra="@dimen/font_space"/>
 
                 <com.jaeger.ninegridimageview.NineGridImageView xmlns:app="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/mNineGridImageView"

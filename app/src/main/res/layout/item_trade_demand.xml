@@ -71,6 +71,7 @@
             android:layout_marginRight="10dp"
             android:layout_marginTop="5dp"
             android:ellipsize="end"
+            android:lineSpacingExtra="@dimen/font_space"
             android:lines="2"
             android:text="我他妈就不信了靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠"
             android:textSize="@dimen/font_size_large" />

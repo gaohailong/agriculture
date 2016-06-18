@@ -49,7 +49,6 @@
         android:theme="@style/AppTheme">
 
         <activity android:name="com.sxau.agriculture.view.activity.MainActivity"/>
-        <activity android:name="com.sxau.agriculture.view.activity.PersonTradeActivity"/>
         <activity android:name="com.sxau.agriculture.view.activity.BaseActivity" />
         <activity android:name="com.sxau.agriculture.view.activity.PersonalCenterActivity" />
         <activity android:name="com.sxau.agriculture.view.activity.PersonalCompileActivity" />
