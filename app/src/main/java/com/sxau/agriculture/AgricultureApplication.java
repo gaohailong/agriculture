@@ -25,6 +25,7 @@ public class AgricultureApplication extends Application {
         JPushInterface.setDebugMode(true); 	// 设置开启日志,发布时请关闭日志
         JPushInterface.init(this);     		// 初始化 JPush
         Bugtags.start("01edd61d98e9dc96753171559601a69a", this, Bugtags.BTGInvocationEventBubble);
+
     }
 
     public static Context getContext(){

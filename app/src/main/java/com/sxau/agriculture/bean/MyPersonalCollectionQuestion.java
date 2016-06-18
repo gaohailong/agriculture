@@ -3,7 +3,8 @@ package com.sxau.agriculture.bean;
 import java.io.Serializable;
 
 /**
- * Created by Administrator on 2016/6/1.
+ * 个人收藏问题的bean
+ * @author 李秉龙
  */
 public class MyPersonalCollectionQuestion implements Serializable {
 

@@ -1,5 +1,6 @@
 package com.sxau.agriculture.view.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
@@ -14,13 +15,17 @@ import com.sxau.agriculture.utils.ACache;
 import com.sxau.agriculture.utils.AuthTokenUtil;
 import com.sxau.agriculture.utils.ConstantUtil;
 
+import cn.jpush.android.api.JPushInterface;
+
 public class SplashActivity extends BaseActivity {
     private String authToken;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        context = SplashActivity.this;
         authToken = AuthTokenUtil.findAuthToken();
         handler.sendEmptyMessageDelayed(ConstantUtil.START_ACTIVITY, 3000);
     }
@@ -41,4 +46,16 @@ public class SplashActivity extends BaseActivity {
             }
         }
     };
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        JPushInterface.onResume(context);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        JPushInterface.onPause(context);
+    }
 }

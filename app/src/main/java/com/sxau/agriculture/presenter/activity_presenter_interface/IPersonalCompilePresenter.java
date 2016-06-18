@@ -13,6 +13,5 @@ public interface IPersonalCompilePresenter {
     void doUpdate();
     User getData();
     void requestUserData();
-//    void setImageUri(Uri photoUri);
     void setImagePath(String photoPath);
 }

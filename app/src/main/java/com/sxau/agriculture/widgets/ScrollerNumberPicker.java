@@ -23,7 +23,7 @@ import java.util.ArrayList;
  * 
  * 滑动选择
  * 
- * @author zihao
+ * @author 李秉龙
  * 
  */
 public class ScrollerNumberPicker extends View {

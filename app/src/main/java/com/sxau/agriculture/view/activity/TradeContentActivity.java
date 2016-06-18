@@ -4,15 +4,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.JsonObject;
 import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.api.ITradeContent;
+import com.sxau.agriculture.api.ITradeFav;
 import com.sxau.agriculture.bean.TradeData;
+import com.sxau.agriculture.utils.AuthTokenUtil;
 import com.sxau.agriculture.utils.ConstantUtil;
+import com.sxau.agriculture.utils.NetUtil;
 import com.sxau.agriculture.utils.RetrofitUtil;
 import com.sxau.agriculture.utils.TimeUtil;
 import com.sxau.agriculture.utils.TitleBarTwo;
@@ -46,11 +51,16 @@ public class TradeContentActivity extends BaseActivity implements View.OnClickLi
     private boolean collection;
     private TitleBarTwo topBarUtil;
 
+    private Context context;
+    private String authToken;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trade_content);
 
+        context = TradeContentActivity.this;
+        authToken = AuthTokenUtil.findAuthToken();
         initView();
         initTopBar();
         getTradeId();
@@ -105,7 +115,7 @@ public class TradeContentActivity extends BaseActivity implements View.OnClickLi
      * 请求数据
      */
     public void getTradeContent() {
-        Call<TradeData> call = RetrofitUtil.getRetrofit().create(ITradeContent.class).getTrade(tradeContentId);
+        Call<TradeData> call = RetrofitUtil.getRetrofit().create(ITradeContent.class).getTrade(authToken,tradeContentId);
         call.enqueue(new Callback<TradeData>() {
             @Override
             public void onResponse(Response<TradeData> response, Retrofit retrofit) {
@@ -134,6 +144,8 @@ public class TradeContentActivity extends BaseActivity implements View.OnClickLi
         tv_timeStart.setText(TimeUtil.format(tradeData.getWhenCreated()));
         tv_timeEnd.setText("-" + TimeUtil.format(tradeData.getWhenUpdated()));
         tv_phone.setText(tradeData.getUser().getPhone());
+        collection = tradeData.isFav();
+        Log.e("Trade","isFav:"+collection);
         if (tradeData.isFav()) {
             iv_collection.setImageResource(R.drawable.collection_fill);
         } else {
@@ -144,11 +156,83 @@ public class TradeContentActivity extends BaseActivity implements View.OnClickLi
     @Override
     public void onClick(View v) {
         if (collection) {
-            iv_collection.setImageResource(R.drawable.collection);
+            //执行取消收藏操作
             collection = false;
+            if (NetUtil.isNetAvailable(context)) {
+
+                Call<JsonObject> call = RetrofitUtil.getRetrofit().create(ITradeFav.class).doUnCollectTrade(authToken, tradeData.getId());
+                call.enqueue(new Callback<JsonObject>() {
+                    @Override
+                    public void onResponse(Response<JsonObject> response, Retrofit retrofit) {
+                        if (response.isSuccess()) {
+                            //取消收藏执行成功
+                            Log.d("TradeListViewAdapter", "取消收藏" + tradeData.getId());
+                            Log.d("TradeAdapter", "code:" + response.code());
+                            //修改图标
+                            iv_collection.setImageResource(R.drawable.collection);
+                        } else {
+                            //取消收藏执行失败
+                            Log.e("TradeListViewAdapter", "code:" + response.code() + " body:" + response.body() +  "  message:" + response.message());
+                            showServerError();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Throwable t) {
+                        //取消收藏执行失败
+                        Log.e("TradeListViewAdapter", "执行失败");
+                        showRequestTimeout();
+                    }
+                });
+            } else {
+                showNetUnavailable();
+            }
         } else {
-            iv_collection.setImageResource(R.drawable.collection_fill);
+            //执行收藏操作
             collection = true;
+            //设置缓存收藏状态变化
+
+            if (NetUtil.isNetAvailable(context)) {
+
+                Call<JsonObject> call = RetrofitUtil.getRetrofit().create(ITradeFav.class).doCollectTrade(authToken, tradeData.getId());
+                call.enqueue(new Callback<JsonObject>() {
+                    @Override
+                    public void onResponse(Response<JsonObject> response, Retrofit retrofit) {
+                        if (response.isSuccess()) {
+                            //收藏执行成功
+                            Log.d("TradeListViewAdapter", "收藏成功" + tradeData.getId());
+                            Log.d("TradeAdapter", "code:" + response.code());
+
+                            iv_collection.setImageResource(R.drawable.collection_fill);
+
+                        } else {
+                            //收藏执行失败
+                            Log.e("TradeListViewAdapter", "code:" + response.code() + " body:" + response.body() +"  message:" + response.message());
+                            showServerError();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Throwable t) {
+                        //收藏执行失败
+                        Log.e("TradeListViewAdapter", "执行失败");
+                        showRequestTimeout();
+                    }
+                });
+            } else {
+                showNetUnavailable();
+            }
         }
+    }
+    public void showRequestTimeout() {
+        Toast.makeText(context, "请求超时，请检查网络", Toast.LENGTH_LONG).show();
+    }
+
+    public void showNetUnavailable() {
+        Toast.makeText(context, "网络不可用，请检查网络", Toast.LENGTH_LONG).show();
+    }
+
+    public void showServerError(){
+        Toast.makeText(context, "服务器提出了一个问题", Toast.LENGTH_LONG).show();
     }
 }

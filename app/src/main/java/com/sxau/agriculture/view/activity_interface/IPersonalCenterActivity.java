@@ -5,7 +5,7 @@ import com.sxau.agriculture.bean.MyPersonalCenter;
 import java.util.ArrayList;
 
 /**
- * Created by Administrator on 2016/6/4.
+ * 个人中心接口
  */
 public interface IPersonalCenterActivity {
     void updateView(ArrayList<MyPersonalCenter> myPersonalCenters);
