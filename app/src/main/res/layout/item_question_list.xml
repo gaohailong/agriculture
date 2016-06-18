@@ -38,6 +38,7 @@
             android:text="概要答案:不是复反反复复反反复复反反复复反反复复反反复复"
             android:gravity="center_vertical"
             android:textSize="@dimen/font_size_large"
+            android:lineSpacingExtra="@dimen/font_space"
             android:ellipsize="end"
             android:lines="2"
             android:layout_weight="1"/>

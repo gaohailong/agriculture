@@ -60,16 +60,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
-                android:textSize="22sp" />
+                android:textSize="@dimen/font_title" />
 
             <TextView
                 android:id="@+id/tv_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:lineSpacingExtra="7dp"
+                android:lineSpacingExtra="@dimen/font_space"
                 android:minLines="5"
-                android:textSize="@dimen/font_size" />
+                android:textSize="@dimen/font_size_large" />
 
             <LinearLayout
                 android:layout_width="match_parent"
