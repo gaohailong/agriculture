@@ -144,7 +144,6 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         }
     }
 
-
     //打电话
     public void callPhone(View view, String phoneNumber) {
         Uri data = Uri.parse(phoneNumber);
@@ -163,17 +162,17 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
                 break;
             case R.id.rb_queston:
                 fragmentTabHost.setCurrentTab(1);
-                flag = 1;
+                flag = 0;
                 iniTitle();
                 break;
             case R.id.rb_info:
                 fragmentTabHost.setCurrentTab(2);
-                flag = 2;
+                flag = 0;
                 iniTitle();
                 break;
             case R.id.rb_message:
                 fragmentTabHost.setCurrentTab(3);
-                flag = 3;
+                flag = 0;
                 iniTitle();
                 break;
             default:
