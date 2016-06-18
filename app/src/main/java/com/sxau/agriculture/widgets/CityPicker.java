@@ -30,7 +30,7 @@ import com.sxau.agriculture.widgets.ScrollerNumberPicker.OnSelectListener;
 /**
  * 城市Picker
  * 
- * @author zihao
+ * @author 李秉龙
  * 
  */
 public class CityPicker extends LinearLayout {
