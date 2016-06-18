@@ -180,10 +180,7 @@ public class TradeDemandListViewFragment extends BaseFragment implements ITradeL
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Intent intent = new Intent();
-        intent.putExtra("TradeId", demandDatas.get(position).getId());
-        intent.setClass(TradeDemandListViewFragment.this.getActivity(), TradeContentActivity.class);
-        startActivity(intent);
+        TradeContentActivity.actionStart(context,demandDatas.get(position).getId(),true);
     }
 
  /*   @Override
