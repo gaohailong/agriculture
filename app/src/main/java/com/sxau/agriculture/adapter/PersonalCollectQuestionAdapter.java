@@ -69,7 +69,6 @@ public class PersonalCollectQuestionAdapter extends BaseAdapter {
         }
 
         MyPersonalCollectionQuestion myPersonalQuestion = dates.get(position);
-        Picasso.with(context).load(myPersonalQuestion.getUser().getAvatar()).resize(150,150).centerCrop().placeholder(R.mipmap.ic_loading).error(R.mipmap.ic_load_fail).into(holder.rv_head);
         holder.tv_date.setText(TimeUtil.format(myPersonalQuestion.getWhenCreated()));
         holder.tv_title.setText(myPersonalQuestion.getQuestion().getTitle());
 

@@ -12,7 +12,7 @@ import com.sxau.agriculture.widgets.CityPicker.OnSelectingListener;
 
 
 /**
- *
+ *地区三级联动
  * //TODO 最终可以删除这个类
  * @author 李秉龙
  */

@@ -3,7 +3,8 @@ package com.sxau.agriculture.bean;
 import java.io.Serializable;
 
 /**
- * Created by Administrator on 2016/6/3.
+ * 个人收藏交易bean
+ * @author 李秉龙
  */
 public class MyPersonalCollectTrades implements Serializable{
 
