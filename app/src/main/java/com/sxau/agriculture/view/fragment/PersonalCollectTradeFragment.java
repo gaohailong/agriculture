@@ -20,6 +20,7 @@ import com.sxau.agriculture.presenter.fragment_presenter.PersonalCollectTradePre
 import com.sxau.agriculture.presenter.fragment_presenter_interface.IPersonalCollectTradePresenter;
 import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.LogUtil;
+import com.sxau.agriculture.utils.NetUtil;
 import com.sxau.agriculture.view.activity.TradeContentActivity;
 import com.sxau.agriculture.view.fragment_interface.IPersonalCollectTradeFragment;
 import com.sxau.agriculture.widgets.RefreshLayout;
@@ -80,7 +81,11 @@ public class PersonalCollectTradeFragment extends BaseFragment implements IPerso
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (NetUtil.isNetAvailable(getActivity())){
                 TradeContentActivity.actionStart(PersonalCollectTradeFragment.this.getActivity(),mCollectTradeList.get(position).getTrade().getId());
+                }else {
+                    Toast.makeText(getActivity(),"无网络连接,请检查网络！",Toast.LENGTH_SHORT).show();
+                }
             }
         });
         if (iPersonalCollectTradePresenter.isNetAvailable()){
@@ -131,11 +136,11 @@ public class PersonalCollectTradeFragment extends BaseFragment implements IPerso
     //---------------------接口方法-----------------
     @Override
     public void showRequestTimeout() {
-        Toast.makeText(PersonalCollectTradeFragment.this.getActivity(), "请求超时，请检查网络", Toast.LENGTH_LONG).show();
+        Toast.makeText(PersonalCollectTradeFragment.this.getActivity(), "请求超时，请检查网络", Toast.LENGTH_SHORT).show();
     }
     @Override
     public void showNoNetworking() {
-        Toast.makeText(PersonalCollectTradeFragment.this.getActivity(), "没有网络连接，请检查网络", Toast.LENGTH_LONG).show();
+        Toast.makeText(PersonalCollectTradeFragment.this.getActivity(), "没有网络连接，请检查网络", Toast.LENGTH_SHORT).show();
     }
     @Override
     public void updateView(final ArrayList<MyPersonalCollectTrades> myPersonalCollectTrades) {
@@ -153,7 +158,11 @@ public class PersonalCollectTradeFragment extends BaseFragment implements IPerso
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    if (NetUtil.isNetAvailable(getActivity())){
                     TradeContentActivity.actionStart(PersonalCollectTradeFragment.this.getActivity(),mCollectTradeList.get(position).getTrade().getId());
+                    }else {
+                        Toast.makeText(getActivity(),"无网络连接,请检查网络！",Toast.LENGTH_SHORT).show();
+                    }
                 }
             });
         }

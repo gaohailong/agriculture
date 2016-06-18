@@ -227,6 +227,7 @@ public class TradeDemandListViewFragment extends BaseFragment implements ITradeL
                     new TradeFragment().btn_info_float.setAnimation(aa);
                     new TradeFragment().btn_info_float.setVisibility(View.VISIBLE);
                 }
+
                 break;
             default:
                 break;

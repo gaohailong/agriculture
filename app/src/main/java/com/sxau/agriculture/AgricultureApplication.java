@@ -26,7 +26,6 @@ public class AgricultureApplication extends Application {
         JPushInterface.init(this);     		// 初始化 JPush
         Bugtags.start("01edd61d98e9dc96753171559601a69a", this, Bugtags.BTGInvocationEventBubble);
 
-        FavoBeansHelper.init(this);
     }
 
     public static Context getContext(){

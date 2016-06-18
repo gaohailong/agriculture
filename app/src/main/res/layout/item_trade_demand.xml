@@ -107,7 +107,7 @@
                 android:layout_marginBottom="5dp"
                 android:layout_marginRight="20dp"
                 android:src="@drawable/collection"
-                android:visibility="gone" />
+                android:visibility="visible" />
 
         </RelativeLayout>
 

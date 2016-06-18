@@ -87,15 +87,14 @@ public class TradeListViewAdapter extends BaseAdapter {
         holder.id = infoData.getId();
         Log.e("TradeList","Position:"+position+"  isFav:"+datas.get(position).isFav()+"  tradeId:"+datas.get(position).getId());
 
-/*
+
         if (infoData.isFav()) {
-//            isCheckMap.put(datas.get(position).getId(),true);
             holder.ivCollection.setImageResource(R.drawable.collection_fill);
         } else {
             holder.ivCollection.setImageResource(R.drawable.collection);
         }
-        holder.ivCollection.setOnClickListener(new CollectionListener(infoData, infoData.isFav(),position));
-        */
+//        holder.ivCollection.setOnClickListener(new CollectionListener(infoData, infoData.isFav(),position));
+
         return convertView;
     }
 
