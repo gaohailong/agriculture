@@ -139,19 +139,16 @@ public class LoginPresenter implements ILoginPresenter {
                             if (responseCode == RESPONSE_SUCCESS) {
                                 JsonObject joResponseBody = response.body();
                                 authToken = joResponseBody.get("authToken").getAsString();
-
-
                                 //将数据封装成对象，方便缓存
                                 Gson userGson = new Gson();
                                 User user = new User();
                                 user.setAuthToken(authToken);
-                               // user.setPhone(phone);
+                                user.setPhone(String.valueOf(phone));
                                 user.setPhone(strPhone);
-
-                              //  setAlias();
+//                                setAlias(String.valueOf(phone));
                                 //执行缓存
                                 ACache mCache = ACache.get(AgricultureApplication.getContext());
-                                mCache.put(ConstantUtil.CACHE_KEY,user);
+                                mCache.put(ConstantUtil.CACHE_KEY, user);
 //                                setAlias();
                                 //打印验证
                                 String userJson = userGson.toJson(user);
@@ -191,8 +188,8 @@ public class LoginPresenter implements ILoginPresenter {
 
     //--------------------------接口方法结束---------------------
     //JPush方法别名的设置
-    private void setAlias() {
-        if (!JPushUtil.isValidTagAndAlias(String.valueOf("18404984629"))) {
+/*    private void setAlias(String phone) {
+        if (!JPushUtil.isValidTagAndAlias(String.valueOf(phone))) {
             return;
         }
         //调用JPush API设置Alias
@@ -213,7 +210,7 @@ public class LoginPresenter implements ILoginPresenter {
     private final TagAliasCallback mAliasCallback = new TagAliasCallback() {
         @Override
         public void gotResult(int code, String alias, Set<String> tags) {
-            String logs ;
+            String logs;
             switch (code) {
                 case 0:
                     logs = "Set tag and alias success";
@@ -235,7 +232,5 @@ public class LoginPresenter implements ILoginPresenter {
             }
             JPushUtil.showToast(logs, AgricultureApplication.getContext());
         }
-
-    };
-
+    };*/
 }
