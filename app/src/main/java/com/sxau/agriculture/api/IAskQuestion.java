@@ -15,5 +15,5 @@ import retrofit.http.POST;
  */
 public interface IAskQuestion {
     @POST("question")
-    Call<String> sendQuestion(@Body Map map, @Header("X-AUTH-TOKEN") String authToken);
+    Call<String> sendQuestion(@Header("X-AUTH-TOKEN") String authToken, @Body Map map);
 }

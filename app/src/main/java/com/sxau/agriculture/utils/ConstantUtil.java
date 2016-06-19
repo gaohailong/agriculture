@@ -60,5 +60,8 @@ public class ConstantUtil {
     public static final int START_ACTIVITY = 0x00000009;
     //问答界面
     public static final int GET_CATEGEORYDATA = 0x00000010;
+    //成功上传图片到七牛
     public static final int SUCCESS_UPLOAD_PICTURE = 0x00000011;
+    //成功上传图片到七牛
+    public static final int GET_QINIU_TOKEN = 0x0000012;
 }
