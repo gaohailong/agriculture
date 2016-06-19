@@ -245,7 +245,7 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
         }
 
         //九宫格设置adapter
-        nineGridImageView.setAdapter(mAdapter);
+//        nineGridImageView.setAdapter(mAdapter);
     }
 
     @Override
