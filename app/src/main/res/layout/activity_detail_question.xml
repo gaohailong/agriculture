@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/whittintGrey"
     tools:context="com.sxau.agriculture.view.activity.DetailQuestionActivity">
 
     <com.sxau.agriculture.utils.TitleBarTwo
@@ -20,14 +20,16 @@
         android:layout_marginRight="15dp">
 
         <RelativeLayout
+            android:layout_marginTop="15dp"
+            android:padding="15dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_linear_layout_shape_10_white">
 
             <LinearLayout
                 android:id="@+id/ll_question"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:orientation="vertical">
 
                 <RelativeLayout
@@ -56,12 +58,11 @@
 
                     <ImageView
                         android:id="@+id/iv_collection"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginBottom="5dp"
-                        android:layout_marginRight="20dp"
                         android:src="@drawable/collection"
                         android:visibility="visible" />
                 </RelativeLayout>

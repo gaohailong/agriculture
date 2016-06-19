@@ -39,6 +39,8 @@ public class ConstantUtil {
     public static final String AVATAR_FILE_PATH = "/nongke110_avatar.jpg";
     //用户头像存放文件名
     public static final String CACHE_QUESTION_KEY = "Cache_QuestionList";
+    //上传图片文字前缀
+    public static final String DOMAIN = "http://storage.workerhub.cn/";
     //============================整形常量的定义===================================
     //下拉刷新的时间
     public static final int PULL_TIME = 3000;
@@ -60,7 +62,9 @@ public class ConstantUtil {
     public static final int START_ACTIVITY = 0x00000009;
     //问答界面
     public static final int GET_CATEGEORYDATA = 0x00000010;
+    //成功加载图片
     public static final int SUCCESS_UPLOAD_PICTURE = 0x00000011;
     //改变收藏状态
     public static final int CHANGE_COLLECTION_STATE = 0x00000012;
+
 }

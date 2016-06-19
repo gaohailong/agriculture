@@ -1,6 +1,7 @@
 package com.sxau.agriculture.view.activity;
 
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -77,6 +78,7 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
     private TopBarUtil top_question;
     private RecyclerView recycler;
     private Spinner spinner;
+    private ProgressDialog pdLoginwait;
     //adapter
     private SelectPhotoAdapter selectPhotoAdapter;
     //数据集合定义部分
@@ -91,6 +93,8 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
     private String uploadFilePath;
     private UploadManager uploadManager;
     private AskQuestionActivity context;
+    private String uploadToken;
+    private String domain;
 
     private String questionImage;
     private String questionTitle;
@@ -155,9 +159,15 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
         ib_photo.setOnClickListener(this);
         btn_submit.setOnClickListener(this);
 
+        pdLoginwait = new ProgressDialog(AskQuestionActivity.this);
+        pdLoginwait.setMessage("提交中...");
+        pdLoginwait.setCanceledOnTouchOutside(false);
+        pdLoginwait.setCancelable(true);
+
         authorToken = AuthTokenUtil.findAuthToken();
 
         startNet();
+        getUploadToken();
     }
 
     public void startNet() {
@@ -179,11 +189,34 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
                 showPhotoDialog();
                 break;
             case R.id.btn_submit:
-                //提交网络请求发送问题
-                doupdata();
+                showProgress(true);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Thread.sleep(1500);
+                            //提交网络请求发送问题
+                            if (path.size() > 0) {
+                                doupdata();
+                            } else {
+                                upload();
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }).start();
                 break;
             default:
                 break;
+        }
+    }
+
+    public void showProgress(boolean flag) {
+        if (flag) {
+            pdLoginwait.show();
+        } else {
+            pdLoginwait.cancel();
         }
     }
 
@@ -212,10 +245,6 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE && resultCode == RESULT_OK && data != null) {
             List<String> pathList = data.getStringArrayListExtra(ImageSelectorActivity.EXTRA_RESULT);
-            for (String path : pathList) {
-                //TODO 将网络上传写到这
-                LogUtil.i("ImagePathList", path);
-            }
             path.clear();
             path.addAll(pathList);
             selectPhotoAdapter.notifyDataSetChanged();
@@ -249,13 +278,16 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
         }
     }
 
+    //提交问题
     public void upload() {
         //获得标题
         questionTitle = et_title.getText().toString();
         questionContent = et_trade_content.getText().toString();
-        questionImage = StringUtil.changeListToString(imageUriList);
-        Log.e("AskSize", "size:" + imageUriList.size());
-        Log.e("AskSize", questionImage);
+        if (imageUriList != null) {
+            questionImage = StringUtil.changeListToString(imageUriList);
+        }else {
+            questionImage = "";
+        }
 
         Map map = new HashMap();
         map.put("categoryId", questionType);
@@ -267,15 +299,19 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Response<String> response, Retrofit retrofit) {
+                showProgress(false);
                 Log.e("getCode", response.code() + "");
                 Toast.makeText(AskQuestionActivity.this, "提问成功", Toast.LENGTH_SHORT).show();
+
             }
 
             @Override
             public void onFailure(Throwable t) {
+                showProgress(false);
                 Toast.makeText(AskQuestionActivity.this, "提问失败", Toast.LENGTH_SHORT).show();
             }
         });
+
         finish();
     }
 
@@ -313,33 +349,22 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
             File photoFile = new File(path.get(i));
             Uri photoUri = Uri.fromFile(photoFile);
             uploadFilePath = FileUtilsQiNiu.getPath(this, photoUri);
-            uploadPicture();
+            uploadPic(uploadToken, domain);
         }
-       /* for (String imgpath : path) {
-            File photoFile = new File(imgpath);
-            Uri photoUri = Uri.fromFile(photoFile);
-            uploadFilePath = FileUtilsQiNiu.getPath(this, photoUri);
-            uploadPicture();
-        }*/
     }
-
-    //将图片路径添加到这外部添加一个图片
-    public void uploadPicture() {
-   /*     if (this.uploadFilePath == null) {
-            return;
-        }*/
+    //获取上传图片权限token
+    private void getUploadToken() {
         Call<JsonObject> call = RetrofitUtil.getRetrofit().create(IUploadToken.class).getUploadToken(authorToken);
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Response<JsonObject> response, Retrofit retrofit) {
                 Log.e("UPLOADTOKEN", response.code() + "");
                 if (response.isSuccess()) {
-                    String uploadToken = null;
                     JsonObject joResponseBody = response.body();
                     JsonObject getData = joResponseBody.getAsJsonObject("success");
-                    String getToken = getData.get("message").getAsString();
-                    String domain = "http://storage.workerhub.cn";
-                    upload(getToken, domain);
+                    uploadToken = getData.get("message").getAsString();
+                    domain = ConstantUtil.DOMAIN;
+
                 }
             }
 
@@ -351,11 +376,10 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
     }
 
     //=============================必须的===================================
-    private void upload(final String uploadToken, final String domain) {
+    private void uploadPic(final String uploadToken, final String domain) {
         if (this.uploadManager == null) {
             this.uploadManager = new UploadManager();
         }
-        File uploadFile = new File(this.uploadFilePath);
         UploadOptions uploadOptions = new UploadOptions(null, null, false,
                 null, null);
         this.uploadManager.put(uploadFilePath, null, uploadToken,
@@ -367,12 +391,14 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
                                 String fileKey = jsonData.getString("key");
                                 DisplayMetrics dm = new DisplayMetrics();
                                 final int width = dm.widthPixels;
-                                final String imageUrl = domain + "/" + fileKey + "?imageView2/0/w/" + width + "/format/jpg";
-                                imageUriList.add(imageUrl);
+                                final String imageUrl = domain  + fileKey + "?imageView2/0/w/" + width + "/format/jpg";
+                                final String imageurl = fileKey+".jpg";
+                                imageUriList.add(imageurl);
                                 if (imageUriList.size() == path.size()) {
                                     myHandler.sendEmptyMessage(ConstantUtil.SUCCESS_UPLOAD_PICTURE);
                                 }
                                 Log.e("imageUrl11111111", imageUrl);
+                                Log.e("imageUrl22222222", imageurl);
                             } catch (JSONException e) {
                                 Toast.makeText(context, "上传回复解析错误", Toast.LENGTH_LONG).show();
                                 Log.e(QiniuLabConfig.LOG_TAG, e.getMessage());

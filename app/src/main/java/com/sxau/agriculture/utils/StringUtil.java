@@ -19,7 +19,20 @@ public class StringUtil {
         for (int i = 0; i < strList.size(); i++) {
             str += strList.get(i) + ",";
         }
-        str = str.substring(0,str.length()-1);
+        str = str.substring(0, str.length() - 1);
         return str;
+    }
+
+    public static List<String> changeToWholeUrlList(List<String> strList) {
+        String str1 = new String();
+        String str2 = new String();
+        List<String> wholeList = new ArrayList<String>();
+        for (int i = 0 ; i<strList.size();i++){
+            str1 = strList.get(i).substring(0, strList.get(i).length() - 4);
+            str2 = ConstantUtil.DOMAIN + str1 + "?imageView2/0/w/0/format/jpg";
+            wholeList.add(str2);
+        }
+
+        return wholeList;
     }
 }

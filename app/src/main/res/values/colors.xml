@@ -11,6 +11,8 @@
     <color name="white">#ffffff</color>
     <!--白灰色-->
     <color name="tintGrey">#f9fafa</color>
+    <!--白浅灰色-->
+    <color name="whittintGrey">#e7e9e9</color>
     <!--浅灰色-->
     <color name="whitGrey">#d3d9d9</color>
     <!--灰色-->

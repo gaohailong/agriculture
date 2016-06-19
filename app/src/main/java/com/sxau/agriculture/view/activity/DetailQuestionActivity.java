@@ -154,12 +154,15 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
                 case ConstantUtil.GET_NET_DATA:
                     detailQuestionData = idetailQuestionPresenter.getData();
                     LogUtil.e("DetailQuestionA", "images:" + detailQuestionData.getImages());
-                    imgDatas = StringUtil.changeStringToList(detailQuestionData.getImages());
-                    for (int i = 0; i < imgDatas.size(); i++) {
-                        LogUtil.e("DetailQuestionA", "imgDatas:" + imgDatas.get(i).toString());
+                    if (detailQuestionData.getImages() != null){
+                        imgDatas = StringUtil.changeStringToList(detailQuestionData.getImages());
+                        imgDatas = StringUtil.changeToWholeUrlList(imgDatas);
+                        for (int i=0;i<imgDatas.size();i++){
+                            Log.d("DetailQA","imgDatas："+imgDatas.get(i)+" 位置："+i);
+                        }
+                        //设置九宫格数据源
+                        nineGridImageView.setImagesData(imgDatas);
                     }
-                    //设置九宫格数据源
-                    nineGridImageView.setImagesData(imgDatas);
                     updateView();
                     break;
                 case ConstantUtil.CHANGE_COLLECTION_STATE:
