@@ -17,6 +17,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.exception.DbException;
@@ -102,7 +103,6 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
         tv_title= (TextView) mView.findViewById(R.id.tv_title);
         fl_adv= (FrameLayout) mView.findViewById(R.id.fl_adv);
 
-        lv_push.setOnItemClickListener(this);
 
         currentPage = 1;
         isLoadOver = false;
@@ -112,6 +112,10 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
         myHandler = new MyHandler(HomeFragment.this);
         bannerData= new ArrayList<>();
         imagePath=new ArrayList<>();
+
+        if (NetUtil.isNetAvailable(context)) {
+            lv_push.setOnItemClickListener(this);
+        }
 
         imagePath.add("error");
 
@@ -196,6 +200,7 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
                         getHomeBannerData();
                     } else {
                         try {
+                            Toast.makeText(context,"当前没有网络，请检查网络设置",Toast.LENGTH_LONG).show();
                             dbUtil.createTableIfNotExist(HomeArticle.class);
                             dbUtil.createTableIfNotExist(HomeBannerPicture.class);
                             getCacheData();
@@ -221,6 +226,7 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
                 case ConstantUtil.PULL_REFRESH:
                     currentPage = 1;
                     getHomeArticleData(String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER, true);
+                    getHomeBannerData();
                     rl_refresh.setRefreshing(false);
                     RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOAD_MORE);
                     break;
@@ -305,10 +311,11 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
 
             @Override
             public void onFailure(Throwable t) {
-                imagePath.clear();
-                imagePath.add("error");
-                imagePath.add("error");
-                fl_adv.setVisibility(View.GONE);
+//                imagePath.clear();
+//                imagePath.add("error");
+//                imagePath.add("error");
+//                fl_adv.setVisibility(View.GONE);
+                myHandler.sendEmptyMessage(ConstantUtil.GET_PICTURE_DATA);
             }
         });
     }
@@ -360,20 +367,24 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
         lastTime = System.currentTimeMillis();
         //设置轮播文字改变
         final int index=position % imageViews.size();
-        if (bannerData==null || bannerData.size()==0){
-            tv_title.setText("暂无数据");
+        if (NetUtil.isNetAvailable(context)){
+            if (bannerData==null || bannerData.size()==0){
+                tv_title.setText("暂无数据");
+            }else {
+                tv_title.setText(bannerData.get(index).getName());
+                //轮播图点击事件
+                imageViews.get(index).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent();
+                        intent.putExtra("ArticleUrl", bannerData.get(index).getUrl());
+                        intent.setClass(context, WebViewActivity.class);
+                        startActivity(intent);
+                    }
+                });
+            }
         }else {
-            tv_title.setText(bannerData.get(index).getName());
-            //轮播图点击事件
-            imageViews.get(index).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent();
-                    intent.putExtra("ArticleUrl", bannerData.get(index).getUrl());
-                    intent.setClass(context, WebViewActivity.class);
-                    startActivity(intent);
-                }
-            });
+            tv_title.setText("当前没有网络，请检查网络设置");
         }
     }
 
