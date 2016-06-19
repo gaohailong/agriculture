@@ -23,6 +23,7 @@ import com.sxau.agriculture.presenter.acitivity_presenter.DetailQuestionPresente
 import com.sxau.agriculture.presenter.activity_presenter_interface.IDetailQuestionPresenter;
 import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.LogUtil;
+import com.sxau.agriculture.utils.NetUtil;
 import com.sxau.agriculture.utils.StringUtil;
 import com.sxau.agriculture.utils.TimeUtil;
 import com.sxau.agriculture.utils.TitleBarTwo;
@@ -46,21 +47,23 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
     private LinearLayout ll_expert_answer;
     private TitleBarTwo topBarUtil;
 
-    private IDetailQuestionPresenter detailQuestionPresenter;
+    private IDetailQuestionPresenter idetailQuestionPresenter;
     private DetailQuestionData detailQuestionData;
     private MyHandler handler;
     private Context context;
 
     private NineGridImageView nineGridImageView;    //九宫格View
     private List<String> imgDatas;                  //九宫格图片数据
+    private NineGridImageViewAdapter<String> mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_question);
         handler = new MyHandler(DetailQuestionActivity.this);
-        detailQuestionPresenter = new DetailQuestionPresenter(DetailQuestionActivity.this, handler);
-        detailQuestionPresenter.getDetailData(String.valueOf(getQuestionId()));
+        idetailQuestionPresenter = new DetailQuestionPresenter(DetailQuestionActivity.this, handler);
+        idetailQuestionPresenter.getDetailData(String.valueOf(getQuestionId()));
+        context = DetailQuestionActivity.this;
 
         initView();
         initTopBar();
@@ -68,7 +71,7 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
     }
 
     private void initView() {
-        iv_collection = (ImageView) this.findViewById(R.id.iv_collection);
+        iv_collection = (ImageView) findViewById(R.id.iv_collection);
         rv_question_head = (ImageView) findViewById(R.id.rv_question_head);
         tv_question_content = (TextView) findViewById(R.id.tv_question_content);
         rv_professor_head = (ImageView) findViewById(R.id.rv_professor_head);
@@ -83,11 +86,13 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
         ll_expert_answer = (LinearLayout) findViewById(R.id.ll_expert_answer);
         topBarUtil = (TitleBarTwo) findViewById(R.id.topBar_detail);
         nineGridImageView = (NineGridImageView) findViewById(R.id.mNineGridImageView);
+
+        iv_collection.setOnClickListener(this);
         bt_answer.setOnClickListener(this);
     }
 
     public void initNineGridView() {
-        NineGridImageViewAdapter<String> mAdapter = new NineGridImageViewAdapter<String>() {
+         mAdapter = new NineGridImageViewAdapter<String>() {
             @Override
             protected void onDisplayImage(Context context, ImageView imageView, String t) {
                 Picasso.with(context).load(t).placeholder(R.mipmap.ic_loading).into(imageView);
@@ -100,7 +105,7 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
 
             @Override
             protected void onItemImageClick(Context context, int index, List<String> list) {
-//                Toast.makeText(context, "image position is " + index, Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "image position is " + index, Toast.LENGTH_SHORT).show();
             }
         };
         nineGridImageView.setAdapter(mAdapter);
@@ -127,6 +132,9 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
             case R.id.bt_answer:
                 ExpertAnswerActivity.actionStart(DetailQuestionActivity.this, detailQuestionData.getTitle(), detailQuestionData.getId());//有问题,接口返回了多个问题的答案
                 break;
+            case R.id.iv_collection:
+                doCollection();
+                break;
             default:
                 break;
         }
@@ -144,10 +152,18 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
             super.handleMessage(msg);
             switch (msg.what) {
                 case ConstantUtil.GET_NET_DATA:
-                    detailQuestionData = detailQuestionPresenter.getData();
+                    detailQuestionData = idetailQuestionPresenter.getData();
+                    LogUtil.e("DetailQuestionA", "images:" + detailQuestionData.getImages());
                     imgDatas = StringUtil.changeStringToList(detailQuestionData.getImages());
+                    for (int i = 0; i < imgDatas.size(); i++) {
+                        LogUtil.e("DetailQuestionA", "imgDatas:" + imgDatas.get(i).toString());
+                    }
+                    //设置九宫格数据源
                     nineGridImageView.setImagesData(imgDatas);
                     updateView();
+                    break;
+                case ConstantUtil.CHANGE_COLLECTION_STATE:
+                    changeCollectionIC();
                     break;
                 default:
                     break;
@@ -161,6 +177,37 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
         context.startActivity(intent);
     }
 
+    public void doCollection() {
+        if (detailQuestionData.isFav()) {
+            //执行取消收藏操作
+            if (NetUtil.isNetAvailable(context)) {
+                idetailQuestionPresenter.doUnCollection(detailQuestionData.getId());
+            } else {
+                showNetUnavailable();
+            }
+        } else {
+            //执行收藏操作
+            if (NetUtil.isNetAvailable(context)) {
+                idetailQuestionPresenter.doCollection(detailQuestionData.getId());
+            } else {
+                showNetUnavailable();
+            }
+        }
+    }
+
+    //更改收藏图标
+    private void changeCollectionIC(){
+        if (detailQuestionData.isFav()){
+            iv_collection.setImageResource(R.drawable.collection_fill);
+        }else {
+            iv_collection.setImageResource(R.drawable.collection);
+        }
+    }
+
+
+
+
+    //----------------------接口方法---------------------------
     @Override
     public int getQuestionId() {
         Intent intent = getIntent();
@@ -196,5 +243,25 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
         } else {
             iv_collection.setImageResource(R.drawable.collection);
         }
+
+        //九宫格设置adapter
+//        nineGridImageView.setAdapter(mAdapter);
+    }
+
+    @Override
+    public void showServiceError() {
+        Toast.makeText(context, "服务器提出了一个问题", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void showFailed() {
+        Toast.makeText(context, "请求超时，请检查网络", Toast.LENGTH_LONG).show();
+    }
+
+
+    //------------------------接口方法结束--------------------------
+
+    public void showNetUnavailable() {
+        Toast.makeText(context, "网络不可用，请检查网络", Toast.LENGTH_LONG).show();
     }
 }
