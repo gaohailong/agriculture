@@ -74,7 +74,6 @@ public class QuestionListViewFragment extends BaseFragment implements IQuestionL
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         //将QuestionLvFragment与QuestionLvPresenter绑定
         iQuestionListViewPresenter = new QuestionListViewPresenter(QuestionListViewFragment.this);
         mView = inflater.inflate(R.layout.fragment_question_list, container, false);
@@ -106,7 +105,6 @@ public class QuestionListViewFragment extends BaseFragment implements IQuestionL
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initRefresh();
-        Log.d("rqstline", "1初始化加载");
         initList();
         myHandler.sendEmptyMessage(ConstantUtil.INIT_DATA);
     }
@@ -125,7 +123,6 @@ public class QuestionListViewFragment extends BaseFragment implements IQuestionL
             @Override
             public void onClick(View v) {
                 myHandler.sendEmptyMessage(ConstantUtil.UP_LOAD);
-                Log.d("rqstline", "2点击上拉加载");
             }
         });
     }
@@ -161,9 +158,6 @@ public class QuestionListViewFragment extends BaseFragment implements IQuestionL
                     getQuestionData(String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER, true, String.valueOf(cateId));
                     break;
                 case ConstantUtil.GET_NET_DATA:
-//                    questionDatas.clear();
-//                    questionDatas = (ArrayList<QuestionData>) aCache.getAsObject(ConstantUtil.CACHE_QUESTION_KEY);
-                    Log.d("rqstline", "8从缓存中取出数据"+questionDatas.size());
                     Log.e("questionDatas", questionDatas.size() + "");
                     adapter.notifyDataSetChanged();
                     if (isLoadOver) {
@@ -198,8 +192,6 @@ public class QuestionListViewFragment extends BaseFragment implements IQuestionL
             public void onResponse(Response<ArrayList<QuestionData>> response, Retrofit retrofit) {
                 if (response.isSuccess()) {
                     ArrayList<QuestionData> questionDatas1 = response.body();
-//                    try {
-//                        dbUtil.deleteAll(QuestionData.class);
                     if (isRefresh) {
                         questionDatas.clear();
                         questionDatas.addAll(questionDatas1);
@@ -208,15 +200,11 @@ public class QuestionListViewFragment extends BaseFragment implements IQuestionL
                         isLoadOver = false;
                     } else {
                         questionDatas.addAll(questionDatas1);
-                        Log.d("rqstline", "4添加数据"+questionDatas.size());
                     }
                     aCache.remove(ConstantUtil.CACHE_QUESTION_KEY);
-                    Log.d("rqstline", "5清空缓存");
                     aCache.put(ConstantUtil.CACHE_QUESTION_KEY, questionDatas);
-                    Log.d("rqstline", "6填数据进缓存");
                     if (questionDatas1.size() < Integer.parseInt(ConstantUtil.ITEM_NUMBER)) {
                         isLoadOver = true;
-                        Log.d("rqstline", "7判断是否加载完成"+isLoadOver);
                     }
                     myHandler.sendEmptyMessage(ConstantUtil.GET_NET_DATA);
                 }
@@ -224,7 +212,6 @@ public class QuestionListViewFragment extends BaseFragment implements IQuestionL
 
             @Override
             public void onFailure(Throwable t) {
-                Log.d("rqstline", "4加载失败");
                 RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOAD_FAIL);
                 if (currentPage > 1) {
                     rl_refresh.setRefreshing(false);
@@ -234,7 +221,6 @@ public class QuestionListViewFragment extends BaseFragment implements IQuestionL
                 }
             }
         });
-
     }
 
     public void getCatchData() {

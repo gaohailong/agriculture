@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -65,6 +66,7 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
 
         initView();
         initTopBar();
+        initNineGridView();
     }
 
     private void initView() {
@@ -86,6 +88,26 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
 
         iv_collection.setOnClickListener(this);
         bt_answer.setOnClickListener(this);
+    }
+
+    public void initNineGridView() {
+        NineGridImageViewAdapter<String> mAdapter = new NineGridImageViewAdapter<String>() {
+            @Override
+            protected void onDisplayImage(Context context, ImageView imageView, String t) {
+                Picasso.with(context).load(t).placeholder(R.mipmap.ic_loading).into(imageView);
+            }
+
+            @Override
+            protected ImageView generateImageView(Context context) {
+                return super.generateImageView(context);
+            }
+
+            @Override
+            protected void onItemImageClick(Context context, int index, List<String> list) {
+//                Toast.makeText(context, "image position is " + index, Toast.LENGTH_SHORT).show();
+            }
+        };
+        nineGridImageView.setAdapter(mAdapter);
     }
 
     private void initTopBar() {
@@ -135,6 +157,8 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
                     for (int i = 0; i < imgDatas.size(); i++) {
                         LogUtil.e("DetailQuestionA", "imgDatas:" + imgDatas.get(i).toString());
                     }
+
+                    nineGridImageView.setImagesData(imgDatas);
                     updateView();
                     break;
                 case ConstantUtil.CHANGE_COLLECTION_STATE:
@@ -230,16 +254,12 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
             bt_answer.setVisibility(View.VISIBLE);
             tv_is_answer.setText("专家未回答");
         }
-
         if (detailQuestionData.isFav()) {
             iv_collection.setImageResource(R.drawable.collection_fill);
         } else {
             iv_collection.setImageResource(R.drawable.collection);
         }
 
-        String images = detailQuestionData.getImages();
-        List<String> imgList = StringUtil.changeStringToList(images);
-        nineGridImageView.setImagesData(imgList);
         nineGridImageView.setAdapter(mAdapter);
     }
 

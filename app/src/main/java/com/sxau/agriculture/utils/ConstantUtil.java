@@ -61,6 +61,7 @@ public class ConstantUtil {
     //问答界面
     public static final int GET_CATEGEORYDATA = 0x00000010;
     //改变收藏状态
-    public static final int CHANGE_COLLECTION_STATE = 0x00000011;
-
+    public static final int CHANGE_COLLECTION_STATE = 0x00000012;
+    //成功上传图片
+    public static final int SUCCESS_UPLOAD_PICTURE = 0x00000011;
 }

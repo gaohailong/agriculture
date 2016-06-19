@@ -19,7 +19,7 @@ public class StringUtil {
         for (int i = 0; i < strList.size(); i++) {
             str += strList.get(i) + ",";
         }
-        str = str.substring(0,str.length()-2);
+        str = str.substring(0,str.length()-1);
         return str;
     }
 }
