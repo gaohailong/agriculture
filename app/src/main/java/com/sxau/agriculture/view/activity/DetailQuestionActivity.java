@@ -54,6 +54,7 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
 
     private NineGridImageView nineGridImageView;    //九宫格View
     private List<String> imgDatas;                  //九宫格图片数据
+    private NineGridImageViewAdapter<String> mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +92,7 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
     }
 
     public void initNineGridView() {
-        NineGridImageViewAdapter<String> mAdapter = new NineGridImageViewAdapter<String>() {
+         mAdapter = new NineGridImageViewAdapter<String>() {
             @Override
             protected void onDisplayImage(Context context, ImageView imageView, String t) {
                 Picasso.with(context).load(t).placeholder(R.mipmap.ic_loading).into(imageView);
@@ -104,7 +105,7 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
 
             @Override
             protected void onItemImageClick(Context context, int index, List<String> list) {
-//                Toast.makeText(context, "image position is " + index, Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "image position is " + index, Toast.LENGTH_SHORT).show();
             }
         };
         nineGridImageView.setAdapter(mAdapter);
@@ -157,7 +158,7 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
                     for (int i = 0; i < imgDatas.size(); i++) {
                         LogUtil.e("DetailQuestionA", "imgDatas:" + imgDatas.get(i).toString());
                     }
-
+                    //设置九宫格数据源
                     nineGridImageView.setImagesData(imgDatas);
                     updateView();
                     break;
@@ -203,24 +204,7 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
         }
     }
 
-    private NineGridImageViewAdapter<String> mAdapter = new NineGridImageViewAdapter<String>() {
-        @Override
-        protected void onDisplayImage(Context context, ImageView imageView, String s) {
-            Picasso.with(context)
-                    .load(s)
-                    .into(imageView);
-        }
 
-        @Override
-        protected ImageView generateImageView(Context context) {
-            return super.generateImageView(context);
-        }
-
-        @Override
-        protected void onItemImageClick(Context context, int index, List<String> photoList) {
-            Toast.makeText(context, "点击了图片", Toast.LENGTH_LONG).show();
-        }
-    };
 
 
     //----------------------接口方法---------------------------
@@ -260,7 +244,8 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
             iv_collection.setImageResource(R.drawable.collection);
         }
 
-        nineGridImageView.setAdapter(mAdapter);
+        //九宫格设置adapter
+//        nineGridImageView.setAdapter(mAdapter);
     }
 
     @Override

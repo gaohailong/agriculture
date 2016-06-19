@@ -19,6 +19,8 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.qiniu.android.http.ResponseInfo;
 import com.qiniu.android.storage.UpCompletionHandler;
 import com.qiniu.android.storage.UploadManager;
@@ -30,6 +32,7 @@ import com.sxau.agriculture.adapter.SelectPhotoAdapter;
 import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.api.IAskQuestion;
 import com.sxau.agriculture.api.ICategoriesData;
+import com.sxau.agriculture.api.IUploadToken;
 import com.sxau.agriculture.bean.CategorieData;
 import com.sxau.agriculture.qiniu.FileUtilsQiNiu;
 import com.sxau.agriculture.qiniu.QiniuLabConfig;
@@ -62,8 +65,6 @@ import retrofit.Retrofit;
 
 /**
  * 提问页面
- * <p/>
- * 上传图片存在问题 detailQuestion、a d
  *
  * @author 崔志泽
  */
@@ -89,7 +90,7 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
 
     private String uploadFilePath;
     private UploadManager uploadManager;
-    private TradeReleaseActivity context;
+    private AskQuestionActivity context;
 
     private String questionImage;
     private String questionTitle;
@@ -118,6 +119,7 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
         spinData = new ArrayList<>();
         myHandler = new MyHandler(AskQuestionActivity.this);
         categorieDatas = new ArrayList<>();
+        context = AskQuestionActivity.this;
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -152,6 +154,8 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
 
         ib_photo.setOnClickListener(this);
         btn_submit.setOnClickListener(this);
+
+        authorToken = AuthTokenUtil.findAuthToken();
 
         startNet();
     }
@@ -258,12 +262,12 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
         map.put("title", questionTitle);
         map.put("content", questionContent);
         map.put("image", questionImage);
-        authorToken = AuthTokenUtil.findAuthToken();
 
-        Call<String> call = RetrofitUtil.getRetrofit().create(IAskQuestion.class).sendQuestion(map, authorToken);
+        Call<String> call = RetrofitUtil.getRetrofit().create(IAskQuestion.class).sendQuestion(authorToken, map);
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Response<String> response, Retrofit retrofit) {
+                Log.e("getCode", response.code() + "");
                 Toast.makeText(AskQuestionActivity.this, "提问成功", Toast.LENGTH_SHORT).show();
             }
 
@@ -305,56 +309,45 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
 
     //======================七牛云存储部分==============================
     public void doupdata() {
-        for (String imgpath : path) {
-            File photoFile = new File(imgpath);
+        for (int i = 0; i < path.size(); i++) {
+            File photoFile = new File(path.get(i));
             Uri photoUri = Uri.fromFile(photoFile);
             uploadFilePath = FileUtilsQiNiu.getPath(this, photoUri);
             uploadPicture();
         }
+       /* for (String imgpath : path) {
+            File photoFile = new File(imgpath);
+            Uri photoUri = Uri.fromFile(photoFile);
+            uploadFilePath = FileUtilsQiNiu.getPath(this, photoUri);
+            uploadPicture();
+        }*/
     }
 
     //将图片路径添加到这外部添加一个图片
     public void uploadPicture() {
-        LogUtil.d("TradeReleaseA", "uploadPicture execute");
-        if (this.uploadFilePath == null) {
+   /*     if (this.uploadFilePath == null) {
             return;
-        }
-        new Thread(new Runnable() {
+        }*/
+        Call<JsonObject> call = RetrofitUtil.getRetrofit().create(IUploadToken.class).getUploadToken(authorToken);
+        call.enqueue(new Callback<JsonObject>() {
             @Override
-            public void run() {
-                final OkHttpClient httpClient = new OkHttpClient();
-                Request req = new Request.Builder().url(QiniuLabConfig.makeUrl(
-                        QiniuLabConfig.REMOTE_SERVICE_SERVER,
-                        QiniuLabConfig.QUICK_START_IMAGE_DEMO_PATH)).method("GET", null).build();
-                com.squareup.okhttp.Response resp = null;
-                try {
-                    resp = httpClient.newCall(req).execute();
-                    JSONObject jsonObject = new JSONObject(resp.body().string());
-                    String uploadToken = jsonObject.getString("uptoken");
-                    String domain = jsonObject.getString("domain");
-                    upload(uploadToken, domain);
-                } catch (Exception e) {
-                    AsyncRun.run(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(
-                                    context,
-                                    "申请上传凭证失败",
-                                    Toast.LENGTH_LONG).show();
-                        }
-                    });
-                    Log.e(QiniuLabConfig.LOG_TAG, e.getMessage());
-                } finally {
-                    if (resp != null) {
-                        try {
-                            resp.body().close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
+            public void onResponse(Response<JsonObject> response, Retrofit retrofit) {
+                Log.e("UPLOADTOKEN", response.code() + "");
+                if (response.isSuccess()) {
+                    String uploadToken = null;
+                    JsonObject joResponseBody = response.body();
+                    JsonObject getData = joResponseBody.getAsJsonObject("success");
+                    String getToken = getData.get("message").getAsString();
+                    String domain = "http://storage.workerhub.cn";
+                    upload(getToken, domain);
                 }
             }
-        }).start();
+
+            @Override
+            public void onFailure(Throwable t) {
+                Toast.makeText(context, "获取token失败", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     //=============================必须的===================================
@@ -365,11 +358,10 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
         File uploadFile = new File(this.uploadFilePath);
         UploadOptions uploadOptions = new UploadOptions(null, null, false,
                 null, null);
-        this.uploadManager.put(uploadFile, null, uploadToken,
+        this.uploadManager.put(uploadFilePath, null, uploadToken,
                 new UpCompletionHandler() {
                     @Override
-                    public void complete(String key, ResponseInfo respInfo,
-                                         JSONObject jsonData) {
+                    public void complete(String key, ResponseInfo respInfo, JSONObject jsonData) {
                         if (respInfo.isOK()) {
                             try {
                                 String fileKey = jsonData.getString("key");
@@ -381,12 +373,8 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
                                     myHandler.sendEmptyMessage(ConstantUtil.SUCCESS_UPLOAD_PICTURE);
                                 }
                                 Log.e("imageUrl11111111", imageUrl);
-                                Log.e("imageUrl11111111", imageUriList.size() + "");
                             } catch (JSONException e) {
-                                Toast.makeText(
-                                        context,
-                                        "上传回复解析错误",
-                                        Toast.LENGTH_LONG).show();
+                                Toast.makeText(context, "上传回复解析错误", Toast.LENGTH_LONG).show();
                                 Log.e(QiniuLabConfig.LOG_TAG, e.getMessage());
                             }
                         } else {
@@ -397,7 +385,6 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
                             Log.e(QiniuLabConfig.LOG_TAG, respInfo.toString());
                         }
                     }
-
                 }, uploadOptions);
     }
 

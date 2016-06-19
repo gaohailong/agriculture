@@ -2,12 +2,12 @@ package com.sxau.agriculture.qiniu;
 
 public class QiniuLabConfig {
     public final static String LOG_TAG="QiniuLab";
-    public final static String REMOTE_SERVICE_SERVER = "http://cloud.workerhub.cn";
+    public final static String REMOTE_SERVICE_SERVER = "http://sxnk110.workerhub.cn:9000";
 //    public final static String REMOTE_SERVICE_SERVER = "http://115.231.183.102:9090";
 //    public final static String REMOTE_SERVICE_SERVER = "http://192.168.200.100/~jemy/qiniu-api-server/php-v6";
 
     //quick start
-    public final static String QUICK_START_IMAGE_DEMO_PATH = "/api/quick_start/simple_image_example_token.php";
+    public final static String QUICK_START_IMAGE_DEMO_PATH = "/api/v1/user/uploadToken";
     public final static String QUICK_START_VIDEO_DEMO_PATH = "/api/quick_start/simple_video_example_token.php";
 
     // simple upload
