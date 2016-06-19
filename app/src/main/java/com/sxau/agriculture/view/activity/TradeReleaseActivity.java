@@ -1,6 +1,7 @@
 package com.sxau.agriculture.view.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -40,6 +41,7 @@ import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.GlideLoaderUtil;
 import com.sxau.agriculture.utils.LogUtil;
 import com.sxau.agriculture.utils.RetrofitUtil;
+import com.sxau.agriculture.utils.TitleBarTwo;
 import com.sxau.agriculture.utils.TopBarUtil;
 import com.sxau.agriculture.view.activity_interface.ITradeReleaseActivity;
 import com.yancy.imageselector.ImageConfig;
@@ -74,7 +76,8 @@ public class TradeReleaseActivity extends BaseActivity implements View.OnClickLi
     private EditText etTradeContent;
     private RadioGroup rgTradeCategory;
     private Button btnTradeRelease;
-    private TopBarUtil topBarUtil;
+    private TitleBarTwo topBarUtil;
+//    private TopBarUtil topBarUtil;
 
     private String uploadFilePath;
     private UploadManager uploadManager;
@@ -130,25 +133,39 @@ public class TradeReleaseActivity extends BaseActivity implements View.OnClickLi
         rgTradeCategory = (RadioGroup) findViewById(R.id.rg_trade_category);
         btnTradeRelease = (Button) findViewById(R.id.btn_trade_release);
 
-        topBarUtil = (TopBarUtil) findViewById(R.id.top_trade);
-        topBarUtil.setLeftImageIsVisible(true);
-        topBarUtil.setLeftImage(R.mipmap.ic_back_left);
-        topBarUtil.setOnTopbarClickListener(new TopBarUtil.TopbarClickListner() {
+        topBarUtil= (TitleBarTwo) findViewById(R.id.top_trade);
+        topBarUtil.setBackgroundColor(Color.parseColor("#00b5ad"));
+        topBarUtil.setLeftImageResource(R.mipmap.ic_back_left);
+        topBarUtil.setLeftTextColor(Color.WHITE);
+        topBarUtil.setDividerColor(Color.GRAY);
+        topBarUtil.setLeftClickListener(new View.OnClickListener() {
             @Override
-            public void onClickLeftRoundImage() {
-
-            }
-
-            @Override
-            public void onClickLeftImage() {
+            public void onClick(View v) {
                 finish();
             }
-
-            @Override
-            public void onClickRightImage() {
-
-            }
         });
+        topBarUtil.setTitle("交易详情");
+        topBarUtil.setTitleColor(Color.WHITE);
+
+//        topBarUtil = (TopBarUtil) findViewById(R.id.top_trade);
+//        topBarUtil.setLeftImageIsVisible(true);
+//        topBarUtil.setLeftImage(R.mipmap.ic_back_left);
+//        topBarUtil.setOnTopbarClickListener(new TopBarUtil.TopbarClickListner() {
+//            @Override
+//            public void onClickLeftRoundImage() {
+//
+//            }
+//
+//            @Override
+//            public void onClickLeftImage() {
+//                finish();
+//            }
+//
+//            @Override
+//            public void onClickRightImage() {
+//
+//            }
+//        });
 
         RecyclerView recycler = (RecyclerView) findViewById(R.id.recycler);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);

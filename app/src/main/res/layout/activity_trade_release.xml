@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.sxau.agriculture.utils.TopBarUtil
+    <com.sxau.agriculture.utils.TitleBarTwo
         android:id="@+id/top_trade"
         android:layout_width="match_parent"
         android:layout_height="50dp"
