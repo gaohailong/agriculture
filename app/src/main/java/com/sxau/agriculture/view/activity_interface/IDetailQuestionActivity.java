@@ -8,4 +8,6 @@ package com.sxau.agriculture.view.activity_interface;
 public interface IDetailQuestionActivity {
     int getQuestionId();
     void updateView();
+    void showServiceError();
+    void showFailed();
 }

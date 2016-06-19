@@ -19,7 +19,10 @@ import android.widget.Toast;
 
 import com.sxau.agriculture.AgricultureApplication;
 import com.sxau.agriculture.agriculture.R;
+import com.sxau.agriculture.bean.User;
+import com.sxau.agriculture.utils.ACache;
 import com.sxau.agriculture.utils.ActivityCollectorUtil;
+import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.JPushUtil;
 import com.sxau.agriculture.utils.TopBarUtil;
 import com.sxau.agriculture.view.fragment.HomeFragment;
@@ -48,6 +51,8 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     private final Class[] fragments = {HomeFragment.class, QuestionFragment.class, TradeFragment.class, MessageFragment.class};
     private int flag = 0;
     private String phoneNumber;
+    private static final String TAG = "JPush";
+    private static final int MSG_SET_ALIAS = 1001;
 
     public static boolean isForeground = false;
 
@@ -59,7 +64,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         initView();
         registerMessageReceiver();  // used for receive msg
         init();
-//        setAlias();
+        setAlias();
     }
 
     /**
@@ -181,7 +186,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     }
 
     // 初始化 JPush。如果已经初始化，但没有登录成功，则执行重新登录。
-    private void init(){
+    private void init() {
         JPushInterface.init(getApplicationContext());
     }
 
@@ -190,7 +195,6 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         isForeground = true;
         super.onResume();
     }
-
 
     @Override
     protected void onPause() {
@@ -204,6 +208,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         unregisterReceiver(mMessageReceiver);
         super.onDestroy();
     }
+
     //for receive customer msg from jpush server
     private MessageReceiver mMessageReceiver;
     public static final String MESSAGE_RECEIVED_ACTION = "com.example.jpushdemo.MESSAGE_RECEIVED_ACTION";
@@ -247,16 +252,16 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     }
 
 
-    //作为调试JPUSH别名，以后要删除
-/*    private static final int MSG_SET_ALIAS = 1001;
-    private static final String TAG = "JPush";
     //JPush方法别名的设置
     private void setAlias() {
-        if (!JPushUtil.isValidTagAndAlias(String.valueOf("18404984629"))) {
+        ACache aCache = ACache.get(MainActivity.this);
+        User user = (User) aCache.getAsObject(ConstantUtil.CACHE_KEY);
+        if (!JPushUtil.isValidTagAndAlias(String.valueOf(user.getPhone()))) {
             return;
         }
         //调用JPush API设置Alias
-        handler.sendMessage(handler.obtainMessage(MSG_SET_ALIAS, "18404984629"));
+        handler.sendMessage(handler.obtainMessage(MSG_SET_ALIAS, user.getPhone()
+        ));
     }
 
     Handler handler = new Handler() {
@@ -265,7 +270,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
             super.handleMessage(msg);
             switch (msg.what) {
                 case MSG_SET_ALIAS:
-                    JPushInterface.setAliasAndTags(AgricultureApplication.getContext(), (String) msg.obj, null, mAliasCallback);
+                    JPushInterface.setAliasAndTags(MainActivity.this, (String) msg.obj, null, mAliasCallback);
             }
         }
     };
@@ -273,27 +278,26 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     private final TagAliasCallback mAliasCallback = new TagAliasCallback() {
         @Override
         public void gotResult(int code, String alias, Set<String> tags) {
-            String logs ;
+//            String logs;
             switch (code) {
                 case 0:
-                    logs = "Set tag and alias success";
-                    Log.i(TAG, logs);
+//                    logs = "Set tag and alias success";
+//                    Log.i(TAG, logs);
                     break;
                 case 6002:
-                    logs = "Failed to set alias and tags due to timeout. Try again after 60s.";
-                    Log.i(TAG, logs);
+                  /*  logs = "Failed to set alias and tags due to timeout. Try again after 60s.";
+                    Log.i(TAG, logs);*/
                     if (JPushUtil.isConnected(AgricultureApplication.getContext())) {
                         handler.sendMessageDelayed(handler.obtainMessage(MSG_SET_ALIAS, alias), 1000 * 60);
                     } else {
-                        Log.i(TAG, "No network");
+//                        Log.i(TAG, "No network");
                     }
                     break;
-
                 default:
-                    logs = "Failed with errorCode = " + code;
-                    Log.e(TAG, logs);
+                  /*  logs = "Failed with errorCode = " + code;
+                    Log.e(TAG, logs);*/
             }
-            JPushUtil.showToast(logs, AgricultureApplication.getContext());
+//            JPushUtil.showToast(logs, AgricultureApplication.getContext());
         }
-    };*/
+    };
 }

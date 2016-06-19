@@ -80,9 +80,6 @@ public class TradeReleaseActivity extends BaseActivity implements View.OnClickLi
     private UploadManager uploadManager;
     private TradeReleaseActivity context;
     private ArrayList<String> imageUriList = new ArrayList<String>();
-    /**
-     * 交易类型(供应、需求)、交易标题、交易分类、交易内容、图片
-     */
     private int tradeCategoryId;
     private String tradeTitle;
     private String tradeType;
@@ -170,25 +167,9 @@ public class TradeReleaseActivity extends BaseActivity implements View.OnClickLi
             case R.id.btn_trade_release:
                 //执行图片上传至七牛操作
                 doupdata();
-                /**
-                 *得到交易的类型
-                 * */
                 tradeCategoryId = rgTradeCategory.getId();
-                /**
-                 * 得到交易的标题
-                 * */
                 tradeTitle = etTradeTitle.getText().toString();
-                /**
-                 *得到交易的内容
-                 * */
                 tradeContent = etTradeContent.getText().toString();
-                /**
-                 *得到交易的分类
-                 * */
-
-                /**
-                 *得到图片地址
-                 * */
                 tradeImage = " ";
                 tradeImage = imageUriList.toString();
                 Map map = new HashMap();
@@ -197,16 +178,9 @@ public class TradeReleaseActivity extends BaseActivity implements View.OnClickLi
                 map.put("tradeType", tradeType);
                 map.put("content", tradeContent);
                 map.put("image", tradeImage);
-/**
- * 获得用户Token
- * */
-
                 ACache mCache = ACache.get(TradeReleaseActivity.this);
                 User user = (User) mCache.getAsObject(ConstantUtil.CACHE_KEY);
                 String authToken = user.getAuthToken();
-                /**
-                 * 发送到服务器
-                 * */
                 Log.d("release", "点击点击");
                 if (tradeTitle.equals("")){
                     Toast.makeText(TradeReleaseActivity.this,"请输入标题",Toast.LENGTH_SHORT).show();

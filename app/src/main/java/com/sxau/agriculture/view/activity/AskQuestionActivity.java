@@ -38,6 +38,7 @@ import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.GlideLoaderUtil;
 import com.sxau.agriculture.utils.LogUtil;
 import com.sxau.agriculture.utils.RetrofitUtil;
+import com.sxau.agriculture.utils.StringUtil;
 import com.sxau.agriculture.utils.TopBarUtil;
 import com.yancy.imageselector.ImageConfig;
 import com.yancy.imageselector.ImageSelector;
@@ -48,6 +49,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -60,6 +62,8 @@ import retrofit.Retrofit;
 
 /**
  * 提问页面
+ * <p/>
+ * 上传图片存在问题 detailQuestion、a d
  *
  * @author 崔志泽
  */
@@ -91,9 +95,7 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
     private String questionTitle;
     private String questionContent;
     private int questionType;
-
     private String authorToken;
-
     private static final int REQUEST_CODE = 1;
 
     @Override
@@ -114,7 +116,7 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
         selectPhotoAdapter = new SelectPhotoAdapter(this, path);
         recycler.setAdapter(selectPhotoAdapter);
         spinData = new ArrayList<>();
-        myHandler = new MyHandler();
+        myHandler = new MyHandler(AskQuestionActivity.this);
         categorieDatas = new ArrayList<>();
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -175,31 +177,6 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
             case R.id.btn_submit:
                 //提交网络请求发送问题
                 doupdata();
-                //获得标题
-                questionTitle = et_title.getText().toString();
-                questionContent = et_trade_content.getText().toString();
-                questionImage = imageUriList.toString();
-
-                Map map = new HashMap();
-                map.put("categoryId", questionType);
-                map.put("title", questionTitle);
-                map.put("content", questionContent);
-                map.put("image", questionImage);
-                authorToken = AuthTokenUtil.findAuthToken();
-
-                Call<String> call = RetrofitUtil.getRetrofit().create(IAskQuestion.class).sendQuestion(map, authorToken);
-                call.enqueue(new Callback<String>() {
-                    @Override
-                    public void onResponse(Response<String> response, Retrofit retrofit) {
-                        Toast.makeText(AskQuestionActivity.this, "提交成功", Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onFailure(Throwable t) {
-
-                    }
-                });
-                finish();
                 break;
             default:
                 break;
@@ -243,6 +220,12 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
 
 
     public class MyHandler extends Handler {
+        WeakReference<AskQuestionActivity> activityWeakReference;
+
+        public MyHandler(AskQuestionActivity activity) {
+            activityWeakReference = new WeakReference<AskQuestionActivity>(activity);
+        }
+
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -253,10 +236,43 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
                 case ConstantUtil.GET_NET_DATA:
                     getCategorieinfo();
                     break;
+                case ConstantUtil.SUCCESS_UPLOAD_PICTURE:
+                    upload();
+                    break;
                 default:
                     break;
             }
         }
+    }
+
+    public void upload() {
+        //获得标题
+        questionTitle = et_title.getText().toString();
+        questionContent = et_trade_content.getText().toString();
+        questionImage = StringUtil.changeListToString(imageUriList);
+        Log.e("AskSize", "size:" + imageUriList.size());
+        Log.e("AskSize", questionImage);
+
+        Map map = new HashMap();
+        map.put("categoryId", questionType);
+        map.put("title", questionTitle);
+        map.put("content", questionContent);
+        map.put("image", questionImage);
+        authorToken = AuthTokenUtil.findAuthToken();
+
+        Call<String> call = RetrofitUtil.getRetrofit().create(IAskQuestion.class).sendQuestion(map, authorToken);
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Response<String> response, Retrofit retrofit) {
+                Toast.makeText(AskQuestionActivity.this, "提问成功", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                Toast.makeText(AskQuestionActivity.this, "提问失败", Toast.LENGTH_SHORT).show();
+            }
+        });
+        finish();
     }
 
     //网络请求分类数据
@@ -361,7 +377,11 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
                                 final int width = dm.widthPixels;
                                 final String imageUrl = domain + "/" + fileKey + "?imageView2/0/w/" + width + "/format/jpg";
                                 imageUriList.add(imageUrl);
+                                if (imageUriList.size() == path.size()) {
+                                    myHandler.sendEmptyMessage(ConstantUtil.SUCCESS_UPLOAD_PICTURE);
+                                }
                                 Log.e("imageUrl11111111", imageUrl);
+                                Log.e("imageUrl11111111", imageUriList.size() + "");
                             } catch (JSONException e) {
                                 Toast.makeText(
                                         context,
