@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -14,8 +15,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jaeger.ninegridimageview.NineGridImageView;
+import com.jaeger.ninegridimageview.NineGridImageViewAdapter;
 import com.squareup.picasso.Picasso;
-import com.sxau.agriculture.adapter.NineGridImageViewAdapter;
 import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.bean.DetailQuestionData;
 import com.sxau.agriculture.presenter.acitivity_presenter.DetailQuestionPresenter;
@@ -53,7 +54,6 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
     private NineGridImageView nineGridImageView;    //九宫格View
     private List<String> imgDatas;                  //九宫格图片数据
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +64,7 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
 
         initView();
         initTopBar();
+        initNineGridView();
     }
 
     private void initView() {
@@ -82,8 +83,27 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
         ll_expert_answer = (LinearLayout) findViewById(R.id.ll_expert_answer);
         topBarUtil = (TitleBarTwo) findViewById(R.id.topBar_detail);
         nineGridImageView = (NineGridImageView) findViewById(R.id.mNineGridImageView);
-
         bt_answer.setOnClickListener(this);
+    }
+
+    public void initNineGridView() {
+        NineGridImageViewAdapter<String> mAdapter = new NineGridImageViewAdapter<String>() {
+            @Override
+            protected void onDisplayImage(Context context, ImageView imageView, String t) {
+                Picasso.with(context).load(t).placeholder(R.mipmap.ic_loading).into(imageView);
+            }
+
+            @Override
+            protected ImageView generateImageView(Context context) {
+                return super.generateImageView(context);
+            }
+
+            @Override
+            protected void onItemImageClick(Context context, int index, List<String> list) {
+//                Toast.makeText(context, "image position is " + index, Toast.LENGTH_SHORT).show();
+            }
+        };
+        nineGridImageView.setAdapter(mAdapter);
     }
 
     private void initTopBar() {
@@ -125,11 +145,8 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
             switch (msg.what) {
                 case ConstantUtil.GET_NET_DATA:
                     detailQuestionData = detailQuestionPresenter.getData();
-                    LogUtil.e("DetailQuestionA","images:"+detailQuestionData.getImages());
                     imgDatas = StringUtil.changeStringToList(detailQuestionData.getImages());
-                    for (int i = 0; i < imgDatas.size(); i++) {
-                        LogUtil.e("DetailQuestionA", "imgDatas:"+imgDatas.get(i).toString());
-                    }
+                    nineGridImageView.setImagesData(imgDatas);
                     updateView();
                     break;
                 default:
@@ -149,26 +166,6 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
         Intent intent = getIntent();
         return intent.getIntExtra("indexPosition", 0);
     }
-
-//    private NineGridImageViewAdapter<String> mAdapter = new NineGridImageViewAdapter<String>() {
-//        @Override
-//        protected void onDisplayImage(Context context, ImageView imageView, String s) {
-//            Picasso.with(context)
-//                    .load(s.getSmallUrl)
-//                    .placeholder(R.drawable.ic_default_image)
-//                    .into(imageView);
-//        }
-//
-//        @Override
-//        protected ImageView generateImageView(Context context) {
-//            return super.generateImageView(context);
-//        }
-//
-//        @Override
-//        protected void onItemImageClick(Context context, int index, List<String> photoList) {
-//            Toast.makeText(context, "点击了图片", Toast.LENGTH_LONG).show();
-//        }
-//    };
 
     //视图改变未完成
     @Override
@@ -194,15 +191,10 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
             bt_answer.setVisibility(View.VISIBLE);
             tv_is_answer.setText("专家未回答");
         }
-
         if (detailQuestionData.isFav()) {
             iv_collection.setImageResource(R.drawable.collection_fill);
         } else {
             iv_collection.setImageResource(R.drawable.collection);
         }
-
-//        nineGridImageView.setAdapter(mAdapter);
     }
-
-
 }
