@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/mainColor"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <com.sxau.agriculture.utils.TitleBarTwo
@@ -18,39 +19,28 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="30dp"
-            android:background="@drawable/compile_background_shape"
             android:orientation="vertical"
             android:paddingBottom="20dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             android:paddingTop="10dp">
 
-
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content">
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                <TextView
+                    android:id="@+id/tv_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/font_title" />
 
-                    <TextView
-                        android:id="@+id/tv_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="@dimen/font_title" />
-
-                    <ImageView
-                        android:id="@+id/iv_trade_content_collection"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true" />
-                </RelativeLayout>
-            </LinearLayout>
+                <ImageView
+                    android:id="@+id/iv_trade_content_collection"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true" />
+            </RelativeLayout>
 
             <TextView
                 android:id="@+id/tv_title"
@@ -68,42 +58,43 @@
                 android:minLines="5"
                 android:textSize="@dimen/font_size" />
 
-            <LinearLayout
+            <com.jaeger.ninegridimageview.NineGridImageView
+                android:id="@+id/mNineGridImageView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                app:imgGap="4dp"
+                app:maxSize="9"
+                app:showStyle="grid"
+                app:singleImgSize="120dp" />
+
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
-                android:layout_marginTop="5dp"
-                android:orientation="horizontal">
+                android:layout_marginTop="5dp">
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                <TextView
+                    android:id="@+id/tv_attentionNum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:text="关注人数：1000+" />
 
+                <TextView
+                    android:id="@+id/tv_location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:text="山西太原" />
 
-                    <TextView
-                        android:id="@+id/tv_attentionNum"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentLeft="true"
-                        android:text="关注人数：1000+" />
-
-                    <TextView
-                        android:id="@+id/tv_location"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentRight="true"
-                        android:text="山西太原" />
-
-                    <ImageView
-                        android:id="@+id/iv_location"
-                        android:layout_width="20dp"
-                        android:layout_height="match_parent"
-                        android:layout_toLeftOf="@id/tv_location"
-                        android:paddingBottom="4dp"
-                        android:src="@drawable/ic_location_48dp" />
-
-
-                </RelativeLayout>
-            </LinearLayout>
+                <ImageView
+                    android:id="@+id/iv_location"
+                    android:layout_width="20dp"
+                    android:layout_height="match_parent"
+                    android:layout_toLeftOf="@id/tv_location"
+                    android:paddingBottom="4dp"
+                    android:src="@drawable/ic_location_48dp" />
+            </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -122,15 +113,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="-2016.04.22" />
-
-
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
                 android:layout_marginTop="5dp"
-
                 android:orientation="horizontal">
 
                 <TextView
@@ -143,10 +131,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent" />
             </LinearLayout>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="20dp" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

@@ -119,6 +119,7 @@ public class TradeReleaseActivity extends BaseActivity implements View.OnClickLi
         mhandler = new MyHandler();
         iTradeReleasePresenter = new TradeReleasePresenter(mhandler);
         spinData = new ArrayList<>();
+        context=TradeReleaseActivity.this;
         startNet();
     }
 

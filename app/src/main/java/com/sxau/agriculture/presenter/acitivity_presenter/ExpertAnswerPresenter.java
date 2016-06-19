@@ -40,7 +40,6 @@ public class ExpertAnswerPresenter implements IExpertAnswerPresenter {
     //-----------------接口方法---------------------
     @Override
     public void submitAnswer() {
-
         authToken = AuthTokenUtil.findAuthToken();
         Map map = new HashMap();
         map.put("questionId", iExpertAnswerActivity.getId());
