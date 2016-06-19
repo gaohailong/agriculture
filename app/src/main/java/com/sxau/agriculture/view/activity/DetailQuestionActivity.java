@@ -11,19 +11,25 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.jaeger.ninegridimageview.NineGridImageView;
 import com.squareup.picasso.Picasso;
+import com.sxau.agriculture.adapter.NineGridImageViewAdapter;
 import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.bean.DetailQuestionData;
 import com.sxau.agriculture.presenter.acitivity_presenter.DetailQuestionPresenter;
 import com.sxau.agriculture.presenter.activity_presenter_interface.IDetailQuestionPresenter;
 import com.sxau.agriculture.utils.ConstantUtil;
+import com.sxau.agriculture.utils.LogUtil;
+import com.sxau.agriculture.utils.StringUtil;
 import com.sxau.agriculture.utils.TimeUtil;
 import com.sxau.agriculture.utils.TitleBarTwo;
 import com.sxau.agriculture.utils.TopBarUtil;
 import com.sxau.agriculture.view.activity_interface.IDetailQuestionActivity;
 
 import java.lang.ref.WeakReference;
+import java.util.List;
 
 /**
  * 问题详细信息页面Activity
@@ -33,7 +39,7 @@ import java.lang.ref.WeakReference;
  * @author 李秉龙
  */
 public class DetailQuestionActivity extends BaseActivity implements IDetailQuestionActivity, View.OnClickListener {
-    private ImageView rv_question_head, rv_professor_head, iv_fav;
+    private ImageView rv_question_head, rv_professor_head, iv_collection;
     private TextView tv_question_name, tv_question_content, tv_question_title, tv_question_time, tv_is_answer, tv_professor_name, tv_professor_content, tv_professor_ok;
     private Button bt_answer;
     private LinearLayout ll_expert_answer;
@@ -44,7 +50,9 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
     private MyHandler handler;
     private Context context;
 
-    private int favIndex = 0;//是否已赞 0：没有；1：已赞
+    private NineGridImageView nineGridImageView;    //九宫格View
+    private List<String> imgDatas;                  //九宫格图片数据
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +67,7 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
     }
 
     private void initView() {
-        iv_fav = (ImageView) this.findViewById(R.id.iv_fav);
+        iv_collection = (ImageView) this.findViewById(R.id.iv_collection);
         rv_question_head = (ImageView) findViewById(R.id.rv_question_head);
         tv_question_content = (TextView) findViewById(R.id.tv_question_content);
         rv_professor_head = (ImageView) findViewById(R.id.rv_professor_head);
@@ -73,8 +81,8 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
         bt_answer = (Button) findViewById(R.id.bt_answer);
         ll_expert_answer = (LinearLayout) findViewById(R.id.ll_expert_answer);
         topBarUtil = (TitleBarTwo) findViewById(R.id.topBar_detail);
+        nineGridImageView = (NineGridImageView) findViewById(R.id.mNineGridImageView);
 
-        iv_fav.setOnClickListener(this);
         bt_answer.setOnClickListener(this);
     }
 
@@ -96,17 +104,8 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.iv_fav:
-                if (favIndex == 0) {
-                    iv_fav.setImageResource(R.drawable.ic_praise_48px);
-                    favIndex = 1;
-                } else if (favIndex == 1) {
-                    iv_fav.setImageResource(R.drawable.ic_no_praise_48px);
-                    favIndex = 0;
-                }
-                break;
             case R.id.bt_answer:
-                ExpertAnswerActivity.actionStart(DetailQuestionActivity.this, detailQuestionData.getTitle(),detailQuestionData.getId());//有问题,接口返回了多个问题的答案
+                ExpertAnswerActivity.actionStart(DetailQuestionActivity.this, detailQuestionData.getTitle(), detailQuestionData.getId());//有问题,接口返回了多个问题的答案
                 break;
             default:
                 break;
@@ -126,6 +125,11 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
             switch (msg.what) {
                 case ConstantUtil.GET_NET_DATA:
                     detailQuestionData = detailQuestionPresenter.getData();
+                    LogUtil.e("DetailQuestionA","images:"+detailQuestionData.getImages());
+                    imgDatas = StringUtil.changeStringToList(detailQuestionData.getImages());
+                    for (int i = 0; i < imgDatas.size(); i++) {
+                        LogUtil.e("DetailQuestionA", "imgDatas:"+imgDatas.get(i).toString());
+                    }
                     updateView();
                     break;
                 default:
@@ -145,6 +149,26 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
         Intent intent = getIntent();
         return intent.getIntExtra("indexPosition", 0);
     }
+
+//    private NineGridImageViewAdapter<String> mAdapter = new NineGridImageViewAdapter<String>() {
+//        @Override
+//        protected void onDisplayImage(Context context, ImageView imageView, String s) {
+//            Picasso.with(context)
+//                    .load(s.getSmallUrl)
+//                    .placeholder(R.drawable.ic_default_image)
+//                    .into(imageView);
+//        }
+//
+//        @Override
+//        protected ImageView generateImageView(Context context) {
+//            return super.generateImageView(context);
+//        }
+//
+//        @Override
+//        protected void onItemImageClick(Context context, int index, List<String> photoList) {
+//            Toast.makeText(context, "点击了图片", Toast.LENGTH_LONG).show();
+//        }
+//    };
 
     //视图改变未完成
     @Override
@@ -170,5 +194,15 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
             bt_answer.setVisibility(View.VISIBLE);
             tv_is_answer.setText("专家未回答");
         }
+
+        if (detailQuestionData.isFav()) {
+            iv_collection.setImageResource(R.drawable.collection_fill);
+        } else {
+            iv_collection.setImageResource(R.drawable.collection);
+        }
+
+//        nineGridImageView.setAdapter(mAdapter);
     }
+
+
 }

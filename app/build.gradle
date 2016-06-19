@@ -67,4 +67,6 @@ dependencies {
     compile 'com.qiniu:happy-dns:0.2.3.2'
     compile 'com.qiniu:qiniu-android-sdk:7.1.+'
     compile files('libs/android-async-http-1.4.9.jar')
+    //开源九宫格的依赖
+    compile 'com.jaeger.ninegridimageview:library:1.0.1'
 }

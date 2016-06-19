@@ -38,6 +38,7 @@ import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.GlideLoaderUtil;
 import com.sxau.agriculture.utils.LogUtil;
 import com.sxau.agriculture.utils.RetrofitUtil;
+import com.sxau.agriculture.utils.StringUtil;
 import com.sxau.agriculture.utils.TopBarUtil;
 import com.yancy.imageselector.ImageConfig;
 import com.yancy.imageselector.ImageSelector;
@@ -61,6 +62,7 @@ import retrofit.Retrofit;
 /**
  * 提问页面
  *
+ * 上传图片存在问题 detailQuestion、a d
  * @author 崔志泽
  */
 public class AskQuestionActivity extends BaseActivity implements View.OnClickListener {
@@ -178,7 +180,9 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
                 //获得标题
                 questionTitle = et_title.getText().toString();
                 questionContent = et_trade_content.getText().toString();
-                questionImage = imageUriList.toString();
+//                questionImage = StringUtil.changeListToString(imageUriList);
+                Log.e("Ask","size:"+imageUriList.size());
+                Log.e("Ask",questionImage);
 
                 Map map = new HashMap();
                 map.put("categoryId", questionType);
