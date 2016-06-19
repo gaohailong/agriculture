@@ -61,4 +61,6 @@ public class ConstantUtil {
     //问答界面
     public static final int GET_CATEGEORYDATA = 0x00000010;
     public static final int SUCCESS_UPLOAD_PICTURE = 0x00000011;
+    //改变收藏状态
+    public static final int CHANGE_COLLECTION_STATE = 0x00000012;
 }
