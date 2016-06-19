@@ -10,6 +10,7 @@ import retrofit.http.PUT;
 import retrofit.http.Path;
 
 /**
+ * 请求交易详情
  * Created by Administrator on 2016/5/27.
  */
 public interface ITradeContent {

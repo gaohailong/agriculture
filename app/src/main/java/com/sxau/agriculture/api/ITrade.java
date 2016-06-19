@@ -11,7 +11,7 @@ import retrofit.http.Query;
 
 /**
  * @author 田帅
- * 请求交易数据
+ * 请求所有交易数据
  */
 public interface ITrade {
     @GET("trades")
