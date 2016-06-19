@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -11,6 +13,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
+import com.jaeger.ninegridimageview.NineGridImageView;
+import com.jaeger.ninegridimageview.NineGridImageViewAdapter;
+import com.squareup.picasso.Picasso;
 import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.api.ITradeContent;
 import com.sxau.agriculture.api.ITradeFav;
@@ -19,12 +24,15 @@ import com.sxau.agriculture.utils.AuthTokenUtil;
 import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.NetUtil;
 import com.sxau.agriculture.utils.RetrofitUtil;
+import com.sxau.agriculture.utils.StringUtil;
 import com.sxau.agriculture.utils.TimeUtil;
 import com.sxau.agriculture.utils.TitleBarTwo;
 
+import java.lang.ref.WeakReference;
+import java.util.List;
+
 import retrofit.Call;
 import retrofit.Callback;
-import retrofit.GsonConverterFactory;
 import retrofit.Response;
 import retrofit.Retrofit;
 
@@ -51,9 +59,12 @@ public class TradeContentActivity extends BaseActivity implements View.OnClickLi
     private boolean needCollect;
     private boolean collection;
     private TitleBarTwo topBarUtil;
-
+    private NineGridImageView nineGridImageView;
+    private NineGridImageViewAdapter<String> mAdapter;
+    private List<String> imgDatas;
     private Context context;
     private String authToken;
+    private MyHandler handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,20 +73,39 @@ public class TradeContentActivity extends BaseActivity implements View.OnClickLi
 
         context = TradeContentActivity.this;
         authToken = AuthTokenUtil.findAuthToken();
+        handler = new MyHandler(TradeContentActivity.this);
         initView();
         initTopBar();
         getTradeId();
-        if (needCollect){
+        initNineGridView();
+        if (needCollect) {
             iv_collection.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             iv_collection.setVisibility(View.GONE);
         }
         getTradeContent();
     }
 
-    /**
-     * 实例化控件
-     */
+    public void initNineGridView() {
+        mAdapter = new NineGridImageViewAdapter<String>() {
+            @Override
+            protected void onDisplayImage(Context context, ImageView imageView, String t) {
+                Picasso.with(context).load(t).placeholder(R.mipmap.ic_loading).into(imageView);
+            }
+
+            @Override
+            protected ImageView generateImageView(Context context) {
+                return super.generateImageView(context);
+            }
+
+            @Override
+            protected void onItemImageClick(Context context, int index, List<String> list) {
+                Toast.makeText(context, "image position is " + index, Toast.LENGTH_SHORT).show();
+            }
+        };
+        nineGridImageView.setAdapter(mAdapter);
+    }
+
     public void initView() {
         tv_name = (TextView) findViewById(R.id.tv_name);
         tv_title = (TextView) findViewById(R.id.tv_title);
@@ -87,6 +117,7 @@ public class TradeContentActivity extends BaseActivity implements View.OnClickLi
         tv_timeEnd = (TextView) findViewById(R.id.tv_timeEnd);
         tv_phone = (TextView) findViewById(R.id.tv_phone);
         topBarUtil = (TitleBarTwo) findViewById(R.id.topBar_detail);
+        nineGridImageView = (NineGridImageView) findViewById(R.id.mNineGridImageView);
 
         iv_collection.setOnClickListener(this);
     }
@@ -106,7 +137,7 @@ public class TradeContentActivity extends BaseActivity implements View.OnClickLi
         topBarUtil.setTitleColor(Color.WHITE);
     }
 
-    public static void actionStart(Context context, int id,boolean needCollect) {
+    public static void actionStart(Context context, int id, boolean needCollect) {
         Intent intent = new Intent(context, TradeContentActivity.class);
         intent.putExtra("TradeId", id);
         intent.putExtra("needCollect", needCollect);
@@ -116,7 +147,33 @@ public class TradeContentActivity extends BaseActivity implements View.OnClickLi
     public void getTradeId() {
         Intent intent = getIntent();
         tradeContentId = intent.getIntExtra("TradeId", 0);
-        needCollect=intent.getBooleanExtra("needCollect",true);
+        needCollect = intent.getBooleanExtra("needCollect", true);
+    }
+
+    public class MyHandler extends Handler {
+        WeakReference<TradeContentActivity> weakReference;
+
+        public MyHandler(TradeContentActivity activity) {
+            weakReference = new WeakReference<TradeContentActivity>(activity);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case ConstantUtil.GET_NET_DATA:
+                    setTradeData();
+                    imgDatas = StringUtil.changeStringToList(tradeData.getImages());
+                    //设置九宫格数据源
+                    nineGridImageView.setImagesData(imgDatas);
+                    break;
+                case ConstantUtil.CHANGE_COLLECTION_STATE:
+//                    changeCollectionIC();
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
     /**
@@ -129,7 +186,8 @@ public class TradeContentActivity extends BaseActivity implements View.OnClickLi
             public void onResponse(Response<TradeData> response, Retrofit retrofit) {
                 if (response.isSuccess()) {
                     tradeData = response.body();
-                    setTradeData();
+                    handler.sendEmptyMessage(ConstantUtil.GET_NET_DATA);
+//                    setTradeData();
                 }
             }
 
@@ -147,11 +205,11 @@ public class TradeContentActivity extends BaseActivity implements View.OnClickLi
         tv_name.setText(tradeData.getUser().getName());
         tv_title.setText(tradeData.getTitle());
         tv_info.setText(tradeData.getDescription());
-        tv_attentionNum.setText("关注人数："+tradeData.getLikeCount() + "");
+        tv_attentionNum.setText("关注人数：" + tradeData.getLikeCount() + "");
         tv_location.setText(tradeData.getUser().getAddress());
         tv_timeStart.setText(TimeUtil.format(tradeData.getWhenCreated()));
         tv_timeEnd.setText("至" + TimeUtil.format(tradeData.getWhenUpdated()));
-        tv_phone.setText("联系电话："+tradeData.getUser().getPhone());
+        tv_phone.setText("联系电话：" + tradeData.getUser().getPhone());
         collection = tradeData.isFav();
         Log.e("Trade", "isFav:" + collection);
         if (tradeData.isFav()) {
@@ -167,7 +225,6 @@ public class TradeContentActivity extends BaseActivity implements View.OnClickLi
             //执行取消收藏操作
             collection = false;
             if (NetUtil.isNetAvailable(context)) {
-
                 Call<JsonObject> call = RetrofitUtil.getRetrofit().create(ITradeFav.class).doUnCollectTrade(authToken, tradeData.getId());
                 call.enqueue(new Callback<JsonObject>() {
                     @Override
@@ -180,7 +237,7 @@ public class TradeContentActivity extends BaseActivity implements View.OnClickLi
                             iv_collection.setImageResource(R.drawable.collection);
                         } else {
                             //取消收藏执行失败
-                            Log.e("TradeListViewAdapter", "code:" + response.code() + " body:" + response.body() +  "  message:" + response.message());
+                            Log.e("TradeListViewAdapter", "code:" + response.code() + " body:" + response.body() + "  message:" + response.message());
                             showServerError();
                         }
                     }
@@ -199,9 +256,7 @@ public class TradeContentActivity extends BaseActivity implements View.OnClickLi
             //执行收藏操作
             collection = true;
             //设置缓存收藏状态变化
-
             if (NetUtil.isNetAvailable(context)) {
-
                 Call<JsonObject> call = RetrofitUtil.getRetrofit().create(ITradeFav.class).doCollectTrade(authToken, tradeData.getId());
                 call.enqueue(new Callback<JsonObject>() {
                     @Override
@@ -232,6 +287,7 @@ public class TradeContentActivity extends BaseActivity implements View.OnClickLi
             }
         }
     }
+
     public void showRequestTimeout() {
         Toast.makeText(context, "请求超时，请检查网络", Toast.LENGTH_LONG).show();
     }
@@ -240,7 +296,7 @@ public class TradeContentActivity extends BaseActivity implements View.OnClickLi
         Toast.makeText(context, "网络不可用，请检查网络", Toast.LENGTH_LONG).show();
     }
 
-    public void showServerError(){
+    public void showServerError() {
         Toast.makeText(context, "服务器提出了一个问题", Toast.LENGTH_LONG).show();
     }
 }

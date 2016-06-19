@@ -44,7 +44,6 @@ public class ExpertAnswerActivity extends BaseActivity implements View.OnClickLi
         initView();
     }
 
-
     private void initView() {
         topBarUtil = (TopBarUtil) this.findViewById(R.id.topBarUtil);
         tv_question = (TextView) this.findViewById(R.id.tv_question);

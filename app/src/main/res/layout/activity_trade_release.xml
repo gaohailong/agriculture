@@ -23,9 +23,6 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:textSize="@dimen/font_title" />
-        android:textSize="@dimen/font_size_large"
-        />
-
 
     <View
         android:id="@+id/v_divide"
@@ -130,7 +127,6 @@
         android:layout_below="@+id/v_divide_two_three"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
-        android:background="@drawable/rounded_edittext"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
      />

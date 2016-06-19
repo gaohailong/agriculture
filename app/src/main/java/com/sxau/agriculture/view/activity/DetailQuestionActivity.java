@@ -155,9 +155,6 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
                     detailQuestionData = idetailQuestionPresenter.getData();
                     LogUtil.e("DetailQuestionA", "images:" + detailQuestionData.getImages());
                     imgDatas = StringUtil.changeStringToList(detailQuestionData.getImages());
-                    for (int i = 0; i < imgDatas.size(); i++) {
-                        LogUtil.e("DetailQuestionA", "imgDatas:" + imgDatas.get(i).toString());
-                    }
                     //设置九宫格数据源
                     nineGridImageView.setImagesData(imgDatas);
                     updateView();
