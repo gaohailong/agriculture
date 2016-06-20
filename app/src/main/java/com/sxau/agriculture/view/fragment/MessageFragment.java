@@ -57,7 +57,7 @@ public class MessageFragment extends BaseFragment implements IMessageFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         //将MessageFragment与MessagePresenter绑定
-        iMessagePresenter = new MessagePresenter(MessageFragment.this);
+        iMessagePresenter = new MessagePresenter(MessageFragment.this,handler);
 
         View view = inflater.inflate(R.layout.fragment_message, container, false);
         lv_message = (ListView) view.findViewById(R.id.lv_message);
@@ -96,8 +96,7 @@ public class MessageFragment extends BaseFragment implements IMessageFragment {
         srl_refresh.setOnLoadListener(new RefreshLayout.OnLoadListener() {
             @Override
             public void onLoad() {
-                // simulateLoadingData();获取数据
-                handler.sendEmptyMessage(ConstantUtil.PULL_REFRESH);
+                iMessagePresenter.pullRefersh();
             }
         });
 
@@ -105,8 +104,7 @@ public class MessageFragment extends BaseFragment implements IMessageFragment {
         tv_more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // simulateLoadingData();获取数据
-                handler.sendEmptyMessage(ConstantUtil.UP_LOAD);
+                iMessagePresenter.pushRefersh();
             }
         });
     }

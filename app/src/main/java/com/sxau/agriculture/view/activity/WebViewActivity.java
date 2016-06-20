@@ -1,20 +1,25 @@
 package com.sxau.agriculture.view.activity;
 
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.v7.app.AlertDialog;
-import android.util.Log;
-import android.view.KeyEvent;
-import android.view.View;
-import android.webkit.WebChromeClient;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
-import android.widget.LinearLayout;
+import android.util.Base64;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.sxau.agriculture.agriculture.R;
-import com.sxau.agriculture.utils.TopBarUtil;
+import com.sxau.agriculture.bean.HomeArticle;
+import com.sxau.agriculture.widgets.CommonWebView;
+import com.sxau.agriculture.widgets.ObservableScrollView;
+import com.sxau.agriculture.widgets.ZhuanLanWebViewClient;
+
+import java.io.IOException;
+import java.util.Scanner;
+
+import io.bxbxbai.common.utils.CommonExecutor;
+import io.bxbxbai.common.view.CircleImageView;
+
 
 /**
  * 首页文章跳转的webView
@@ -22,81 +27,78 @@ import com.sxau.agriculture.utils.TopBarUtil;
  * @author 高海龙
  */
 public class WebViewActivity extends BaseActivity {
-    private WebView wv_article;
-    private Handler handler;
+    private ObservableScrollView scrollView;
+    private CommonWebView mWebView;
+    private CircleImageView mAvatarView;
+    private ImageView headerImageView;
+    private TextView titleView;
+    private TextView authorTextView;
+    private ZhuanLanWebViewClient zhuanLanWebViewClient;
+    private HomeArticle homeArticle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_webview);
-        wv_article = (WebView) findViewById(R.id.wv_article);
-//        handler = new Handler();
-        initWebView();
-        iniTitle();
+        setContentView(R.layout.fragment_story);
+        mWebView = (CommonWebView) findViewById(R.id.web_view);
+        scrollView = (ObservableScrollView) findViewById(R.id.scroll_view);
+        titleView = (TextView) findViewById(R.id.tv_title);
+        authorTextView = (TextView) findViewById(R.id.tv_author);
+        headerImageView = (ImageView) findViewById(R.id.iv_article_header);
+        mAvatarView = (CircleImageView) findViewById(R.id.iv_avatar);
+        mWebView.setWebViewClient(new ZhuanLanWebViewClient(WebViewActivity.this));
+        getSourceData();
+        setStory();
     }
 
-    private void initWebView() {
-        WebSettings webSettings = wv_article.getSettings();
-        webSettings.setJavaScriptEnabled(true);
-        webSettings.setBuiltInZoomControls(true);
-        webSettings.setSupportZoom(true);
-        wv_article.requestFocus();
-        wv_article.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
-        //设置点击链接 在当前webView中显示（网页中显示网页）
-        wv_article.setWebViewClient(new WebViewClient() {
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                view.loadUrl(url);
-                return true;
-            }
-        });
-        //处理标题图标，等等
-        wv_article.setWebChromeClient(new WebChromeClient() {
-            @Override
-            public void onReceivedTitle(WebView view, String title) {
-                super.onReceivedTitle(view, title);
-            }
-        });
-
+    public void getSourceData() {
         Intent intent = getIntent();
-        String articleUrl = intent.getStringExtra("ArticleUrl");
-        wv_article.loadUrl(articleUrl);
+        Bundle bundle = intent.getExtras();
+        homeArticle = (HomeArticle) bundle.getSerializable("ArticleData");
     }
 
-    /**
-     * 初始化标题
-     */
-    private void iniTitle() {
-        TopBarUtil topBar = (TopBarUtil) findViewById(R.id.tb_webview);
-        topBar.setLeftImageIsVisible(true);
-        topBar.setLeftImage(R.mipmap.ic_back_left);
-        topBar.setOnTopbarClickListener(new TopBarUtil.TopbarClickListner() {
+    private void setStory() {
+        loadHtmlContent(homeArticle.getContent());
+        Glide.with(WebViewActivity.this).load(homeArticle.getImage()).crossFade().into(headerImageView);
+        titleView.setText(homeArticle.getTitle());
+        authorTextView.setText(homeArticle.getAdmin().getName());
+        CommonExecutor.MAIN_HANDLER.postDelayed(new Runnable() {
             @Override
-            public void onClickLeftRoundImage() {
+            public void run() {
+                injectCSS();
             }
-
-            @Override
-            public void onClickLeftImage() {
-                finish();
-            }
-
-            @Override
-            public void onClickRightImage() {
-
-            }
-
-        });
+        }, 200);
     }
 
-    //回退键设置
-    //设置返回，不用直接跳转到主界面
-/*    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && wv_article.canGoBack()) {
-            wv_article.goForward();
-            return true;
+    private void loadHtmlContent(String section) {
+        String content = String.format(readFile("template.txt"), section);
+        mWebView.loadDataWithBaseURL(null, content, CommonWebView.MIME_TYPE, CommonWebView.ENCODING_UTF_8, null);
+    }
+
+    private void injectCSS() {
+        String encoded = Base64.encodeToString(readFile("zhuanlan.main.css").getBytes(), Base64.NO_WRAP);
+        mWebView.loadUrl("javascript:(function() {" +
+                "var parent = document.getElementsByTagName('head').item(0);" +
+                "var style = document.createElement('style');" +
+                "style.type = 'text/css';" +
+                // Tell the browser to BASE64-decode the string into your script !!!
+                "style.innerHTML = window.atob('" + encoded + "');" +
+                "parent.appendChild(style)" +
+                "})()");
+    }
+
+    private String readFile(String fileName) {
+        AssetManager manager = getAssets();
+        try {
+            Scanner scanner = new Scanner(manager.open(fileName));
+            StringBuilder builder = new StringBuilder();
+            while (scanner.hasNext()) {
+                builder.append(scanner.nextLine());
+            }
+            return builder.toString();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        return super.onKeyDown(keyCode, event);
-    }*/
-
+        return "";
+    }
 }
