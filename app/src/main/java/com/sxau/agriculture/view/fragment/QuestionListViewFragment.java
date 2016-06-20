@@ -155,6 +155,8 @@ public class QuestionListViewFragment extends BaseFragment implements IQuestionL
                     currentPage = 1;
                     int position = FragmentPagerItem.getPosition(getArguments());
                     cateId = categorieDatas.get(position).getId();
+                    //滑动显示提问按钮
+                    questionFragment.btn_ask.setVisibility(View.VISIBLE);
                     getQuestionData(String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER, true, String.valueOf(cateId));
                     break;
                 case ConstantUtil.GET_NET_DATA:
