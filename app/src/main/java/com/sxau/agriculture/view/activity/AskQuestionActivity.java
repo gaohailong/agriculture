@@ -77,7 +77,6 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
     private Button btn_submit;
     private EditText et_title;
     private EditText et_trade_content;
-    private TopBarUtil top_question;
     private RecyclerView recycler;
     private Spinner spinner;
     private ProgressDialog pdLoginwait;
@@ -117,7 +116,7 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
         et_trade_content = (EditText) findViewById(R.id.et_trade_content);
         recycler = (RecyclerView) findViewById(R.id.recycler);
         spinner = (Spinner) findViewById(R.id.sp_trade_cotegory);
-        top_question = (TopBarUtil) findViewById(R.id.top_question);
+        topBarUtil = (TitleBarTwo) findViewById(R.id.top_question);
         initTitlebar();
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
@@ -137,25 +136,6 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-        top_question.setLeftImageIsVisible(true);
-        top_question.setLeftImage(R.mipmap.ic_back_left);
-        top_question.setOnTopbarClickListener(new TopBarUtil.TopbarClickListner() {
-            @Override
-            public void onClickLeftRoundImage() {
-
-            }
-
-            @Override
-            public void onClickLeftImage() {
-                finish();
-            }
-
-            @Override
-            public void onClickRightImage() {
 
             }
         });

@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.bean.HomeArticle;
+import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.TimeUtil;
 
 import java.util.ArrayList;
@@ -61,8 +62,7 @@ public class HomeArticlesAdapter extends BaseAdapter {
         }
 
         HomeArticle homeArticle = data.get(position);
-
-        Picasso.with(context).load(homeArticle.getImage()).resize(150, 150).centerCrop().placeholder(R.mipmap.ic_loading)
+        Picasso.with(context).load(ConstantUtil.BASE_PICTURE_URL+homeArticle.getImage()).resize(150, 150).centerCrop().placeholder(R.mipmap.ic_loading)
                 .error(R.mipmap.ic_load_fail).into(holder.iv_img);
         holder.tv_title.setText(homeArticle.getTitle());
         holder.tv_time.setText(TimeUtil.format(homeArticle.getWhenCreated()));
