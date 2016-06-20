@@ -177,45 +177,60 @@ public class PersonalCompilePresenter implements IPersonalCompilePresenter {
 
     @Override
     public void doUpdate() {
-        realName = iPersonalCompileActivity.getRealName();
-        address = iPersonalCompileActivity.getUserPosition();
-        industry = iPersonalCompileActivity.getUserIndustry();
-        scale = iPersonalCompileActivity.getUserScale();
-        id = user.getId();
 
-        Map map = new HashMap();
-        map.put("realName", "yawen");
-        map.put("address", "taiyuan");
-        LogUtil.d("P", "avatar:" + avatar);
-        LogUtil.d("P", "id:" + id);
-        map.put("avatar", avatar);
-        map.put("industry", "hangye");
-        map.put("scale", "guimo");
-        map.put("email","youxiang");
-
-        Call<JsonObject> call = RetrofitUtil.getRetrofit().create(IUserData.class).upDataUserData(authToken,id,map);
-        call.enqueue(new Callback<JsonObject>() {
+        new Thread(new Runnable() {
             @Override
-            public void onResponse(Response<JsonObject> response, Retrofit retrofit) {
-                if (response.isSuccess()){
-                    //更新请求成功
-                    LogUtil.d("P","code:"+response.code()+"  body:"+response.body()+"  message:"+response.message());
-                    iPersonalCompileActivity.showUpdataSuccess();
-                }else {
-                    //更新请求失败
-                    LogUtil.d("P","code:"+response.code()+"  body:"+response.body()+"  message:"+response.message());
-                    Log.e("p","请求失败"+"  code:"+response.code()+"  message:"+response.message());
-                    iPersonalCompileActivity.showUpdataFailed();
+            public void run() {
+                try {
+                    Thread.sleep(1500);
+
+                    realName = iPersonalCompileActivity.getRealName();
+                    address = iPersonalCompileActivity.getUserPosition();
+                    industry = iPersonalCompileActivity.getUserIndustry();
+                    scale = iPersonalCompileActivity.getUserScale();
+                    id = user.getId();
+
+                    Map map = new HashMap();
+                    map.put("realName", realName);
+                    map.put("address", address);
+                    LogUtil.d("P", "avatar:" + avatar);
+                    LogUtil.d("P", "id:" + id);
+                    map.put("avatar", avatar);
+                    map.put("industry", industry);
+                    map.put("scale", scale);
+                    map.put("email","243845305@qq.com");
+
+                    Call<JsonObject> call = RetrofitUtil.getRetrofit().create(IUserData.class).upDataUserData(authToken,id,map);
+                    call.enqueue(new Callback<JsonObject>() {
+                        @Override
+                        public void onResponse(Response<JsonObject> response, Retrofit retrofit) {
+                            if (response.isSuccess()) {
+                                //更新请求成功
+                                iPersonalCompileActivity.showProgress(false);
+                                Log.d("P", "code:" + response.code() + "  body:" + response.body() + "  message:" + response.message());
+                                iPersonalCompileActivity.showUpdataSuccess();
+                            } else {
+                                //更新请求失败
+                                iPersonalCompileActivity.showProgress(false);
+                                Log.d("P", "code:" + response.code() + "  body:" + response.body() + "  message:" + response.message());
+                                iPersonalCompileActivity.showUpdataFailed();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Throwable t) {
+                            //请求出错
+                            iPersonalCompileActivity.showProgress(false);
+                            Log.e("p", "请求错误");
+                            iPersonalCompileActivity.showUpdataFailed();
+                        }
+                    });
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
             }
-
-            @Override
-            public void onFailure(Throwable t) {
-                //请求出错
-                Log.e("p","请求错误");
-                iPersonalCompileActivity.showUpdataFailed();
-            }
-        });
+        }).start();
 
     }
 

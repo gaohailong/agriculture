@@ -182,6 +182,7 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
                 break;
             case R.id.btn_finish:
                 if (NetUtil.isNetAvailable(PersonalCompileActivity.this)){
+                    showProgress(true);
                     iPersonalCompilePresenter.doUpdate();
                 }else {
                     showNoNet();
@@ -494,6 +495,7 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
     @Override
     public void showUpdataSuccess() {
         Toast.makeText(PersonalCompileActivity.this,"修改信息成功",Toast.LENGTH_LONG).show();
+        finish();
     }
 
     @Override
