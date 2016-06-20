@@ -25,10 +25,25 @@ public class AuthTokenUtil {
         return authToken;
     }
 
-    public static String findUserType() {
+    public static boolean isUserTypeEXPERT() {
         User user = (User) mCache.getAsObject(ConstantUtil.CACHE_KEY);
         if (user != null) {
-            userType = user.getAuthToken();
+            userType = user.getUserType();
+            if (userType.equals("EXPERT")){
+                return true;
+            }else {
+                return false;
+            }
+        }
+        return false;
+    }
+
+    public static String getUserType(){
+        User user = (User) mCache.getAsObject(ConstantUtil.CACHE_KEY);
+        if (user != null) {
+            userType = user.getUserType();
+        }else {
+            userType = "isNull";
         }
         return userType;
     }

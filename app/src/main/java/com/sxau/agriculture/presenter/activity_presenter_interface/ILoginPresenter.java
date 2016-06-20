@@ -8,4 +8,5 @@ public interface ILoginPresenter {
     boolean isPhoneEnable();
     void initData();
     void doLogin();
+    void doRequestUserInfo();
 }

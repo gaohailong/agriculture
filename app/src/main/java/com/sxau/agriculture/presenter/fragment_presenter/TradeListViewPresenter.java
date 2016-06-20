@@ -73,10 +73,12 @@ public class TradeListViewPresenter implements ITradeListViewPresenter {
                     }
                     aCache.put(ConstantUtil.CACHE_TRADESUPPLY_KEY, supplyDatasList);
                     aCache.put(ConstantUtil.CACHE_TRADEDEMAND_KEY, demandDatasList);
+
+                    myHandler.sendEmptyMessage(ConstantUtil.GET_NET_DATA);
+
                     if (tradeDatas.size() < Integer.parseInt(ConstantUtil.ITEM_NUMBER)) {
                         iInfoListViewFragment.isLoadOver(true);
                     }
-                    myHandler.sendEmptyMessage(ConstantUtil.GET_NET_DATA);
 
                     Log.e("Trade","code:"+response.code()+"  message:"+response.message());
 

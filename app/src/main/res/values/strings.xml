@@ -13,6 +13,7 @@
     <string name="demand">需求</string>
     <string name="action_settings">Settings</string>
     <string name="MyQuestion">我的问题</string>
+    <string name="MyTradeInfo">我的交易</string>
     <string name="TradeInfo">交易信息</string>
     <string name="CollectQuestion">收藏的问题</string>
     <string name="CollectTrade">收藏的交易</string>

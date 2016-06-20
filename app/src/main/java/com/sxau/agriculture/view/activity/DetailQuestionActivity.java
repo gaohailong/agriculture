@@ -21,6 +21,7 @@ import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.bean.DetailQuestionData;
 import com.sxau.agriculture.presenter.acitivity_presenter.DetailQuestionPresenter;
 import com.sxau.agriculture.presenter.activity_presenter_interface.IDetailQuestionPresenter;
+import com.sxau.agriculture.utils.AuthTokenUtil;
 import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.LogUtil;
 import com.sxau.agriculture.utils.NetUtil;
@@ -81,7 +82,7 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
         tv_is_answer = (TextView) findViewById(R.id.tv_is_answer);
         tv_professor_name = (TextView) findViewById(R.id.tv_professor_name);
         tv_professor_content = (TextView) findViewById(R.id.tv_professor_content);
-        tv_professor_ok = (TextView) findViewById(R.id.tv_professor_ok);
+//        tv_professor_ok = (TextView) findViewById(R.id.tv_professor_ok);
         bt_answer = (Button) findViewById(R.id.bt_answer);
         ll_expert_answer = (LinearLayout) findViewById(R.id.ll_expert_answer);
         topBarUtil = (TitleBarTwo) findViewById(R.id.topBar_detail);
@@ -152,11 +153,13 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
             super.handleMessage(msg);
             switch (msg.what) {
                 case ConstantUtil.GET_NET_DATA:
+                    detailQuestionData = new DetailQuestionData();
                     detailQuestionData = idetailQuestionPresenter.getData();
                     LogUtil.e("DetailQuestionA", "images:" + detailQuestionData.getImages());
-                    if (detailQuestionData.getImages() != null){
+                    if (detailQuestionData.getImages() != null && detailQuestionData.getImages().length() > 4) {
                         imgDatas = StringUtil.changeStringToList(detailQuestionData.getImages());
                         imgDatas = StringUtil.changeToWholeUrlList(imgDatas);
+                        Log.d("DetailQA","imgDatas："+detailQuestionData.getImages().toString());
                         for (int i=0;i<imgDatas.size();i++){
                             Log.d("DetailQA","imgDatas："+imgDatas.get(i)+" 位置："+i);
                         }
@@ -234,11 +237,15 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
             Picasso.with(context).load(detailQuestionData.getUser().getAvatar()).centerCrop().
                     placeholder(R.mipmap.img_default_user_portrait_150px).error(R.mipmap.img_default_user_portrait_150px).into(rv_professor_head);
             tv_professor_name.setText(detailQuestionData.getExpert().getName());
-            tv_professor_content.setText((Integer) detailQuestionData.getAnswers().get(0));//有问题,接口返回了多个问题的答案
-            tv_professor_ok.setText("点赞人数" + detailQuestionData.getLikeCount());
+            tv_professor_content.setText(detailQuestionData.getAnswer());//有问题,接口返回了多个问题的答案
+//            tv_professor_ok.setText("点赞人数" + detailQuestionData.getLikeCount());
         } else {
             ll_expert_answer.setVisibility(View.GONE);
-            bt_answer.setVisibility(View.VISIBLE);
+            if (AuthTokenUtil.isUserTypeEXPERT()){
+                bt_answer.setVisibility(View.VISIBLE);
+            }else {
+                bt_answer.setVisibility(View.GONE);
+            }
             tv_is_answer.setText("专家未回答");
         }
         if (detailQuestionData.isFav()) {
@@ -247,8 +254,6 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
             iv_collection.setImageResource(R.drawable.collection);
         }
 
-        //九宫格设置adapter
-//        nineGridImageView.setAdapter(mAdapter);
     }
 
     @Override

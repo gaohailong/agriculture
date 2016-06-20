@@ -3,6 +3,7 @@ package com.sxau.agriculture.view.activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -43,6 +44,7 @@ import com.sxau.agriculture.utils.GlideLoaderUtil;
 import com.sxau.agriculture.utils.LogUtil;
 import com.sxau.agriculture.utils.RetrofitUtil;
 import com.sxau.agriculture.utils.StringUtil;
+import com.sxau.agriculture.utils.TitleBarTwo;
 import com.sxau.agriculture.utils.TopBarUtil;
 import com.yancy.imageselector.ImageConfig;
 import com.yancy.imageselector.ImageSelector;
@@ -79,6 +81,7 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
     private RecyclerView recycler;
     private Spinner spinner;
     private ProgressDialog pdLoginwait;
+    private TitleBarTwo topBarUtil;
     //adapter
     private SelectPhotoAdapter selectPhotoAdapter;
     //数据集合定义部分
@@ -115,6 +118,7 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
         recycler = (RecyclerView) findViewById(R.id.recycler);
         spinner = (Spinner) findViewById(R.id.sp_trade_cotegory);
         top_question = (TopBarUtil) findViewById(R.id.top_question);
+        initTitlebar();
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
         recycler.setLayoutManager(gridLayoutManager);
@@ -168,6 +172,22 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
 
         startNet();
         getUploadToken();
+    }
+
+    private void initTitlebar() {
+        topBarUtil = (TitleBarTwo) findViewById(R.id.top_question);
+        topBarUtil.setBackgroundColor(Color.parseColor("#00b5ad"));
+        topBarUtil.setLeftImageResource(R.mipmap.ic_back_left);
+        topBarUtil.setLeftTextColor(Color.WHITE);
+        topBarUtil.setDividerColor(Color.GRAY);
+        topBarUtil.setLeftClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        topBarUtil.setTitle("问答详情");
+        topBarUtil.setTitleColor(Color.WHITE);
     }
 
     public void startNet() {
@@ -295,10 +315,10 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
         map.put("content", questionContent);
         map.put("image", questionImage);
 
-        Call<String> call = RetrofitUtil.getRetrofit().create(IAskQuestion.class).sendQuestion(authorToken, map);
-        call.enqueue(new Callback<String>() {
+        Call<JsonObject> call = RetrofitUtil.getRetrofit().create(IAskQuestion.class).sendQuestion(authorToken, map);
+        call.enqueue(new Callback<JsonObject>() {
             @Override
-            public void onResponse(Response<String> response, Retrofit retrofit) {
+            public void onResponse(Response<JsonObject> response, Retrofit retrofit) {
                 showProgress(false);
                 Log.e("getCode", response.code() + "");
                 Toast.makeText(AskQuestionActivity.this, "提问成功", Toast.LENGTH_SHORT).show();

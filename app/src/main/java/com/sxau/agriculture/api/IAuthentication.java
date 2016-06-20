@@ -78,4 +78,12 @@ public interface IAuthentication {
      */
     @POST("smsVerifyCode")
     Call<JsonObject> sendPhoneRequest(@Body Map map);
+
+    /**
+     * 退出请求接口
+     * @param authToken
+     * @return
+     */
+    @GET("logout")
+    Call<JsonObject> doExitRequest(@Header("X-AUTH-TOKEN") String authToken);
 }

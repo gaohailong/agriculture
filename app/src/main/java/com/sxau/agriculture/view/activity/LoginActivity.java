@@ -150,6 +150,11 @@ public class LoginActivity extends BaseActivity implements ILoginActivty, View.O
         return getApplicationContext();
     }
 
+    @Override
+    public void doRequestUserInfo() {
+        iLoginPresenter.doRequestUserInfo();
+    }
+
 //--------------------接口方法结束-------------------
 
 }
