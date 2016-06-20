@@ -88,7 +88,6 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
     private Button btn_submit;
     private EditText et_title;
     private EditText et_trade_content;
-    private TopBarUtil top_question;
     private RecyclerView recycler;
     private Spinner spinner;
     private ProgressDialog pdLoginwait;
@@ -140,6 +139,7 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
         et_trade_content = (EditText) findViewById(R.id.et_trade_content);
         recycler = (RecyclerView) findViewById(R.id.recycler);
         spinner = (Spinner) findViewById(R.id.sp_trade_cotegory);
+
         initTitlebar();
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
@@ -346,10 +346,12 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
 
     //录音完成后续操作
     public void voiceFinish(){
-        et_title.setVisibility(View.GONE);
-        et_trade_content.setVisibility(View.GONE);
-        btn_voice.setVisibility(View.VISIBLE);
-        btn_voice_delete.setVisibility(View.VISIBLE);
+        if (mFileName != null){
+            et_title.setVisibility(View.GONE);
+            et_trade_content.setVisibility(View.GONE);
+            btn_voice.setVisibility(View.VISIBLE);
+            btn_voice_delete.setVisibility(View.VISIBLE);
+        }
     }
     //取消录音后续操作
     public void voiceCancel(){
