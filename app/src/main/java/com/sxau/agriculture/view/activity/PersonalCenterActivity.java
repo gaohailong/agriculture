@@ -72,7 +72,7 @@ public class PersonalCenterActivity extends BaseActivity implements View.OnClick
 
         FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(getSupportFragmentManager(), FragmentPagerItems.with(this)
                 .add(R.string.MyQuestion, PersonalQuestionFragment.class)
-                .add(R.string.TradeInfo, PersonalTradeInfoFragment.class)
+                .add(R.string.MyTradeInfo, PersonalTradeInfoFragment.class)
                 .add(R.string.CollectQuestion, PersonalCollectQuestionFragment.class)
                 .add(R.string.CollectTrade, PersonalCollectTradeFragment.class)
                 .create());
