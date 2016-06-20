@@ -153,9 +153,10 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
             super.handleMessage(msg);
             switch (msg.what) {
                 case ConstantUtil.GET_NET_DATA:
+                    detailQuestionData = new DetailQuestionData();
                     detailQuestionData = idetailQuestionPresenter.getData();
                     LogUtil.e("DetailQuestionA", "images:" + detailQuestionData.getImages());
-                    if (detailQuestionData.getImages() != null){
+                    if (detailQuestionData.getImages() != null && detailQuestionData.getImages().length() > 4) {
                         imgDatas = StringUtil.changeStringToList(detailQuestionData.getImages());
                         imgDatas = StringUtil.changeToWholeUrlList(imgDatas);
                         Log.d("DetailQA","imgDatas："+detailQuestionData.getImages().toString());

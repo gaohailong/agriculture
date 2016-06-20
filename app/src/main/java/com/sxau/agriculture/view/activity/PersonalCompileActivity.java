@@ -182,6 +182,7 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
                 break;
             case R.id.btn_finish:
                 if (NetUtil.isNetAvailable(PersonalCompileActivity.this)){
+                    showProgress(true);
                     iPersonalCompilePresenter.doUpdate();
                 }else {
                     showNoNet();
