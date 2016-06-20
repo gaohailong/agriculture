@@ -163,9 +163,16 @@ public class TradeContentActivity extends BaseActivity implements View.OnClickLi
             switch (msg.what) {
                 case ConstantUtil.GET_NET_DATA:
                     setTradeData();
-                    imgDatas = StringUtil.changeStringToList(tradeData.getImages());
-                    //设置九宫格数据源
-                    nineGridImageView.setImagesData(imgDatas);
+                    if (tradeData.getImages() != null){
+                        imgDatas = StringUtil.changeStringToList(tradeData.getImages());
+                        imgDatas = StringUtil.changeToWholeUrlList(imgDatas);
+                        Log.d("DetailQA","imgDatas："+tradeData.getImages().toString());
+                        for (int i=0;i<imgDatas.size();i++){
+                            Log.d("DetailQA","imgDatas："+imgDatas.get(i)+" 位置："+i);
+                        }
+                        //设置九宫格数据源
+                        nineGridImageView.setImagesData(imgDatas);
+                    }
                     break;
                 case ConstantUtil.CHANGE_COLLECTION_STATE:
 //                    changeCollectionIC();

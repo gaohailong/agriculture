@@ -20,7 +20,7 @@ public class TradeData implements Serializable{
      * tradeType : SUPPLY
      * category : null
      * tradeState : WAIT_AUDITED
-     * images : []
+     * images : string
      * fav : false
      */
 

@@ -23,7 +23,7 @@ public class DetailQuestionData {
      * questionAuditState : WAIT_AUDITED
      * questionResolveState : RESOLVED
      * images :
-     * answers : []
+     * answer :
      * fav : false
      */
 
@@ -84,7 +84,7 @@ public class DetailQuestionData {
     private String questionResolveState;
     private String images;
     private boolean fav;
-    private List<?> answers;
+    private String answer;
 
     public int getId() {
         return id;
@@ -198,12 +198,12 @@ public class DetailQuestionData {
         this.fav = fav;
     }
 
-    public List<?> getAnswers() {
-        return answers;
+    public String getAnswer() {
+        return answer;
     }
 
-    public void setAnswers(List<?> answers) {
-        this.answers = answers;
+    public void setAnswer(String answer) {
+        this.answer = answer;
     }
 
     public static class CategoryBean {

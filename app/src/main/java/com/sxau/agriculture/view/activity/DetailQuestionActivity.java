@@ -82,7 +82,7 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
         tv_is_answer = (TextView) findViewById(R.id.tv_is_answer);
         tv_professor_name = (TextView) findViewById(R.id.tv_professor_name);
         tv_professor_content = (TextView) findViewById(R.id.tv_professor_content);
-        tv_professor_ok = (TextView) findViewById(R.id.tv_professor_ok);
+//        tv_professor_ok = (TextView) findViewById(R.id.tv_professor_ok);
         bt_answer = (Button) findViewById(R.id.bt_answer);
         ll_expert_answer = (LinearLayout) findViewById(R.id.ll_expert_answer);
         topBarUtil = (TitleBarTwo) findViewById(R.id.topBar_detail);
@@ -158,6 +158,7 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
                     if (detailQuestionData.getImages() != null){
                         imgDatas = StringUtil.changeStringToList(detailQuestionData.getImages());
                         imgDatas = StringUtil.changeToWholeUrlList(imgDatas);
+                        Log.d("DetailQA","imgDatas："+detailQuestionData.getImages().toString());
                         for (int i=0;i<imgDatas.size();i++){
                             Log.d("DetailQA","imgDatas："+imgDatas.get(i)+" 位置："+i);
                         }
@@ -235,8 +236,8 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
             Picasso.with(context).load(detailQuestionData.getUser().getAvatar()).centerCrop().
                     placeholder(R.mipmap.img_default_user_portrait_150px).error(R.mipmap.img_default_user_portrait_150px).into(rv_professor_head);
             tv_professor_name.setText(detailQuestionData.getExpert().getName());
-            tv_professor_content.setText((Integer) detailQuestionData.getAnswers().get(0));//有问题,接口返回了多个问题的答案
-            tv_professor_ok.setText("点赞人数" + detailQuestionData.getLikeCount());
+            tv_professor_content.setText(detailQuestionData.getAnswer());//有问题,接口返回了多个问题的答案
+//            tv_professor_ok.setText("点赞人数" + detailQuestionData.getLikeCount());
         } else {
             ll_expert_answer.setVisibility(View.GONE);
             if (AuthTokenUtil.isUserTypeEXPERT()){
@@ -252,8 +253,6 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
             iv_collection.setImageResource(R.drawable.collection);
         }
 
-        //九宫格设置adapter
-//        nineGridImageView.setAdapter(mAdapter);
     }
 
     @Override
