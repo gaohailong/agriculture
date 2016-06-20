@@ -3,6 +3,7 @@ package com.sxau.agriculture.view.activity;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import com.sxau.agriculture.utils.ACache;
 import com.sxau.agriculture.utils.AuthTokenUtil;
 import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.LogUtil;
+import com.sxau.agriculture.utils.NetUtil;
 import com.sxau.agriculture.utils.RetrofitUtil;
 import com.sxau.agriculture.view.activity_interface.IPersonalCenterActivity;
 
@@ -61,6 +63,7 @@ public class PersonalCenterActivity extends BaseActivity implements View.OnClick
     private String phone;
     private String authToken;
     private ProgressDialog pdLoginwait;
+    private Context context;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +83,7 @@ public class PersonalCenterActivity extends BaseActivity implements View.OnClick
         viewPagerTab.setViewPager(vTitlePaper);
         mCache = ACache.get(this);
         authToken = AuthTokenUtil.findAuthToken();
+        context = PersonalCenterActivity.this;
     }
 
     private void initView() {
@@ -123,19 +127,22 @@ public class PersonalCenterActivity extends BaseActivity implements View.OnClick
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                showProgress(true);
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            Thread.sleep(1500);
-                            doExitRequest();
-                        }catch (Exception e){
-                            e.printStackTrace();
+                if (NetUtil.isNetAvailable(context)){
+                    showProgress(true);
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                Thread.sleep(1500);
+                                doExitRequest();
+                            }catch (Exception e){
+                                e.printStackTrace();
+                            }
                         }
-                    }
-                }).start();
-
+                    }).start();
+                }else {
+                    showNoNetworking();
+                }
             }
         });
         builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
