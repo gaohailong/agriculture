@@ -57,7 +57,6 @@
         <activity android:name="com.sxau.agriculture.view.activity.ExpertAnswerActivity" />
         <activity android:name="com.sxau.agriculture.view.activity.AskQuestionActivity" />
         <activity android:name="com.sxau.agriculture.view.activity.WebViewActivity" />
-
         <activity android:name="com.sxau.agriculture.view.activity.TradeReleaseActivity" android:windowSoftInputMode="adjustPan" />
 
 

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.sxau.agriculture.widgets.ObservableScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/scroll_view">
+  <LinearLayout
+      android:orientation="vertical"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent">
+
+    <include layout="@layout/article_header"/>
+
+    <com.sxau.agriculture.widgets.CommonWebView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingRight="0dp"
+        android:paddingLeft="0dp"
+        android:id="@+id/web_view"/>
+  </LinearLayout>
+</com.sxau.agriculture.widgets.ObservableScrollView>
