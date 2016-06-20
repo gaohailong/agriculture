@@ -9,50 +9,66 @@
         android:layout_height="50dp"
         android:padding="4dp" />
 
-    <EditText
-        android:id="@+id/et_trade_title"
+    <LinearLayout
+        android:id="@+id/ll_text"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/top_question"
-        android:background="@color/white"
-        android:gravity="top"
-        android:hint="请输入标题(不能超于45个字)"
-        android:lines="1"
-        android:maxLength="45"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingTop="10dp"
-        android:textSize="@dimen/font_title" />
+        android:orientation="vertical">
 
-    <View
-        android:id="@+id/v_divide"
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_below="@+id/et_trade_title"
-        android:background="@color/greyWhite" />
+        <Button
+            android:id="@+id/btn_voice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="语音"
+            android:visibility="gone" />
 
-    <EditText
-        android:id="@+id/et_trade_content"
-        android:layout_width="match_parent"
-        android:layout_height="130dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/v_divide"
-        android:background="#ffffff"
-        android:gravity="top"
-        android:hint="请输入内容(不能超于255个字)"
-        android:lines="4"
-        android:maxLength="255"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingTop="10dp"
-        android:textSize="@dimen/font_title" />
+        <Button
+            android:id="@+id/btn_voice_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="删除语音"
+            android:visibility="gone" />
+
+        <EditText
+            android:id="@+id/et_trade_title"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_below="@+id/top_question"
+            android:background="@color/white"
+            android:gravity="top"
+            android:hint="请输入标题(不能超于45个字)"
+            android:lines="1"
+            android:maxLength="45"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp"
+            android:textSize="@dimen/font_title" />
+
+        <EditText
+            android:id="@+id/et_trade_content"
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/et_trade_title"
+            android:background="#ffffff"
+            android:gravity="top"
+            android:hint="请输入内容(不能超于255个字)"
+            android:lines="4"
+            android:maxLength="255"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp"
+            android:textSize="@dimen/font_title" />
+    </LinearLayout>
+
 
     <View
         android:id="@+id/v_divide_two"
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:layout_below="@+id/et_trade_content"
+        android:layout_below="@+id/ll_text"
         android:background="@color/greyWhite" />
 
     <RelativeLayout

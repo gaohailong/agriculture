@@ -4,6 +4,8 @@ package com.sxau.agriculture.view.activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.Image;
+import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,6 +15,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -66,6 +69,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import retrofit.Call;
 import retrofit.Callback;
@@ -113,10 +117,21 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
     private String authorToken;
     private static final int REQUEST_CODE = 1;
 
+    //语音部分
+    private String mFileName = null;    //语音文件保存路径
+    private static final String PATH = "/sdcard/MyVoiceForder/Record/";     //录音存储路径
+    private MediaRecorder mRecorder = null;     //用于完成录音
+
+    private Button btn_voice;
+    private Button btn_voice_delete;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ask_question);
+
+        btn_voice = (Button) findViewById(R.id.btn_voice);
+        btn_voice_delete = (Button) findViewById(R.id.btn_voice_delete);
 
         ib_voice = (ImageView) findViewById(R.id.ib_voice);
         ib_photo = (ImageView) findViewById(R.id.ib_photo);
@@ -125,7 +140,6 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
         et_trade_content = (EditText) findViewById(R.id.et_trade_content);
         recycler = (RecyclerView) findViewById(R.id.recycler);
         spinner = (Spinner) findViewById(R.id.sp_trade_cotegory);
-//        top_question = (TopBarUtil) findViewById(R.id.top_question);
         initTitlebar();
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
@@ -149,28 +163,12 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
             }
         });
 
-        top_question.setLeftImageIsVisible(true);
-        top_question.setLeftImage(R.mipmap.ic_back_left);
-        top_question.setOnTopbarClickListener(new TopBarUtil.TopbarClickListner() {
-            @Override
-            public void onClickLeftRoundImage() {
-
-            }
-
-            @Override
-            public void onClickLeftImage() {
-                finish();
-            }
-
-            @Override
-            public void onClickRightImage() {
-
-            }
-        });
 
         ib_photo.setOnClickListener(this);
+
         ib_voice.setOnClickListener(this);
         btn_submit.setOnClickListener(this);
+        btn_voice_delete.setOnClickListener(this);
 
         pdLoginwait = new ProgressDialog(AskQuestionActivity.this);
         pdLoginwait.setMessage("提交中...");
@@ -218,7 +216,11 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
                 showPhotoDialog();
                 break;
             case R.id.ib_voice:
-                showVoiceDialog();
+                if (et_title.getVisibility() == View.GONE){
+                    Toast.makeText(context,"一次只能上传一个语音文件，请删除已有文件后再执行操作",Toast.LENGTH_LONG).show();
+                }else {
+                    showVoiceDialog();
+                }
                 break;
             case R.id.btn_submit:
                 showProgress(true);
@@ -238,6 +240,9 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
                         }
                     }
                 }).start();
+                break;
+            case R.id.btn_voice_delete:
+                deleteVoice(new File(mFileName));
                 break;
             default:
                 break;
@@ -275,6 +280,8 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
         View view = getLayoutInflater().inflate(R.layout.popwindow_voice, null);
         TextView btn_cancel = (TextView) view.findViewById(R.id.btn_cancel);
         TextView btn_finish = (TextView) view.findViewById(R.id.btn_finish);
+        ImageView iv_touchvoice = (ImageView) view.findViewById(R.id.iv_touchvoice);
+        final TextView tv_voicemsg = (TextView) view.findViewById(R.id.tv_voicemsg);
         final PopupWindow popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
         popupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
@@ -288,21 +295,131 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
         //显示位置
         popupWindow.showAtLocation(ib_voice, Gravity.BOTTOM, 0, 0);
 
+
+        iv_touchvoice.setOnTouchListener(new View.OnTouchListener() {
+            boolean hasDone = false;
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        Log.e("AskQA", "按下");
+                        if (hasDone){
+                            //已经录制完成
+                            Toast.makeText(context,"已经录制完成，请点击完成",Toast.LENGTH_SHORT).show();
+                        }else {
+                            tv_voicemsg.setText("正在录音....");
+                            startVoice();
+                        }
+                        return true;
+                    case MotionEvent.ACTION_UP:
+                        Log.e("AskQA", "弹起");
+                        tv_voicemsg.setText("录音完成");
+                        if (!hasDone){
+                            stopVoice();
+                        }
+                        hasDone = true;
+
+                        return true;
+                    default:
+                        break;
+                }
+                return false;
+            }
+        });
+
         btn_finish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //TODO 获取最终的数据
-
+                voiceFinish();
                 popupWindow.dismiss();
             }
         });
         btn_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                voiceCancel();
                 popupWindow.dismiss();
             }
         });
     }
+
+    //录音完成后续操作
+    public void voiceFinish(){
+        et_title.setVisibility(View.GONE);
+        et_trade_content.setVisibility(View.GONE);
+        btn_voice.setVisibility(View.VISIBLE);
+        btn_voice_delete.setVisibility(View.VISIBLE);
+    }
+    //取消录音后续操作
+    public void voiceCancel(){
+        //判断下状态，若已经有声音文件则不做操作，若没有声音文件，则删除本次的文件
+        if (btn_voice_delete.getVisibility() == View.GONE){
+            deleteFile(new File(mFileName));
+        }
+    }
+
+    //开始录音
+    private void startVoice() {
+        // 设置录音保存路径
+        mFileName = PATH + UUID.randomUUID().toString() + ".amr";
+        String state = android.os.Environment.getExternalStorageState();
+        if (!state.equals(android.os.Environment.MEDIA_MOUNTED)) {
+            Log.i("AskQA", "SD Card is not mounted,It is  " + state + ".");
+        }
+        File directory = new File(mFileName).getParentFile();
+        if (!directory.exists() && !directory.mkdirs()) {
+            Log.i("AskQA", "Path to file could not be created");
+        }
+        Toast.makeText(getApplicationContext(), "开始录音",Toast.LENGTH_SHORT).show();
+        mRecorder = new MediaRecorder();
+        mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        mRecorder.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT);
+        mRecorder.setOutputFile(mFileName);
+        mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
+        try {
+            mRecorder.prepare();
+        } catch (IOException e) {
+            Log.e("AskQA", "prepare() failed");
+        }
+        mRecorder.start();
+    }
+
+    //停止录音
+    private void stopVoice() {
+        mRecorder.stop();
+        mRecorder.release();
+        mRecorder = null;
+//        Toast.makeText(getApplicationContext(), "保存录音" + mFileName, Toast.LENGTH_SHORT).show();
+        LogUtil.e("AskQA", "文件位置：" + mFileName);
+    }
+
+    //删除录音操作
+    public void deleteVoice(File file){
+        deleteFile(file);
+        et_title.setVisibility(View.VISIBLE);
+        et_trade_content.setVisibility(View.VISIBLE);
+        btn_voice.setVisibility(View.GONE);
+        btn_voice_delete.setVisibility(View.GONE);
+    }
+
+    //删除文件
+    public void deleteFile(File file) {
+        if (file.exists()) {
+            if (file.isFile()) {
+                file.delete();
+            } else if (file.isDirectory()) {
+                File files[] = file.listFiles();
+                for (int i = 0; i < files.length; i++) {
+                    this.deleteFile(files[i]);
+                }
+            }
+            file.delete();
+        } else {
+            Log.d("AskQA","文件不存在");
+        }
+    }
+
     //回调函数
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
