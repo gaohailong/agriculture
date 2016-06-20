@@ -1,6 +1,9 @@
 package com.sxau.agriculture.presenter.fragment_presenter;
 
+import android.os.Handler;
+
 import com.sxau.agriculture.presenter.fragment_presenter_interface.IMessagePresenter;
+import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.view.fragment_interface.IMessageFragment;
 
 /**
@@ -8,9 +11,11 @@ import com.sxau.agriculture.view.fragment_interface.IMessageFragment;
  */
 public class MessagePresenter implements IMessagePresenter {
     private IMessageFragment iMessageFragment;
+    private Handler handler;
 
-    public MessagePresenter(IMessageFragment iMessageFragment) {
+    public MessagePresenter(IMessageFragment iMessageFragment,Handler handler) {
         this.iMessageFragment = iMessageFragment;
+        this.handler=handler;
     }
 //-----------------接口方法-----------------------------
     @Override
@@ -20,11 +25,13 @@ public class MessagePresenter implements IMessagePresenter {
 
     @Override
     public void pullRefersh() {
+        handler.sendEmptyMessage(ConstantUtil.PULL_REFRESH);
 
     }
 
     @Override
     public void pushRefersh() {
+        handler.sendEmptyMessage(ConstantUtil.UP_LOAD);
 
     }
 //------------------接口方法结束-------------------------
