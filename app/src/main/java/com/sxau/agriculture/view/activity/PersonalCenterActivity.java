@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -83,6 +84,7 @@ public class PersonalCenterActivity extends BaseActivity implements View.OnClick
         viewPagerTab.setViewPager(vTitlePaper);
         mCache = ACache.get(this);
         authToken = AuthTokenUtil.findAuthToken();
+        Log.e("authToken获取",authToken);
         context = PersonalCenterActivity.this;
     }
 

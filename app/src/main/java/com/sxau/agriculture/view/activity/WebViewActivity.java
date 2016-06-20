@@ -7,10 +7,12 @@ import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.bean.HomeArticle;
 import com.sxau.agriculture.utils.ConstantUtil;
@@ -43,6 +45,7 @@ public class WebViewActivity extends BaseActivity {
     private HomeArticle homeArticle;
     private TitleBarTwo topBarUtil;
     private TextView tv_data;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +56,7 @@ public class WebViewActivity extends BaseActivity {
         authorTextView = (TextView) findViewById(R.id.tv_author);
         headerImageView = (ImageView) findViewById(R.id.iv_article_header);
         mAvatarView = (CircleImageView) findViewById(R.id.iv_avatar);
-        tv_data= (TextView) findViewById(R.id.tv_data);
+        tv_data = (TextView) findViewById(R.id.tv_data);
         topBarUtil = (TitleBarTwo) findViewById(R.id.titlebar);
         mWebView.setWebViewClient(new ZhuanLanWebViewClient(WebViewActivity.this));
         initTitlebar();
@@ -83,7 +86,13 @@ public class WebViewActivity extends BaseActivity {
 
     private void setStory() {
         loadHtmlContent(homeArticle.getContent());
-        Glide.with(WebViewActivity.this).load(ConstantUtil.BASE_PICTURE_URL+homeArticle.getImage()).crossFade().into(headerImageView);
+        if (homeArticle.getImage() == null) {
+            headerImageView.setVisibility(View.GONE);
+        } else {
+            WindowManager wm = this.getWindowManager();
+            int width = wm.getDefaultDisplay().getWidth();
+            Picasso.with(WebViewActivity.this).load(ConstantUtil.BASE_PICTURE_URL + homeArticle.getImage()).resize(width, 480).into(headerImageView);
+        }
         titleView.setText(homeArticle.getTitle());
         topBarUtil.setTitle(homeArticle.getTitle());
         tv_data.setText(TimeUtil.format(homeArticle.getWhenCreated()));
