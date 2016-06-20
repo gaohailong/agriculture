@@ -29,15 +29,13 @@ public class ConstantUtil {
     public static final String CACHE_PERSONALQUESTION_KEY = "Cache_PersonalQuestionList";
     //我的交易的缓存文件名
     public static final String CACHE_PERSONALTRADES_KEY = "Cache_PersonalTradesList";
-    //个人信息缓存文件名
-    public static final String CACHE_PERSONALUSER_KEY = "Cache_PersonalUserList";
     //供应交易的缓存文件名
     public static final String CACHE_TRADESUPPLY_KEY = "Cache_TradeSupplyList";
     //需求交易的缓存文件名
     public static final String CACHE_TRADEDEMAND_KEY = "Cache_TradeDemandList";
     //用户头像存放文件名
     public static final String AVATAR_FILE_PATH = "/nongke110_avatar.jpg";
-    //用户头像存放文件名
+    //问题列表的缓存文件名
     public static final String CACHE_QUESTION_KEY = "Cache_QuestionList";
     //上传图片文字前缀
     public static final String DOMAIN = "http://storage.workerhub.cn/";
