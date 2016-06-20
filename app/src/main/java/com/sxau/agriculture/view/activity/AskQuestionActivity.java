@@ -295,10 +295,10 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
         map.put("content", questionContent);
         map.put("image", questionImage);
 
-        Call<String> call = RetrofitUtil.getRetrofit().create(IAskQuestion.class).sendQuestion(authorToken, map);
-        call.enqueue(new Callback<String>() {
+        Call<JsonObject> call = RetrofitUtil.getRetrofit().create(IAskQuestion.class).sendQuestion(authorToken, map);
+        call.enqueue(new Callback<JsonObject>() {
             @Override
-            public void onResponse(Response<String> response, Retrofit retrofit) {
+            public void onResponse(Response<JsonObject> response, Retrofit retrofit) {
                 showProgress(false);
                 Log.e("getCode", response.code() + "");
                 Toast.makeText(AskQuestionActivity.this, "提问成功", Toast.LENGTH_SHORT).show();

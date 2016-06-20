@@ -1,5 +1,7 @@
 package com.sxau.agriculture.api;
 
+import com.google.gson.JsonObject;
+
 import java.util.Map;
 
 import retrofit.Call;
@@ -15,5 +17,5 @@ import retrofit.http.POST;
  */
 public interface IAskQuestion {
     @POST("question")
-    Call<String> sendQuestion(@Header("X-AUTH-TOKEN") String authToken, @Body Map map);
+    Call<JsonObject> sendQuestion(@Header("X-AUTH-TOKEN") String authToken, @Body Map map);
 }
