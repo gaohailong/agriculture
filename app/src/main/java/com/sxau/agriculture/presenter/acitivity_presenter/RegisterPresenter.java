@@ -30,6 +30,7 @@ import retrofit.Response;
 import retrofit.Retrofit;
 
 /**
+ * 注册操作的逻辑类
  * Created by Yawen_Li on 2016/4/20.
  */
 public class RegisterPresenter implements IRegisterPresenter {
@@ -170,6 +171,7 @@ public class RegisterPresenter implements IRegisterPresenter {
                                 user.setAuthToken(authToken);
                                 user.setPhone(strPhone);
                                 user.setName(username);
+                                user.setUserType("PUBLIC");
 
                                 //执行缓存
                                 ACache mCache = ACache.get(AgricultureApplication.getContext());

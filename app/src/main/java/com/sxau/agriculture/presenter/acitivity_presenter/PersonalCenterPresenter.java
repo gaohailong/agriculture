@@ -5,7 +5,6 @@ import android.os.Handler;
 
 import com.google.gson.Gson;
 import com.sxau.agriculture.AgricultureApplication;
-import com.sxau.agriculture.api.IPersonalCenter;
 import com.sxau.agriculture.bean.MyPersonalCenter;
 import com.sxau.agriculture.bean.User;
 import com.sxau.agriculture.presenter.activity_presenter_interface.IPersonalCenterPresenter;

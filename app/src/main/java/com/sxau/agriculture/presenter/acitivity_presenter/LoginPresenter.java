@@ -1,20 +1,14 @@
 package com.sxau.agriculture.presenter.acitivity_presenter;
 
-import android.app.Application;
+
 import android.content.Intent;
-import android.os.Handler;
-import android.os.Message;
-import android.text.TextUtils;
-import android.util.Log;
-import android.widget.EditText;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.squareup.okhttp.ResponseBody;
+
 import com.sxau.agriculture.AgricultureApplication;
-import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.api.IAuthentication;
+import com.sxau.agriculture.api.IUserData;
 import com.sxau.agriculture.bean.User;
 import com.sxau.agriculture.presenter.activity_presenter_interface.ILoginPresenter;
 import com.sxau.agriculture.utils.ACache;
@@ -27,7 +21,6 @@ import com.sxau.agriculture.view.activity_interface.ILoginActivty;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -58,10 +51,11 @@ public class LoginPresenter implements ILoginPresenter {
     private String password;
     private long phone;
     private String authToken;
-
+    private ACache mCache;
 
     public LoginPresenter(ILoginActivty iLoginActivty) {
         this.iLoginActivty = iLoginActivty;
+        mCache = ACache.get(AgricultureApplication.getContext());
     }
 
 
@@ -147,22 +141,25 @@ public class LoginPresenter implements ILoginPresenter {
                                 user.setPhone(strPhone);
 //                                setAlias(String.valueOf(phone));
                                 //执行缓存
-                                ACache mCache = ACache.get(AgricultureApplication.getContext());
                                 mCache.put(ConstantUtil.CACHE_KEY, user);
 //                                setAlias();
                                 //打印验证
                                 String userJson = userGson.toJson(user);
                                 LogUtil.d("RegisterP", userJson);
 
-                                //登录成功,跳转到主界面
-                                iLoginActivty.showProgress(CLOSEPROGRESS);
-                                iLoginActivty.showLoginSucceed();
+//                                //登录成功,跳转到主界面
+//                                iLoginActivty.showProgress(CLOSEPROGRESS);
+//                                iLoginActivty.showLoginSucceed();
+//
+//                                Intent intent = new Intent(AgricultureApplication.getContext(), MainActivity.class);
+//                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                                AgricultureApplication.getContext().startActivity(intent);
+//                                //将登录页面finish掉
+//                                iLoginActivty.finishLoginActivity();
 
-                                Intent intent = new Intent(AgricultureApplication.getContext(), MainActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                AgricultureApplication.getContext().startActivity(intent);
-                                //将登录页面finish掉
-                                iLoginActivty.finishLoginActivity();
+                                //登录成功，开始请求用户信息
+                                iLoginActivty.doRequestUserInfo();
+
                             } else {
                                 //登录失败
                                 iLoginActivty.showLoginFailed();
@@ -184,6 +181,40 @@ public class LoginPresenter implements ILoginPresenter {
                 }
             }
         }).start();
+    }
+
+    @Override
+    public void doRequestUserInfo() {
+        Call call = RetrofitUtil.getRetrofit().create(IUserData.class).getUserData(authToken);
+        call.enqueue(new retrofit.Callback() {
+            @Override
+            public void onResponse(Response response, Retrofit retrofit) {
+                if (response.isSuccess()) {
+                    User user = (User) response.body();
+                    user.setAuthToken(authToken);
+                    mCache.put(ConstantUtil.CACHE_KEY, user);
+
+                    //打印验证一下  成功了
+//                    user = (User) mCache.getAsObject(ConstantUtil.CACHE_KEY);
+//                    LogUtil.e("LoginP","用户类型："+user.getUserType());
+
+                    //登录成功,获取用户信息成功，跳转到主界面
+                    iLoginActivty.showProgress(CLOSEPROGRESS);
+                    iLoginActivty.showLoginSucceed();
+
+                    Intent intent = new Intent(AgricultureApplication.getContext(), MainActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    AgricultureApplication.getContext().startActivity(intent);
+                    //将登录页面finish掉
+                    iLoginActivty.finishLoginActivity();
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                //获取用户信息失败
+            }
+        });
     }
 
     //--------------------------接口方法结束---------------------

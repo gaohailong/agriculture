@@ -14,4 +14,6 @@ public interface ILoginActivty {
     void showRequestTimeout();
     void finishLoginActivity();
     Context getContext();
+
+    void doRequestUserInfo();
 }
