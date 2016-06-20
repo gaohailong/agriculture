@@ -12,13 +12,18 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonElement;
@@ -46,6 +51,7 @@ import com.sxau.agriculture.utils.RetrofitUtil;
 import com.sxau.agriculture.utils.StringUtil;
 import com.sxau.agriculture.utils.TitleBarTwo;
 import com.sxau.agriculture.utils.TopBarUtil;
+import com.sxau.agriculture.widgets.CityPicker;
 import com.yancy.imageselector.ImageConfig;
 import com.yancy.imageselector.ImageSelector;
 import com.yancy.imageselector.ImageSelectorActivity;
@@ -74,6 +80,7 @@ import retrofit.Retrofit;
 public class AskQuestionActivity extends BaseActivity implements View.OnClickListener {
     //控件定义部分
     private ImageView ib_photo;
+    private ImageView ib_voice;
     private Button btn_submit;
     private EditText et_title;
     private EditText et_trade_content;
@@ -111,13 +118,14 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ask_question);
 
+        ib_voice = (ImageView) findViewById(R.id.ib_voice);
         ib_photo = (ImageView) findViewById(R.id.ib_photo);
         btn_submit = (Button) findViewById(R.id.btn_submit);
         et_title = (EditText) findViewById(R.id.et_trade_title);
         et_trade_content = (EditText) findViewById(R.id.et_trade_content);
         recycler = (RecyclerView) findViewById(R.id.recycler);
         spinner = (Spinner) findViewById(R.id.sp_trade_cotegory);
-        top_question = (TopBarUtil) findViewById(R.id.top_question);
+//        top_question = (TopBarUtil) findViewById(R.id.top_question);
         initTitlebar();
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
@@ -161,6 +169,7 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
         });
 
         ib_photo.setOnClickListener(this);
+        ib_voice.setOnClickListener(this);
         btn_submit.setOnClickListener(this);
 
         pdLoginwait = new ProgressDialog(AskQuestionActivity.this);
@@ -207,6 +216,9 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
         switch (v.getId()) {
             case R.id.ib_photo:
                 showPhotoDialog();
+                break;
+            case R.id.ib_voice:
+                showVoiceDialog();
                 break;
             case R.id.btn_submit:
                 showProgress(true);
@@ -259,6 +271,38 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
         ImageSelector.open(AskQuestionActivity.this, imageConfig);
     }
 
+    public void showVoiceDialog(){
+        View view = getLayoutInflater().inflate(R.layout.popwindow_voice, null);
+        TextView btn_cancel = (TextView) view.findViewById(R.id.btn_cancel);
+        TextView btn_finish = (TextView) view.findViewById(R.id.btn_finish);
+        final PopupWindow popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        popupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        popupWindow.setAnimationStyle(android.R.style.Animation_Translucent);
+        popupWindow.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_pop_alert));
+
+        //点击窗口外边不消失
+        popupWindow.setOutsideTouchable(false);
+        popupWindow.setFocusable(true);
+        popupWindow.setTouchable(true);
+        //显示位置
+        popupWindow.showAtLocation(ib_voice, Gravity.BOTTOM, 0, 0);
+
+        btn_finish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO 获取最终的数据
+
+                popupWindow.dismiss();
+            }
+        });
+        btn_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+    }
     //回调函数
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

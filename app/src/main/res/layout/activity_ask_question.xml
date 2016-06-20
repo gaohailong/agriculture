@@ -5,22 +5,23 @@
 
     <com.sxau.agriculture.utils.TitleBarTwo
         android:id="@+id/top_question"
-        android:padding="4dp"
         android:layout_width="match_parent"
-        android:layout_height="50dp"/>
+        android:layout_height="50dp"
+        android:padding="4dp" />
+
     <EditText
-        android:layout_below="@+id/top_question"
         android:id="@+id/et_trade_title"
         android:layout_width="match_parent"
         android:layout_height="70dp"
+        android:layout_below="@+id/top_question"
+        android:background="@color/white"
+        android:gravity="top"
+        android:hint="请输入标题(不能超于45个字)"
+        android:lines="1"
+        android:maxLength="45"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:paddingTop="10dp"
-        android:maxLength="45"
-        android:background="@color/white"
-        android:lines="1"
-        android:gravity="top"
-        android:hint="请输入标题(不能超于45个字)"
         android:textSize="@dimen/font_title" />
 
     <View
@@ -34,18 +35,18 @@
         android:id="@+id/et_trade_content"
         android:layout_width="match_parent"
         android:layout_height="130dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingTop="10dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/v_divide"
         android:background="#ffffff"
         android:gravity="top"
-        android:lines="4"
         android:hint="请输入内容(不能超于255个字)"
-        android:textSize="@dimen/font_title"
-        android:maxLength="255" />
+        android:lines="4"
+        android:maxLength="255"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp"
+        android:textSize="@dimen/font_title" />
 
     <View
         android:id="@+id/v_divide_two"
@@ -58,18 +59,18 @@
         android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:background="@color/white"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/v_divide_two">
+        android:layout_below="@+id/v_divide_two"
+        android:background="@color/white"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
 
         <Spinner
             android:id="@+id/sp_trade_cotegory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"/>
+            android:layout_centerVertical="true" />
 
         <ImageView
             android:id="@+id/ib_photo"
@@ -79,24 +80,32 @@
             android:layout_alignParentRight="true"
             android:layout_gravity="end"
             android:src="@mipmap/photo_album" />
+
+        <ImageView
+            android:id="@+id/ib_voice"
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:layout_marginRight="14dp"
+            android:layout_toLeftOf="@id/ib_photo"
+            android:padding="2dp"
+            android:src="@mipmap/ic_voice" />
     </RelativeLayout>
 
     <View
         android:id="@+id/v_divide_two_three"
         android:layout_width="match_parent"
         android:layout_height="15dp"
-        android:layout_below="@+id/relativeLayout"
-        />
+        android:layout_below="@+id/relativeLayout" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/v_divide_two_three"
-        android:paddingRight="10dp"
-        android:paddingLeft="10dp"
         android:layout_centerHorizontal="true"
-        />
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp" />
 
     <LinearLayout
         android:id="@+id/ll_button"
@@ -111,10 +120,10 @@
             android:id="@+id/btn_submit"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:layout_marginRight="10dp"
             android:layout_marginEnd="10dp"
-            android:textColor="@color/white"
+            android:layout_marginRight="10dp"
             android:background="@drawable/trade_release_submit_button"
-            android:text="@string/submit" />
+            android:text="@string/submit"
+            android:textColor="@color/white" />
     </LinearLayout>
 </RelativeLayout>
