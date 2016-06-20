@@ -8,7 +8,6 @@ import java.util.ArrayList;
  * 个人中心接口
  */
 public interface IPersonalCenterActivity {
-    void updateView(ArrayList<MyPersonalCenter> myPersonalCenters);
     void showNoNetworking();
     void showRequestTimeout();
 }
