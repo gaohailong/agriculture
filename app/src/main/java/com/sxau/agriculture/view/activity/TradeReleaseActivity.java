@@ -77,7 +77,6 @@ public class TradeReleaseActivity extends BaseActivity implements View.OnClickLi
     private RadioGroup rgTradeCategory;
     private Button btnTradeRelease;
     private TitleBarTwo topBarUtil;
-//    private TopBarUtil topBarUtil;
 
     private String uploadFilePath;
     private UploadManager uploadManager;
@@ -148,26 +147,6 @@ public class TradeReleaseActivity extends BaseActivity implements View.OnClickLi
         topBarUtil.setTitle("交易详情");
         topBarUtil.setTitleColor(Color.WHITE);
 
-//        topBarUtil = (TopBarUtil) findViewById(R.id.top_trade);
-//        topBarUtil.setLeftImageIsVisible(true);
-//        topBarUtil.setLeftImage(R.mipmap.ic_back_left);
-//        topBarUtil.setOnTopbarClickListener(new TopBarUtil.TopbarClickListner() {
-//            @Override
-//            public void onClickLeftRoundImage() {
-//
-//            }
-//
-//            @Override
-//            public void onClickLeftImage() {
-//                finish();
-//            }
-//
-//            @Override
-//            public void onClickRightImage() {
-//
-//            }
-//        });
-
         RecyclerView recycler = (RecyclerView) findViewById(R.id.recycler);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
         recycler.setLayoutManager(gridLayoutManager);
@@ -199,7 +178,6 @@ public class TradeReleaseActivity extends BaseActivity implements View.OnClickLi
                 ACache mCache = ACache.get(TradeReleaseActivity.this);
                 User user = (User) mCache.getAsObject(ConstantUtil.CACHE_KEY);
                 String authToken = user.getAuthToken();
-                Log.d("release", "点击点击");
                 if (tradeTitle.equals("")){
                     Toast.makeText(TradeReleaseActivity.this,"请输入标题",Toast.LENGTH_SHORT).show();
                 }else if (tradeContent.equals("")){
@@ -252,10 +230,6 @@ public class TradeReleaseActivity extends BaseActivity implements View.OnClickLi
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE && resultCode == RESULT_OK && data != null) {
             List<String> pathList = data.getStringArrayListExtra(ImageSelectorActivity.EXTRA_RESULT);
-            for (String path : pathList) {
-                //TODO 将网络上传写到这
-                Log.i("ImagePathList", path);
-            }
             path.clear();
             path.addAll(pathList);
             selectPhotoAdapter.notifyDataSetChanged();
@@ -308,9 +282,7 @@ public class TradeReleaseActivity extends BaseActivity implements View.OnClickLi
         }
     }
 
-    //将图片路径添加到这外部添加一个图片
     public void uploadPicture() {
-        LogUtil.d("TradeReleaseA", "uploadPicture execute");
         if (this.uploadFilePath == null) {
             return;
         }
@@ -372,7 +344,6 @@ public class TradeReleaseActivity extends BaseActivity implements View.OnClickLi
                                 final int width = dm.widthPixels;
                                 final String imageUrl = domain + "/" + fileKey + "?imageView2/0/w/" + width + "/format/jpg";
                                 imageUriList.add(imageUrl);
-                                Log.e("imageUrl11111111", imageUrl);
                             } catch (JSONException e) {
                                 Toast.makeText(
                                         context,
