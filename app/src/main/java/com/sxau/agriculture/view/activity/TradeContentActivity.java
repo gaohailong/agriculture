@@ -174,9 +174,6 @@ public class TradeContentActivity extends BaseActivity implements View.OnClickLi
                         nineGridImageView.setImagesData(imgDatas);
                     }
                     break;
-                case ConstantUtil.CHANGE_COLLECTION_STATE:
-//                    changeCollectionIC();
-                    break;
                 default:
                     break;
             }

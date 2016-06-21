@@ -70,7 +70,7 @@ public class DetailQuestionPresenter implements IDetailQuestionPresenter {
                 if (response.isSuccess()){
                     //收藏执行成功
                     Log.e("DetailQP", "code:" + response.code() + " body:" + response.body() + "  message:" + response.message());
-                    handler.sendEmptyMessage(ConstantUtil.CHANGE_COLLECTION_STATE);
+                    handler.sendEmptyMessage(ConstantUtil.CHANGE_TO_COLLECTION_STATE);
                 }else {
                     //收藏执行失败
                     iDetailQuestionActivity.showFailed();
@@ -95,7 +95,7 @@ public class DetailQuestionPresenter implements IDetailQuestionPresenter {
             public void onResponse(Response<JsonObject> response, Retrofit retrofit) {
                 if (response.isSuccess()){
                     //取消收藏执行成功
-                    handler.sendEmptyMessage(ConstantUtil.CHANGE_COLLECTION_STATE);
+                    handler.sendEmptyMessage(ConstantUtil.CHANGE_TO_NOCOLLECTION_STATE);
                 }else {
                     //取消收藏执行失败
                     iDetailQuestionActivity.showFailed();
