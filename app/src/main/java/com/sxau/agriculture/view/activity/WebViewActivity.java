@@ -2,14 +2,22 @@ package com.sxau.agriculture.view.activity;
 
 import android.content.Intent;
 import android.content.res.AssetManager;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Base64;
+import android.util.Log;
+import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.bean.HomeArticle;
+import com.sxau.agriculture.utils.ConstantUtil;
+import com.sxau.agriculture.utils.TimeUtil;
+import com.sxau.agriculture.utils.TitleBarTwo;
 import com.sxau.agriculture.widgets.CommonWebView;
 import com.sxau.agriculture.widgets.ObservableScrollView;
 import com.sxau.agriculture.widgets.ZhuanLanWebViewClient;
@@ -35,20 +43,39 @@ public class WebViewActivity extends BaseActivity {
     private TextView authorTextView;
     private ZhuanLanWebViewClient zhuanLanWebViewClient;
     private HomeArticle homeArticle;
+    private TitleBarTwo topBarUtil;
+    private TextView tv_data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_story);
+        setContentView(R.layout.activity_story_webview);
         mWebView = (CommonWebView) findViewById(R.id.web_view);
         scrollView = (ObservableScrollView) findViewById(R.id.scroll_view);
         titleView = (TextView) findViewById(R.id.tv_title);
         authorTextView = (TextView) findViewById(R.id.tv_author);
         headerImageView = (ImageView) findViewById(R.id.iv_article_header);
         mAvatarView = (CircleImageView) findViewById(R.id.iv_avatar);
+        tv_data = (TextView) findViewById(R.id.tv_data);
+        topBarUtil = (TitleBarTwo) findViewById(R.id.titlebar);
         mWebView.setWebViewClient(new ZhuanLanWebViewClient(WebViewActivity.this));
+        initTitlebar();
         getSourceData();
         setStory();
+    }
+
+    private void initTitlebar() {
+        topBarUtil.setBackgroundColor(Color.parseColor("#00b5ad"));
+        topBarUtil.setLeftImageResource(R.mipmap.ic_back_left);
+        topBarUtil.setLeftTextColor(Color.WHITE);
+        topBarUtil.setDividerColor(Color.GRAY);
+        topBarUtil.setLeftClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        topBarUtil.setTitleColor(Color.WHITE);
     }
 
     public void getSourceData() {
@@ -59,8 +86,16 @@ public class WebViewActivity extends BaseActivity {
 
     private void setStory() {
         loadHtmlContent(homeArticle.getContent());
-        Glide.with(WebViewActivity.this).load(homeArticle.getImage()).crossFade().into(headerImageView);
+        if (homeArticle.getImage() == null) {
+            headerImageView.setVisibility(View.GONE);
+        } else {
+            WindowManager wm = this.getWindowManager();
+            int width = wm.getDefaultDisplay().getWidth();
+            Picasso.with(WebViewActivity.this).load(ConstantUtil.BASE_PICTURE_URL + homeArticle.getImage()).resize(width, 480).into(headerImageView);
+        }
         titleView.setText(homeArticle.getTitle());
+        topBarUtil.setTitle(homeArticle.getTitle());
+        tv_data.setText(TimeUtil.format(homeArticle.getWhenCreated()));
         authorTextView.setText(homeArticle.getAdmin().getName());
         CommonExecutor.MAIN_HANDLER.postDelayed(new Runnable() {
             @Override

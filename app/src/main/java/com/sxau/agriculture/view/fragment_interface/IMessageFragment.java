@@ -5,4 +5,6 @@ package com.sxau.agriculture.view.fragment_interface;
  */
 public interface IMessageFragment {
     void updateView();
+    void showRequestTimeout();
+    void showNoNetWorking();
 }
