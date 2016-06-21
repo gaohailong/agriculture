@@ -9,10 +9,10 @@ import com.sxau.agriculture.bean.MessageInfo;
 import com.sxau.agriculture.bean.MessageList;
 import com.sxau.agriculture.presenter.fragment_presenter_interface.IMessagePresenter;
 import com.sxau.agriculture.utils.ACache;
-import com.sxau.agriculture.utils.AuthTokenUtil;
 import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.NetUtil;
 import com.sxau.agriculture.utils.RetrofitUtil;
+import com.sxau.agriculture.utils.UserInfoUtil;
 import com.sxau.agriculture.view.fragment_interface.IMessageFragment;
 
 import java.util.ArrayList;
@@ -65,7 +65,7 @@ public class MessagePresenter implements IMessagePresenter {
 
     @Override
     public void doRequest() {
-        authToken = AuthTokenUtil.findAuthToken();
+        authToken = UserInfoUtil.findAuthToken();
         Call<ArrayList<MessageInfo>> call = RetrofitUtil.getRetrofit().create(IGetMessageList.class).getMessage(authToken);
         call.enqueue(new Callback<ArrayList<MessageInfo>>() {
             @Override
