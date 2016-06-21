@@ -147,7 +147,7 @@ public class TradeReleaseActivity extends BaseActivity implements View.OnClickLi
                 finish();
             }
         });
-        topBarUtil.setTitle("交易详情");
+        topBarUtil.setTitle("发布交易");
         topBarUtil.setTitleColor(Color.WHITE);
 
         pdLoginwait = new ProgressDialog(TradeReleaseActivity.this);

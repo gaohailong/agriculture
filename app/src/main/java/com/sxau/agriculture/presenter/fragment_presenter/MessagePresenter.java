@@ -23,7 +23,7 @@ import retrofit.Response;
 import retrofit.Retrofit;
 
 /**
- * Created by Yawen_Li on 2016/4/20.
+ * @author 高海龙
  */
 public class MessagePresenter implements IMessagePresenter {
     private IMessageFragment iMessageFragment;

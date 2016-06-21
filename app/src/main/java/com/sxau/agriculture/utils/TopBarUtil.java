@@ -145,9 +145,7 @@ public class TopBarUtil extends RelativeLayout {
         textView.setVisibility(View.GONE);
         rightImageView.setVisibility(View.GONE);
         //TODO 将图片换做网络图片
-       // Bitmap leftRoundBitmapImage= BitmapUtil.decodedBitmapFromResource(getResources(),R.mipmap.img_default_user_portrait_150px,45,45);
-        Picasso.with(context).load(R.mipmap.img_default_user_portrait_150px).transform(new PicassoCirclTransform())
-                .placeholder(R.mipmap.img_default_user_portrait_150px).resize(100, 100).centerCrop().into(leftImageView);
+        Picasso.with(context).load(UserInfoUtil.getUserAvatar()).placeholder(R.mipmap.img_user_default).transform(new PicassoCirclTransform()).resize(100, 100).centerCrop().into(leftImageView);
     }
 
     //设置左边圆角图片是否可见
@@ -257,6 +255,7 @@ public class TopBarUtil extends RelativeLayout {
             squaredBitmap.recycle();
             return bitmap;
         }
+
         @Override
         public String key() {
             return "circle";

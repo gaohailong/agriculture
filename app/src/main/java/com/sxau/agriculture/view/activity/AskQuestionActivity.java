@@ -190,7 +190,7 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
                 finish();
             }
         });
-        topBarUtil.setTitle("问答详情");
+        topBarUtil.setTitle("发布问题");
         topBarUtil.setTitleColor(Color.WHITE);
     }
 

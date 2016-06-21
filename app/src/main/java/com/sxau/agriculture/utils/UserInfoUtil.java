@@ -43,10 +43,10 @@ public class UserInfoUtil {
         User user = (User) mCache.getAsObject(ConstantUtil.CACHE_KEY);
         if (user != null && user.getAvatar() != null) {
             userAvatar = user.getAvatar();
+            return userAvatar;
         }else {
-            userAvatar = "";
+            return null;
         }
-        return userAvatar;
     }
 
     public static String getUserType(){
