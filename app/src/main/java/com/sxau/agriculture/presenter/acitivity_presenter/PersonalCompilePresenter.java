@@ -16,12 +16,14 @@ import com.qiniu.android.storage.UploadOptions;
 import com.qiniu.android.utils.AsyncRun;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
+import com.sxau.agriculture.api.IUploadToken;
 import com.sxau.agriculture.api.IUserData;
 import com.sxau.agriculture.bean.User;
 import com.sxau.agriculture.presenter.activity_presenter_interface.IPersonalCompilePresenter;
 import com.sxau.agriculture.qiniu.FileUtilsQiNiu;
 import com.sxau.agriculture.qiniu.QiniuLabConfig;
 import com.sxau.agriculture.utils.ACache;
+import com.sxau.agriculture.utils.AuthTokenUtil;
 import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.LogUtil;
 import com.sxau.agriculture.utils.RetrofitUtil;
@@ -57,6 +59,9 @@ public class PersonalCompilePresenter implements IPersonalCompilePresenter {
     private UploadManager uploadManager;
     private User user;
 
+    private String uploadToken;
+    private String domain;
+
     private String industry;
     private String scale;
     private String avatar;
@@ -78,51 +83,32 @@ public class PersonalCompilePresenter implements IPersonalCompilePresenter {
         this.mCache = ACache.get(context);
         this.handler = handler;
         this.context = context;
+        authToken = AuthTokenUtil.findAuthToken();
+        getUploadToken();
     }
 
 
-    //将图片路径添加到这外部添加一个图片
-    public void uploadPicture() {
-        if (this.uploadFilePath == null) {
-            return;
-        }
-        new Thread(new Runnable() {
+    //获取上传图片权限token
+    private void getUploadToken() {
+        Call<JsonObject> call = RetrofitUtil.getRetrofit().create(IUploadToken.class).getUploadToken(authToken);
+        call.enqueue(new Callback<JsonObject>() {
             @Override
-            public void run() {
-                final OkHttpClient httpClient = new OkHttpClient();
-                LogUtil.d("uploadPic", "execute");
-                Request req = new Request.Builder().url(QiniuLabConfig.makeUrl(
-                        QiniuLabConfig.REMOTE_SERVICE_SERVER,
-                        QiniuLabConfig.QUICK_START_IMAGE_DEMO_PATH)).method("GET", null).build();
-                com.squareup.okhttp.Response resp = null;
-                try {
-                    resp = httpClient.newCall(req).execute();
-                    JSONObject jsonObject = new JSONObject(resp.body().string());
-                    String uploadToken = jsonObject.getString("uptoken");
-                    String domain = jsonObject.getString("domain");
-                    upload(uploadToken, domain);
-                } catch (Exception e) {
-                    AsyncRun.run(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(
-                                    context,
-                                    "申请上传凭证失败",
-                                    Toast.LENGTH_LONG).show();
-                        }
-                    });
-                    Log.e(QiniuLabConfig.LOG_TAG, e.getMessage());
-                } finally {
-                    if (resp != null) {
-                        try {
-                            resp.body().close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
+            public void onResponse(Response<JsonObject> response, Retrofit retrofit) {
+                Log.e("UPLOADTOKEN", response.code() + "");
+                if (response.isSuccess()) {
+                    JsonObject joResponseBody = response.body();
+                    JsonObject getData = joResponseBody.getAsJsonObject("success");
+                    uploadToken = getData.get("message").getAsString();
+                    domain = ConstantUtil.DOMAIN;
+
                 }
             }
-        }).start();
+
+            @Override
+            public void onFailure(Throwable t) {
+                Toast.makeText(context, "获取token失败", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     //=============================必须的===================================
@@ -172,7 +158,7 @@ public class PersonalCompilePresenter implements IPersonalCompilePresenter {
         LogUtil.e("qiniu", "photoUri:" + photoPath);
         this.uploadFilePath = photoPath;
         //在选择完图片之后就执行上传操作
-        uploadPicture();
+        upload(uploadToken,domain);
     }
 
     @Override
@@ -198,7 +184,7 @@ public class PersonalCompilePresenter implements IPersonalCompilePresenter {
                     map.put("avatar", avatar);
                     map.put("industry", industry);
                     map.put("scale", scale);
-                    map.put("email","243845305@qq.com");
+//                    map.put("email","243845305@qq.com");
 
                     Call<JsonObject> call = RetrofitUtil.getRetrofit().create(IUserData.class).upDataUserData(authToken,id,map);
                     call.enqueue(new Callback<JsonObject>() {
