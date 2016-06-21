@@ -9,7 +9,7 @@ import com.sxau.agriculture.api.IDetailQuestion;
 import com.sxau.agriculture.api.IQuestionFav;
 import com.sxau.agriculture.bean.DetailQuestionData;
 import com.sxau.agriculture.presenter.activity_presenter_interface.IDetailQuestionPresenter;
-import com.sxau.agriculture.utils.AuthTokenUtil;
+import com.sxau.agriculture.utils.UserInfoUtil;
 import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.RetrofitUtil;
 import com.sxau.agriculture.view.activity.DetailQuestionActivity;
@@ -33,7 +33,7 @@ public class DetailQuestionPresenter implements IDetailQuestionPresenter {
     public DetailQuestionPresenter(IDetailQuestionActivity iDetailQuestionActivity, DetailQuestionActivity.MyHandler handler) {
         this.iDetailQuestionActivity = iDetailQuestionActivity;
         this.handler = handler;
-        authToken = AuthTokenUtil.findAuthToken();
+        authToken = UserInfoUtil.findAuthToken();
     }
 
     //---------------------接口方法开始-----------------------

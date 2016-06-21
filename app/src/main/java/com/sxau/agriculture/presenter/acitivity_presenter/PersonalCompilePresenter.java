@@ -1,40 +1,32 @@
 package com.sxau.agriculture.presenter.acitivity_presenter;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.qiniu.android.http.ResponseInfo;
 import com.qiniu.android.storage.UpCompletionHandler;
 import com.qiniu.android.storage.UploadManager;
 import com.qiniu.android.storage.UploadOptions;
-import com.qiniu.android.utils.AsyncRun;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
 import com.sxau.agriculture.api.IUploadToken;
 import com.sxau.agriculture.api.IUserData;
 import com.sxau.agriculture.bean.User;
 import com.sxau.agriculture.presenter.activity_presenter_interface.IPersonalCompilePresenter;
-import com.sxau.agriculture.qiniu.FileUtilsQiNiu;
 import com.sxau.agriculture.qiniu.QiniuLabConfig;
 import com.sxau.agriculture.utils.ACache;
-import com.sxau.agriculture.utils.AuthTokenUtil;
+import com.sxau.agriculture.utils.UserInfoUtil;
 import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.LogUtil;
 import com.sxau.agriculture.utils.RetrofitUtil;
 import com.sxau.agriculture.view.activity_interface.IPersonalCompileActivity;
-import com.sxau.agriculture.view.fragment.PersonalQuestionFragment;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -83,7 +75,7 @@ public class PersonalCompilePresenter implements IPersonalCompilePresenter {
         this.mCache = ACache.get(context);
         this.handler = handler;
         this.context = context;
-        authToken = AuthTokenUtil.findAuthToken();
+        authToken = UserInfoUtil.findAuthToken();
         getUploadToken();
     }
 
@@ -232,10 +224,7 @@ public class PersonalCompilePresenter implements IPersonalCompilePresenter {
      */
     @Override
     public void requestUserData() {
-        //获取缓存中的authToken，添加到请求header中
-        user = new User();
-        user = (User) mCache.getAsObject(ConstantUtil.CACHE_KEY);
-        authToken = user.getAuthToken();
+        authToken = UserInfoUtil.findAuthToken();
         LogUtil.d("PersonalCompileP", authToken);
         Call<User> call = RetrofitUtil.getRetrofit().create(IUserData.class).getUserData(authToken);
         call.enqueue(new Callback<User>() {
@@ -245,6 +234,7 @@ public class PersonalCompilePresenter implements IPersonalCompilePresenter {
                     User user = response.body();
                     //因为请求下来的数据是不包含token的，所以需要手动添加进去，保存后不丢失
                     user.setAuthToken(authToken);
+//                    user.setAvatar("http://storage.workerhub.cn//Fvba7UuB5eIiMAQ-yQMjlGeaRrk8?imageView2/0/w/0/format/jpg");
                     LogUtil.d("PersonalCompileP", "username:" + user.getName() + "  phone:" + user.getPhone() + "  address:" + user.getAddress() + "  token:" + user.getAuthToken());
                     //存储到缓存中，一定包含用户名和用户的电话
                     mCache.put(ConstantUtil.CACHE_KEY, user);
