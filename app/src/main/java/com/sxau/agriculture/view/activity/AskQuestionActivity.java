@@ -117,16 +117,17 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
     private String uploadAudioFilePath;
     private String audioUrl;
 
-    private Button btn_voice;
-    private Button btn_voice_delete;
+    private TextView tv_voice;
+    private TextView tv_del_voice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ask_question);
 
-        btn_voice = (Button) findViewById(R.id.btn_voice);
-        btn_voice_delete = (Button) findViewById(R.id.btn_voice_delete);
+        tv_voice = (TextView) findViewById(R.id.tv_voice);
+        tv_del_voice = (TextView) findViewById(R.id.tv_del_voice);
+
 
         ib_voice = (ImageView) findViewById(R.id.ib_voice);
         ib_photo = (ImageView) findViewById(R.id.ib_photo);
@@ -164,7 +165,7 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
 
         ib_voice.setOnClickListener(this);
         btn_submit.setOnClickListener(this);
-        btn_voice_delete.setOnClickListener(this);
+        tv_del_voice.setOnClickListener(this);
 
         pdLoginwait = new ProgressDialog(AskQuestionActivity.this);
         pdLoginwait.setMessage("提交中...");
@@ -228,7 +229,7 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
                             Thread.sleep(1500);
                             //提交网络请求发送问题
                             //提交音频问题
-                            if (btn_voice_delete.getVisibility() == View.VISIBLE){
+                            if (tv_del_voice.getVisibility() == View.VISIBLE){
                                 if (path.size() > 0) {
                                     doupdataPhoto();
                                 } else {
@@ -248,7 +249,7 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
                     }
                 }).start();
                 break;
-            case R.id.btn_voice_delete:
+            case R.id.tv_del_voice:
                 deleteVoice(new File(mFileName));
                 break;
             default:
@@ -288,7 +289,7 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
         View view = getLayoutInflater().inflate(R.layout.popwindow_voice, null);
         TextView btn_cancel = (TextView) view.findViewById(R.id.btn_cancel);
         TextView btn_finish = (TextView) view.findViewById(R.id.btn_finish);
-        ImageView iv_touchvoice = (ImageView) view.findViewById(R.id.iv_touchvoice);
+        final ImageView iv_touchvoice = (ImageView) view.findViewById(R.id.iv_touchvoice);
         final TextView tv_voicemsg = (TextView) view.findViewById(R.id.tv_voicemsg);
         final PopupWindow popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
@@ -311,6 +312,7 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         Log.e("AskQA", "按下");
+                        iv_touchvoice.setImageResource(R.mipmap.ic_voice_finish);
                         if (hasDone){
                             //已经录制完成
                             Toast.makeText(context,"已经录制完成，请点击完成",Toast.LENGTH_SHORT).show();
@@ -357,14 +359,14 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
         if (mFileName != null){
             et_title.setVisibility(View.GONE);
             et_trade_content.setVisibility(View.GONE);
-            btn_voice.setVisibility(View.VISIBLE);
-            btn_voice_delete.setVisibility(View.VISIBLE);
+            tv_voice.setVisibility(View.VISIBLE);
+            tv_del_voice.setVisibility(View.VISIBLE);
         }
     }
     //取消录音后续操作
     public void voiceCancel(){
         //判断下状态，若已经有声音文件则不做操作，若没有声音文件，则删除本次的文件
-        if (btn_voice_delete.getVisibility() == View.GONE){
+        if (tv_del_voice.getVisibility() == View.GONE){
             deleteFile(new File(mFileName));
         }
     }
@@ -409,8 +411,8 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
         deleteFile(file);
         et_title.setVisibility(View.VISIBLE);
         et_trade_content.setVisibility(View.VISIBLE);
-        btn_voice.setVisibility(View.GONE);
-        btn_voice_delete.setVisibility(View.GONE);
+        tv_voice.setVisibility(View.GONE);
+        tv_del_voice.setVisibility(View.GONE);
     }
 
     //删除文件
