@@ -2,6 +2,7 @@ package com.sxau.agriculture.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +30,7 @@ public class MessageAdapter extends BaseAdapter {
     ViewHolder holder;
 
     public MessageAdapter(Context context, ArrayList<MessageInfo> dates) {
+        Log.e("messageInfo6",dates.size()+"");
         this.context = context;
         this.dates = dates;
     }
@@ -65,6 +67,7 @@ public class MessageAdapter extends BaseAdapter {
         }
 
         MessageInfo messageInfo = dates.get(position);
+        Log.e("messageInfo6",messageInfo.toString());
         if (messageInfo.getMessageType()=="QUESTION"){
             Picasso.with(context).load(R.drawable.ic_message_question_128px).resize(110,110).centerCrop()
                     .placeholder(R.mipmap.ic_loading).error(R.mipmap.ic_load_fail).into(holder.iv_messagetype);

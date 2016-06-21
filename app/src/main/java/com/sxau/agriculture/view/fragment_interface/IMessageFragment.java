@@ -1,10 +1,12 @@
 package com.sxau.agriculture.view.fragment_interface;
 
+import com.sxau.agriculture.bean.MessageInfo;
+
+import java.util.ArrayList;
+
 /**
- * Created by Yawen_Li on 2016/4/20.
+ * @author 高海龙
  */
 public interface IMessageFragment {
-    void updateView();
-    void showRequestTimeout();
-    void showNoNetWorking();
+    void updateView(ArrayList<MessageInfo> messageInfos);
 }

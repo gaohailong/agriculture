@@ -54,15 +54,17 @@ public class MessageFragment extends BaseFragment implements IMessageFragment {
     private MessageAdapter messageAdapter;
 
     private int currentPage = 1;
-    private MyHandler handler = new MyHandler(MessageFragment.this);
+    private MyHandler handler;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        context=getActivity();
+        context = getActivity();
         //将MessageFragment与MessagePresenter绑定
-        iMessagePresenter = new MessagePresenter(MessageFragment.this,handler,context);
-
+        handler = new MyHandler(MessageFragment.this);
+        messageInfos = new ArrayList<MessageInfo>();
+        iMessagePresenter = new MessagePresenter(MessageFragment.this, handler, context);
+        context = MessageFragment.this.getActivity();
         View view = inflater.inflate(R.layout.fragment_message, container, false);
         lv_message = (ListView) view.findViewById(R.id.lv_message);
 
@@ -72,7 +74,6 @@ public class MessageFragment extends BaseFragment implements IMessageFragment {
         footerLayout = getLayoutInflater(savedInstanceState).inflate(R.layout.listview_footer, null);
         tv_more = (TextView) footerLayout.findViewById(R.id.tv_more);
 
-        messageInfos = new ArrayList<MessageInfo>();
         return view;
     }
 
@@ -81,53 +82,30 @@ public class MessageFragment extends BaseFragment implements IMessageFragment {
         super.onViewCreated(view, savedInstanceState);
         initListView();
         initRefresh();
+        handler.sendEmptyMessage(ConstantUtil.INIT_DATA);
     }
 
     //初始化listView
     public void initListView() {
-        messageInfos=iMessagePresenter.getDatas();
-        Log.d("message", "1.第一次初始化list 从p层拿数据"+messageInfos.size());
-        if (messageInfos!=null) {
-            messageAdapter = new MessageAdapter(MessageFragment.this.getActivity(), messageInfos);
-            lv_message.setAdapter(messageAdapter);
-            lv_message.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    if (NetUtil.isNetAvailable(context)) {
-                        Toast.makeText(context, "该跳了", Toast.LENGTH_SHORT).show();
-                        // TODO: 2016/6/21 item的跳转
-                    } else {
-                        Toast.makeText(context, "当前没有网络连接，请检查网络设置", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
-        }
-        if (NetUtil.isNetAvailable(context)){
-            Log.d("message", "2.有网,进行网络请求");
-            iMessagePresenter.doRequest();
-        }else {
-            Toast.makeText(context,"当前没有网络连接，请检查网络设置",Toast.LENGTH_SHORT).show();
-        }
+        messageAdapter = new MessageAdapter(context, messageInfos);
+        lv_message.setAdapter(messageAdapter);
     }
 
     //初始化下拉刷新
     public void initRefresh() {
         lv_message.addFooterView(footerLayout);
         srl_refresh.setChildView(lv_message);
-
-        //下拉刷新
-        srl_refresh.setOnLoadListener(new RefreshLayout.OnLoadListener() {
+        srl_refresh.setOnRefreshListener(new RefreshLayout.OnRefreshListener() {
             @Override
-            public void onLoad() {
-                iMessagePresenter.pullRefersh();
+            public void onRefresh() {
+                handler.sendEmptyMessage(ConstantUtil.PULL_REFRESH);
             }
         });
 
-        //上拉加载
         tv_more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context,"上拉加载一会写",Toast.LENGTH_SHORT).show();
+                handler.sendEmptyMessage(ConstantUtil.UP_LOAD);
             }
         });
     }
@@ -146,18 +124,14 @@ public class MessageFragment extends BaseFragment implements IMessageFragment {
             MessageFragment fragment = weakReference.get();
             if (fragment != null) {
                 switch (msg.what) {
-//                    case ConstantUtil.INIT_DATA:
-//                        //网络获取第一次
-//                        getListData("name", String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER, true);
-//                        initListView();
-//                        break;
+                    case ConstantUtil.INIT_DATA:
+                        iMessagePresenter.doRequest();
+//                        iMessagePresenter.doRequest("name", String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER, true);
+                        break;
                     case ConstantUtil.GET_NET_DATA:
-                        messageInfos.clear();
-                        messageInfos=iMessagePresenter.getDatas();
-                        Log.d("message", "从缓存中读取数据"+messageInfos.size());
-                        updateView();
-//                        //获取网络数据,只是为了改变list数据，并不做任何操作
-//                        messageAdapter.notifyDataSetChanged();
+                        ArrayList<MessageInfo> messageInfoData = iMessagePresenter.getDatas();
+                        Log.d("message", "从缓存中读取数据" + messageInfoData.size());
+                        updateView(messageInfoData);
                         break;
                     case ConstantUtil.PULL_REFRESH:
                         iMessagePresenter.doRequest();
@@ -187,6 +161,38 @@ public class MessageFragment extends BaseFragment implements IMessageFragment {
             }
         }
     }
+
+    //-------------------接口方法----------------
+    @Override
+    public void updateView(ArrayList<MessageInfo> messageInfosData) {
+        messageInfos.clear();
+        messageInfos.addAll(messageInfosData);
+        messageAdapter.notifyDataSetChanged();
+    }
+
+    //-------------------接口方法结束--------------
+
+}
+
+ /*   Call<MessageList> call = RetrofitUtil.getRetrofit().create(IGetMessageList.class).getResult();
+        call.enqueue(new Callback<MessageList>() {
+            @Override
+            public void onResponse(Response<MessageList> response, Retrofit retrofit) {
+                if (response.isSuccess()) {
+                    MessageList messageList = response.body();
+                    if (messageList != null) {
+                        messageInfos = messageList.getMessageInfo();
+                        handler.sendEmptyMessage(ConstantUtil.GET_NET_DATA);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+
+            }
+        });*/
+
 
 
 //    //获取List网络数据
@@ -243,44 +249,3 @@ public class MessageFragment extends BaseFragment implements IMessageFragment {
 //        });
 //    }
 
-
-    //-------------------接口方法----------------
-    @Override
-    public void updateView() {
-        messageAdapter.notifyDataSetChanged();
-        Log.d("message", "通知adapter进行数据改变");
-        srl_refresh.setRefreshing(false);
-        Log.d("message", "停掉refresh");
-    }
-
-    @Override
-    public void showRequestTimeout() {
-        Toast.makeText(context,"请求超时，请检查网络",Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void showNoNetWorking() {
-        Toast.makeText(context,"当前没有网络连接，请检查网络设置",Toast.LENGTH_SHORT).show();
-    }
-    //-------------------接口方法结束--------------
-
-}
-
- /*   Call<MessageList> call = RetrofitUtil.getRetrofit().create(IGetMessageList.class).getResult();
-        call.enqueue(new Callback<MessageList>() {
-            @Override
-            public void onResponse(Response<MessageList> response, Retrofit retrofit) {
-                if (response.isSuccess()) {
-                    MessageList messageList = response.body();
-                    if (messageList != null) {
-                        messageInfos = messageList.getMessageInfo();
-                        handler.sendEmptyMessage(ConstantUtil.GET_NET_DATA);
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Throwable t) {
-
-            }
-        });*/
