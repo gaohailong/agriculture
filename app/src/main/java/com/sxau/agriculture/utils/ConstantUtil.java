@@ -39,6 +39,10 @@ public class ConstantUtil {
     public static final String CACHE_QUESTION_KEY = "Cache_QuestionList";
     //上传图片文字前缀
     public static final String DOMAIN = "http://storage.workerhub.cn/";
+
+
+    //消息界面的缓存文件名
+    public static final String CACHE_MESSAGE_KEY = "Cache_Message";
     //上传音频文件前缀
     public static final String UPLOAD_AUDIO_PREFIX = "http://audio.workerhub.cn/";
     //上传音频本地存储路径

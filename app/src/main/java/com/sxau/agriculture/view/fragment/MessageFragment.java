@@ -5,9 +5,11 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,6 +23,7 @@ import com.sxau.agriculture.presenter.fragment_presenter.MessagePresenter;
 import com.sxau.agriculture.presenter.fragment_presenter_interface.IMessagePresenter;
 import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.LogUtil;
+import com.sxau.agriculture.utils.NetUtil;
 import com.sxau.agriculture.utils.RetrofitUtil;
 import com.sxau.agriculture.view.fragment_interface.IMessageFragment;
 import com.sxau.agriculture.widgets.RefreshLayout;
@@ -41,24 +44,27 @@ import retrofit.Retrofit;
  */
 public class MessageFragment extends BaseFragment implements IMessageFragment {
     private ListView lv_message;
-    private List<MessageInfo> messageInfos;
+    private ArrayList<MessageInfo> messageInfos;
     private RefreshLayout srl_refresh;
     private View footerLayout;
     private TextView tv_more;
 
-    private Context context = getActivity();
+    private Context context;
     private IMessagePresenter iMessagePresenter;
     private MessageAdapter messageAdapter;
 
     private int currentPage = 1;
-    private MyHandler handler = new MyHandler(MessageFragment.this);
+    private MyHandler handler;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        context = getActivity();
         //将MessageFragment与MessagePresenter绑定
-        iMessagePresenter = new MessagePresenter(MessageFragment.this,handler);
-
+        handler = new MyHandler(MessageFragment.this);
+        messageInfos = new ArrayList<MessageInfo>();
+        iMessagePresenter = new MessagePresenter(MessageFragment.this, handler, context);
+        context = MessageFragment.this.getActivity();
         View view = inflater.inflate(R.layout.fragment_message, container, false);
         lv_message = (ListView) view.findViewById(R.id.lv_message);
 
@@ -68,7 +74,6 @@ public class MessageFragment extends BaseFragment implements IMessageFragment {
         footerLayout = getLayoutInflater(savedInstanceState).inflate(R.layout.listview_footer, null);
         tv_more = (TextView) footerLayout.findViewById(R.id.tv_more);
 
-        messageInfos = new ArrayList<MessageInfo>();
         return view;
     }
 
@@ -82,29 +87,25 @@ public class MessageFragment extends BaseFragment implements IMessageFragment {
 
     //初始化listView
     public void initListView() {
-        messageAdapter = new MessageAdapter(MessageFragment.this.getActivity(), messageInfos);
+        messageAdapter = new MessageAdapter(context, messageInfos);
         lv_message.setAdapter(messageAdapter);
-//        getData();
     }
 
     //初始化下拉刷新
     public void initRefresh() {
         lv_message.addFooterView(footerLayout);
         srl_refresh.setChildView(lv_message);
-
-        //下拉刷新
-        srl_refresh.setOnLoadListener(new RefreshLayout.OnLoadListener() {
+        srl_refresh.setOnRefreshListener(new RefreshLayout.OnRefreshListener() {
             @Override
-            public void onLoad() {
-                iMessagePresenter.pullRefersh();
+            public void onRefresh() {
+                handler.sendEmptyMessage(ConstantUtil.PULL_REFRESH);
             }
         });
 
-        //上拉加载
         tv_more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                iMessagePresenter.pushRefersh();
+                handler.sendEmptyMessage(ConstantUtil.UP_LOAD);
             }
         });
     }
@@ -124,34 +125,36 @@ public class MessageFragment extends BaseFragment implements IMessageFragment {
             if (fragment != null) {
                 switch (msg.what) {
                     case ConstantUtil.INIT_DATA:
-                        //网络获取第一次
-                        getListData("name", String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER, true);
-                        initListView();
+                        iMessagePresenter.doRequest();
+//                        iMessagePresenter.doRequest("name", String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER, true);
                         break;
                     case ConstantUtil.GET_NET_DATA:
-                        //获取网络数据,只是为了改变list数据，并不做任何操作
-                        messageAdapter.notifyDataSetChanged();
+                        ArrayList<MessageInfo> messageInfoData = iMessagePresenter.getDatas();
+                        Log.d("message", "从缓存中读取数据" + messageInfoData.size());
+                        updateView(messageInfoData);
                         break;
                     case ConstantUtil.PULL_REFRESH:
-                        //下拉刷新
-                        currentPage = 1;
-                        getListData("name", String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER, true);
-                        srl_refresh.setRefreshing(false);
-                        messageAdapter.notifyDataSetChanged();
-                        tv_more.setVisibility(View.VISIBLE);
-                        break;
-                    case ConstantUtil.UP_LOAD:
-                        //上拉加载
-                        currentPage++;
-                        fragment.tv_more.setText("正在加载中...");
-                        getListData("name", String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER, false);
-                        srl_refresh.setLoading(false);
-                        messageAdapter.notifyDataSetChanged();
-                        tv_more.setVisibility(View.VISIBLE);
+                        iMessagePresenter.doRequest();
+//                        //下拉刷新
+//                        currentPage = 1;
+//                        getListData("name", String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER, true);
+//                        srl_refresh.setRefreshing(false);
 //                        messageAdapter.notifyDataSetChanged();
-                        initListView();
-                        LogUtil.e("11111", "3");
+//                        tv_more.setVisibility(View.VISIBLE);
                         break;
+//                    case ConstantUtil.UP_LOAD:
+//                        iMessagePresenter.doRequest();
+//                        //上拉加载
+//                        currentPage++;
+//                        fragment.tv_more.setText("正在加载中...");
+//                        getListData("name", String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER, false);
+//                        srl_refresh.setLoading(false);
+//                        messageAdapter.notifyDataSetChanged();
+//                        tv_more.setVisibility(View.VISIBLE);
+////                        messageAdapter.notifyDataSetChanged();
+//                        initListView();
+//                        LogUtil.e("11111", "3");
+//                        break;
                     default:
                         break;
                 }
@@ -159,67 +162,14 @@ public class MessageFragment extends BaseFragment implements IMessageFragment {
         }
     }
 
-
-    //获取List网络数据
-    public void getListData(String name, String currPage, String getSize, final boolean isRefresh) {
-        Call<MessageList> call1 = RetrofitUtil.getRetrofit().create(IGetMessageList.class).getMessage(name, currPage, getSize);
-        call1.enqueue(new Callback<MessageList>() {
-            @Override
-            public void onResponse(Response<MessageList> response, Retrofit retrofit) {
-                if (response.isSuccess()) {
-                    MessageList messageList = response.body();
-                   /* if (isRefresh) {
-                        //下拉刷新
-                        messageInfos.clear();
-                        if (messageList != null) {
-                            messageInfos = messageList.getMessageInfo();
-                            if (messageInfos.size()>0) {
-                                handler.sendEmptyMessage(ConstantUtil.GET_NET_DATA);
-                            }else {
-                                Toast.makeText(context, "没有更多数据了", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    } else {
-                        //上拉加载
-                        if (messageList != null) {
-                            messageInfos = messageList.getMessageInfo();
-                            if (messageInfos.size() > 0) {
-                                messageInfos.addAll(messageInfos);
-                                handler.sendEmptyMessage(ConstantUtil.GET_NET_DATA);
-                            } else {
-                                tv_more.setText("没有更多数据了");
-                            }
-                        }
-                    if (messageList != null) {
-                        messageInfos = messageList.getMessageInfo();
-                        handler.sendEmptyMessage(ConstantUtil.GET_NET_DATA);
-                        LogUtil.e("11111", "2");
-                    }
-                } else {
-                    Toast.makeText(context, "获取数据失败", Toast.LENGTH_SHORT).show();
-                    tv_more.setText("数据加载失败");
-                }*/
-                }
-            }
-
-            @Override
-            public void onFailure(Throwable t) {
-                if (currentPage > 0) {
-                    currentPage--;
-                    Toast.makeText(context, "获取数据失败", Toast.LENGTH_SHORT).show();
-                    tv_more.setText("数据加载失败");
-                }
-            }
-
-        });
-    }
-
-
     //-------------------接口方法----------------
     @Override
-    public void updateView() {
-
+    public void updateView(ArrayList<MessageInfo> messageInfosData) {
+        messageInfos.clear();
+        messageInfos.addAll(messageInfosData);
+        messageAdapter.notifyDataSetChanged();
     }
+
     //-------------------接口方法结束--------------
 
 }
@@ -242,3 +192,60 @@ public class MessageFragment extends BaseFragment implements IMessageFragment {
 
             }
         });*/
+
+
+
+//    //获取List网络数据
+//    public void getListData(String name, String currPage, String getSize, final boolean isRefresh) {
+//        Call<MessageList> call1 = RetrofitUtil.getRetrofit().create(IGetMessageList.class).getMessage(name, currPage, getSize);
+//        call1.enqueue(new Callback<MessageList>() {
+//            @Override
+//            public void onResponse(Response<MessageList> response, Retrofit retrofit) {
+//                if (response.isSuccess()) {
+//                    MessageList messageList = response.body();
+//                   /* if (isRefresh) {
+//                        //下拉刷新
+//                        messageInfos.clear();
+//                        if (messageList != null) {
+//                            messageInfos = messageList.getMessageInfo();
+//                            if (messageInfos.size()>0) {
+//                                handler.sendEmptyMessage(ConstantUtil.GET_NET_DATA);
+//                            }else {
+//                                Toast.makeText(context, "没有更多数据了", Toast.LENGTH_SHORT).show();
+//                            }
+//                        }
+//                    } else {
+//                        //上拉加载
+//                        if (messageList != null) {
+//                            messageInfos = messageList.getMessageInfo();
+//                            if (messageInfos.size() > 0) {
+//                                messageInfos.addAll(messageInfos);
+//                                handler.sendEmptyMessage(ConstantUtil.GET_NET_DATA);
+//                            } else {
+//                                tv_more.setText("没有更多数据了");
+//                            }
+//                        }
+//                    if (messageList != null) {
+//                        messageInfos = messageList.getMessageInfo();
+//                        handler.sendEmptyMessage(ConstantUtil.GET_NET_DATA);
+//                        LogUtil.e("11111", "2");
+//                    }
+//                } else {
+//                    Toast.makeText(context, "获取数据失败", Toast.LENGTH_SHORT).show();
+//                    tv_more.setText("数据加载失败");
+//                }*/
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Throwable t) {
+//                if (currentPage > 0) {
+//                    currentPage--;
+//                    Toast.makeText(context, "获取数据失败", Toast.LENGTH_SHORT).show();
+//                    tv_more.setText("数据加载失败");
+//                }
+//            }
+//
+//        });
+//    }
+
