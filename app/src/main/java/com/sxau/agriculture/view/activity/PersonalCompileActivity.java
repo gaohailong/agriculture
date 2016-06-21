@@ -39,6 +39,7 @@ import com.qiniu.android.utils.AsyncRun;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
+import com.squareup.picasso.Picasso;
 import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.bean.User;
 import com.sxau.agriculture.qiniu.FileUtilsQiNiu;
@@ -47,6 +48,7 @@ import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.ImageUtils;
 import com.sxau.agriculture.utils.LogUtil;
 import com.sxau.agriculture.utils.NetUtil;
+import com.sxau.agriculture.utils.UserInfoUtil;
 import com.sxau.agriculture.widgets.CityPicker;
 import com.sxau.agriculture.widgets.RoundImageView;
 
@@ -112,6 +114,7 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
         //将Activity与Presenter进行绑定
         iPersonalCompilePresenter = new PersonalCompilePresenter(PersonalCompileActivity.this, PersonalCompileActivity.this, handler);
 
+        Log.e("PersonalCA","userAvatar:"+ UserInfoUtil.getUserAvatar());
         initView();
     }
 
@@ -449,6 +452,13 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
         tv_UserNick.setText(user.getName());
         tv_PhoneNumber.setText(user.getPhone());
         //不一定有值
+        if (!ismEmpty(user.getAvatar())){
+            Picasso.with(this)
+                    .load(user.getAvatar())
+                    .placeholder(R.mipmap.img_default_user_portrait_150px)
+                    .error(R.mipmap.img_default_user_portrait_150px)
+                    .into(rw_Head);
+        }
         if (!ismEmpty(user.getRealName())){
             tv_UserRealName.setText(user.getRealName());
         }

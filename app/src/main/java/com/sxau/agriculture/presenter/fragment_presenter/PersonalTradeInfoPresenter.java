@@ -3,18 +3,12 @@ package com.sxau.agriculture.presenter.fragment_presenter;
 import android.content.Context;
 import android.os.Handler;
 
-import com.google.gson.Gson;
-import com.lidroid.xutils.DbUtils;
-
-import com.lidroid.xutils.exception.DbException;
 import com.sxau.agriculture.AgricultureApplication;
 import com.sxau.agriculture.api.IPersonalTrades;
-import com.sxau.agriculture.bean.MyPersonalQuestion;
 import com.sxau.agriculture.bean.MyPersonalTrade;
-import com.sxau.agriculture.bean.User;
 import com.sxau.agriculture.presenter.fragment_presenter_interface.IPersonalTradeInfoPresenter;
 import com.sxau.agriculture.utils.ACache;
-import com.sxau.agriculture.utils.AuthTokenUtil;
+import com.sxau.agriculture.utils.UserInfoUtil;
 import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.LogUtil;
 import com.sxau.agriculture.utils.NetUtil;
@@ -83,7 +77,7 @@ public class PersonalTradeInfoPresenter implements IPersonalTradeInfoPresenter {
 
     @Override
     public void doRequest() {
-        authToken = AuthTokenUtil.findAuthToken();
+        authToken = UserInfoUtil.findAuthToken();
         LogUtil.d("PersonalTrade","准备执行retrofit方法"+authToken);
         Call<ArrayList<MyPersonalTrade>> call=RetrofitUtil.getRetrofit().create(IPersonalTrades.class).getMessage(authToken);
         call.enqueue(new Callback<ArrayList<MyPersonalTrade>>() {

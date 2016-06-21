@@ -21,14 +21,13 @@ import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.bean.DetailQuestionData;
 import com.sxau.agriculture.presenter.acitivity_presenter.DetailQuestionPresenter;
 import com.sxau.agriculture.presenter.activity_presenter_interface.IDetailQuestionPresenter;
-import com.sxau.agriculture.utils.AuthTokenUtil;
+import com.sxau.agriculture.utils.UserInfoUtil;
 import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.LogUtil;
 import com.sxau.agriculture.utils.NetUtil;
 import com.sxau.agriculture.utils.StringUtil;
 import com.sxau.agriculture.utils.TimeUtil;
 import com.sxau.agriculture.utils.TitleBarTwo;
-import com.sxau.agriculture.utils.TopBarUtil;
 import com.sxau.agriculture.view.activity_interface.IDetailQuestionActivity;
 
 import java.lang.ref.WeakReference;
@@ -241,7 +240,7 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
 //            tv_professor_ok.setText("点赞人数" + detailQuestionData.getLikeCount());
         } else {
             ll_expert_answer.setVisibility(View.GONE);
-            if (AuthTokenUtil.isUserTypeEXPERT()){
+            if (UserInfoUtil.isUserTypeEXPERT()){
                 bt_answer.setVisibility(View.VISIBLE);
             }else {
                 bt_answer.setVisibility(View.GONE);

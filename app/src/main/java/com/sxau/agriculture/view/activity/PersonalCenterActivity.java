@@ -7,8 +7,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
@@ -23,7 +21,7 @@ import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.api.IAuthentication;
 import com.sxau.agriculture.utils.ACache;
-import com.sxau.agriculture.utils.AuthTokenUtil;
+import com.sxau.agriculture.utils.UserInfoUtil;
 import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.LogUtil;
 import com.sxau.agriculture.utils.NetUtil;
@@ -37,8 +35,6 @@ import com.sxau.agriculture.view.fragment.PersonalCollectQuestionFragment;
 import com.sxau.agriculture.view.fragment.PersonalCollectTradeFragment;
 import com.sxau.agriculture.view.fragment.PersonalQuestionFragment;
 import com.sxau.agriculture.view.fragment.PersonalTradeInfoFragment;
-
-import java.lang.ref.WeakReference;
 
 import retrofit.Call;
 import retrofit.Callback;
@@ -83,7 +79,7 @@ public class PersonalCenterActivity extends BaseActivity implements View.OnClick
         SmartTabLayout viewPagerTab = (SmartTabLayout) findViewById(R.id.viewpagertab);
         viewPagerTab.setViewPager(vTitlePaper);
         mCache = ACache.get(this);
-        authToken = AuthTokenUtil.findAuthToken();
+        authToken = UserInfoUtil.findAuthToken();
         Log.e("authToken获取",authToken);
         context = PersonalCenterActivity.this;
     }

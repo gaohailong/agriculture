@@ -5,15 +5,13 @@ import android.os.Handler;
 import android.util.Log;
 
 
-import com.google.gson.Gson;
 import com.sxau.agriculture.AgricultureApplication;
 import com.sxau.agriculture.api.IPersonalCollectQuestion;
 
 import com.sxau.agriculture.bean.MyPersonalCollectionQuestion;
-import com.sxau.agriculture.bean.User;
 import com.sxau.agriculture.presenter.fragment_presenter_interface.IPersonalCollectQuestionPresenter;
 import com.sxau.agriculture.utils.ACache;
-import com.sxau.agriculture.utils.AuthTokenUtil;
+import com.sxau.agriculture.utils.UserInfoUtil;
 import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.LogUtil;
 import com.sxau.agriculture.utils.NetUtil;
@@ -64,7 +62,7 @@ public class PersonalCollectionQuestionsPresenter implements IPersonalCollectQue
      */
     @Override
     public ArrayList<MyPersonalCollectionQuestion> getDatas() {
-        authToken = AuthTokenUtil.findAuthToken();
+        authToken = UserInfoUtil.findAuthToken();
         LogUtil.d("PersonalQuestionP:authToken:",authToken+"");
         myCQuestionsList = new ArrayList<MyPersonalCollectionQuestion>();
         myPersonalQuestion = new MyPersonalCollectionQuestion();
@@ -89,7 +87,7 @@ public class PersonalCollectionQuestionsPresenter implements IPersonalCollectQue
     @Override
     public void doRequest() {
 
-        authToken = AuthTokenUtil.findAuthToken();
+        authToken = UserInfoUtil.findAuthToken();
         Log.d("collectionQuestion",authToken);
         Call<ArrayList<MyPersonalCollectionQuestion>> call = RetrofitUtil.getRetrofit().create(IPersonalCollectQuestion.class).getMessage(authToken);
         call.enqueue(new Callback<ArrayList<MyPersonalCollectionQuestion>>() {

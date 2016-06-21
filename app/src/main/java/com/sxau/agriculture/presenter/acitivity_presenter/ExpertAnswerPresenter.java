@@ -3,15 +3,11 @@ package com.sxau.agriculture.presenter.acitivity_presenter;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.sxau.agriculture.AgricultureApplication;
 import com.sxau.agriculture.api.IExpertAnswer;
-import com.sxau.agriculture.bean.User;
 import com.sxau.agriculture.presenter.activity_presenter_interface.IExpertAnswerPresenter;
-import com.sxau.agriculture.utils.ACache;
-import com.sxau.agriculture.utils.AuthTokenUtil;
-import com.sxau.agriculture.utils.ConstantUtil;
+import com.sxau.agriculture.utils.UserInfoUtil;
 import com.sxau.agriculture.utils.RetrofitUtil;
 import com.sxau.agriculture.view.activity_interface.IExpertAnswerActivity;
 
@@ -40,7 +36,7 @@ public class ExpertAnswerPresenter implements IExpertAnswerPresenter {
     //-----------------接口方法---------------------
     @Override
     public void submitAnswer() {
-        authToken = AuthTokenUtil.findAuthToken();
+        authToken = UserInfoUtil.findAuthToken();
         Map map = new HashMap();
         map.put("questionId", iExpertAnswerActivity.getId());
         map.put("content", iExpertAnswerActivity.getAnswerContent());
