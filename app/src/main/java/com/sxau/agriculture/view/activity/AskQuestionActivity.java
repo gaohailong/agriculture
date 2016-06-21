@@ -78,7 +78,8 @@ import retrofit.Retrofit;
 
 /**
  * 提问页面
- *
+ * 提交声音问题部分（上传至自己的服务器，没有接口还没写）
+ * 获取提交声音的token接口不对
  * @author 崔志泽
  */
 public class AskQuestionActivity extends BaseActivity implements View.OnClickListener {
@@ -118,8 +119,10 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
 
     //语音部分
     private String mFileName = null;    //语音文件保存路径
-    private static final String PATH = "/sdcard/MyVoiceForder/Record/";     //录音存储路径
     private MediaRecorder mRecorder = null;     //用于完成录音
+    private String uploadTokenForAudio;
+    private String uploadAudioFilePath;
+    private String audioUrl;
 
     private Button btn_voice;
     private Button btn_voice_delete;
@@ -179,6 +182,7 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
 
         startNet();
         getUploadToken();
+        getUploadTokenForAudio();
     }
 
     private void initTitlebar() {
@@ -230,10 +234,20 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
                         try {
                             Thread.sleep(1500);
                             //提交网络请求发送问题
-                            if (path.size() > 0) {
-                                doupdata();
-                            } else {
-                                upload();
+                            //提交音频问题
+                            if (btn_voice_delete.getVisibility() == View.VISIBLE){
+                                if (path.size() > 0) {
+                                    doupdataPhoto();
+                                } else {
+                                    doupdataAudio();
+                                }
+                            }else {
+                                //提交文字问题
+                                if (path.size() > 0) {
+                                    doupdataPhoto();
+                                } else {
+                                    uploadTextQuestion();
+                                }
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -276,6 +290,7 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
         ImageSelector.open(AskQuestionActivity.this, imageConfig);
     }
 
+    //获取音频的方法
     public void showVoiceDialog(){
         View view = getLayoutInflater().inflate(R.layout.popwindow_voice, null);
         TextView btn_cancel = (TextView) view.findViewById(R.id.btn_cancel);
@@ -364,7 +379,7 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
     //开始录音
     private void startVoice() {
         // 设置录音保存路径
-        mFileName = PATH + UUID.randomUUID().toString() + ".amr";
+        mFileName = ConstantUtil.AUDIO_LOCAL_PATH + UUID.randomUUID().toString() + ".amr";
         String state = android.os.Environment.getExternalStorageState();
         if (!state.equals(android.os.Environment.MEDIA_MOUNTED)) {
             Log.i("AskQA", "SD Card is not mounted,It is  " + state + ".");
@@ -453,7 +468,14 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
                     getCategorieinfo();
                     break;
                 case ConstantUtil.SUCCESS_UPLOAD_PICTURE:
-                    upload();
+                    if (et_title.getVisibility() == View.VISIBLE){
+                        uploadTextQuestion();
+                    }else {
+                        doupdataAudio();
+                    }
+                    break;
+                case ConstantUtil.SUCCESS_UPLOAD_AUDIO:
+                    uploadAudioQuestion();
                     break;
                 default:
                     break;
@@ -461,12 +483,12 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
         }
     }
 
-    //提交问题
-    public void upload() {
+    //提交文字问题
+    public void uploadTextQuestion() {
         //获得标题
         questionTitle = et_title.getText().toString();
         questionContent = et_trade_content.getText().toString();
-        if (imageUriList != null) {
+        if (imageUriList != null && !imageUriList.isEmpty()) {
             questionImage = StringUtil.changeListToString(imageUriList);
         }else {
             questionImage = "";
@@ -495,7 +517,42 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
             }
         });
 
-        finish();
+//        finish();
+    }
+    //提交声音问题
+    public void uploadAudioQuestion() {
+        audioUrl = ConstantUtil.UPLOAD_AUDIO_PREFIX + audioUrl;
+        if (imageUriList != null && !imageUriList.isEmpty()) {
+            questionImage = StringUtil.changeListToString(imageUriList);
+        }else {
+            questionImage = "";
+        }
+
+        //上传接口没给，还没编写这部分
+        Map map = new HashMap();
+        map.put("categoryId", questionType);
+        map.put("title", questionTitle);
+        map.put("content", questionContent);
+        map.put("image", questionImage);
+
+        Call<JsonObject> call = RetrofitUtil.getRetrofit().create(IAskQuestion.class).sendQuestion(authorToken, map);
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Response<JsonObject> response, Retrofit retrofit) {
+                showProgress(false);
+                Log.e("getCode", response.code() + "");
+                Toast.makeText(AskQuestionActivity.this, "提问成功", Toast.LENGTH_SHORT).show();
+
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                showProgress(false);
+                Toast.makeText(AskQuestionActivity.this, "提问失败", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+//        finish();
     }
 
     //网络请求分类数据
@@ -527,13 +584,19 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
     }
 
     //======================七牛云存储部分==============================
-    public void doupdata() {
+    public void doupdataPhoto() {
         for (int i = 0; i < path.size(); i++) {
             File photoFile = new File(path.get(i));
             Uri photoUri = Uri.fromFile(photoFile);
             uploadFilePath = FileUtilsQiNiu.getPath(this, photoUri);
             uploadPic(uploadToken, domain);
         }
+    }
+    public void doupdataAudio(){
+        File audioFile = new File(mFileName);
+        Uri audioUri = Uri.fromFile(audioFile);
+        uploadAudioFilePath = FileUtilsQiNiu.getPath(this,audioUri);
+        uploadAudio(uploadTokenForAudio,domain);
     }
     //获取上传图片权限token
     private void getUploadToken() {
@@ -546,6 +609,31 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
                     JsonObject joResponseBody = response.body();
                     JsonObject getData = joResponseBody.getAsJsonObject("success");
                     uploadToken = getData.get("message").getAsString();
+                    domain = ConstantUtil.DOMAIN;
+
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                Toast.makeText(context, "获取token失败", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    //获取上传音频权限token
+    private void getUploadTokenForAudio() {
+        Call<JsonObject> call = RetrofitUtil.getRetrofit().create(IUploadToken.class).getUploadToken(authorToken);
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Response<JsonObject> response, Retrofit retrofit) {
+                Log.e("UPLOADTOKENForAudio", response.code() + "");
+                if (response.isSuccess()) {
+                    JsonObject joResponseBody = response.body();
+                    Log.e("AskQA","JsonObject:"+joResponseBody.toString());
+                    JsonObject getData = joResponseBody.getAsJsonObject("success");
+                    uploadTokenForAudio = getData.get("message").getAsString();
+                    LogUtil.e("AskQA","uploadTokenForAudio:"+uploadTokenForAudio);
                     domain = ConstantUtil.DOMAIN;
 
                 }
@@ -574,14 +662,46 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
                                 String fileKey = jsonData.getString("key");
                                 DisplayMetrics dm = new DisplayMetrics();
                                 final int width = dm.widthPixels;
-                                final String imageUrl = domain  + fileKey + "?imageView2/0/w/" + width + "/format/jpg";
-                                final String imageurl = fileKey+".jpg";
+                                final String imageUrl = domain + fileKey + "?imageView2/0/w/" + width + "/format/jpg";
+                                final String imageurl = fileKey + ".jpg";
                                 imageUriList.add(imageurl);
                                 if (imageUriList.size() == path.size()) {
                                     myHandler.sendEmptyMessage(ConstantUtil.SUCCESS_UPLOAD_PICTURE);
                                 }
                                 Log.e("imageUrl11111111", imageUrl);
                                 Log.e("imageUrl22222222", imageurl);
+                            } catch (JSONException e) {
+                                Toast.makeText(context, "上传回复解析错误", Toast.LENGTH_LONG).show();
+                                Log.e(QiniuLabConfig.LOG_TAG, e.getMessage());
+                            }
+                        } else {
+                            Toast.makeText(
+                                    context,
+                                    "上传图片失败",
+                                    Toast.LENGTH_LONG).show();
+                            Log.e(QiniuLabConfig.LOG_TAG, respInfo.toString());
+                        }
+                    }
+                }, uploadOptions);
+    }
+
+    private void uploadAudio(final String uploadTokenForAudio, final String domain) {
+        if (this.uploadManager == null) {
+            this.uploadManager = new UploadManager();
+        }
+        UploadOptions uploadOptions = new UploadOptions(null, null, false,
+                null, null);
+        this.uploadManager.put(uploadAudioFilePath, null, uploadTokenForAudio,
+                new UpCompletionHandler() {
+                    @Override
+                    public void complete(String key, ResponseInfo respInfo, JSONObject jsonData) {
+                        if (respInfo.isOK()) {
+                            try {
+                                String fileKey = jsonData.getString("key");
+                                audioUrl = fileKey + ".mp3";
+                                myHandler.sendEmptyMessage(ConstantUtil.SUCCESS_UPLOAD_AUDIO);
+
+                                Log.e("AudioFileUrl22222222", audioUrl);
                             } catch (JSONException e) {
                                 Toast.makeText(context, "上传回复解析错误", Toast.LENGTH_LONG).show();
                                 Log.e(QiniuLabConfig.LOG_TAG, e.getMessage());

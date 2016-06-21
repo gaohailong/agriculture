@@ -39,6 +39,10 @@ public class ConstantUtil {
     public static final String CACHE_QUESTION_KEY = "Cache_QuestionList";
     //上传图片文字前缀
     public static final String DOMAIN = "http://storage.workerhub.cn/";
+    //上传音频文件前缀
+    public static final String UPLOAD_AUDIO_PREFIX = "http://audio.workerhub.cn/";
+    //上传音频本地存储路径
+    public static final String AUDIO_LOCAL_PATH = "/sdcard/nongke110_AudioCache/Record/";
     //============================整形常量的定义===================================
     //下拉刷新的时间
     public static final int PULL_TIME = 3000;
@@ -60,9 +64,11 @@ public class ConstantUtil {
     public static final int START_ACTIVITY = 0x00000009;
     //问答界面
     public static final int GET_CATEGEORYDATA = 0x00000010;
-    //成功加载图片
+    //成功上传图片
     public static final int SUCCESS_UPLOAD_PICTURE = 0x00000011;
+    //成功上传音频文件
+    public static final int SUCCESS_UPLOAD_AUDIO = 0x00000012;
     //改变收藏状态
-    public static final int CHANGE_COLLECTION_STATE = 0x00000012;
+    public static final int CHANGE_COLLECTION_STATE = 0x00000013;
 
 }
