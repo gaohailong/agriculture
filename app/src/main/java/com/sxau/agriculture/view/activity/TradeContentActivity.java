@@ -37,7 +37,7 @@ import retrofit.Response;
 import retrofit.Retrofit;
 
 /**
- * 具体问题、内容的详情activity
+ * 交易具体问题、内容的详情activity
  * Created by Yawen_Li on 2016/4/13.
  */
 public class TradeContentActivity extends BaseActivity implements View.OnClickListener {

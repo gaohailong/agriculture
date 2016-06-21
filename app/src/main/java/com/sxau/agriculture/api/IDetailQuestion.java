@@ -7,7 +7,7 @@ import retrofit.http.GET;
 import retrofit.http.Path;
 
 /**
- * 获取文章详情的api
+ * 获取问题详情的api
  * @author 高海龙
  */
 public interface IDetailQuestion {

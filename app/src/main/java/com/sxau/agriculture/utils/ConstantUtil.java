@@ -39,14 +39,20 @@ public class ConstantUtil {
     public static final String CACHE_QUESTION_KEY = "Cache_QuestionList";
     //上传图片文字前缀
     public static final String DOMAIN = "http://storage.workerhub.cn/";
-
-
     //消息界面的缓存文件名
     public static final String CACHE_MESSAGE_KEY = "Cache_Message";
     //上传音频文件前缀
     public static final String UPLOAD_AUDIO_PREFIX = "http://audio.workerhub.cn/";
     //上传音频本地存储路径
     public static final String AUDIO_LOCAL_PATH = "/sdcard/nongke110_AudioCache/Record/";
+    //以下为分类的常量定义（推送的类型，message页面的类型）
+    public static final String QUESTION = "QUESTION";
+    public static final String RELATION = "RELATION";
+    public static final String SYSTEM = "SYSTEM";
+    public static final String WECHAT = "WECHAT";
+    public static final String NOTICE = "NOTICE";
+    public static final String TRADE = "TRADE";
+    public static final String ARTICLE = "ARTICLE";
     //============================整形常量的定义===================================
     //下拉刷新的时间
     public static final int PULL_TIME = 3000;
