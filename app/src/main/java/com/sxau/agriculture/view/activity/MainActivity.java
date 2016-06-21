@@ -1,16 +1,16 @@
 package com.sxau.agriculture.view.activity;
 
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentTabHost;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
@@ -24,6 +24,7 @@ import com.sxau.agriculture.utils.ACache;
 import com.sxau.agriculture.utils.ActivityCollectorUtil;
 import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.JPushUtil;
+import com.sxau.agriculture.utils.TitleBarTwo;
 import com.sxau.agriculture.utils.TopBarUtil;
 import com.sxau.agriculture.view.fragment.HomeFragment;
 import com.sxau.agriculture.view.fragment.TradeFragment;
@@ -53,6 +54,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     private String phoneNumber;
     private static final String TAG = "JPush";
     private static final int MSG_SET_ALIAS = 1001;
+    private TitleBarTwo titleBarTwo;
 
     public static boolean isForeground = false;
 
@@ -80,6 +82,21 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         radioGroup.setOnCheckedChangeListener(this);
         fragmentTabHost.setCurrentTab(0);
     }
+
+  /*  public void iniTitle() {
+        titleBarTwo= (TitleBarTwo) findViewById(R.id.topBar);
+        titleBarTwo.setBackgroundColor(Color.parseColor("#00b5ad"));
+        titleBarTwo.setLeftImageResource(R.mipmap.ic_back_left);
+        titleBarTwo.setLeftTextColor(Color.WHITE);
+        titleBarTwo.setDividerColor(Color.GRAY);
+        titleBarTwo.setLeftClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        titleBarTwo.setTitleColor(Color.WHITE);
+    }*/
 
     /**
      * 初始化标题
@@ -128,7 +145,6 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
             }
         });
     }
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {

@@ -6,16 +6,20 @@
     android:orientation="vertical">
 
     <com.sxau.agriculture.utils.TopBarUtil
-        android:paddingTop="4dp"
-        android:paddingBottom="4dp"
-        android:paddingLeft="4dp"
-        android:paddingRight="10dp"
         android:id="@+id/topBar"
         android:layout_width="fill_parent"
         android:layout_height="50dp"
+        android:paddingBottom="4dp"
+        android:paddingLeft="4dp"
+        android:paddingRight="10dp"
+        android:paddingTop="4dp"
         custom:titleTextColor="#080707"
         custom:titleTextSize="25sp" />
-
+    <!-- <com.sxau.agriculture.utils.TitleBarTwo
+         android:id="@+id/topBar"
+         android:layout_width="match_parent"
+         android:layout_height="50dp"
+         android:padding="4dp" />-->
     <FrameLayout
         android:id="@+id/fl_content"
         android:layout_width="match_parent"
@@ -28,22 +32,21 @@
         android:id="@android:id/tabhost"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone">
-    </android.support.v4.app.FragmentTabHost>
+        android:visibility="gone"></android.support.v4.app.FragmentTabHost>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:background="@color/whitGrey"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="55dp" />
+        android:layout_marginBottom="55dp"
+        android:background="@color/whitGrey" />
 
-  <!--  <FrameLayout
-        android:id="@android:id/tabcontent"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="0" />
--->
+    <!--  <FrameLayout
+          android:id="@android:id/tabcontent"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:layout_weight="0" />
+  -->
 
     <RadioGroup
         android:id="@+id/rg_tab"
@@ -58,8 +61,8 @@
             android:id="@+id/rb_home"
             style="@style/RadioButtonBottomTab"
             android:checked="true"
-            android:minHeight="40dp"
             android:drawableTop="@drawable/selector_main_tab_home"
+            android:minHeight="40dp"
             android:text="@string/home" />
 
         <RadioButton

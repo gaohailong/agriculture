@@ -6,9 +6,8 @@
     android:background="@color/mainColor"
     tools:context="com.sxau.agriculture.view.activity.ExpertAnswerActivity">
 
-    <com.sxau.agriculture.utils.TopBarUtil
+    <com.sxau.agriculture.utils.TitleBarTwo
         android:id="@+id/topBarUtil"
-        android:paddingLeft="5dp"
         android:layout_width="match_parent"
         android:layout_height="50dp" />
 
