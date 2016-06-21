@@ -52,7 +52,7 @@ public class MessagePresenter implements IMessagePresenter {
         if (NetUtil.isNetAvailable(context)) {
             doRequest();
         } else {
-            iMessageFragment.showNoNetWorking();
+//            iMessageFragment.showNoNetWorking();
         }
 
     }
@@ -80,7 +80,7 @@ public class MessagePresenter implements IMessagePresenter {
 
             @Override
             public void onFailure(Throwable t) {
-                iMessageFragment.showRequestTimeout();
+//                iMessageFragment.showRequestTimeout();
             }
         });
     }
