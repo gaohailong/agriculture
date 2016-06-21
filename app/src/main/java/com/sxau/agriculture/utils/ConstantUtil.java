@@ -39,6 +39,9 @@ public class ConstantUtil {
     public static final String CACHE_QUESTION_KEY = "Cache_QuestionList";
     //上传图片文字前缀
     public static final String DOMAIN = "http://storage.workerhub.cn/";
+    //消息界面的缓存文件名
+    public static final String CACHE_MESSAGE_KEY = "Cache_Message";
+
     //============================整形常量的定义===================================
     //下拉刷新的时间
     public static final int PULL_TIME = 3000;

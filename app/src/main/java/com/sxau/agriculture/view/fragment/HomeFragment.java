@@ -311,9 +311,9 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
 
             @Override
             public void onFailure(Throwable t) {
-//                imagePath.clear();
-//                imagePath.add("error");
-//                imagePath.add("error");
+                imagePath.clear();
+                imagePath.add("error");
+                imagePath.add("error");
 //                fl_adv.setVisibility(View.GONE);
                 myHandler.sendEmptyMessage(ConstantUtil.GET_PICTURE_DATA);
             }
