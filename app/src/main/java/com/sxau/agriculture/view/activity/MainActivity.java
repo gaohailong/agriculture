@@ -67,9 +67,6 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         setAlias();
     }
 
-    /**
-     * 初始化视图
-     */
     private void initView() {
         fragmentTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
         radioGroup = (RadioGroup) findViewById(R.id.rg_tab);
@@ -102,7 +99,6 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         topBar.setOnTopbarClickListener(new TopBarUtil.TopbarClickListner() {
             @Override
             public void onClickLeftRoundImage() {
-
                 Intent intent = new Intent();
                 intent.setClass(MainActivity.this, PersonalCenterActivity.class);
                 startActivity(intent);
@@ -201,7 +197,6 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         isForeground = false;
         super.onPause();
     }
-
 
     @Override
     protected void onDestroy() {
