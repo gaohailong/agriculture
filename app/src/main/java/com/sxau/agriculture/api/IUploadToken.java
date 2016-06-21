@@ -18,4 +18,8 @@ import retrofit.http.Path;
 public interface IUploadToken {
     @GET("user/uploadToken")
     Call<JsonObject> getUploadToken(@Header("X-AUTH-TOKEN") String authToken);
+
+    @GET("user/uploadTokenForAudio")
+    Call<JsonObject> getUploadTokenForAudio(@Header("X-AUTH-TOKEN") String authToken);
+
 }

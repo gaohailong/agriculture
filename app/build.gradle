@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.sxau.agriculture"
-        minSdkVersion 16
+        minSdkVersion 17
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
@@ -69,4 +69,6 @@ dependencies {
     compile files('libs/android-async-http-1.4.9.jar')
     //开源九宫格的依赖
     compile 'com.jaeger.ninegridimageview:library:1.0.1'
+    //首页文章详情依赖
+    compile 'io.bxbxbai:common:1.6.1'
 }

@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 /**
  * 图片轮播的adapter
+ *
  * @author 崔志泽
  */
 public class BannerAdapter extends PagerAdapter {
@@ -36,8 +37,8 @@ public class BannerAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         int index = position % views.size();
-        ViewParent parent=views.get(index).getParent();
-        if (parent != null){
+        ViewParent parent = views.get(index).getParent();
+        if (parent != null) {
             container.removeView(views.get(index));
         }
         ((ViewPager) container).addView(views.get(index));

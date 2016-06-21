@@ -414,8 +414,12 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent intent = new Intent();
-        intent.putExtra("ArticleUrl", ConstantUtil.ARTICLE_BASE_URL + homeArticles.get(position).getId());
+        Bundle bundle=new Bundle();
+        bundle.putSerializable("ArticleData", homeArticles.get(position));
+        intent.putExtras(bundle);
         intent.setClass(context, WebViewActivity.class);
+//        intent.putExtra("ArticleUrl", ConstantUtil.ARTICLE_BASE_URL + homeArticles.get(position).getId());
+//        intent.setClass(context, WebViewActivity.class);
         startActivity(intent);
     }
 

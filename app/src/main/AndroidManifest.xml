@@ -6,7 +6,9 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
+    <!--录音多媒体权限-->
+    <uses-permission  android:name="android.permission.MOUNT_FORMAT_FILESYSTEMS"/>
+    <uses-permission  android:name="android.permission.RECORD_AUDIO"/>
     <!-- 摄像机权限 -->
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -57,7 +59,6 @@
         <activity android:name="com.sxau.agriculture.view.activity.ExpertAnswerActivity" />
         <activity android:name="com.sxau.agriculture.view.activity.AskQuestionActivity" />
         <activity android:name="com.sxau.agriculture.view.activity.WebViewActivity" />
-
         <activity android:name="com.sxau.agriculture.view.activity.TradeReleaseActivity" android:windowSoftInputMode="adjustPan" />
 
 
