@@ -372,7 +372,7 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
     //开始录音
     private void startVoice() {
         // 设置录音保存路径
-        mFileName = ConstantUtil.AUDIO_LOCAL_PATH + UUID.randomUUID().toString() + ".amr";
+        mFileName = ConstantUtil.AUDIO_LOCAL_PATH + UUID.randomUUID().toString() + ".mp3";
         String state = android.os.Environment.getExternalStorageState();
         if (!state.equals(android.os.Environment.MEDIA_MOUNTED)) {
             Log.i("AskQA", "SD Card is not mounted,It is  " + state + ".");
@@ -524,9 +524,9 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
         //上传接口没给，还没编写这部分
         Map map = new HashMap();
         map.put("categoryId", questionType);
-        map.put("title", questionTitle);
-        map.put("content", questionContent);
-        map.put("image", questionImage);
+        map.put("title", "语音问题");
+        map.put("content", "请点击播放");
+        map.put("image", audioUrl);
 
         Call<JsonObject> call = RetrofitUtil.getRetrofit().create(IAskQuestion.class).sendQuestion(authorToken, map);
         call.enqueue(new Callback<JsonObject>() {

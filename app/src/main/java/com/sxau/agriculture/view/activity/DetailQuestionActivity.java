@@ -51,6 +51,7 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
     private DetailQuestionData detailQuestionData;
     private MyHandler handler;
     private Context context;
+    private Boolean isFav = false;  //问题是否收藏状态
 
     private NineGridImageView nineGridImageView;    //九宫格View
     private List<String> imgDatas;                  //九宫格图片数据
@@ -81,7 +82,6 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
         tv_is_answer = (TextView) findViewById(R.id.tv_is_answer);
         tv_professor_name = (TextView) findViewById(R.id.tv_professor_name);
         tv_professor_content = (TextView) findViewById(R.id.tv_professor_content);
-//        tv_professor_ok = (TextView) findViewById(R.id.tv_professor_ok);
         bt_answer = (Button) findViewById(R.id.bt_answer);
         ll_expert_answer = (LinearLayout) findViewById(R.id.ll_expert_answer);
         topBarUtil = (TitleBarTwo) findViewById(R.id.topBar_detail);
@@ -154,6 +154,7 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
                 case ConstantUtil.GET_NET_DATA:
                     detailQuestionData = new DetailQuestionData();
                     detailQuestionData = idetailQuestionPresenter.getData();
+                    isFav = detailQuestionData.isFav();
                     LogUtil.e("DetailQuestionA", "images:" + detailQuestionData.getImages());
                     if (detailQuestionData.getImages() != null && detailQuestionData.getImages().length() > 4) {
                         imgDatas = StringUtil.changeStringToList(detailQuestionData.getImages());
@@ -167,9 +168,11 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
                     }
                     updateView();
                     break;
-                case ConstantUtil.CHANGE_COLLECTION_STATE:
-                    changeCollectionIC();
+                case ConstantUtil.CHANGE_TO_COLLECTION_STATE:
+                    changeToCollectionIC();
                     break;
+                case ConstantUtil.CHANGE_TO_NOCOLLECTION_STATE:
+                    changeToNoCollectionIC();
                 default:
                     break;
             }
@@ -183,7 +186,7 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
     }
 
     public void doCollection() {
-        if (detailQuestionData.isFav()) {
+        if (isFav) {
             //执行取消收藏操作
             if (NetUtil.isNetAvailable(context)) {
                 idetailQuestionPresenter.doUnCollection(detailQuestionData.getId());
@@ -201,12 +204,13 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
     }
 
     //更改收藏图标
-    private void changeCollectionIC(){
-        if (detailQuestionData.isFav()){
-            iv_collection.setImageResource(R.drawable.collection_fill);
-        }else {
-            iv_collection.setImageResource(R.drawable.collection);
-        }
+    private void changeToCollectionIC(){
+        iv_collection.setImageResource(R.drawable.collection_fill);
+        isFav = true;
+    }
+    private void changeToNoCollectionIC(){
+        iv_collection.setImageResource(R.drawable.collection);
+        isFav = false;
     }
 
 

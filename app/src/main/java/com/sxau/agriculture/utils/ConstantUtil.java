@@ -72,7 +72,9 @@ public class ConstantUtil {
     public static final int SUCCESS_UPLOAD_PICTURE = 0x00000011;
     //成功上传音频文件
     public static final int SUCCESS_UPLOAD_AUDIO = 0x00000012;
-    //改变收藏状态
-    public static final int CHANGE_COLLECTION_STATE = 0x00000013;
+    //改变收藏状态为收藏
+    public static final int CHANGE_TO_COLLECTION_STATE = 0x00000013;
+    //改变收藏状态为取消收藏
+    public static final int CHANGE_TO_NOCOLLECTION_STATE = 0x00000014;
 
 }
