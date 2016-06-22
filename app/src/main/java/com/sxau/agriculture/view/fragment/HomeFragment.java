@@ -104,7 +104,6 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
         tv_title= (TextView) mView.findViewById(R.id.tv_title);
         fl_adv= (FrameLayout) mView.findViewById(R.id.fl_adv);
 
-
         currentPage = 1;
         isLoadOver = false;
         currentIndex = 300;
