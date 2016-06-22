@@ -37,10 +37,10 @@ public class BannerAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         int index = position % views.size();
-//        ViewParent parent = views.get(index).getParent();
-//        if (parent != null) {
-//            container.removeView(views.get(index));
-//        }
+        ViewParent parent = views.get(index).getParent();
+        if (parent != null) {
+            container.removeView(views.get(index));
+        }
         ((ViewPager) container).addView(views.get(index));
         return views.get(index);
     }
