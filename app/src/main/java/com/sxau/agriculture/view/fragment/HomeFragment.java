@@ -36,6 +36,7 @@ import com.sxau.agriculture.utils.NetUtil;
 import com.sxau.agriculture.utils.RefreshBottomTextUtil;
 import com.sxau.agriculture.utils.RetrofitUtil;
 import com.sxau.agriculture.view.activity.WebViewActivity;
+import com.sxau.agriculture.view.activity.WebViewTwoActivity;
 import com.sxau.agriculture.widgets.RefreshLayout;
 
 import java.lang.ref.WeakReference;
@@ -371,16 +372,16 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
                 tv_title.setText("暂无数据");
             }else {
                 tv_title.setText(bannerData.get(index).getName());
-                //轮播图点击事件
-                imageViews.get(index).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent();
-                        intent.putExtra("ArticleUrl", bannerData.get(index).getUrl());
-                        intent.setClass(context, WebViewActivity.class);
-                        startActivity(intent);
-                    }
-                });
+//                轮播图点击事件
+//                imageViews.get(index).setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        Intent intent = new Intent();
+//                        intent.putExtra("ArticleUrl", bannerData.get(index).getUrl());
+//                        intent.setClass(context, WebViewTwoActivity.class);
+//                        startActivity(intent);
+//                    }
+//                });
             }
         }else {
             tv_title.setText("当前没有网络，请检查网络设置");
