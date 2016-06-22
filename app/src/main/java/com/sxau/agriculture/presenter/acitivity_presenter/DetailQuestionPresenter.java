@@ -9,7 +9,7 @@ import com.sxau.agriculture.api.IDetailQuestion;
 import com.sxau.agriculture.api.IQuestionFav;
 import com.sxau.agriculture.bean.DetailQuestionData;
 import com.sxau.agriculture.presenter.activity_presenter_interface.IDetailQuestionPresenter;
-import com.sxau.agriculture.utils.AuthTokenUtil;
+import com.sxau.agriculture.utils.UserInfoUtil;
 import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.RetrofitUtil;
 import com.sxau.agriculture.view.activity.DetailQuestionActivity;
@@ -33,7 +33,7 @@ public class DetailQuestionPresenter implements IDetailQuestionPresenter {
     public DetailQuestionPresenter(IDetailQuestionActivity iDetailQuestionActivity, DetailQuestionActivity.MyHandler handler) {
         this.iDetailQuestionActivity = iDetailQuestionActivity;
         this.handler = handler;
-        authToken = AuthTokenUtil.findAuthToken();
+        authToken = UserInfoUtil.findAuthToken();
     }
 
     //---------------------接口方法开始-----------------------
@@ -70,7 +70,7 @@ public class DetailQuestionPresenter implements IDetailQuestionPresenter {
                 if (response.isSuccess()){
                     //收藏执行成功
                     Log.e("DetailQP", "code:" + response.code() + " body:" + response.body() + "  message:" + response.message());
-                    handler.sendEmptyMessage(ConstantUtil.CHANGE_COLLECTION_STATE);
+                    handler.sendEmptyMessage(ConstantUtil.CHANGE_TO_COLLECTION_STATE);
                 }else {
                     //收藏执行失败
                     iDetailQuestionActivity.showFailed();
@@ -95,7 +95,7 @@ public class DetailQuestionPresenter implements IDetailQuestionPresenter {
             public void onResponse(Response<JsonObject> response, Retrofit retrofit) {
                 if (response.isSuccess()){
                     //取消收藏执行成功
-                    handler.sendEmptyMessage(ConstantUtil.CHANGE_COLLECTION_STATE);
+                    handler.sendEmptyMessage(ConstantUtil.CHANGE_TO_NOCOLLECTION_STATE);
                 }else {
                     //取消收藏执行失败
                     iDetailQuestionActivity.showFailed();

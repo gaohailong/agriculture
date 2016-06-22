@@ -2,6 +2,7 @@ package com.sxau.agriculture.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +14,11 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.bean.MessageInfo;
+import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.TimeUtil;
+import com.sxau.agriculture.view.activity.DetailQuestionActivity;
+import com.sxau.agriculture.view.activity.TradeContentActivity;
+import com.sxau.agriculture.view.activity.WebViewTwoActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +26,7 @@ import java.util.List;
 /**
  * 消息界面的adapter
  *
- * @author 高海龙
+ * @author 崔志泽
  */
 public class MessageAdapter extends BaseAdapter {
     private Context context;
@@ -29,6 +34,7 @@ public class MessageAdapter extends BaseAdapter {
     ViewHolder holder;
 
     public MessageAdapter(Context context, ArrayList<MessageInfo> dates) {
+        Log.e("messageInfo6", dates.size() + "");
         this.context = context;
         this.dates = dates;
     }
@@ -56,36 +62,49 @@ public class MessageAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.items_presonal_myquestion, null);
             holder = new ViewHolder();
             holder.v_left = (View) convertView.findViewById(R.id.v_left);
-            holder.iv_messagetype= (ImageView) convertView.findViewById(R.id.iv_messagetype);
-            holder.tv_title= (TextView) convertView.findViewById(R.id.tv_title);
-            holder.tv_time= (TextView) convertView.findViewById(R.id.tv_time);
+            holder.iv_messagetype = (ImageView) convertView.findViewById(R.id.iv_messagetype);
+            holder.tv_title = (TextView) convertView.findViewById(R.id.tv_title);
+            holder.tv_time = (TextView) convertView.findViewById(R.id.tv_time);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
         MessageInfo messageInfo = dates.get(position);
-        if (messageInfo.getMessageType()=="QUESTION"){
-            Picasso.with(context).load(R.drawable.ic_message_question_128px).resize(110,110).centerCrop()
-                    .placeholder(R.mipmap.ic_loading).error(R.mipmap.ic_load_fail).into(holder.iv_messagetype);
-        }else if (messageInfo.getMessageType()=="RELATION"){
-            Picasso.with(context).load(R.drawable.ic_message_system_128px).resize(110,110).centerCrop()
-                    .placeholder(R.mipmap.ic_loading).error(R.mipmap.ic_load_fail).into(holder.iv_messagetype);
-        }else if (messageInfo.getMessageType()=="SYSTEM"){
-            Picasso.with(context).load(R.drawable.ic_message_system_128px).resize(110,110).centerCrop()
-                    .placeholder(R.mipmap.ic_loading).error(R.mipmap.ic_load_fail).into(holder.iv_messagetype);
-        }else if (messageInfo.getMessageType()=="WECHAT"){
-            Picasso.with(context).load(R.drawable.ic_message_wechat_128px).resize(110,110).centerCrop()
-                    .placeholder(R.mipmap.ic_loading).error(R.mipmap.ic_load_fail).into(holder.iv_messagetype);
-        }else if (messageInfo.getMessageType()=="NOTICE"){
-            Picasso.with(context).load(R.drawable.ic_message_system_128px).resize(110,110).centerCrop()
-                    .placeholder(R.mipmap.ic_loading).error(R.mipmap.ic_load_fail).into(holder.iv_messagetype);
-        }else if (messageInfo.getMessageType()=="TRADE"){
-            Picasso.with(context).load(R.drawable.ic_message_money_128px).resize(110,110).centerCrop()
-                    .placeholder(R.mipmap.ic_loading).error(R.mipmap.ic_load_fail).into(holder.iv_messagetype);
+        Log.e("messageInfo6", messageInfo.toString());
+        String type = messageInfo.getMessageType();
+        switch (type) {
+            case ConstantUtil.QUESTION://问答
+                holder.iv_messagetype.setImageResource(R.drawable.ic_message_question_128px);
+                break;
+            case ConstantUtil.TRADE://交易
+                holder.iv_messagetype.setImageResource(R.drawable.ic_message_money_128px);
+                break;
+            case ConstantUtil.ARTICLE://文章
+                holder.iv_messagetype.setImageResource(R.drawable.ic_message_question_128px);//TODO 没有图片
+                break;
+            case ConstantUtil.RELATION://关系
+                holder.iv_messagetype.setImageResource(R.drawable.ic_message_system_128px);//TODO 没有图片
+                break;
+            case ConstantUtil.SYSTEM://系统
+                holder.iv_messagetype.setImageResource(R.drawable.ic_message_system_128px);
+                break;
+            case ConstantUtil.WECHAT://微信
+                holder.iv_messagetype.setImageResource(R.drawable.ic_message_wechat_128px);
+                break;
+            case ConstantUtil.NOTICE://公告
+                holder.iv_messagetype.setImageResource(R.drawable.ic_message_system_128px);//TODO 没有图片
+                break;
+            default:
+                break;
         }
         holder.tv_title.setText(messageInfo.getTitle());
         holder.tv_time.setText(TimeUtil.format(messageInfo.getWhenCreated()));
+        if (messageInfo.isMarkRead()) {
+            holder.v_left.setBackgroundColor(Color.parseColor("#00b5ad"));
+        } else {
+            holder.v_left.setBackgroundColor(Color.parseColor("#FF6446"));
+        }
         return convertView;
     }
 

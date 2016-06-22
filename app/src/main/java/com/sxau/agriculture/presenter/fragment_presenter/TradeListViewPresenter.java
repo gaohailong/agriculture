@@ -8,12 +8,10 @@ import com.sxau.agriculture.api.ITrade;
 import com.sxau.agriculture.bean.TradeData;
 import com.sxau.agriculture.presenter.fragment_presenter_interface.ITradeListViewPresenter;
 import com.sxau.agriculture.utils.ACache;
-import com.sxau.agriculture.utils.AuthTokenUtil;
+import com.sxau.agriculture.utils.UserInfoUtil;
 import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.RetrofitUtil;
 import com.sxau.agriculture.view.fragment_interface.ITradeListViewFragment;
-
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -43,7 +41,7 @@ public class TradeListViewPresenter implements ITradeListViewPresenter {
         this.context = context;
         this.myHandler = myHandler;
         aCache = ACache.get(context);
-        authToken = AuthTokenUtil.findAuthToken();
+        authToken = UserInfoUtil.findAuthToken();
     }
 
     @Override

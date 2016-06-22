@@ -99,12 +99,16 @@ public class RegisterActivity extends BaseActivity implements IRegisterActivity,
                 }
                 break;
             case R.id.btn_getchecknum:
-                iRegisterPresenter.initData();
-                if (iRegisterPresenter.isPhoneEnable()) {
-                    ChangeBtnUi();
-                    iRegisterPresenter.sendPhoneRequest();
+                if(NetUtil.isNetAvailable(RegisterActivity.this)){
+                    iRegisterPresenter.initData();
+                    if (iRegisterPresenter.isPhoneEnable()) {
+                        ChangeBtnUi();
+                        iRegisterPresenter.sendPhoneRequest();
+                    }else {
+                        Toast.makeText(RegisterActivity.this, "手机号输入不正确，请重新输入", Toast.LENGTH_LONG).show();
+                    }
                 }else {
-                    Toast.makeText(RegisterActivity.this, "手机号输入不正确，请重新输入", Toast.LENGTH_LONG).show();
+                    Toast.makeText(RegisterActivity.this,"没有网络连接，请检查网络",Toast.LENGTH_LONG).show();
                 }
                 break;
             default:

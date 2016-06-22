@@ -12,9 +12,10 @@ import java.io.File;
  *
  * @author Yawen_Li on 2016/6/6.
  */
-public class AuthTokenUtil {
+public class UserInfoUtil {
     private static String authToken;
     private static String userType;
+    private static String userAvatar;
     private static ACache mCache = ACache.get(AgricultureApplication.getContext());
 
     public static String findAuthToken() {
@@ -36,6 +37,16 @@ public class AuthTokenUtil {
             }
         }
         return false;
+    }
+
+    public static String getUserAvatar(){
+        User user = (User) mCache.getAsObject(ConstantUtil.CACHE_KEY);
+        if (user != null && user.getAvatar() != null) {
+            userAvatar = user.getAvatar();
+            return userAvatar;
+        }else {
+            return null;
+        }
     }
 
     public static String getUserType(){

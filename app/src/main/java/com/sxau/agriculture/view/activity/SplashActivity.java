@@ -9,16 +9,11 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
 
-import com.google.gson.Gson;
-import com.sxau.agriculture.AgricultureApplication;
 import com.sxau.agriculture.agriculture.R;
-import com.sxau.agriculture.bean.User;
-import com.sxau.agriculture.utils.ACache;
-import com.sxau.agriculture.utils.AuthTokenUtil;
+import com.sxau.agriculture.utils.UserInfoUtil;
 import com.sxau.agriculture.utils.ConstantUtil;
 
 import java.util.Random;
@@ -60,7 +55,7 @@ public class SplashActivity extends BaseActivity {
         Random r = new Random(SystemClock.elapsedRealtime());
         iv_spl_background.setImageResource(SPLASH_ARRAY[r.nextInt(SPLASH_ARRAY.length)]);
         context = SplashActivity.this;
-        authToken = AuthTokenUtil.findAuthToken();
+        authToken = UserInfoUtil.findAuthToken();
         animateImage();
 
     }

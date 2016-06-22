@@ -3,14 +3,12 @@ package com.sxau.agriculture.presenter.fragment_presenter;
 import android.content.Context;
 import android.os.Handler;
 
-import com.google.gson.Gson;
 import com.sxau.agriculture.AgricultureApplication;
 import com.sxau.agriculture.api.IPersonalCollectTrades;
 import com.sxau.agriculture.bean.MyPersonalCollectTrades;
-import com.sxau.agriculture.bean.User;
 import com.sxau.agriculture.presenter.fragment_presenter_interface.IPersonalCollectTradePresenter;
 import com.sxau.agriculture.utils.ACache;
-import com.sxau.agriculture.utils.AuthTokenUtil;
+import com.sxau.agriculture.utils.UserInfoUtil;
 import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.LogUtil;
 import com.sxau.agriculture.utils.NetUtil;
@@ -78,7 +76,7 @@ public class PersonalCollectTradePresenter implements IPersonalCollectTradePrese
 
     @Override
     public void doRequest() {
-        authToken = AuthTokenUtil.findAuthToken();
+        authToken = UserInfoUtil.findAuthToken();
         Call<ArrayList<MyPersonalCollectTrades>> call = RetrofitUtil.getRetrofit().create(IPersonalCollectTrades.class).getMessage(authToken);
         call.enqueue(new Callback<ArrayList<MyPersonalCollectTrades>>() {
             @Override

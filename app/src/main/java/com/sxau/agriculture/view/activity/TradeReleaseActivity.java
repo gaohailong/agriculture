@@ -26,27 +26,20 @@ import com.qiniu.android.http.ResponseInfo;
 import com.qiniu.android.storage.UpCompletionHandler;
 import com.qiniu.android.storage.UploadManager;
 import com.qiniu.android.storage.UploadOptions;
-import com.qiniu.android.utils.AsyncRun;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
 import com.sxau.agriculture.adapter.SelectPhotoAdapter;
 import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.api.ITradeRelease;
 import com.sxau.agriculture.api.IUploadToken;
-import com.sxau.agriculture.bean.User;
 import com.sxau.agriculture.presenter.acitivity_presenter.TradeReleasePresenter;
 import com.sxau.agriculture.presenter.activity_presenter_interface.ITradeReleasePresenter;
 import com.sxau.agriculture.qiniu.FileUtilsQiNiu;
 import com.sxau.agriculture.qiniu.QiniuLabConfig;
-import com.sxau.agriculture.utils.ACache;
-import com.sxau.agriculture.utils.AuthTokenUtil;
+import com.sxau.agriculture.utils.UserInfoUtil;
 import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.GlideLoaderUtil;
-import com.sxau.agriculture.utils.LogUtil;
 import com.sxau.agriculture.utils.RetrofitUtil;
 import com.sxau.agriculture.utils.StringUtil;
 import com.sxau.agriculture.utils.TitleBarTwo;
-import com.sxau.agriculture.utils.TopBarUtil;
 import com.sxau.agriculture.view.activity_interface.ITradeReleaseActivity;
 import com.yancy.imageselector.ImageConfig;
 import com.yancy.imageselector.ImageSelector;
@@ -56,7 +49,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -70,7 +62,8 @@ import retrofit.Retrofit;
 /**
  * Info发布供求界面
  * <p/>
- * 没有更新成MVP模式，全都放在一个Activity中了
+ * 没有更新成MVP模式，全都放在一个Activity中
+ * 逻辑有问题，应该先判断数据是否满足条件，再上传图片
  *
  * @author 田帅.
  */
@@ -103,7 +96,7 @@ public class TradeReleaseActivity extends BaseActivity implements View.OnClickLi
     private ArrayList<String> path = new ArrayList<>();
     private ITradeReleasePresenter iTradeReleasePresenter;
     private Handler mhandler;
-    private String authorToken;
+    private String authToken;
     private ArrayList<String> spinData;
 
     @Override
@@ -154,7 +147,7 @@ public class TradeReleaseActivity extends BaseActivity implements View.OnClickLi
                 finish();
             }
         });
-        topBarUtil.setTitle("交易详情");
+        topBarUtil.setTitle("发布交易");
         topBarUtil.setTitleColor(Color.WHITE);
 
         pdLoginwait = new ProgressDialog(TradeReleaseActivity.this);
@@ -162,7 +155,7 @@ public class TradeReleaseActivity extends BaseActivity implements View.OnClickLi
         pdLoginwait.setCanceledOnTouchOutside(false);
         pdLoginwait.setCancelable(true);
 
-        authorToken = AuthTokenUtil.findAuthToken();
+        authToken = UserInfoUtil.findAuthToken();
 
         RecyclerView recycler = (RecyclerView) findViewById(R.id.recycler);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
@@ -181,31 +174,33 @@ public class TradeReleaseActivity extends BaseActivity implements View.OnClickLi
                 showPhotoDialog();
                 break;
             case R.id.btn_trade_release:
-                //执行上传数据操作
-                showProgress(true);
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            Thread.sleep(1500);
-                            //提交网络请求发送问题
-                            if (path.size() > 0) {
-                                doupdata();
-                            } else {
-                                submitData();
+                if (isDataViable()){
+                    //执行上传数据操作
+                    showProgress(true);
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                Thread.sleep(1500);
+                                //提交网络请求发送问题
+                                if (path.size() > 0) {
+                                    doupdata();
+                                } else {
+                                    submitData();
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
                             }
-                        } catch (Exception e) {
-                            e.printStackTrace();
                         }
-                    }
-                }).start();
+                    }).start();
+                }
                 break;
             default:
                 break;
         }
     }
 
-    //显示提交dialog
+    //显示提交进度圈
     public void showProgress(boolean flag) {
         if (flag) {
             pdLoginwait.show();
@@ -216,11 +211,9 @@ public class TradeReleaseActivity extends BaseActivity implements View.OnClickLi
 
     public void submitData() {
         tradeCategoryId = rgTradeCategory.getId();
-        tradeTitle = etTradeTitle.getText().toString();
-        tradeContent = etTradeContent.getText().toString();
         if (imageUriList != null) {
             tradeImage = StringUtil.changeListToString(imageUriList);
-        }else {
+        } else {
             tradeImage = "";
         }
         Map map = new HashMap();
@@ -229,35 +222,29 @@ public class TradeReleaseActivity extends BaseActivity implements View.OnClickLi
         map.put("tradeType", tradeType);
         map.put("content", tradeContent);
         map.put("image", tradeImage);
-        ACache mCache = ACache.get(TradeReleaseActivity.this);
-        User user = (User) mCache.getAsObject(ConstantUtil.CACHE_KEY);
-        String authToken = user.getAuthToken();
-        if (tradeTitle.equals("")) {
-            Toast.makeText(TradeReleaseActivity.this, "请输入标题", Toast.LENGTH_SHORT).show();
-        } else if (tradeContent.equals("")) {
-            Toast.makeText(TradeReleaseActivity.this, "请输入内容", Toast.LENGTH_SHORT).show();
-        } else {
-            finish();
-            Call<JsonObject> call = RetrofitUtil.getRetrofit().create(ITradeRelease.class).postTrade(map, authToken);
-            call.enqueue(new Callback<JsonObject>() {
-                @Override
-                public void onResponse(Response<JsonObject> response, Retrofit retrofit) {
-                    Log.d("release", response.code() + "");
-                    if (response.isSuccess()) {
-                        showProgress(false);
-                        Toast.makeText(TradeReleaseActivity.this, "提交成功", Toast.LENGTH_SHORT).show();
 
-                    }
-                }
 
-                @Override
-                public void onFailure(Throwable t) {
+        finish();
+        Call<JsonObject> call = RetrofitUtil.getRetrofit().create(ITradeRelease.class).postTrade(map, authToken);
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Response<JsonObject> response, Retrofit retrofit) {
+                Log.d("release", response.code() + "");
+                if (response.isSuccess()) {
                     showProgress(false);
-                    Toast.makeText(TradeReleaseActivity.this, "提交失败", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(TradeReleaseActivity.this, "提交成功", Toast.LENGTH_SHORT).show();
+
                 }
-            });
-        }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                showProgress(false);
+                Toast.makeText(TradeReleaseActivity.this, "提交失败", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
+
 
     public void showPhotoDialog() {
         ImageConfig imageConfig
@@ -275,6 +262,24 @@ public class TradeReleaseActivity extends BaseActivity implements View.OnClickLi
                 .requestCode(REQUEST_CODE)
                 .build();
         ImageSelector.open(TradeReleaseActivity.this, imageConfig);   // 开启图片选择器
+    }
+
+    public boolean isDataViable() {
+        boolean flag = false;
+        tradeTitle = etTradeTitle.getText().toString();
+        tradeContent = etTradeContent.getText().toString();
+
+        if (tradeTitle.equals("")) {
+            Toast.makeText(TradeReleaseActivity.this, "请输入标题", Toast.LENGTH_SHORT).show();
+            flag = false;
+        } else if (tradeContent.equals("")) {
+            Toast.makeText(TradeReleaseActivity.this, "请输入内容", Toast.LENGTH_SHORT).show();
+            flag = false;
+        } else {
+            flag = true;
+        }
+
+        return flag;
     }
 
     @Override
@@ -307,26 +312,27 @@ public class TradeReleaseActivity extends BaseActivity implements View.OnClickLi
 
     }
 
-    public class MyHandler extends Handler {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case ConstantUtil.INIT_DATA:
-                    iTradeReleasePresenter.doRequest();
-                    break;
-                case ConstantUtil.GET_NET_DATA:
-                    spinData = iTradeReleasePresenter.getCategorieinfo();
-                    initSpin();
-                    break;
-                case ConstantUtil.SUCCESS_UPLOAD_PICTURE:
-                    //图片上传成功，执行上传数据信息
-                    submitData();
-                default:
-                    break;
-            }
+public class MyHandler extends Handler {
+    @Override
+    public void handleMessage(Message msg) {
+        super.handleMessage(msg);
+        switch (msg.what) {
+            case ConstantUtil.INIT_DATA:
+                iTradeReleasePresenter.doRequest();
+                break;
+            case ConstantUtil.GET_NET_DATA:
+                spinData = iTradeReleasePresenter.getCategorieinfo();
+                initSpin();
+                break;
+            case ConstantUtil.SUCCESS_UPLOAD_PICTURE:
+                //图片上传成功，执行上传数据信息
+                submitData();
+            default:
+                break;
         }
     }
+
+}
 
     //======================七牛云存储部分==============================
     public void doupdata() {
@@ -340,7 +346,7 @@ public class TradeReleaseActivity extends BaseActivity implements View.OnClickLi
 
     //获取上传图片权限token
     private void getUploadToken() {
-        Call<JsonObject> call = RetrofitUtil.getRetrofit().create(IUploadToken.class).getUploadToken(authorToken);
+        Call<JsonObject> call = RetrofitUtil.getRetrofit().create(IUploadToken.class).getUploadToken(authToken);
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Response<JsonObject> response, Retrofit retrofit) {

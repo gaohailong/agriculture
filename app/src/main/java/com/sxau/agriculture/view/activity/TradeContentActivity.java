@@ -20,7 +20,7 @@ import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.api.ITradeContent;
 import com.sxau.agriculture.api.ITradeFav;
 import com.sxau.agriculture.bean.TradeData;
-import com.sxau.agriculture.utils.AuthTokenUtil;
+import com.sxau.agriculture.utils.UserInfoUtil;
 import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.NetUtil;
 import com.sxau.agriculture.utils.RetrofitUtil;
@@ -37,7 +37,7 @@ import retrofit.Response;
 import retrofit.Retrofit;
 
 /**
- * 具体问题、内容的详情activity
+ * 交易具体问题、内容的详情activity
  * Created by Yawen_Li on 2016/4/13.
  */
 public class TradeContentActivity extends BaseActivity implements View.OnClickListener {
@@ -72,7 +72,7 @@ public class TradeContentActivity extends BaseActivity implements View.OnClickLi
         setContentView(R.layout.activity_trade_content);
 
         context = TradeContentActivity.this;
-        authToken = AuthTokenUtil.findAuthToken();
+        authToken = UserInfoUtil.findAuthToken();
         handler = new MyHandler(TradeContentActivity.this);
         initView();
         initTopBar();
@@ -173,9 +173,6 @@ public class TradeContentActivity extends BaseActivity implements View.OnClickLi
                         //设置九宫格数据源
                         nineGridImageView.setImagesData(imgDatas);
                     }
-                    break;
-                case ConstantUtil.CHANGE_COLLECTION_STATE:
-//                    changeCollectionIC();
                     break;
                 default:
                     break;

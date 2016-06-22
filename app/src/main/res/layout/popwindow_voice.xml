@@ -48,7 +48,7 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_gravity="center_horizontal"
-        android:src="@mipmap/ic_voice"/>
+        android:background="@mipmap/ic_voice"/>
 
     <TextView
         android:id="@+id/tv_voicemsg"

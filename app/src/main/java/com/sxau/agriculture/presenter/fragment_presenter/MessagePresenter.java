@@ -9,10 +9,10 @@ import com.sxau.agriculture.bean.MessageInfo;
 import com.sxau.agriculture.bean.MessageList;
 import com.sxau.agriculture.presenter.fragment_presenter_interface.IMessagePresenter;
 import com.sxau.agriculture.utils.ACache;
-import com.sxau.agriculture.utils.AuthTokenUtil;
 import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.NetUtil;
 import com.sxau.agriculture.utils.RetrofitUtil;
+import com.sxau.agriculture.utils.UserInfoUtil;
 import com.sxau.agriculture.view.fragment_interface.IMessageFragment;
 
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ import retrofit.Response;
 import retrofit.Retrofit;
 
 /**
- * Created by Yawen_Li on 2016/4/20.
+ * @author 高海龙
  */
 public class MessagePresenter implements IMessagePresenter {
     private IMessageFragment iMessageFragment;
@@ -32,65 +32,62 @@ public class MessagePresenter implements IMessagePresenter {
     private ArrayList<MessageInfo> messageInfos;
     private ACache mCache;
     private Context context;
+    private boolean isLoadOver;
 
-    public MessagePresenter(IMessageFragment iMessageFragment,Handler handler,Context context) {
+    public MessagePresenter(IMessageFragment iMessageFragment, Handler handler, Context context) {
         this.iMessageFragment = iMessageFragment;
-        this.context=context;
-        this.handler=handler;
-        this.mCache=ACache.get(context);
-    }
-//-----------------接口方法-----------------------------
-    @Override
-    public Object findItemByPosition(int position) {
-        return null;
-    }
-
-    @Override
-    public ArrayList<MessageInfo> getDatas() {
+        this.context = context;
+        this.handler = handler;
+        this.mCache = ACache.get(context);
         messageInfos=new ArrayList<MessageInfo>();
-        if (mCache.getAsObject(ConstantUtil.CACHE_MESSAGE_KEY)!=null) {
-            messageInfos = (ArrayList<MessageInfo>) mCache.getAsObject(ConstantUtil.CACHE_MESSAGE_KEY);
-        }
-        return messageInfos;
     }
 
-    @Override
-    public void pullRefersh() {
-        if (NetUtil.isNetAvailable(context)){
-            doRequest();
-        }else {
-            iMessageFragment.showNoNetWorking();
-        }
-
-    }
+    //-----------------接口方法-----------------------------
 
     @Override
-    public void pushRefersh() {
-        handler.sendEmptyMessage(ConstantUtil.UP_LOAD);
-
-    }
-
-    @Override
-    public void doRequest() {
-        authToken= AuthTokenUtil.findAuthToken();
-        Call<ArrayList<MessageInfo>> call= RetrofitUtil.getRetrofit().create(IGetMessageList.class).getMessage(authToken);
+    public void doRequest(String page, String pageSize, final boolean isRefresh) {
+        authToken = UserInfoUtil.findAuthToken();
+        Call<ArrayList<MessageInfo>> call = RetrofitUtil.getRetrofit().create(IGetMessageList.class).getMessage(authToken, page, pageSize);
         call.enqueue(new Callback<ArrayList<MessageInfo>>() {
             @Override
             public void onResponse(Response<ArrayList<MessageInfo>> response, Retrofit retrofit) {
                 if (response.isSuccess()) {
-                    messageInfos = response.body();
+                    ArrayList<MessageInfo> messageInfoGet = response.body();
+                    if (isRefresh) {
+                        messageInfos.clear();
+                        messageInfos.addAll(messageInfoGet);
+                    } else {
+                        messageInfos.addAll(messageInfoGet);
+                    }
                     mCache.remove(ConstantUtil.CACHE_MESSAGE_KEY);
                     mCache.put(ConstantUtil.CACHE_MESSAGE_KEY, messageInfos);
-                    Log.d("message", "网络请求完成，将数据存入缓存"+messageInfos.size());
                     handler.sendEmptyMessage(ConstantUtil.GET_NET_DATA);
+
+                    if (messageInfos.size() < Integer.parseInt(ConstantUtil.ITEM_NUMBER)) {
+                        isLoadOver = true;
+                    }
                 }
             }
 
             @Override
             public void onFailure(Throwable t) {
-                iMessageFragment.showRequestTimeout();
+                handler.sendEmptyMessage(ConstantUtil.LOAD_FAIL);
             }
         });
     }
+
+    @Override
+    public ArrayList<MessageInfo> getDatas() {
+        ArrayList<MessageInfo> messageInfoGet = new ArrayList<MessageInfo>();
+        if (mCache.getAsObject(ConstantUtil.CACHE_MESSAGE_KEY) != null) {
+            messageInfoGet = (ArrayList<MessageInfo>) mCache.getAsObject(ConstantUtil.CACHE_MESSAGE_KEY);
+        }
+        return messageInfoGet;
+    }
+
+    public boolean isLoadOver(){
+        return isLoadOver;
+    }
+
 //------------------接口方法结束-------------------------
 }

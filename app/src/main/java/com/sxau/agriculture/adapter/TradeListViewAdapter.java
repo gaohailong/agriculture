@@ -13,7 +13,7 @@ import android.widget.Toast;
 import com.squareup.picasso.Picasso;
 import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.bean.TradeData;
-import com.sxau.agriculture.utils.AuthTokenUtil;
+import com.sxau.agriculture.utils.UserInfoUtil;
 import com.sxau.agriculture.utils.TimeUtil;
 
 import java.util.ArrayList;
@@ -36,7 +36,7 @@ public class TradeListViewAdapter extends BaseAdapter {
     public TradeListViewAdapter(Context context, ArrayList<TradeData> datas) {
         this.context = context;
         this.datas = datas;
-        authToken = AuthTokenUtil.findAuthToken();
+        authToken = UserInfoUtil.findAuthToken();
     }
 
 
