@@ -5,8 +5,12 @@ import android.content.res.AssetManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -34,7 +38,7 @@ import io.bxbxbai.common.view.CircleImageView;
  */
 public class PictureWebViewActivity extends BaseActivity {
     private ObservableScrollView scrollView;
-    private CommonWebView mWebView;
+    private WebView mWebView;
     private CircleImageView mAvatarView;
     private ImageView headerImageView;
     private TextView titleView;
@@ -42,24 +46,16 @@ public class PictureWebViewActivity extends BaseActivity {
     private ZhuanLanWebViewClient zhuanLanWebViewClient;
     private HomeArticle homeArticle;
     private TitleBarTwo topBarUtil;
-    private TextView tv_data;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_picture_webview);
-        mWebView = (CommonWebView) findViewById(R.id.web_view);
-        scrollView = (ObservableScrollView) findViewById(R.id.scroll_view);
-        titleView = (TextView) findViewById(R.id.tv_title);
-        authorTextView = (TextView) findViewById(R.id.tv_author);
-        headerImageView = (ImageView) findViewById(R.id.iv_article_header);
-        mAvatarView = (CircleImageView) findViewById(R.id.iv_avatar);
-        tv_data = (TextView) findViewById(R.id.tv_data);
-        topBarUtil = (TitleBarTwo) findViewById(R.id.titlebar);
-        mWebView.setWebViewClient(new ZhuanLanWebViewClient(PictureWebViewActivity.this));
+        mWebView = (WebView) findViewById(R.id.webView);
+        topBarUtil= (TitleBarTwo) findViewById(R.id.titlebar);
         initTitlebar();
-        getSourceData();
-        setStory();
+        setWebView();
     }
 
     private void initTitlebar() {
@@ -76,62 +72,27 @@ public class PictureWebViewActivity extends BaseActivity {
         topBarUtil.setTitleColor(Color.WHITE);
     }
 
-    public void getSourceData() {
+    public void setWebView() {
         Intent intent = getIntent();
-        Bundle bundle = intent.getExtras();
-        homeArticle = (HomeArticle) bundle.getSerializable("ArticleData");
-    }
-
-    private void setStory() {
-        loadHtmlContent(homeArticle.getContent());
-        if (homeArticle.getImage() == null) {
-            headerImageView.setVisibility(View.GONE);
-        } else {
-            WindowManager wm = this.getWindowManager();
-            int width = wm.getDefaultDisplay().getWidth();
-            Picasso.with(PictureWebViewActivity.this).load(ConstantUtil.BASE_PICTURE_URL + homeArticle.getImage()).resize(width, 480).into(headerImageView);
-        }
-        titleView.setText(homeArticle.getTitle());
-        topBarUtil.setTitle(homeArticle.getTitle());
-        tv_data.setText(TimeUtil.format(homeArticle.getWhenCreated()));
-        authorTextView.setText(homeArticle.getAdmin().getName());
-        CommonExecutor.MAIN_HANDLER.postDelayed(new Runnable() {
+        String url = intent.getStringExtra("ArticleUrl");
+        //TODO 图片拼接问题
+        Log.d("webViewUrl",url);
+        WebSettings settings = mWebView.getSettings();
+        settings.setJavaScriptEnabled(true);
+        settings.setBuiltInZoomControls(true);
+        settings.setSupportZoom(true);//是否支持缩放
+        mWebView.requestFocus();//设置软键盘是否可以打开
+        mWebView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
+        mWebView.loadUrl(url);
+        //设置点击链接 在当前webView中显示
+        mWebView.setWebViewClient(new WebViewClient() {
             @Override
-            public void run() {
-                injectCSS();
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
+                return true;
             }
-        }, 200);
+        });
+        mWebView.loadUrl(url);
     }
 
-    private void loadHtmlContent(String section) {
-        String content = String.format(readFile("template.txt"), section);
-        mWebView.loadDataWithBaseURL(null, content, CommonWebView.MIME_TYPE, CommonWebView.ENCODING_UTF_8, null);
-    }
-
-    private void injectCSS() {
-        String encoded = Base64.encodeToString(readFile("zhuanlan.main.css").getBytes(), Base64.NO_WRAP);
-        mWebView.loadUrl("javascript:(function() {" +
-                "var parent = document.getElementsByTagName('head').item(0);" +
-                "var style = document.createElement('style');" +
-                "style.type = 'text/css';" +
-                // Tell the browser to BASE64-decode the string into your script !!!
-                "style.innerHTML = window.atob('" + encoded + "');" +
-                "parent.appendChild(style)" +
-                "})()");
-    }
-
-    private String readFile(String fileName) {
-        AssetManager manager = getAssets();
-        try {
-            Scanner scanner = new Scanner(manager.open(fileName));
-            StringBuilder builder = new StringBuilder();
-            while (scanner.hasNext()) {
-                builder.append(scanner.nextLine());
-            }
-            return builder.toString();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return "";
-    }
 }

@@ -28,7 +28,7 @@
         <item name="android:button">@null</item>
         <item name="android:layout_gravity">center_vertical</item>
         <item name="android:scaleType">centerCrop</item>
-        <item name="android:textSize">@dimen/font_size</item>
+        <item name="android:textSize">@dimen/font_size_tab</item>
         <item name="android:textColor">@drawable/selector_main_tab_color</item>
         <item name="android:gravity">center</item>
         <item name="android:background">#ffffff</item>
