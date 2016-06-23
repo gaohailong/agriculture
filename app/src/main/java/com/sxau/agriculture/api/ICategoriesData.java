@@ -12,6 +12,6 @@ import retrofit.http.GET;
  * @author 崔志泽
  */
 public interface ICategoriesData {
-    @GET("categories")
+    @GET("categories?categoryType=QUESTION&parentId=")
     Call<ArrayList<CategorieData>> getCategories();
 }

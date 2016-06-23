@@ -43,6 +43,7 @@ import java.util.List;
 public class DetailQuestionActivity extends BaseActivity implements IDetailQuestionActivity, View.OnClickListener {
     private ImageView rv_question_head, rv_professor_head, iv_collection;
     private TextView tv_question_name, tv_question_content, tv_question_title, tv_question_time, tv_is_answer, tv_professor_name, tv_professor_content, tv_professor_ok;
+    private TextView tv_voice;
     private Button bt_answer;
     private LinearLayout ll_expert_answer;
     private TitleBarTwo topBarUtil;
@@ -82,6 +83,7 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
         tv_is_answer = (TextView) findViewById(R.id.tv_is_answer);
         tv_professor_name = (TextView) findViewById(R.id.tv_professor_name);
         tv_professor_content = (TextView) findViewById(R.id.tv_professor_content);
+        tv_voice = (TextView) findViewById(R.id.tv_voice);
         bt_answer = (Button) findViewById(R.id.bt_answer);
         ll_expert_answer = (LinearLayout) findViewById(R.id.ll_expert_answer);
         topBarUtil = (TitleBarTwo) findViewById(R.id.topBar_detail);
@@ -89,6 +91,7 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
 
         iv_collection.setOnClickListener(this);
         bt_answer.setOnClickListener(this);
+        tv_voice.setOnClickListener(this);
     }
 
     public void initNineGridView() {
@@ -134,6 +137,9 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
                 break;
             case R.id.iv_collection:
                 doCollection();
+                break;
+            case R.id.tv_voice:
+
                 break;
             default:
                 break;
@@ -230,6 +236,13 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
                 placeholder(R.mipmap.img_default_user_portrait_150px).error(R.mipmap.img_default_user_portrait_150px).into(rv_question_head);
         tv_question_name.setText(detailQuestionData.getUser().getName());
         tv_question_title.setText(detailQuestionData.getTitle());
+        Log.e("DetailQA","mediaId:"+detailQuestionData.getMediaId());
+        if (detailQuestionData.getMediaId() != null){
+            tv_question_content.setVisibility(View.GONE);
+            tv_voice.setVisibility(View.VISIBLE);
+        }else {
+            tv_voice.setVisibility(View.GONE);
+        }
         tv_question_content.setText(detailQuestionData.getContent());
         tv_question_time.setText(TimeUtil.format(detailQuestionData.getWhenCreated()));
         if (detailQuestionData.getExpert() != null) {

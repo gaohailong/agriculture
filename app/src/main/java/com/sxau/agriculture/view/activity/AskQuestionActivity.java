@@ -71,7 +71,6 @@ import retrofit.Retrofit;
 
 /**
  * 提问页面
- * 提交声音问题部分（上传至自己的服务器，没有接口还没写）
  * 获取提交声音的token接口不对
  * @author 崔志泽
  */
@@ -386,9 +385,9 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
         Toast.makeText(getApplicationContext(), "开始录音",Toast.LENGTH_SHORT).show();
         mRecorder = new MediaRecorder();
         mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-        mRecorder.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT);
+        mRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
         mRecorder.setOutputFile(mFileName);
-        mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
+        mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
         try {
             mRecorder.prepare();
         } catch (IOException e) {
@@ -516,20 +515,22 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
     }
     //提交声音问题
     public void uploadAudioQuestion() {
-        audioUrl = ConstantUtil.UPLOAD_AUDIO_PREFIX + audioUrl;
+        audioUrl = ConstantUtil.DOMAIN + audioUrl;
         if (imageUriList != null && !imageUriList.isEmpty()) {
             questionImage = StringUtil.changeListToString(imageUriList);
         }else {
             questionImage = "";
         }
 
-        //上传接口没给，还没编写这部分
+
         Map map = new HashMap();
         map.put("categoryId", questionType);
         map.put("title", "语音问题");
-        map.put("content", "请点击播放");
-        map.put("image", audioUrl);
+        map.put("content", "语音内容");
+        map.put("image", questionImage);
+        map.put("mediaId",audioUrl);
 
+        Log.e("AskQA","mediaId:"+audioUrl);
         Call<JsonObject> call = RetrofitUtil.getRetrofit().create(IAskQuestion.class).sendQuestion(authorToken, map);
         call.enqueue(new Callback<JsonObject>() {
             @Override
@@ -537,7 +538,7 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
                 showProgress(false);
                 Log.e("getCode", response.code() + "");
                 Toast.makeText(AskQuestionActivity.this, "提问成功", Toast.LENGTH_SHORT).show();
-
+                finish();
             }
 
             @Override
@@ -587,11 +588,12 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
             uploadPic(uploadToken, domain);
         }
     }
+
     public void doupdataAudio(){
         File audioFile = new File(mFileName);
         Uri audioUri = Uri.fromFile(audioFile);
         uploadAudioFilePath = FileUtilsQiNiu.getPath(this,audioUri);
-        uploadAudio(uploadTokenForAudio,domain);
+        uploadAudio(uploadToken,domain);
     }
     //获取上传图片权限token
     private void getUploadToken() {
@@ -618,7 +620,7 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
 
     //获取上传音频权限token
     private void getUploadTokenForAudio() {
-        Call<JsonObject> call = RetrofitUtil.getRetrofit().create(IUploadToken.class).getUploadToken(authorToken);
+        Call<JsonObject> call = RetrofitUtil.getRetrofit().create(IUploadToken.class).getUploadTokenForAudio(authorToken);
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Response<JsonObject> response, Retrofit retrofit) {
@@ -690,6 +692,7 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
                 new UpCompletionHandler() {
                     @Override
                     public void complete(String key, ResponseInfo respInfo, JSONObject jsonData) {
+                        Log.e("AskQA","code:"+respInfo.statusCode+"  error:"+respInfo.error);
                         if (respInfo.isOK()) {
                             try {
                                 String fileKey = jsonData.getString("key");
@@ -704,7 +707,7 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
                         } else {
                             Toast.makeText(
                                     context,
-                                    "上传图片失败",
+                                    "上传语音失败",
                                     Toast.LENGTH_LONG).show();
                             Log.e(QiniuLabConfig.LOG_TAG, respInfo.toString());
                         }
