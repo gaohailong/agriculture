@@ -13,6 +13,7 @@ import com.sxau.agriculture.utils.ACache;
 import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.LogUtil;
 import com.sxau.agriculture.utils.RetrofitUtil;
+import com.sxau.agriculture.utils.UserInfoUtil;
 import com.sxau.agriculture.view.activity.ImprovePersonalInfoActivity;
 import com.sxau.agriculture.view.activity.MainActivity;
 import com.sxau.agriculture.view.activity_interface.IImprovePersonalInfoActivity;
@@ -55,12 +56,7 @@ public class ImprovePersonalInfoPresenter implements IImprovePersonalInfoPresent
         map.put("industry", industry);
         map.put("scale", scale);
 
-        //从缓存中拿数据，拿authToken
-        ACache mCache = ACache.get(AgricultureApplication.getContext());
-        String userData = mCache.getAsString(ConstantUtil.CACHE_KEY);
-        Gson gson = new Gson();
-        User user = gson.fromJson(userData, User.class);
-        authToken = user.getAuthToken();
+        authToken = UserInfoUtil.findAuthToken();
 
         LogUtil.d("ImprovrPersonalInfoP", "authToken：" + authToken);
         Call call = RetrofitUtil.getRetrofit().create(IAuthentication.class).submitPersonalData(map, authToken);
@@ -72,13 +68,15 @@ public class ImprovePersonalInfoPresenter implements IImprovePersonalInfoPresent
                     //请求成功
                     LogUtil.d("ImprovePersonalInfoP", "请求成功，请求返回body：" + response.body() + "  请求返回code：" + response.code() + "  请求返回Message：" + response.message());
                     //给出提示信息
+                    iImprovePersonalInfoActivity.showProgress(false);
                     iImprovePersonalInfoActivity.showSuccess();
                     handler.sendEmptyMessage(ConstantUtil.INIT_DATA);
                 } else {
                     //请求失败
                     LogUtil.d("ImprovePersonalInfoP", "请求失败，请求返回body：" + response.body() + "  请求返回code：" + response.code() + "  请求返回Message：" + response.message());
                     //给出提示信息
-                    iImprovePersonalInfoActivity.showSuccess();
+                    iImprovePersonalInfoActivity.showProgress(false);
+                    iImprovePersonalInfoActivity.showFailed();
                     handler.sendEmptyMessage(ConstantUtil.INIT_DATA);
                 }
             }
@@ -86,6 +84,7 @@ public class ImprovePersonalInfoPresenter implements IImprovePersonalInfoPresent
             @Override
             public void onFailure(Throwable t) {
                 //请求失败，给出提示信息
+                iImprovePersonalInfoActivity.showProgress(false);
                 iImprovePersonalInfoActivity.showFailed();
                 handler.sendEmptyMessage(ConstantUtil.INIT_DATA);
             }
