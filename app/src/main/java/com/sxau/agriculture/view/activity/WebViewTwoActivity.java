@@ -39,7 +39,7 @@ import retrofit.Retrofit;
 
 
 /**
- * 首页文章跳转的webView
+ * 首页文章跳转的webView（有网络请求）
  *
  * @author 高海龙
  */

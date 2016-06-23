@@ -24,7 +24,7 @@ public class TradeReleasePresenter implements ITradeReleasePresenter{
     private ArrayList<CategorieData> responsecategorieDatas=new ArrayList<>();
     private Handler mhandler;
     private String cate;
-    private ArrayList<String> spinData=new ArrayList<>();
+//   private ArrayList<CategorieData> spinData=new ArrayList<>();
 
     public TradeReleasePresenter(Handler mhandler) {
         this.mhandler = mhandler;
@@ -38,10 +38,10 @@ public class TradeReleasePresenter implements ITradeReleasePresenter{
             public void onResponse(Response<ArrayList<CategorieData>> response, Retrofit retrofit) {
                 if (response.isSuccess()){
                     responsecategorieDatas=response.body();
-                    for (int i=0;i<responsecategorieDatas.size();i++){
+                   /* for (int i=0;i<responsecategorieDatas.size();i++){
                         cate=responsecategorieDatas.get(i).getName();
                         spinData.add(cate);
-                    }
+                    }*/
                     mhandler.sendEmptyMessage(ConstantUtil.GET_NET_DATA);
                 }
             }
@@ -54,8 +54,8 @@ public class TradeReleasePresenter implements ITradeReleasePresenter{
     }
 
     @Override
-    public ArrayList<String> getCategorieinfo() {
-        return spinData;
+    public ArrayList<CategorieData> getCategorieinfo() {
+        return responsecategorieDatas;
     }
 
 }

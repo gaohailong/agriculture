@@ -77,7 +77,7 @@ public class PersonalTradeInfoAdapter extends BaseAdapter {
                 break;
             case "AUDITED":
                 holder.tv_is_question.setText("已通过");
-                holder.v_left.setBackgroundColor(Color.parseColor("#4CAF50"));
+                holder.v_left.setBackgroundColor(Color.parseColor("#00b5ad"));
                 break;
             default:
                 break;

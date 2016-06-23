@@ -374,7 +374,7 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
             }else {
                 tv_title.setText(bannerData.get(index).getName());
                 //轮播图点击事件
-                imageViews.get(index).setOnClickListener(new View.OnClickListener() {
+              /*  imageViews.get(index).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent();
@@ -382,7 +382,7 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
                         intent.setClass(context, PictureWebViewActivity.class);
                         startActivity(intent);
                     }
-                });
+                });*/
             }
         }else {
             tv_title.setText("当前没有网络，请检查网络设置");

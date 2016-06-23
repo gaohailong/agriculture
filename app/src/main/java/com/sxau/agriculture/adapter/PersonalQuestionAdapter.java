@@ -77,10 +77,11 @@ public class PersonalQuestionAdapter extends BaseAdapter {
         if (myPersonalQuestion.getQuestionAuditState().equals("WAIT_AUDITED")) {
             holder.ll_answer.setVisibility(View.GONE);
             holder.tv_is_question.setText(R.string.no_daudited);
-        } else if (myPersonalQuestion.getQuestionAuditState().equals("WAIT_RESOLVE")) {
+        } else if (myPersonalQuestion.getQuestionResolveState().equals("WAIT_RESOLVE")) {
             holder.ll_answer.setVisibility(View.GONE);
             holder.tv_is_question.setText(R.string.no_question);
-        } else {
+        } else if(myPersonalQuestion.getQuestionAuditState().equals("AUDITED")&&myPersonalQuestion.getQuestionResolveState().equals("RESOLVE")) {
+            holder.ll_answer.setVisibility(View.VISIBLE);
             holder.tv_content.setText(myPersonalQuestion.getAnswer());
             Picasso.with(context).load(myPersonalQuestion.getUser().getAvatar()).resize(150, 150).centerCrop().placeholder(R.mipmap.ic_loading).error(R.mipmap.ic_load_fail).into(holder.rv_head);
             holder.tv_is_question.setText(R.string.is_question);

@@ -13,7 +13,7 @@ import java.util.ArrayList;
  */
 public interface ITradeListViewPresenter {
 
-    void doRequest(String page,String pagesize,boolean isRefresh);
+    void doRequest(String page,String pagesize,boolean isRefresh,String type);
     ArrayList<TradeData> getDemandDatas();
     ArrayList<TradeData> getSupplyDatas();
 //    void doRequest(String page,String pageSize,final boolean isRefresh);

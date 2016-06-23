@@ -87,20 +87,26 @@ public class MessageFragment extends BaseFragment implements IMessageFragment, A
         super.onViewCreated(view, savedInstanceState);
         initListView();
         initRefresh();
-        handler.sendEmptyMessage(ConstantUtil.INIT_DATA);
+        if (NetUtil.isNetAvailable(context)) {
+            handler.sendEmptyMessage(ConstantUtil.INIT_DATA);
+            srl_refresh.setLoading(false);
+        } else {
+            Toast.makeText(context, "没有网络连接", Toast.LENGTH_SHORT).show();
+            srl_refresh.setLoading(false);
+        }
     }
 
     //初始化listView
     public void initListView() {
         messageAdapter = new MessageAdapter(context, messageInfos);
         lv_message.setAdapter(messageAdapter);
-        lv_message.setOnItemClickListener(this);
+        lv_message.addFooterView(footerLayout);
+        srl_refresh.setChildView(lv_message);
     }
 
     //初始化下拉刷新
     public void initRefresh() {
-        lv_message.addFooterView(footerLayout);
-        srl_refresh.setChildView(lv_message);
+
         srl_refresh.setOnRefreshListener(new RefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -114,38 +120,42 @@ public class MessageFragment extends BaseFragment implements IMessageFragment, A
                 handler.sendEmptyMessage(ConstantUtil.UP_LOAD);
             }
         });
+        lv_message.setOnItemClickListener(this);
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Intent intentStart = new Intent();
-        String type = messageInfos.get(position).getMessageType();
-        switch (type) {
-            case ConstantUtil.QUESTION://问答
-                intentStart.setClass(context, DetailQuestionActivity.class);
-                intentStart.putExtra("indexPosition", id);
-                break;
-            case ConstantUtil.TRADE://交易
-                intentStart.setClass(context, TradeContentActivity.class);
-                intentStart.putExtra("TradeId", id);
-                break;
-            case ConstantUtil.ARTICLE://文章
-                intentStart.setClass(context, WebViewTwoActivity.class);
-                intentStart.putExtra("article", id);
-                break;
-            case ConstantUtil.RELATION://关系
-                break;
-            case ConstantUtil.SYSTEM://系统
-                break;
-            case ConstantUtil.WECHAT://微信
-                break;
-            case ConstantUtil.NOTICE://公告
-                break;
-            default:
-                break;
-            //Todo 发送网络请求去改变是否已读
+        if (messageInfos.size() > 0) {
+            Intent intentStart = new Intent();
+            String type = messageInfos.get(position).getMessageType();
+            int itemId = messageInfos.get(position).getRelationId();
+            switch (type) {
+                case ConstantUtil.QUESTION://问答(已成功)
+                    intentStart.setClass(context, DetailQuestionActivity.class);
+                    intentStart.putExtra("indexPosition", itemId);
+                    break;
+                case ConstantUtil.TRADE://交易(已成功)
+                    intentStart.setClass(context, TradeContentActivity.class);
+                    intentStart.putExtra("TradeId", itemId);
+                    break;
+                case ConstantUtil.ARTICLE://文章(未试验)
+                    intentStart.setClass(context, WebViewTwoActivity.class);
+                    intentStart.putExtra("article", id);
+                    break;
+                case ConstantUtil.RELATION://关系
+                    break;
+                case ConstantUtil.SYSTEM://系统
+                    break;
+                case ConstantUtil.WECHAT://微信
+                    break;
+                case ConstantUtil.NOTICE://公告
+                    break;
+                default:
+                    break;
+                //Todo 发送网络请求去改变是否已读
+            }
+            context.startActivity(intentStart);
         }
-        context.startActivity(intentStart);
     }
 
     //handler定义
@@ -199,7 +209,7 @@ public class MessageFragment extends BaseFragment implements IMessageFragment, A
     @Override
     public void updateView(ArrayList<MessageInfo> messageInfosData) {
         messageInfos.clear();
-        messageInfos.addAll(messageInfosData);//原来写的不是addall
+        messageInfos.addAll(messageInfosData);
         messageAdapter.notifyDataSetChanged();
         if (iMessagePresenter.isLoadOver()) {
             RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOAD_OVER);

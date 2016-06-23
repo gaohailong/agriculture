@@ -30,7 +30,7 @@ import io.bxbxbai.common.view.CircleImageView;
 
 
 /**
- * 首页文章跳转的webView
+ * 首页文章跳转的webView（无网络请求）
  *
  * @author 高海龙
  */

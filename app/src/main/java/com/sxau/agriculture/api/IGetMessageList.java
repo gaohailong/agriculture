@@ -16,9 +16,6 @@ import retrofit.http.Query;
  * @author 高海龙
  */
 public interface IGetMessageList {
-//    @GET("messages")
-//    Call<MessageList> getMessage(@Query("name") String name, @Query("page") String page, @Query("pageSize") String pageSize);
-
     @GET("messages")
     Call<ArrayList<MessageInfo>> getMessage(@Header("X-AUTH-TOKEN") String authToken, @Query("page") String page, @Query("pageSize") String pageSize);
 }

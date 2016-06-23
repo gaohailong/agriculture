@@ -22,7 +22,7 @@ import java.util.ArrayList;
 /**
  * 问答页面adapter
  *
- * @author 李秉龙
+ * @author
  */
 public class QuestionAdapter extends BaseAdapter {
     private Context context;
@@ -83,7 +83,6 @@ public class QuestionAdapter extends BaseAdapter {
 
         return convertView;
     }
-
 
     private class ViewHolder {
         private ImageView iv_fav;

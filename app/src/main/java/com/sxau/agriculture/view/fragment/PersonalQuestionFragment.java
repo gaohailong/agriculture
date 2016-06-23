@@ -109,13 +109,14 @@ public class PersonalQuestionFragment extends BaseFragment implements IPersonalQ
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    if (NetUtil.isNetAvailable(getActivity())){
-                    DetailQuestionActivity.actionStart(PersonalQuestionFragment.this.getActivity(), position);
-                    }else {
-                        Toast.makeText(getActivity(),"无网络连接,请检查网络！",Toast.LENGTH_SHORT).show();
+                    if (NetUtil.isNetAvailable(getActivity())) {
+                        DetailQuestionActivity.actionStart(PersonalQuestionFragment.this.getActivity(), position);
+                    } else {
+                        Toast.makeText(getActivity(), "无网络连接,请检查网络！", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
+
         }
         if (iPersonalQuestionPresenter.isNetAvailable()) {
             iPersonalQuestionPresenter.doRequest();

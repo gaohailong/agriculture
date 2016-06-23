@@ -15,11 +15,7 @@
         android:paddingTop="4dp"
         custom:titleTextColor="#080707"
         custom:titleTextSize="25sp" />
-    <!-- <com.sxau.agriculture.utils.TitleBarTwo
-         android:id="@+id/topBar"
-         android:layout_width="match_parent"
-         android:layout_height="50dp"
-         android:padding="4dp" />-->
+
     <FrameLayout
         android:id="@+id/fl_content"
         android:layout_width="match_parent"
@@ -40,13 +36,6 @@
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="55dp"
         android:background="@color/whitGrey" />
-
-    <!--  <FrameLayout
-          android:id="@android:id/tabcontent"
-          android:layout_width="match_parent"
-          android:layout_height="match_parent"
-          android:layout_weight="0" />
-  -->
 
     <RadioGroup
         android:id="@+id/rg_tab"

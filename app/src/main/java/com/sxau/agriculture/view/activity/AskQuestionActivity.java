@@ -247,6 +247,7 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
                         }
                     }
                 }).start();
+                finish();
                 break;
             case R.id.tv_del_voice:
                 deleteVoice(new File(mFileName));

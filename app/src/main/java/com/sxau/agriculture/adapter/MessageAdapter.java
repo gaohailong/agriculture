@@ -71,29 +71,28 @@ public class MessageAdapter extends BaseAdapter {
         }
 
         MessageInfo messageInfo = dates.get(position);
-        Log.e("messageInfo6", messageInfo.toString());
         String type = messageInfo.getMessageType();
         switch (type) {
             case ConstantUtil.QUESTION://问答
-                holder.iv_messagetype.setImageResource(R.drawable.ic_message_question_128px);
+                holder.iv_messagetype.setImageResource(R.mipmap.ic_question_message);
                 break;
             case ConstantUtil.TRADE://交易
-                holder.iv_messagetype.setImageResource(R.drawable.ic_message_money_128px);
+                holder.iv_messagetype.setImageResource(R.mipmap.ic_trade_message);
                 break;
             case ConstantUtil.ARTICLE://文章
-                holder.iv_messagetype.setImageResource(R.drawable.ic_message_question_128px);//TODO 没有图片
+                holder.iv_messagetype.setImageResource(R.mipmap.ic_question_message);//TODO 没有图片
                 break;
             case ConstantUtil.RELATION://关系
-                holder.iv_messagetype.setImageResource(R.drawable.ic_message_system_128px);//TODO 没有图片
+                holder.iv_messagetype.setImageResource(R.mipmap.ic_question_message);//TODO 没有图片
                 break;
             case ConstantUtil.SYSTEM://系统
-                holder.iv_messagetype.setImageResource(R.drawable.ic_message_system_128px);
+                holder.iv_messagetype.setImageResource(R.mipmap.ic_system_message);
                 break;
             case ConstantUtil.WECHAT://微信
-                holder.iv_messagetype.setImageResource(R.drawable.ic_message_wechat_128px);
+                holder.iv_messagetype.setImageResource(R.mipmap.ic_weixin_message);
                 break;
             case ConstantUtil.NOTICE://公告
-                holder.iv_messagetype.setImageResource(R.drawable.ic_message_system_128px);//TODO 没有图片
+                holder.iv_messagetype.setImageResource(R.mipmap.ic_question_message);//TODO 没有图片
                 break;
             default:
                 break;
