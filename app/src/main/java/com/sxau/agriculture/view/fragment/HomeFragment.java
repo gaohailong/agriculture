@@ -35,7 +35,9 @@ import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.NetUtil;
 import com.sxau.agriculture.utils.RefreshBottomTextUtil;
 import com.sxau.agriculture.utils.RetrofitUtil;
+import com.sxau.agriculture.view.activity.PictureWebViewActivity;
 import com.sxau.agriculture.view.activity.WebViewActivity;
+import com.sxau.agriculture.view.activity.WebViewTwoActivity;
 import com.sxau.agriculture.widgets.RefreshLayout;
 
 import java.lang.ref.WeakReference;
@@ -102,7 +104,6 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
         tv_more = (TextView) footerLayout.findViewById(R.id.tv_more);
         tv_title= (TextView) mView.findViewById(R.id.tv_title);
         fl_adv= (FrameLayout) mView.findViewById(R.id.fl_adv);
-
 
         currentPage = 1;
         isLoadOver = false;
@@ -378,7 +379,7 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
                     public void onClick(View v) {
                         Intent intent = new Intent();
                         intent.putExtra("ArticleUrl", bannerData.get(index).getUrl());
-                        intent.setClass(context, WebViewActivity.class);
+                        intent.setClass(context, PictureWebViewActivity.class);
                         startActivity(intent);
                     }
                 });
