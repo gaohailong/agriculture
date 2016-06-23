@@ -31,14 +31,23 @@
         tools:context="com.sxau.agriculture.view.activity.LoginActivity">
 
 
-        <EditText
-            android:id="@+id/et_address"
+        <TextView
+            android:id="@+id/tv_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:hint="请输入您的所在地（必填）"
+            android:paddingLeft="4dp"
+            android:text="点击选择您的所在地（必填）"
             android:textSize="18sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/greylittleBlack" />
 
         <EditText
             android:id="@+id/et_realName"
@@ -47,6 +56,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:hint="请输入您的真实姓名（必填）"
+            android:lines="1"
             android:textSize="18sp" />
 
         <EditText
@@ -56,6 +66,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:hint="请输入您的产业方向"
+            android:lines="1"
             android:textSize="18sp" />
 
         <EditText
@@ -65,6 +76,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:hint="请输入您的产业规模"
+            android:lines="1"
             android:textSize="18sp" />
 
     </LinearLayout>

@@ -161,7 +161,7 @@ public class RegisterPresenter implements IRegisterPresenter {
                         @Override
                         public void onResponse(Response<JsonObject> response, Retrofit retrofit) {
                             int responseCode = response.code();
-                            if (responseCode == RESPONSE_SUCCESS) {
+                            if (response.isSuccess()) {
                                 JsonObject joResponseBody = response.body();
                                 authToken = joResponseBody.get("authToken").getAsString();
 

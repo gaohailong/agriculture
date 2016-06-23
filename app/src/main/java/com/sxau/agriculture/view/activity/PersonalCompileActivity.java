@@ -483,7 +483,7 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
 
     @Override
     public String getRealName() {
-        return tv_UserNick.getText().toString();
+        return tv_UserRealName.getText().toString();
     }
 
 
