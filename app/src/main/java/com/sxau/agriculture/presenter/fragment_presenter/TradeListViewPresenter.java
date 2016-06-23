@@ -45,30 +45,35 @@ public class TradeListViewPresenter implements ITradeListViewPresenter {
     }
 
     @Override
-    public void doRequest(String page, String pageSize, final boolean isRefresh) {
-        Call<ArrayList<TradeData>> call = RetrofitUtil.getRetrofit().create(ITrade.class).getInfoTrade(authToken,page, pageSize);
+    public void doRequest(String page, String pageSize, final boolean isRefresh, final String type) {
+        Call<ArrayList<TradeData>> call = RetrofitUtil.getRetrofit().create(ITrade.class).getInfoTrade(authToken,page, pageSize,type);
         call.enqueue(new Callback<ArrayList<TradeData>>() {
             @Override
             public void onResponse(Response<ArrayList<TradeData>> response, Retrofit retrofit) {
                 if (response.isSuccess()) {
                     ArrayList<TradeData> tradeDatas = response.body();
                     if (isRefresh) {
-                        tradeDatasList.clear();
+//                        tradeDatasList.clear();
                         demandDatasList.clear();
                         supplyDatasList.clear();
-                        tradeDatasList.addAll(tradeDatas);
+//                        tradeDatasList.addAll(tradeDatas);
                     } else {
-                        tradeDatasList.addAll(tradeDatas);
+//                        tradeDatasList.addAll(tradeDatas);
                     }
                     aCache.remove(ConstantUtil.CACHE_TRADESUPPLY_KEY);
                     aCache.remove(ConstantUtil.CACHE_TRADEDEMAND_KEY);
-                    for (int i = 0; i < tradeDatas.size(); i++) {
+                    if (type.equals("SUPPLY")){
+                        supplyDatasList.addAll(tradeDatas);
+                    }else if(type.equals("DEMAND")){
+                        demandDatasList.addAll(tradeDatas);
+                    }
+                /*    for (int i = 0; i < tradeDatas.size(); i++) {
                         if (tradeDatas.get(i).getTradeType().equals("SUPPLY")) {
                             supplyDatasList.add(tradeDatas.get(i));
                         } else if (tradeDatas.get(i).getTradeType().equals("DEMAND")) {
                             demandDatasList.add(tradeDatas.get(i));
                         }
-                    }
+                    }*/
                     aCache.put(ConstantUtil.CACHE_TRADESUPPLY_KEY, supplyDatasList);
                     aCache.put(ConstantUtil.CACHE_TRADEDEMAND_KEY, demandDatasList);
 
@@ -92,6 +97,7 @@ public class TradeListViewPresenter implements ITradeListViewPresenter {
             }
         });
     }
+
 
     @Override
     public ArrayList<TradeData> getDemandDatas() {

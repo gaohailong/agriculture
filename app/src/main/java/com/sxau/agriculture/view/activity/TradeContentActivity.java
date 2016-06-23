@@ -147,6 +147,7 @@ public class TradeContentActivity extends BaseActivity implements View.OnClickLi
     public void getTradeId() {
         Intent intent = getIntent();
         tradeContentId = intent.getIntExtra("TradeId", 0);
+        Log.e("itemId2", tradeContentId + "");
         needCollect = intent.getBooleanExtra("needCollect", true);
     }
 
@@ -163,12 +164,12 @@ public class TradeContentActivity extends BaseActivity implements View.OnClickLi
             switch (msg.what) {
                 case ConstantUtil.GET_NET_DATA:
                     setTradeData();
-                    if (tradeData.getImages() != null){
+                    if (tradeData.getImages() != null && tradeData.getImages().length() >= 4) {
                         imgDatas = StringUtil.changeStringToList(tradeData.getImages());
                         imgDatas = StringUtil.changeToWholeUrlList(imgDatas);
-                        Log.d("DetailQA","imgDatas："+tradeData.getImages().toString());
-                        for (int i=0;i<imgDatas.size();i++){
-                            Log.d("DetailQA","imgDatas："+imgDatas.get(i)+" 位置："+i);
+                        Log.d("DetailQA", "imgDatas：" + tradeData.getImages().toString());
+                        for (int i = 0; i < imgDatas.size(); i++) {
+                            Log.d("DetailQA", "imgDatas：" + imgDatas.get(i) + " 位置：" + i);
                         }
                         //设置九宫格数据源
                         nineGridImageView.setImagesData(imgDatas);
