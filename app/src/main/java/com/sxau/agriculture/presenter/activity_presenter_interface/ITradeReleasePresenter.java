@@ -9,5 +9,5 @@ import java.util.ArrayList;
  */
 public interface ITradeReleasePresenter {
     void doRequest();
-    ArrayList<String> getCategorieinfo();
+    ArrayList<CategorieData> getCategorieinfo();
 }
