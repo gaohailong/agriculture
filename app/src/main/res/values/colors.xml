@@ -37,4 +37,5 @@
     <color name="text_enabled">#FFFFFFFF</color>
     <color name="text_disabled">#4DFFFFFF</color>
     <color name="colorwhite">#FFFFFF</color>
+
 </resources>
