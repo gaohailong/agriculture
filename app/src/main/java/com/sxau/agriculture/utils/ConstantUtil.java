@@ -53,6 +53,7 @@ public class ConstantUtil {
     public static final String NOTICE = "NOTICE";
     public static final String TRADE = "TRADE";
     public static final String ARTICLE = "ARTICLE";
+
     //============================整形常量的定义===================================
     //下拉刷新的时间
     public static final int PULL_TIME = 3000;
