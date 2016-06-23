@@ -128,18 +128,17 @@ public class MessageFragment extends BaseFragment implements IMessageFragment, A
         if (messageInfos.size() > 0) {
             Intent intentStart = new Intent();
             String type = messageInfos.get(position).getMessageType();
-            int itemId = messageInfos.get(position).getId();
+            int itemId = messageInfos.get(position).getRelationId();
             switch (type) {
-                case ConstantUtil.QUESTION://问答
+                case ConstantUtil.QUESTION://问答(已成功)
                     intentStart.setClass(context, DetailQuestionActivity.class);
                     intentStart.putExtra("indexPosition", itemId);
                     break;
-                case ConstantUtil.TRADE://交易
+                case ConstantUtil.TRADE://交易(已成功)
                     intentStart.setClass(context, TradeContentActivity.class);
                     intentStart.putExtra("TradeId", itemId);
-                    Log.e("itemId1",itemId+"");
                     break;
-                case ConstantUtil.ARTICLE://文章
+                case ConstantUtil.ARTICLE://文章(未试验)
                     intentStart.setClass(context, WebViewTwoActivity.class);
                     intentStart.putExtra("article", id);
                     break;

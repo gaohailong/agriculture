@@ -69,6 +69,7 @@ public class MyReceiver extends BroadcastReceiver {
                     case ConstantUtil.TRADE://交易
                         intentStart.setClass(context, TradeContentActivity.class);
                         intentStart.putExtra("TradeId", id);
+                        Log.e("getIdForJpush",id+"");
                         break;
                     case ConstantUtil.ARTICLE://文章
                         intentStart.setClass(context, WebViewTwoActivity.class);
