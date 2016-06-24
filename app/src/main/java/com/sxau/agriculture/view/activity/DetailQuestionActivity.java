@@ -168,7 +168,7 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
         }else {
             try {
                 mediaPlayer.reset();
-                mediaPlayer.setDataSource(audioUrl);
+                mediaPlayer.setDataSource(ConstantUtil.DOMAIN+audioUrl);
                 mediaPlayer.prepare();
                 mediaPlayer.start();
             } catch (IOException e) {

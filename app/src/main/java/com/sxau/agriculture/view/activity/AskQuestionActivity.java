@@ -547,7 +547,6 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
     }
     //提交声音问题
     public void uploadAudioQuestion() {
-        audioUrl = ConstantUtil.DOMAIN + audioUrl;
         if (imageUriList != null && !imageUriList.isEmpty()) {
             questionImage = StringUtil.changeListToString(imageUriList);
         }else {
