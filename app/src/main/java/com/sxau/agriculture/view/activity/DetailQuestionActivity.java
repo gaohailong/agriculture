@@ -250,9 +250,6 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
         isFav = false;
     }
 
-
-
-
     //----------------------接口方法---------------------------
     @Override
     public int getQuestionId() {
@@ -260,7 +257,6 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
         return intent.getIntExtra("indexPosition", 0);
     }
 
-    
     @Override
     public void updateView() {
         Picasso.with(context).load(detailQuestionData.getUser().getAvatar()).

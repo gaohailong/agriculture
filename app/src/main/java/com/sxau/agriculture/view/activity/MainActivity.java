@@ -145,6 +145,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
             }
         });
     }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {

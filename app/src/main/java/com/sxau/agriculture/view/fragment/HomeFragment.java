@@ -182,7 +182,6 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
         vp_viewpager.setOnPageChangeListener(this);
     }
 
-
     public class MyHandler extends Handler {
         WeakReference<HomeFragment> weakReference;
 
@@ -342,7 +341,6 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
             e.printStackTrace();
         }
     }
-
 
     // 设置轮播时间间隔
     private Runnable runnableForBanner = new Runnable() {
