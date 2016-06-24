@@ -201,7 +201,7 @@ public class QuestionData implements Serializable {
         return fav;
     }
 
-    public static class CategoryEntity {
+    public static class CategoryEntity implements Serializable{
         private int id;
         private long whenCreated;
         private long whenUpdated;
@@ -276,7 +276,7 @@ public class QuestionData implements Serializable {
         }
     }
 
-    public static class UserEntity {
+    public static class UserEntity implements Serializable{
         private int id;
         private long whenCreated;
         private long whenUpdated;
