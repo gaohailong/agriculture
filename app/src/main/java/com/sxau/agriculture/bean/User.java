@@ -144,8 +144,8 @@ public class User implements Serializable{
     }
 
     public String getAvatar() {
-        Log.e("UserGet","avatar:"+avatar);
-        return avatar;
+        Log.e("UserGet","avatar:"+ConstantUtil.DOMAIN + "/" + avatar + "?imageView2/0/w/0/format/jpg");
+        return (ConstantUtil.DOMAIN + "/" + avatar + "?imageView2/0/w/0/format/jpg");
     }
 
     public String getIndustry() {
