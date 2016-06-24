@@ -57,43 +57,41 @@ public class MyReceiver extends BroadcastReceiver {
             try {
                 //TODO fragment是否能跳转
                 JSONObject extrasJson = new JSONObject(extras);
+                Log.e("indexPosition", "extrasJson" + extrasJson);
                 type = extrasJson.getString("type");
                 id = extrasJson.getString("id");
                 Log.e("indexPosition", "indexPosition" + id);
                 Log.e("indexPosition", "type" + type);
                 Intent intentStart = new Intent();
                 switch (type) {
-                    case ConstantUtil.QUESTION://问答(未实验)
+                    case ConstantUtil.QUESTION://问答
                         intentStart.setClass(context, DetailQuestionActivity.class);
-                        intentStart.putExtra("indexPosition", id);
-                        Log.e("indexPosition1", "indexPosition" + id);
+                        intentStart.putExtra("indexPosition", Integer.valueOf(id));
                         break;
-                    case ConstantUtil.TRADE://交易(未实验)
+                    case ConstantUtil.TRADE://交易
                         intentStart.setClass(context, TradeContentActivity.class);
-                        intentStart.putExtra("TradeId", id);
-                        Log.e("indexPosition2", "indexPosition" + id);
+                        intentStart.putExtra("TradeId", Integer.valueOf(id));
                         break;
-                    case ConstantUtil.ARTICLE://文章(未实验)
+                    case ConstantUtil.ARTICLE://文章
                         intentStart.setClass(context, WebViewTwoActivity.class);
-                        intentStart.putExtra("article", id);
-                        Log.e("indexPosition3", "indexPosition" + id);
+                        intentStart.putExtra("article",  Integer.valueOf(id));
                         break;
-                    case ConstantUtil.RELATION://关系(未实验)
-                        intentStart.setClass(context, MessageFragment.class);
-                        Log.e("indexPosition4", "indexPosition" + id);
-                        break;
-                    case ConstantUtil.SYSTEM://系统
+                    case ConstantUtil.RELATION://关系(未试验)
                         intentStart.setClass(context, MessageFragment.class);
                         break;
-                    case ConstantUtil.WECHAT://微信
+                    case ConstantUtil.SYSTEM://系统(未试验)
                         intentStart.setClass(context, MessageFragment.class);
                         break;
-                    case ConstantUtil.NOTICE://公告
+                    case ConstantUtil.WECHAT://微信(未试验)
+                        intentStart.setClass(context, MessageFragment.class);
+                        break;
+                    case ConstantUtil.NOTICE://公告(未试验)
                         intentStart.setClass(context, MessageFragment.class);
                         break;
                     default:
                         break;
                 }
+                intentStart.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intentStart);
             } catch (JSONException e) {
                 e.printStackTrace();
