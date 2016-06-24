@@ -177,7 +177,7 @@ public class TradeReleaseActivity extends BaseActivity implements View.OnClickLi
                 showPhotoDialog();
                 break;
             case R.id.btn_trade_release:
-                if (isDataViable()) {
+                if (isDataAvailable()) {
                     //执行上传数据操作
                     showProgress(true);
                     Log.e("categoryId", "执行方法");
@@ -264,7 +264,6 @@ public class TradeReleaseActivity extends BaseActivity implements View.OnClickLi
         });
     }
 
-
     public void showPhotoDialog() {
         ImageConfig imageConfig
                 = new ImageConfig.Builder(
@@ -283,7 +282,7 @@ public class TradeReleaseActivity extends BaseActivity implements View.OnClickLi
         ImageSelector.open(TradeReleaseActivity.this, imageConfig);   // 开启图片选择器
     }
 
-    public boolean isDataViable() {
+    public boolean isDataAvailable() {
         boolean flag = false;
         tradeTitle = etTradeTitle.getText().toString();
         tradeContent = etTradeContent.getText().toString();

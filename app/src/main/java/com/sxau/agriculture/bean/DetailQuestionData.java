@@ -1,13 +1,14 @@
 package com.sxau.agriculture.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
- * 文章详情的bean
+ * 问题详情的bean
  *
  * @author 高海龙
  */
-public class DetailQuestionData {
+public class DetailQuestionData implements Serializable {
 
     /**
      * id : 1
@@ -44,6 +45,7 @@ public class DetailQuestionData {
     private CategoryBean category;
     private String title;
     private String content;
+    private String mediaId;
     private int clickCount;
     private int likeCount;
     /**
@@ -158,6 +160,14 @@ public class DetailQuestionData {
         this.expert = expert;
     }
 
+    public String getMediaId() {
+        return mediaId;
+    }
+
+    public void setMediaId(String mediaId) {
+        this.mediaId = mediaId;
+    }
+
     public UserBean getUser() {
         return user;
     }
@@ -206,7 +216,7 @@ public class DetailQuestionData {
         this.answer = answer;
     }
 
-    public static class CategoryBean {
+    public static class CategoryBean implements Serializable {
         private int id;
         private long whenCreated;
         private long whenUpdated;
@@ -281,7 +291,7 @@ public class DetailQuestionData {
         }
     }
 
-    public static class ExpertBean {
+    public static class ExpertBean implements Serializable{
         private int id;
         private long whenCreated;
         private long whenUpdated;
@@ -401,7 +411,7 @@ public class DetailQuestionData {
         }
     }
 
-    public static class UserBean {
+    public static class UserBean implements Serializable {
         private int id;
         private long whenCreated;
         private long whenUpdated;
