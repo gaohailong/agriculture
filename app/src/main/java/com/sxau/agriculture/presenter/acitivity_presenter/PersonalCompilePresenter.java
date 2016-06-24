@@ -122,7 +122,7 @@ public class PersonalCompilePresenter implements IPersonalCompilePresenter {
                                 DisplayMetrics dm = new DisplayMetrics();
                                 final int width = dm.widthPixels;
                                 final String imageUrl = domain + "/" + fileKey + "?imageView2/0/w/" + width + "/format/jpg";
-                                avatar = imageUrl;
+                                avatar = fileKey;
                                 Log.e("imageUrl11111111", imageUrl);
                             } catch (JSONException e) {
                                 Toast.makeText(
@@ -235,7 +235,11 @@ public class PersonalCompilePresenter implements IPersonalCompilePresenter {
                     //因为请求下来的数据是不包含token的，所以需要手动添加进去，保存后不丢失
                     user.setAuthToken(authToken);
 //                    user.setAvatar("http://storage.workerhub.cn//Fvba7UuB5eIiMAQ-yQMjlGeaRrk8?imageView2/0/w/0/format/jpg");
+                    String userAvatar = user.getAvatar();
+                    userAvatar = domain + "/" + userAvatar + "?imageView2/0/w/0/format/jpg";
+                    user.setAvatar(userAvatar);
                     LogUtil.d("PersonalCompileP", "username:" + user.getName() + "  phone:" + user.getPhone() + "  address:" + user.getAddress() + "  token:" + user.getAuthToken());
+                    LogUtil.e("PersonalCP","avatar:"+user.getAvatar());
                     //存储到缓存中，一定包含用户名和用户的电话
                     mCache.put(ConstantUtil.CACHE_KEY, user);
                     //通知主线程更新UI数据
