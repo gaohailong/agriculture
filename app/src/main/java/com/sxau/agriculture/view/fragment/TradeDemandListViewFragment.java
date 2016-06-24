@@ -127,7 +127,6 @@ public class TradeDemandListViewFragment extends BaseFragment implements ITradeL
             super.handleMessage(msg);
             switch (msg.what) {
                 case ConstantUtil.GET_NET_DATA:
-                    //TODO 有需求数据接口时只需要将方法换为getDemandDatas即可
                     updateView(iTradeListViewPresenter.getDemandDatas());
                     break;
                 case ConstantUtil.PULL_REFRESH:
