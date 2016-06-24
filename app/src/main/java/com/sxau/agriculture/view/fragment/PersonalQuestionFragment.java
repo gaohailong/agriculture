@@ -74,9 +74,6 @@ public class PersonalQuestionFragment extends BaseFragment implements IPersonalQ
         initListView();
     }
 
-    /**
-     * 初始化下拉刷新
-     */
     private void initRefresh() {
         rl_refresh.setChildView(listView);
         rl_refresh.setOnRefreshListener(new RefreshLayout.OnRefreshListener() {
@@ -87,14 +84,9 @@ public class PersonalQuestionFragment extends BaseFragment implements IPersonalQ
         });
     }
 
-    /**
-     * 在初始化页面时，应该先读取缓存数据，将页面显示出来
-     * 然后再去请求新的数据进行显示。
-     */
     private void initListView() {
         //获取数据
         mquestionslist = iPersonalQuestionPresenter.getDatas();
-        LogUtil.d("PersonalQuestion", "1、初始化View，获取数据");
         if (mquestionslist.isEmpty()) {
             listView.setEmptyView(emptyView);
             listView.setVisibility(View.GONE);
@@ -104,7 +96,6 @@ public class PersonalQuestionFragment extends BaseFragment implements IPersonalQ
 
             adapter = new PersonalQuestionAdapter(PersonalQuestionFragment.this.getActivity(), mquestionslist);
             listView.setAdapter(adapter);
-            LogUtil.d("PersonalQuestion", "2、有数据初始化View");
 
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -120,7 +111,6 @@ public class PersonalQuestionFragment extends BaseFragment implements IPersonalQ
         }
         if (iPersonalQuestionPresenter.isNetAvailable()) {
             iPersonalQuestionPresenter.doRequest();
-            LogUtil.d("PersonalQuestion", "3、发起请求，请求数据");
         } else {
             showNoNetworking();
         }
@@ -138,10 +128,8 @@ public class PersonalQuestionFragment extends BaseFragment implements IPersonalQ
             super.handleMessage(msg);
             switch (msg.what) {
                 case ConstantUtil.GET_NET_DATA:
-                    LogUtil.d("PersonalQuestion", "5、收到通知，数据已经更新，拿数据，更新页面，执行updateView方法");
                     mquestionslist = iPersonalQuestionPresenter.getDatas();
                     updateView(mquestionslist);
-                    LogUtil.d("PersonalQuestionF", "insert");
                     break;
                 default:
                     break;
@@ -169,19 +157,14 @@ public class PersonalQuestionFragment extends BaseFragment implements IPersonalQ
 
     @Override
     public void updateView(ArrayList<MyPersonalQuestion> myPersonalQuestions) {
-        LogUtil.d("PersonalQuestion", "6、updateView方法执行");
         if (myPersonalQuestions.isEmpty()) {
-            LogUtil.d("PersonalQuestin", "7、仍然是空数据");
             listView.setEmptyView(emptyView);
             listView.setVisibility(View.GONE);
         } else {
-            LogUtil.d("PersonalQuestin", "8、成功拿到数据，更新页面");
             emptyView.setVisibility(View.GONE);
             listView.setVisibility(View.VISIBLE);
-
             adapter = new PersonalQuestionAdapter(PersonalQuestionFragment.this.getActivity(), myPersonalQuestions);
             listView.setAdapter(adapter);
-            LogUtil.d("PersonalQuestionF", "2");
 
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override

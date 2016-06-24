@@ -77,9 +77,11 @@ public class PersonalQuestionAdapter extends BaseAdapter {
         if (myPersonalQuestion.getQuestionAuditState().equals("WAIT_AUDITED")) {
             holder.ll_answer.setVisibility(View.GONE);
             holder.tv_is_question.setText(R.string.no_daudited);
+            holder.v_left.setBackgroundColor(Color.parseColor("#009688"));
         } else if (myPersonalQuestion.getQuestionResolveState().equals("WAIT_RESOLVE")) {
             holder.ll_answer.setVisibility(View.GONE);
             holder.tv_is_question.setText(R.string.no_question);
+            holder.v_left.setBackgroundColor(Color.parseColor("#009688"));
         } else if(myPersonalQuestion.getQuestionAuditState().equals("AUDITED")&&myPersonalQuestion.getQuestionResolveState().equals("RESOLVE")) {
             holder.ll_answer.setVisibility(View.VISIBLE);
             holder.tv_content.setText(myPersonalQuestion.getAnswer());
