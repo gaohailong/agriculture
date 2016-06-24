@@ -251,11 +251,12 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
         return intent.getIntExtra("indexPosition", 0);
     }
 
-    //视图改变未完成
+    
     @Override
     public void updateView() {
-        Picasso.with(context).load(detailQuestionData.getUser().getAvatar()).centerCrop().
-                placeholder(R.mipmap.img_default_user_portrait_150px).error(R.mipmap.img_default_user_portrait_150px).into(rv_question_head);
+        Picasso.with(context).load(detailQuestionData.getUser().getAvatar()).
+                placeholder(R.mipmap.img_user_default).error(R.mipmap.img_user_default).into(rv_question_head);
+        Log.e("DetailQA","avatar:"+detailQuestionData.getUser().getAvatar());
         tv_question_name.setText(detailQuestionData.getUser().getName());
         tv_question_title.setText(detailQuestionData.getTitle());
         Log.e("DetailQA","mediaId:"+detailQuestionData.getMediaId());
