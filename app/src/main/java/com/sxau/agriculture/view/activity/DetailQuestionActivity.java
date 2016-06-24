@@ -146,7 +146,16 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
                 doCollection();
                 break;
             case R.id.tv_voice:
-                playAudio();
+                if (NetUtil.isNetAvailable(DetailQuestionActivity.this)){
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            playAudio();
+                        }
+                    }).start();
+                }else {
+                    Toast.makeText(DetailQuestionActivity.this,"请检查网络",Toast.LENGTH_LONG).show();
+                }
                 break;
             default:
                 break;
