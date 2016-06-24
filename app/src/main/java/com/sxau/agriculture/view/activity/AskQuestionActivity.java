@@ -3,6 +3,7 @@ package com.sxau.agriculture.view.activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.media.MediaRecorder;
 import android.net.Uri;
@@ -220,34 +221,47 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
                 }
                 break;
             case R.id.btn_submit:
-                showProgress(true);
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            Thread.sleep(1500);
-                            //提交网络请求发送问题
-                            //提交音频问题
-                            if (tv_del_voice.getVisibility() == View.VISIBLE){
+                if (tv_del_voice.getVisibility() == View.VISIBLE){
+                    //提交语音问题
+                    showProgress(true);
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                Thread.sleep(1500);
+
                                 if (path.size() > 0) {
                                     doupdataPhoto();
                                 } else {
                                     doupdataAudio();
                                 }
-                            }else {
-                                //提交文字问题
-                                if (path.size() > 0) {
-                                    doupdataPhoto();
-                                } else {
-                                    uploadTextQuestion();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }).start();
+                }else {
+                    //提交文字问题
+                    if (isDataAvailable()){
+                        showProgress(true);
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    Thread.sleep(1500);
+
+                                    if (path.size() > 0) {
+                                        doupdataPhoto();
+                                    } else {
+                                        uploadTextQuestion();
+                                    }
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
                                 }
                             }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+                        }).start();
                     }
-                }).start();
-                finish();
+                }
                 break;
             case R.id.tv_del_voice:
                 deleteVoice(new File(mFileName));
@@ -255,6 +269,24 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
             default:
                 break;
         }
+    }
+
+    public boolean isDataAvailable() {
+        boolean flag = false;
+        questionTitle = et_title.getText().toString();
+        questionContent = et_trade_content.getText().toString();
+
+        if (questionTitle.equals("")) {
+            Toast.makeText(AskQuestionActivity.this, "请输入标题", Toast.LENGTH_SHORT).show();
+            flag = false;
+        } else if (questionContent.equals("")) {
+            Toast.makeText(AskQuestionActivity.this, "请输入内容", Toast.LENGTH_SHORT).show();
+            flag = false;
+        } else {
+            flag = true;
+        }
+
+        return flag;
     }
 
     public void showProgress(boolean flag) {
@@ -502,7 +534,7 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
                 showProgress(false);
                 Log.e("getCode", response.code() + "");
                 Toast.makeText(AskQuestionActivity.this, "提问成功", Toast.LENGTH_SHORT).show();
-
+                finish();
             }
 
             @Override
@@ -512,7 +544,6 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
             }
         });
 
-//        finish();
     }
     //提交声音问题
     public void uploadAudioQuestion() {
@@ -536,7 +567,6 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Response<JsonObject> response, Retrofit retrofit) {
-                showProgress(false);
                 Log.e("getCode", response.code() + "");
                 Toast.makeText(AskQuestionActivity.this, "提问成功", Toast.LENGTH_SHORT).show();
                 finish();
@@ -697,7 +727,7 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
                         if (respInfo.isOK()) {
                             try {
                                 String fileKey = jsonData.getString("key");
-                                audioUrl = fileKey + ".mp3";
+                                audioUrl = fileKey ;
                                 myHandler.sendEmptyMessage(ConstantUtil.SUCCESS_UPLOAD_AUDIO);
 
                                 Log.e("AudioFileUrl22222222", audioUrl);

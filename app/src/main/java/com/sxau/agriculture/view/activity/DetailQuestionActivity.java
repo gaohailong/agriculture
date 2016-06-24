@@ -3,6 +3,7 @@ package com.sxau.agriculture.view.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -30,6 +31,7 @@ import com.sxau.agriculture.utils.TimeUtil;
 import com.sxau.agriculture.utils.TitleBarTwo;
 import com.sxau.agriculture.view.activity_interface.IDetailQuestionActivity;
 
+import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.List;
 
@@ -57,6 +59,9 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
     private NineGridImageView nineGridImageView;    //九宫格View
     private List<String> imgDatas;                  //九宫格图片数据
     private NineGridImageViewAdapter<String> mAdapter;
+
+    private MediaPlayer mediaPlayer;
+    private String audioUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +93,8 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
         ll_expert_answer = (LinearLayout) findViewById(R.id.ll_expert_answer);
         topBarUtil = (TitleBarTwo) findViewById(R.id.topBar_detail);
         nineGridImageView = (NineGridImageView) findViewById(R.id.mNineGridImageView);
+
+        mediaPlayer = new MediaPlayer();
 
         iv_collection.setOnClickListener(this);
         bt_answer.setOnClickListener(this);
@@ -139,10 +146,25 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
                 doCollection();
                 break;
             case R.id.tv_voice:
-
+                playAudio();
                 break;
             default:
                 break;
+        }
+    }
+
+    public void playAudio(){
+        if (mediaPlayer.isPlaying()){
+            mediaPlayer.pause();
+        }else {
+            try {
+                mediaPlayer.reset();
+                mediaPlayer.setDataSource(audioUrl);
+                mediaPlayer.prepare();
+                mediaPlayer.start();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -240,6 +262,7 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
         if (detailQuestionData.getMediaId() != null){
             tv_question_content.setVisibility(View.GONE);
             tv_voice.setVisibility(View.VISIBLE);
+            audioUrl = detailQuestionData.getMediaId();
         }else {
             tv_voice.setVisibility(View.GONE);
         }
