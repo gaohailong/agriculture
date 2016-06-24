@@ -1,5 +1,9 @@
 package com.sxau.agriculture.bean;
 
+import android.util.Log;
+
+import com.sxau.agriculture.utils.ConstantUtil;
+
 import java.io.Serializable;
 
 /**
@@ -35,6 +39,15 @@ public class User implements Serializable{
     private String industry;
     private String scale;
     private String authToken;
+    private String lastIp;
+
+    public String getLastIp() {
+        return lastIp;
+    }
+
+    public void setLastIp(String lastIp) {
+        this.lastIp = lastIp;
+    }
 
     public String getId() {
         return id;
@@ -85,6 +98,8 @@ public class User implements Serializable{
     }
 
     public void setAvatar(String avatar) {
+        avatar = ConstantUtil.DOMAIN + "/" + avatar + "?imageView2/0/w/0/format/jpg";
+        Log.e("UserSet","avatar:"+avatar);
         this.avatar = avatar;
     }
 
@@ -129,7 +144,8 @@ public class User implements Serializable{
     }
 
     public String getAvatar() {
-        return avatar;
+        Log.e("UserGet","avatar:"+ConstantUtil.DOMAIN + "/" + avatar + "?imageView2/0/w/0/format/jpg");
+        return (ConstantUtil.DOMAIN + "/" + avatar + "?imageView2/0/w/0/format/jpg");
     }
 
     public String getIndustry() {

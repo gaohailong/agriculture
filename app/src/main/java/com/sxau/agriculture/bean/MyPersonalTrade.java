@@ -41,7 +41,7 @@ public class MyPersonalTrade implements Serializable{
      * scale : null
      */
 
-    private UserBean user;
+    private User user;
     private int clickCount;
     private int likeCount;
     private String endTime;
@@ -101,11 +101,11 @@ public class MyPersonalTrade implements Serializable{
         this.description = description;
     }
 
-    public UserBean getUser() {
+    public User getUser() {
         return user;
     }
 
-    public void setUser(UserBean user) {
+    public void setUser(User user) {
         this.user = user;
     }
 
@@ -165,89 +165,6 @@ public class MyPersonalTrade implements Serializable{
         this.images = images;
     }
 
-    public static class UserBean implements Serializable{
-        private int id;
-        private long whenCreated;
-        private long whenUpdated;
-        private String userType;
-        private String address;
-        private String name;
-        private String avatar;
-        private String industry;
-        private String scale;
-
-        public int getId() {
-            return id;
-        }
-
-        public void setId(int id) {
-            this.id = id;
-        }
-
-        public long getWhenCreated() {
-            return whenCreated;
-        }
-
-        public void setWhenCreated(long whenCreated) {
-            this.whenCreated = whenCreated;
-        }
-
-        public long getWhenUpdated() {
-            return whenUpdated;
-        }
-
-        public void setWhenUpdated(long whenUpdated) {
-            this.whenUpdated = whenUpdated;
-        }
-
-        public String getUserType() {
-            return userType;
-        }
-
-        public void setUserType(String userType) {
-            this.userType = userType;
-        }
-
-        public String getAddress() {
-            return address;
-        }
-
-        public void setAddress(String address) {
-            this.address = address;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public String getAvatar() {
-            return avatar;
-        }
-
-        public void setAvatar(String avatar) {
-            this.avatar = avatar;
-        }
-
-        public String getIndustry() {
-            return industry;
-        }
-
-        public void setIndustry(String industry) {
-            this.industry = industry;
-        }
-
-        public String getScale() {
-            return scale;
-        }
-
-        public void setScale(String scale) {
-            this.scale = scale;
-        }
-    }
 
     public static class CategoryBean implements Serializable{
         private int id;
