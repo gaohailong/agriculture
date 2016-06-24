@@ -57,11 +57,8 @@ public class MyReceiver extends BroadcastReceiver {
             try {
                 //TODO fragment是否能跳转
                 JSONObject extrasJson = new JSONObject(extras);
-                Log.e("indexPosition", "extrasJson" + extrasJson);
                 type = extrasJson.getString("type");
                 id = extrasJson.getString("id");
-                Log.e("indexPosition", "indexPosition" + id);
-                Log.e("indexPosition", "type" + type);
                 Intent intentStart = new Intent();
                 switch (type) {
                     case ConstantUtil.QUESTION://问答
@@ -74,19 +71,20 @@ public class MyReceiver extends BroadcastReceiver {
                         break;
                     case ConstantUtil.ARTICLE://文章
                         intentStart.setClass(context, WebViewTwoActivity.class);
-                        intentStart.putExtra("article",  Integer.valueOf(id));
+                        intentStart.putExtra("article", Integer.valueOf(id));
                         break;
                     case ConstantUtil.RELATION://关系(未试验)
-                        intentStart.setClass(context, MessageFragment.class);
+                        //TODO fragment是否能跳转
+//                        intentStart.setClass(context, MessageFragment.class);
                         break;
                     case ConstantUtil.SYSTEM://系统(未试验)
-                        intentStart.setClass(context, MessageFragment.class);
+//                        intentStart.setClass(context, MessageFragment.class);
                         break;
                     case ConstantUtil.WECHAT://微信(未试验)
-                        intentStart.setClass(context, MessageFragment.class);
+//                        intentStart.setClass(context, MessageFragment.class);
                         break;
                     case ConstantUtil.NOTICE://公告(未试验)
-                        intentStart.setClass(context, MessageFragment.class);
+//                        intentStart.setClass(context, MessageFragment.class);
                         break;
                     default:
                         break;
@@ -98,7 +96,6 @@ public class MyReceiver extends BroadcastReceiver {
             }
         } else if (JPushInterface.ACTION_RICHPUSH_CALLBACK.equals(intent.getAction())) {
             Log.d(TAG, "[MyReceiver] 用户收到到RICH PUSH CALLBACK: " + bundle.getString(JPushInterface.EXTRA_EXTRA));
-            //在这里根据 JPushInterface.EXTRA_EXTRA 的内容处理代码，比如打开新的Activity， 打开一个网页等..
 
         } else if (JPushInterface.ACTION_CONNECTION_CHANGE.equals(intent.getAction())) {
             boolean connected = intent.getBooleanExtra(JPushInterface.EXTRA_CONNECTION_CHANGE, false);

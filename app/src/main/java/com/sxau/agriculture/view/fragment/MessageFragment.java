@@ -138,11 +138,12 @@ public class MessageFragment extends BaseFragment implements IMessageFragment, A
                     intentStart.setClass(context, TradeContentActivity.class);
                     intentStart.putExtra("TradeId", itemId);
                     break;
-                case ConstantUtil.ARTICLE://文章(未试验)
+              /*  case ConstantUtil.ARTICLE://文章(未试验)
                     intentStart.setClass(context, WebViewTwoActivity.class);
                     intentStart.putExtra("article", id);
-                    break;
+                    break;*/
                 case ConstantUtil.RELATION://关系
+                    //TODO 进行网络请求判断已读和未读
                     break;
                 case ConstantUtil.SYSTEM://系统
                     break;
