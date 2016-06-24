@@ -59,22 +59,28 @@ public class MyReceiver extends BroadcastReceiver {
                 JSONObject extrasJson = new JSONObject(extras);
                 type = extrasJson.getString("type");
                 id = extrasJson.getString("id");
+                Log.e("indexPosition", "indexPosition" + id);
+                Log.e("indexPosition", "type" + type);
                 Intent intentStart = new Intent();
                 switch (type) {
                     case ConstantUtil.QUESTION://问答(未实验)
                         intentStart.setClass(context, DetailQuestionActivity.class);
                         intentStart.putExtra("indexPosition", id);
+                        Log.e("indexPosition1", "indexPosition" + id);
                         break;
                     case ConstantUtil.TRADE://交易(未实验)
                         intentStart.setClass(context, TradeContentActivity.class);
                         intentStart.putExtra("TradeId", id);
+                        Log.e("indexPosition2", "indexPosition" + id);
                         break;
                     case ConstantUtil.ARTICLE://文章(未实验)
                         intentStart.setClass(context, WebViewTwoActivity.class);
                         intentStart.putExtra("article", id);
+                        Log.e("indexPosition3", "indexPosition" + id);
                         break;
                     case ConstantUtil.RELATION://关系(未实验)
                         intentStart.setClass(context, MessageFragment.class);
+                        Log.e("indexPosition4", "indexPosition" + id);
                         break;
                     case ConstantUtil.SYSTEM://系统
                         intentStart.setClass(context, MessageFragment.class);
