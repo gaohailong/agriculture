@@ -65,6 +65,7 @@ public class MessageAdapter extends BaseAdapter {
             holder.iv_messagetype = (ImageView) convertView.findViewById(R.id.iv_messagetype);
             holder.tv_title = (TextView) convertView.findViewById(R.id.tv_title);
             holder.tv_time = (TextView) convertView.findViewById(R.id.tv_time);
+            holder.tv_content = (TextView) convertView.findViewById(R.id.tv_content);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -99,6 +100,7 @@ public class MessageAdapter extends BaseAdapter {
         }
         holder.tv_title.setText(messageInfo.getTitle());
         holder.tv_time.setText(TimeUtil.format(messageInfo.getWhenCreated()));
+        holder.tv_content.setText(messageInfo.getRemark());
         if (messageInfo.isMarkRead()) {
             holder.v_left.setBackgroundColor(Color.parseColor("#00b5ad"));
         } else {
@@ -111,6 +113,7 @@ public class MessageAdapter extends BaseAdapter {
         View v_left;
         ImageView iv_messagetype;
         TextView tv_title;
+        TextView tv_content;
         TextView tv_time;
     }
 }
