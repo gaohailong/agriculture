@@ -8,20 +8,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
 import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.bean.MessageInfo;
 import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.TimeUtil;
-import com.sxau.agriculture.view.activity.DetailQuestionActivity;
-import com.sxau.agriculture.view.activity.TradeContentActivity;
-import com.sxau.agriculture.view.activity.WebViewTwoActivity;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 消息界面的adapter
@@ -80,12 +74,12 @@ public class MessageAdapter extends BaseAdapter {
             case ConstantUtil.TRADE://交易
                 holder.iv_messagetype.setImageResource(R.mipmap.ic_trade_message);
                 break;
-            case ConstantUtil.ARTICLE://文章
+         /*   case ConstantUtil.ARTICLE://文章
                 holder.iv_messagetype.setImageResource(R.mipmap.ic_question_message);//TODO 没有图片
-                break;
-            case ConstantUtil.RELATION://关系
+                break;*/
+           /* case ConstantUtil.RELATION://关系
                 holder.iv_messagetype.setImageResource(R.mipmap.ic_question_message);//TODO 没有图片
-                break;
+                break;*/
             case ConstantUtil.SYSTEM://系统
                 holder.iv_messagetype.setImageResource(R.mipmap.ic_system_message);
                 break;
@@ -93,7 +87,7 @@ public class MessageAdapter extends BaseAdapter {
                 holder.iv_messagetype.setImageResource(R.mipmap.ic_weixin_message);
                 break;
             case ConstantUtil.NOTICE://公告
-                holder.iv_messagetype.setImageResource(R.mipmap.ic_question_message);//TODO 没有图片
+                holder.iv_messagetype.setImageResource(R.mipmap.ic_notice_message);//TODO 没有图片
                 break;
             default:
                 break;
