@@ -24,6 +24,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp"
             android:text="标题:高海龙你是不是傻！"
+            android:textColor="@color/little_black"
             android:textSize="@dimen/font_title"
             android:ellipsize="end"
             android:singleLine="true"
@@ -41,6 +42,7 @@
             android:lineSpacingExtra="@dimen/font_space"
             android:ellipsize="end"
             android:lines="2"
+            android:textColor="@color/greylittleBlack"
             android:layout_weight="1"/>
 
         <RelativeLayout

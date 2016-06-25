@@ -38,5 +38,6 @@
     <color name="text_disabled">#4DFFFFFF</color>
     <color name="colorwhite">#FFFFFF</color>
     <color name="littleColor">#838383</color>
+    <color name="little_black">#464648</color>
 
 </resources>

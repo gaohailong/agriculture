@@ -23,6 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="10dp"
+            android:textColor="@color/little_black"
             android:layout_marginTop="10dp"
             android:ellipsize="end"
             android:singleLine="true"
@@ -73,6 +74,7 @@
             android:ellipsize="end"
             android:lineSpacingExtra="@dimen/font_space"
             android:lines="2"
+            android:textColor="@color/littleColor"
             android:text="我他妈就不信了靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠"
             android:textSize="@dimen/font_size_large" />
 
