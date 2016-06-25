@@ -125,7 +125,8 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/v_divide_two_three"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
+        android:paddingTop="10dp"
+        android:background="@color/white"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
      />
