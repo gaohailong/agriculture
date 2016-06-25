@@ -19,8 +19,6 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="15dp"
             android:layout_marginLeft="10dp"
             android:orientation="horizontal">
 
@@ -31,7 +29,6 @@
                 android:background="@drawable/bg_voice_shape"
                 android:paddingBottom="15dp"
                 android:paddingLeft="20dp"
-                android:paddingTop="15dp"
                 android:text="语音消息"
                 android:textColor="@color/white"
                 android:visibility="gone"/>
@@ -67,7 +64,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:paddingTop="10dp"
-            android:textSize="@dimen/font_title" />
+            android:textSize="@dimen/font_personal_info" />
 
         <EditText
             android:id="@+id/et_trade_content"
@@ -84,7 +81,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:paddingTop="10dp"
-            android:textSize="@dimen/font_title" />
+            android:textSize="@dimen/font_personal_info" />
     </LinearLayout>
 
 
