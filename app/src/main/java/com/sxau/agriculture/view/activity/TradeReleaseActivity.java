@@ -321,8 +321,8 @@ public class TradeReleaseActivity extends BaseActivity implements View.OnClickLi
      */
     public void initSpin() {
         ArrayList<String> data = getSpinner();
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, R.layout.item_spinner, data);
-        arrayAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, data);
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spTradeType.setAdapter(arrayAdapter);
     }
 
