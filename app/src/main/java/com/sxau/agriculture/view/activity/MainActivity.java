@@ -55,8 +55,6 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     private String phoneNumber;
     private static final String TAG = "JPush";
     private static final int MSG_SET_ALIAS = 1001;
-    private TitleBarTwo titleBarTwo;
-
     public static boolean isForeground = false;
 
     @Override
@@ -247,7 +245,6 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
             finish();
         }
     }
-
 
     //JPush方法别名的设置
     private void setAlias() {
