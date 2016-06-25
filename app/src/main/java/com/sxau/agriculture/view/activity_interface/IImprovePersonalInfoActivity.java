@@ -9,6 +9,7 @@ public interface IImprovePersonalInfoActivity {
     String getIndustry();
     String getScale();
 
+    void showProgress(boolean flag);
     void showSuccess();
     void showFailed();
 }

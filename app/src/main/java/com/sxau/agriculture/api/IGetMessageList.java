@@ -20,5 +20,5 @@ public interface IGetMessageList {
 //    Call<MessageList> getMessage(@Query("name") String name, @Query("page") String page, @Query("pageSize") String pageSize);
 
     @GET("messages")
-    Call<ArrayList<MessageInfo>> getMessage(@Header("X-AUTH-TOKEN") String authToken);
+    Call<ArrayList<MessageInfo>> getMessage(@Header("X-AUTH-TOKEN") String authToken, @Query("page") String page, @Query("pageSize") String pageSize);
 }

@@ -4,6 +4,7 @@ package com.sxau.agriculture.view.activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.presenter.acitivity_presenter.ExpertAnswerPresenter;
 import com.sxau.agriculture.presenter.activity_presenter_interface.IExpertAnswerPresenter;
+import com.sxau.agriculture.utils.TitleBarTwo;
 import com.sxau.agriculture.utils.TopBarUtil;
 import com.sxau.agriculture.view.activity_interface.IExpertAnswerActivity;
 
@@ -29,7 +31,7 @@ public class ExpertAnswerActivity extends BaseActivity implements View.OnClickLi
     private TextView tv_question;
     private EditText et_answer;
     private Button bt_submit;
-    private TopBarUtil topBarUtil;
+    private TitleBarTwo topBarUtil;
 
     private String getQuestion;
     private int id;
@@ -42,39 +44,38 @@ public class ExpertAnswerActivity extends BaseActivity implements View.OnClickLi
         //将ExpertAnswerActivity 与 ExpertAnswerPresenter绑定
         iExpertAnswerPresenter = new ExpertAnswerPresenter(ExpertAnswerActivity.this);
         initView();
+        initTitlebar();
     }
 
     private void initView() {
-        topBarUtil = (TopBarUtil) this.findViewById(R.id.topBarUtil);
+        topBarUtil = (TitleBarTwo) this.findViewById(R.id.topBarUtil);
         tv_question = (TextView) this.findViewById(R.id.tv_question);
         bt_submit = (Button) this.findViewById(R.id.bt_submit);
         et_answer = (EditText) this.findViewById(R.id.et_answer);
 
-        topBarUtil.setLeftImageIsVisible(true);
-        topBarUtil.setLeftImage(R.mipmap.ic_back_left);
-        topBarUtil.setOnTopbarClickListener(new TopBarUtil.TopbarClickListner() {
-            @Override
-            public void onClickLeftRoundImage() {
-
-            }
-
-            @Override
-            public void onClickLeftImage() {
-                finish();
-            }
-
-            @Override
-            public void onClickRightImage() {
-
-            }
-        });
-        bt_submit.setOnClickListener(this);
+    bt_submit.setOnClickListener(this);
 
         Intent intent = getIntent();
         getQuestion = intent.getStringExtra("question");
         this.id = intent.getIntExtra("id", 0);
         tv_question.setText(getQuestion);
     }
+
+    private void initTitlebar() {
+        topBarUtil.setBackgroundColor(Color.parseColor("#00b5ad"));
+        topBarUtil.setLeftImageResource(R.mipmap.ic_back_left);
+        topBarUtil.setLeftTextColor(Color.WHITE);
+        topBarUtil.setDividerColor(Color.GRAY);
+        topBarUtil.setLeftClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        topBarUtil.setTitle("专家回答");
+        topBarUtil.setTitleColor(Color.WHITE);
+    }
+
 
     public static void actionStart(Context context, String question, int id) {
         Intent intent = new Intent(context, ExpertAnswerActivity.class);

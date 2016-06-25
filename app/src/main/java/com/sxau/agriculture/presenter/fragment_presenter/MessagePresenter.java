@@ -23,7 +23,7 @@ import retrofit.Response;
 import retrofit.Retrofit;
 
 /**
- * Created by Yawen_Li on 2016/4/20.
+ * @author 高海龙
  */
 public class MessagePresenter implements IMessagePresenter {
     private IMessageFragment iMessageFragment;
@@ -32,55 +32,46 @@ public class MessagePresenter implements IMessagePresenter {
     private ArrayList<MessageInfo> messageInfos;
     private ACache mCache;
     private Context context;
+    private boolean isLoadOver;
 
     public MessagePresenter(IMessageFragment iMessageFragment, Handler handler, Context context) {
         this.iMessageFragment = iMessageFragment;
         this.context = context;
         this.handler = handler;
         this.mCache = ACache.get(context);
+        messageInfos=new ArrayList<MessageInfo>();
     }
 
     //-----------------接口方法-----------------------------
-    @Override
-    public Object findItemByPosition(int position) {
-        return null;
-    }
-
 
     @Override
-    public void pullRefersh() {
-        if (NetUtil.isNetAvailable(context)) {
-            doRequest();
-        } else {
-//            iMessageFragment.showNoNetWorking();
-        }
-
-    }
-
-    @Override
-    public void pushRefersh() {
-        handler.sendEmptyMessage(ConstantUtil.UP_LOAD);
-
-    }
-
-    @Override
-    public void doRequest() {
+    public void doRequest(String page, String pageSize, final boolean isRefresh) {
         authToken = UserInfoUtil.findAuthToken();
-        Call<ArrayList<MessageInfo>> call = RetrofitUtil.getRetrofit().create(IGetMessageList.class).getMessage(authToken);
+        Call<ArrayList<MessageInfo>> call = RetrofitUtil.getRetrofit().create(IGetMessageList.class).getMessage(authToken, page, pageSize);
         call.enqueue(new Callback<ArrayList<MessageInfo>>() {
             @Override
             public void onResponse(Response<ArrayList<MessageInfo>> response, Retrofit retrofit) {
                 if (response.isSuccess()) {
-                    messageInfos = response.body();
+                    ArrayList<MessageInfo> messageInfoGet = response.body();
+                    if (isRefresh) {
+                        messageInfos.clear();
+                        messageInfos.addAll(messageInfoGet);
+                    } else {
+                        messageInfos.addAll(messageInfoGet);
+                    }
                     mCache.remove(ConstantUtil.CACHE_MESSAGE_KEY);
                     mCache.put(ConstantUtil.CACHE_MESSAGE_KEY, messageInfos);
                     handler.sendEmptyMessage(ConstantUtil.GET_NET_DATA);
+
+                    if (messageInfos.size() < Integer.parseInt(ConstantUtil.ITEM_NUMBER)) {
+                        isLoadOver = true;
+                    }
                 }
             }
 
             @Override
             public void onFailure(Throwable t) {
-//                iMessageFragment.showRequestTimeout();
+                handler.sendEmptyMessage(ConstantUtil.LOAD_FAIL);
             }
         });
     }
@@ -92,6 +83,10 @@ public class MessagePresenter implements IMessagePresenter {
             messageInfoGet = (ArrayList<MessageInfo>) mCache.getAsObject(ConstantUtil.CACHE_MESSAGE_KEY);
         }
         return messageInfoGet;
+    }
+
+    public boolean isLoadOver(){
+        return isLoadOver;
     }
 
 //------------------接口方法结束-------------------------

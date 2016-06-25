@@ -6,6 +6,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.sxau.agriculture.view.activity.DetailQuestionActivity;
+import com.sxau.agriculture.view.activity.TradeContentActivity;
+import com.sxau.agriculture.view.activity.WebViewActivity;
+import com.sxau.agriculture.view.activity.WebViewTwoActivity;
+import com.sxau.agriculture.view.fragment.MessageFragment;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -46,12 +52,53 @@ public class MyReceiver extends BroadcastReceiver {
 
         } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
             Log.d(TAG, "[MyReceiver] 用户点击打开了通知");
-            String type = intent.getStringExtra("type");
+            String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
+            String id = null;
+            String type = null;
+            try {
+                //TODO fragment是否能跳转
+                JSONObject extrasJson = new JSONObject(extras);
+                type = extrasJson.getString("type");
+                id = extrasJson.getString("id");
+                Intent intentStart = new Intent();
+                switch (type) {
+                    case ConstantUtil.QUESTION://问答
+                        intentStart.setClass(context, DetailQuestionActivity.class);
+                        intentStart.putExtra("indexPosition", id);
+                        break;
+                    case ConstantUtil.TRADE://交易
+                        intentStart.setClass(context, TradeContentActivity.class);
+                        intentStart.putExtra("TradeId", id);
+                        break;
+                    case ConstantUtil.ARTICLE://文章
+                        intentStart.setClass(context, WebViewTwoActivity.class);
+                        intentStart.putExtra("article", id);
+                        break;
+                    case ConstantUtil.RELATION://关系
+                        intentStart.setClass(context, MessageFragment.class);
+                        break;
+                    case ConstantUtil.SYSTEM://系统
+                        intentStart.setClass(context, MessageFragment.class);
+                        break;
+                    case ConstantUtil.WECHAT://微信
+                        intentStart.setClass(context, MessageFragment.class);
+                        break;
+                    case ConstantUtil.NOTICE://公告
+                        intentStart.setClass(context, MessageFragment.class);
+                        break;
+                    default:
+                        break;
+                }
+                context.startActivity(intentStart);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+          /*  String type = intent.getStringExtra("type");
             String id = intent.getStringExtra("id");
             Log.e("getType",type);
             Log.e("getId",type);
 //            bundle.getString(JPushInterface.EXTRA_EXTRA);
-            //TODO 将要选择跳转的activity写到这
+            //TODO 将要选择跳转的activity写到这*/
        /* 	//打开自定义的Activity 应该是打开内容的activity
             Intent i = new Intent(context, TestActivity.class);
         	i.putExtras(bundle);
@@ -84,7 +131,7 @@ public class MyReceiver extends BroadcastReceiver {
             } else {
 
             }
-        } */else {
+        } */ else {
             Log.d(TAG, "[MyReceiver] Unhandled intent - " + intent.getAction());
         }
     }
