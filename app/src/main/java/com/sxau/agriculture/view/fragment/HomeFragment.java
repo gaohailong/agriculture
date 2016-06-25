@@ -63,7 +63,6 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
     private IHomePresenter iHomePresenter;
     private MyHandler myHandler;
     private Context context;
-    private ACache aCache;
     //adapter部分
     private BannerAdapter bannerAdapter;
     private HomeArticlesAdapter adapter;
@@ -77,7 +76,6 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
     private View footerLayout;
     private FrameLayout fl_adv;
     //常量及集合定义部分
-    private HomeRotatePicture homeRotatePicture;
     private ArrayList<String> imagePath;
     private ArrayList<HomeArticle> homeArticles;
     private ArrayList<ImageView> imageViews;
@@ -371,16 +369,16 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
                 tv_title.setText("暂无数据");
             }else {
                 tv_title.setText(bannerData.get(index).getName());
-                //轮播图点击事件
-                imageViews.get(index).setOnClickListener(new View.OnClickListener() {
+                //TODO 轮播图点击事件
+               /* imageViews.get(index).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent();
-                        intent.putExtra("ArticleUrl", bannerData.get(index).getUrl());
+                        intent.putExtra("ArticleUrl", bannerData.get(index).getId());
                         intent.setClass(context, PictureWebViewActivity.class);
                         startActivity(intent);
                     }
-                });
+                });*/
             }
         }else {
             tv_title.setText("当前没有网络，请检查网络设置");

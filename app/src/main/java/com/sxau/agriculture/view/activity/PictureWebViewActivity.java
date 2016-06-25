@@ -76,7 +76,6 @@ public class PictureWebViewActivity extends BaseActivity {
         Intent intent = getIntent();
         String url = intent.getStringExtra("ArticleUrl");
         //TODO 图片拼接问题
-        Log.d("webViewUrl",url);
         WebSettings settings = mWebView.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setBuiltInZoomControls(true);
