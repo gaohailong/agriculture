@@ -37,8 +37,10 @@ public class ConstantUtil {
     public static final String AVATAR_FILE_PATH = "/nongke110_avatar.jpg";
     //问题列表的缓存文件名
     public static final String CACHE_QUESTION_KEY = "Cache_QuestionList";
-    //上传图片文字前缀
+    //上传图片文件前缀
     public static final String DOMAIN = "http://storage.workerhub.cn/";
+    //上传图片文件后缀
+    public static final String UPLOAD_PIC_SUFFIX = "?imageView2/0/w/0/format/jpg";
     //消息界面的缓存文件名
     public static final String CACHE_MESSAGE_KEY = "Cache_Message";
     //上传音频文件前缀

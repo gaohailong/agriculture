@@ -76,6 +76,8 @@ public class PersonalCompilePresenter implements IPersonalCompilePresenter {
         this.handler = handler;
         this.context = context;
         authToken = UserInfoUtil.findAuthToken();
+        user = getData();
+        setAvatar();
         getUploadToken();
     }
 
@@ -101,6 +103,17 @@ public class PersonalCompilePresenter implements IPersonalCompilePresenter {
                 Toast.makeText(context, "获取token失败", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void setAvatar() {
+        if (user.getAvatar() != null){
+            String str = user.getAvatar();
+            int start = ConstantUtil.DOMAIN.length();
+            int end = str.length() - ConstantUtil.UPLOAD_PIC_SUFFIX.length();
+            avatar = str.substring(start,end);
+            Log.e("PersonalCP", "avatar:" + str);
+        }
+        Log.e("PersonalCP", "Changeavatar:" + avatar);
     }
 
     //=============================必须的===================================
@@ -150,7 +163,7 @@ public class PersonalCompilePresenter implements IPersonalCompilePresenter {
         LogUtil.e("qiniu", "photoUri:" + photoPath);
         this.uploadFilePath = photoPath;
         //在选择完图片之后就执行上传操作
-        upload(uploadToken,domain);
+        upload(uploadToken, domain);
     }
 
     @Override
@@ -176,9 +189,8 @@ public class PersonalCompilePresenter implements IPersonalCompilePresenter {
                     map.put("avatar", avatar);
                     map.put("industry", industry);
                     map.put("scale", scale);
-//                    map.put("email","243845305@qq.com");
 
-                    Call<JsonObject> call = RetrofitUtil.getRetrofit().create(IUserData.class).upDataUserData(authToken,id,map);
+                    Call<JsonObject> call = RetrofitUtil.getRetrofit().create(IUserData.class).upDataUserData(authToken, id, map);
                     call.enqueue(new Callback<JsonObject>() {
                         @Override
                         public void onResponse(Response<JsonObject> response, Retrofit retrofit) {
@@ -236,7 +248,7 @@ public class PersonalCompilePresenter implements IPersonalCompilePresenter {
                     user.setAuthToken(authToken);
 //                    user.setAvatar("http://storage.workerhub.cn//"+user.getAvatar()+"?imageView2/0/w/0/format/jpg");
                     LogUtil.d("PersonalCompileP", "username:" + user.getName() + "  phone:" + user.getPhone() + "  address:" + user.getAddress() + "  token:" + user.getAuthToken());
-                    LogUtil.e("PersonalCP","avatar:"+user.getAvatar());
+                    LogUtil.e("PersonalCP", "avatar:" + user.getAvatar());
                     //存储到缓存中，一定包含用户名和用户的电话
                     mCache.put(ConstantUtil.CACHE_KEY, user);
                     //通知主线程更新UI数据

@@ -98,7 +98,7 @@ public class User implements Serializable{
     }
 
     public void setAvatar(String avatar) {
-        avatar = ConstantUtil.DOMAIN + "/" + avatar + "?imageView2/0/w/0/format/jpg";
+        avatar = ConstantUtil.DOMAIN + avatar +ConstantUtil.UPLOAD_PIC_SUFFIX;
         Log.e("UserSet","avatar:"+avatar);
         this.avatar = avatar;
     }
@@ -144,8 +144,8 @@ public class User implements Serializable{
     }
 
     public String getAvatar() {
-        Log.e("UserGet","avatar:"+ConstantUtil.DOMAIN + "/" + avatar + "?imageView2/0/w/0/format/jpg");
-        return (ConstantUtil.DOMAIN + "/" + avatar + "?imageView2/0/w/0/format/jpg");
+        Log.e("UserGet","avatar:"+ConstantUtil.DOMAIN + avatar + ConstantUtil.UPLOAD_PIC_SUFFIX);
+        return (ConstantUtil.DOMAIN + avatar + ConstantUtil.UPLOAD_PIC_SUFFIX);
     }
 
     public String getIndustry() {
