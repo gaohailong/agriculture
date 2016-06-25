@@ -6,9 +6,7 @@
     <com.sxau.agriculture.utils.TitleBarTwo
         android:id="@+id/top_trade"
         android:layout_width="match_parent"
-        android:paddingTop="10dp"
-        android:layout_height="50dp"
-        android:padding="4dp" />
+        android:layout_height="50dp" />
 
     <EditText
         android:id="@+id/et_trade_title"
@@ -143,13 +141,14 @@
 
         <Button
             android:id="@+id/btn_trade_release"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
             android:layout_marginEnd="10dp"
             android:layout_marginRight="10dp"
-            android:background="@drawable/trade_release_submit_button"
+            android:background="@drawable/bg_ask_btn_shape"
             android:text="@string/submit"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:layout_marginBottom="30dp"/>
 
     </LinearLayout>
 </RelativeLayout>

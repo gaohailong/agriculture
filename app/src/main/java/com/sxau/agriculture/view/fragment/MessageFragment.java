@@ -143,7 +143,6 @@ public class MessageFragment extends BaseFragment implements IMessageFragment, A
                     intentStart.putExtra("article", id);
                     break;*/
                 case ConstantUtil.RELATION://关系
-                    //TODO 进行网络请求判断已读和未读
                     break;
                 case ConstantUtil.SYSTEM://系统
                     break;
