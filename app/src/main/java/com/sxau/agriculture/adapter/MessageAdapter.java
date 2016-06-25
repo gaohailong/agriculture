@@ -87,7 +87,7 @@ public class MessageAdapter extends BaseAdapter {
                 holder.iv_messagetype.setImageResource(R.mipmap.ic_weixin_message);
                 break;
             case ConstantUtil.NOTICE://公告
-                holder.iv_messagetype.setImageResource(R.mipmap.ic_notice_message);//TODO 没有图片
+                holder.iv_messagetype.setImageResource(R.mipmap.ic_notice_message);
                 break;
             default:
                 break;

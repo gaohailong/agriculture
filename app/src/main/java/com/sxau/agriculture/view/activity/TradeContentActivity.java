@@ -75,9 +75,9 @@ public class TradeContentActivity extends BaseActivity implements View.OnClickLi
         authToken = UserInfoUtil.findAuthToken();
         handler = new MyHandler(TradeContentActivity.this);
         initView();
-        initTopBar();
         getTradeId();
         initNineGridView();
+        initTitlebar();
         if (needCollect) {
             iv_collection.setVisibility(View.VISIBLE);
         } else {
@@ -100,7 +100,7 @@ public class TradeContentActivity extends BaseActivity implements View.OnClickLi
 
             @Override
             protected void onItemImageClick(Context context, int index, List<String> list) {
-                Toast.makeText(context, "image position is " + index, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context, "image position is " + index, Toast.LENGTH_SHORT).show();
             }
         };
         nineGridImageView.setAdapter(mAdapter);
@@ -122,7 +122,7 @@ public class TradeContentActivity extends BaseActivity implements View.OnClickLi
         iv_collection.setOnClickListener(this);
     }
 
-    private void initTopBar() {
+    private void initTitlebar() {
         topBarUtil.setBackgroundColor(Color.parseColor("#00b5ad"));
         topBarUtil.setLeftImageResource(R.mipmap.ic_back_left);
         topBarUtil.setLeftTextColor(Color.WHITE);
