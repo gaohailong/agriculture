@@ -159,7 +159,6 @@ public class MessageFragment extends BaseFragment implements IMessageFragment, A
         }
     }
 
-    //handler定义
     private class MyHandler extends Handler {
         WeakReference<MessageFragment> weakReference;
 

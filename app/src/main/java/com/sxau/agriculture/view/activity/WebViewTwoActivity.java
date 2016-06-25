@@ -65,7 +65,7 @@ public class WebViewTwoActivity extends BaseActivity {
         titleView = (TextView) findViewById(R.id.tv_title);
         authorTextView = (TextView) findViewById(R.id.tv_author);
         headerImageView = (ImageView) findViewById(R.id.iv_article_header);
-        mAvatarView = (CircleImageView) findViewById(R.id.iv_avatar);
+//        mAvatarView = (CircleImageView) findViewById(R.id.iv_avatar);
         tv_data = (TextView) findViewById(R.id.tv_data);
         topBarUtil = (TitleBarTwo) findViewById(R.id.titlebar);
         mWebView.setWebViewClient(new ZhuanLanWebViewClient(WebViewTwoActivity.this));
@@ -138,7 +138,7 @@ public class WebViewTwoActivity extends BaseActivity {
         }
         titleView.setText(homeArticle.getTitle());
         topBarUtil.setTitle(homeArticle.getTitle());
-        tv_data.setText(TimeUtil.format(homeArticle.getWhenCreated()));
+        tv_data.setText(TimeUtil.format(homeArticle.getWhenCreated())+"发布于"+homeArticle.getCategory().getName());
         authorTextView.setText(homeArticle.getAdmin().getName());
         CommonExecutor.MAIN_HANDLER.postDelayed(new Runnable() {
             @Override
