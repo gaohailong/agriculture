@@ -348,7 +348,7 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
             if (!file.exists()) {
                 file.mkdirs();
             }
-            photoFile = new File(file, System.currentTimeMillis() + ".jpg");
+            photoFile = new File(file, System.currentTimeMillis()+"");
 
             Uri photoUri = Uri.fromFile(photoFile);
             LogUtil.d("PersonalCompileA", "文件路径：" + photoUri);

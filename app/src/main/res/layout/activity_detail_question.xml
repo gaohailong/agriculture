@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/white"
     tools:context="com.sxau.agriculture.view.activity.DetailQuestionActivity">
 
@@ -18,10 +18,10 @@
         android:layout_below="@+id/topBar_detail">
 
         <RelativeLayout
-            android:layout_marginTop="15dp"
-            android:padding="15dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:padding="15dp">
 
             <LinearLayout
                 android:id="@+id/ll_question"
@@ -82,19 +82,37 @@
                     android:text="sdf"
                     android:textSize="@dimen/font_size_large" />
 
-                <TextView
+
+                <!--<TextView-->
+                <!--android:id="@+id/tv_voice"-->
+                <!--android:layout_width="200dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:background="@drawable/bg_voice_shape"-->
+                <!--android:paddingBottom="15dp"-->
+                <!--android:paddingLeft="20dp"-->
+                <!--android:paddingTop="15dp"-->
+                <!--android:paddingRight="15dp"-->
+                <!--android:text="语音消息"-->
+                <!--android:textColor="@color/white"-->
+                <!--android:drawableRight="@drawable/ic_voice"-->
+                <!--android:visibility="visible"/>-->
+
+                <com.github.library.bubbleview.BubbleTextVew
                     android:id="@+id/tv_voice"
-                    android:layout_width="120dp"
+                    android:layout_width="200dp"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bg_voice_shape"
-                    android:paddingBottom="15dp"
-                    android:paddingLeft="20dp"
-                    android:paddingTop="15dp"
-                    android:paddingRight="15dp"
+                    android:drawableRight="@drawable/ic_voice_black"
+                    android:layout_marginTop="10dp"
+                    android:padding="15dp"
                     android:text="语音消息"
-                    android:textColor="@color/white"
-                    android:drawableRight="@drawable/play"
+                    app:angle="8dp"
+                    app:arrowHeight="10dp"
+                    app:arrowLocation="left"
+                    app:arrowPosition="14dp"
+                    app:arrowWidth="8dp"
+                    app:bubbleColor="@color/whittintGrey"
                     android:visibility="gone"/>
+
 
                 <com.jaeger.ninegridimageview.NineGridImageView
                     android:id="@+id/mNineGridImageView"
@@ -143,8 +161,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/ll_question"
-                android:layout_marginTop="20dp"
                 android:layout_marginBottom="30dp"
+                android:layout_marginTop="20dp"
                 android:background="@drawable/bg_linear_layout_shape_10_white"
                 android:orientation="vertical"
                 android:visibility="visible">
@@ -172,12 +190,12 @@
                         android:textSize="@dimen/font_title" />
 
                     <!--<ImageView-->
-                        <!--android:id="@+id/iv_fav"-->
-                        <!--android:layout_width="20dp"-->
-                        <!--android:layout_height="20dp"-->
-                        <!--android:layout_alignParentRight="true"-->
-                        <!--android:layout_weight="1"-->
-                        <!--android:src="@drawable/ic_no_praise_48px" />-->
+                    <!--android:id="@+id/iv_fav"-->
+                    <!--android:layout_width="20dp"-->
+                    <!--android:layout_height="20dp"-->
+                    <!--android:layout_alignParentRight="true"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:src="@drawable/ic_no_praise_48px" />-->
 
                 </RelativeLayout>
 
@@ -195,11 +213,11 @@
                     android:background="@color/mainColor" />
 
                 <!--<TextView-->
-                    <!--android:id="@+id/tv_professor_ok"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_marginTop="10dp"-->
-                    <!--android:text="点赞人数：1000" />-->
+                <!--android:id="@+id/tv_professor_ok"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="10dp"-->
+                <!--android:text="点赞人数：1000" />-->
             </LinearLayout>
         </RelativeLayout>
     </ScrollView>

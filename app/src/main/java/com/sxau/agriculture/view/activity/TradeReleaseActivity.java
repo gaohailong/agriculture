@@ -402,7 +402,7 @@ public class TradeReleaseActivity extends BaseActivity implements View.OnClickLi
                                 DisplayMetrics dm = new DisplayMetrics();
                                 final int width = dm.widthPixels;
                                 final String imageUrl = domain + fileKey + "?imageView2/0/w/" + width + "/format/jpg";
-                                final String imageurl = fileKey + ".jpg";
+                                final String imageurl = fileKey;
                                 imageUriList.add(imageurl);
                                 if (imageUriList.size() == path.size()) {
                                     mhandler.sendEmptyMessage(ConstantUtil.SUCCESS_UPLOAD_PICTURE);

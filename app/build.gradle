@@ -71,4 +71,6 @@ dependencies {
     compile 'com.jaeger.ninegridimageview:library:1.0.1'
     //首页文章详情依赖
     compile 'io.bxbxbai:common:1.6.1'
+    //语音问题背景依赖
+    compile 'com.lguipeng.bubbleview:library:1.0.0'
 }

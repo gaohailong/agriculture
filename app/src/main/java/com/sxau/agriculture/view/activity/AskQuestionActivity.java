@@ -3,8 +3,9 @@ package com.sxau.agriculture.view.activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Bundle;
@@ -119,6 +120,7 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
 
     private TextView tv_voice;
     private TextView tv_del_voice;
+    private MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -166,6 +168,8 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
         ib_voice.setOnClickListener(this);
         btn_submit.setOnClickListener(this);
         tv_del_voice.setOnClickListener(this);
+        tv_voice.setOnClickListener(this);
+        mediaPlayer = new MediaPlayer();
 
         pdLoginwait = new ProgressDialog(AskQuestionActivity.this);
         pdLoginwait.setMessage("提交中...");
@@ -266,8 +270,26 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
             case R.id.tv_del_voice:
                 deleteVoice(new File(mFileName));
                 break;
+            case R.id.tv_voice:
+                playAudio();
+                break;
             default:
                 break;
+        }
+    }
+
+    public void playAudio(){
+        if (mediaPlayer.isPlaying()){
+            mediaPlayer.pause();
+        }else {
+            try {
+                mediaPlayer.reset();
+                mediaPlayer.setDataSource(mFileName);
+                mediaPlayer.prepare();
+                mediaPlayer.start();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -344,7 +366,7 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         Log.e("AskQA", "按下");
-                        iv_touchvoice.setImageResource(R.mipmap.ic_voice_finish);
+                        iv_touchvoice.setImageResource(R.mipmap.ic_voice_ing);
                         if (hasDone){
                             //已经录制完成
                             Toast.makeText(context,"已经录制完成，请点击完成",Toast.LENGTH_SHORT).show();
@@ -355,6 +377,7 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
                         return true;
                     case MotionEvent.ACTION_UP:
                         Log.e("AskQA", "弹起");
+                        iv_touchvoice.setImageResource(R.mipmap.ic_voice_fill);
                         tv_voicemsg.setText("录音完成");
                         if (!hasDone){
                             stopVoice();
@@ -690,7 +713,7 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
                                 DisplayMetrics dm = new DisplayMetrics();
                                 final int width = dm.widthPixels;
                                 final String imageUrl = domain + fileKey + "?imageView2/0/w/" + width + "/format/jpg";
-                                final String imageurl = fileKey + ".jpg";
+                                final String imageurl = fileKey;
                                 imageUriList.add(imageurl);
                                 if (imageUriList.size() == path.size()) {
                                     myHandler.sendEmptyMessage(ConstantUtil.SUCCESS_UPLOAD_PICTURE);
