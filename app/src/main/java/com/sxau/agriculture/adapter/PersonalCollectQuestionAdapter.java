@@ -76,10 +76,10 @@ public class PersonalCollectQuestionAdapter extends BaseAdapter {
         if (myPersonalQuestion.getQuestion().getQuestionAuditState().equals("WAIT_AUDITED")) {
             holder.ll_answer.setVisibility(View.GONE);
             holder.tv_is_question.setText(R.string.no_daudited);
-        } else if (myPersonalQuestion.getQuestion().getQuestionAuditState().equals("WAIT_RESOLVE")) {
+        } else if (myPersonalQuestion.getQuestion().getQuestionResolveState().equals("WAIT_RESOLVE")) {
             holder.ll_answer.setVisibility(View.GONE);
             holder.tv_is_question.setText(R.string.no_question);
-        } else {
+        } else if(myPersonalQuestion.getQuestion().getQuestionAuditState().equals("AUDITED")&&myPersonalQuestion.getQuestion().getQuestionResolveState().equals("RESOLVE")) {
             //这是一个有问题的地方
             holder.tv_content.setText(myPersonalQuestion.getQuestion().getAnswer());
             Picasso.with(context).load(myPersonalQuestion.getUser().getAvatar()).resize(150, 150).centerCrop().placeholder(R.mipmap.ic_loading).error(R.mipmap.ic_load_fail).into(holder.rv_head);

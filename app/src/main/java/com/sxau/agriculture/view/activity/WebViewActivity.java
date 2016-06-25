@@ -30,14 +30,14 @@ import io.bxbxbai.common.view.CircleImageView;
 
 
 /**
- * 首页文章跳转的webView
+ * 首页文章跳转的webView（无网络请求）
  *
  * @author 高海龙
  */
 public class WebViewActivity extends BaseActivity {
     private ObservableScrollView scrollView;
     private CommonWebView mWebView;
-    private CircleImageView mAvatarView;
+//    private CircleImageView mAvatarView;
     private ImageView headerImageView;
     private TextView titleView;
     private TextView authorTextView;
@@ -55,7 +55,7 @@ public class WebViewActivity extends BaseActivity {
         titleView = (TextView) findViewById(R.id.tv_title);
         authorTextView = (TextView) findViewById(R.id.tv_author);
         headerImageView = (ImageView) findViewById(R.id.iv_article_header);
-        mAvatarView = (CircleImageView) findViewById(R.id.iv_avatar);
+//        mAvatarView = (CircleImageView) findViewById(R.id.iv_avatar);
         tv_data = (TextView) findViewById(R.id.tv_data);
         topBarUtil = (TitleBarTwo) findViewById(R.id.titlebar);
         mWebView.setWebViewClient(new ZhuanLanWebViewClient(WebViewActivity.this));
@@ -95,8 +95,8 @@ public class WebViewActivity extends BaseActivity {
         }
         titleView.setText(homeArticle.getTitle());
         topBarUtil.setTitle(homeArticle.getTitle());
-        tv_data.setText(TimeUtil.format(homeArticle.getWhenCreated()));
         authorTextView.setText(homeArticle.getAdmin().getName());
+        tv_data.setText(TimeUtil.format(homeArticle.getWhenCreated())+"发布于"+homeArticle.getCategory().getName());
         CommonExecutor.MAIN_HANDLER.postDelayed(new Runnable() {
             @Override
             public void run() {

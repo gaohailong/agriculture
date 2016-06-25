@@ -45,6 +45,8 @@ public class ConstantUtil {
     public static final String UPLOAD_AUDIO_PREFIX = "http://audio.workerhub.cn/";
     //上传音频本地存储路径
     public static final String AUDIO_LOCAL_PATH = "/sdcard/nongke110_AudioCache/Record/";
+    //app自动更新
+    public static final String APP_UPDATE_SERVER_URL = "http://192.168.205.33:8080/Hello/api/update";
     //以下为分类的常量定义（推送的类型，message页面的类型）
     public static final String QUESTION = "QUESTION";
     public static final String RELATION = "RELATION";
@@ -83,5 +85,6 @@ public class ConstantUtil {
     public static final int CHANGE_TO_COLLECTION_STATE = 0x00000013;
     //改变收藏状态为取消收藏
     public static final int CHANGE_TO_NOCOLLECTION_STATE = 0x00000014;
+
 
 }

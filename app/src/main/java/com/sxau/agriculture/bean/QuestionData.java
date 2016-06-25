@@ -1,7 +1,6 @@
 package com.sxau.agriculture.bean;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * 问题数据的实体类
@@ -9,21 +8,23 @@ import java.util.List;
  */
 public class QuestionData implements Serializable {
 
+
     /**
-     * id : 5
-     * whenCreated : 1465123399000
-     * whenUpdated : 1465128144000
-     * category : {"id":38,"whenCreated":1465024109000,"whenUpdated":1465024109000,"pid":34,"name":"行业动态","categoryType":"ARTICLE","image":"null","sort":255}
-     * title : 个人中心我的问题测试数据0002
-     * content : 个人中心我的问题测试数据0002个人中心我的问题测试数据0002个人中心我的问题测试数据0002
-     * clickCount : 0
+     * id : 61
+     * whenCreated : 1466702271000
+     * whenUpdated : 1466702343000
+     * category : {"id":73,"whenCreated":1465198398000,"whenUpdated":1465198398000,"pid":0,"name":"信息","categoryType":"QUESTION","image":null,"sort":3}
+     * title : 语音问题
+     * content : 语音内容
+     * clickCount : 1
      * likeCount : 0
      * expert : null
-     * user : {"id":2,"whenCreated":1465029214000,"whenUpdated":1465136188000,"email":"****","userType":"PUBLIC","address":"shanxiyuci","realName":"****","phone":"****","name":"yuzestar\t","avatar":null,"industry":"huahui","scale":"xiaozuofang","lastIp":"****"}
+     * user : {"id":8,"whenCreated":1466656263000,"whenUpdated":1466698602000,"email":"****","userType":"EXPERT","address":"山西省太原市小店区","realName":"雅文","phone":"****","name":"yawen999","avatar":null,"industry":"软件工程","scale":"100人","lastIp":"****","weChatOpenId":null}
      * questionAuditState : AUDITED
-     * questionResolveState : RESOLVED
+     * questionResolveState : WAIT_RESOLVE
      * images :
-     * answers : []
+     * mediaId : null
+     * answer : null
      * fav : false
      */
 
@@ -31,166 +32,176 @@ public class QuestionData implements Serializable {
     private long whenCreated;
     private long whenUpdated;
     /**
-     * id : 38
-     * whenCreated : 1465024109000
-     * whenUpdated : 1465024109000
-     * pid : 34
-     * name : 行业动态
-     * categoryType : ARTICLE
+     * id : 73
+     * whenCreated : 1465198398000
+     * whenUpdated : 1465198398000
+     * pid : 0
+     * name : 信息
+     * categoryType : QUESTION
      * image : null
-     * sort : 255
+     * sort : 3
      */
 
-    private CategoryBean category;
+    private CategoryEntity category;
     private String title;
     private String content;
     private int clickCount;
     private int likeCount;
-    private Object expert;
+    private String expert;
     /**
-     * id : 2
-     * whenCreated : 1465029214000
-     * whenUpdated : 1465136188000
+     * id : 8
+     * whenCreated : 1466656263000
+     * whenUpdated : 1466698602000
      * email : ****
-     * userType : PUBLIC
-     * address : shanxiyuci
-     * realName : ****
+     * userType : EXPERT
+     * address : 山西省太原市小店区
+     * realName : 雅文
      * phone : ****
-     * name : yuzestar
+     * name : yawen999
      * avatar : null
-     * industry : huahui
-     * scale : xiaozuofang
+     * industry : 软件工程
+     * scale : 100人
      * lastIp : ****
+     * weChatOpenId : null
      */
 
-    private UserBean user;
+    private UserEntity user;
     private String questionAuditState;
     private String questionResolveState;
     private String images;
+    private String mediaId;
+    private String answer;
     private boolean fav;
-    private List<?> answers;
-
-    public int getId() {
-        return id;
-    }
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public long getWhenCreated() {
-        return whenCreated;
     }
 
     public void setWhenCreated(long whenCreated) {
         this.whenCreated = whenCreated;
     }
 
-    public long getWhenUpdated() {
-        return whenUpdated;
-    }
-
     public void setWhenUpdated(long whenUpdated) {
         this.whenUpdated = whenUpdated;
     }
 
-    public CategoryBean getCategory() {
-        return category;
-    }
-
-    public void setCategory(CategoryBean category) {
+    public void setCategory(CategoryEntity category) {
         this.category = category;
-    }
-
-    public String getTitle() {
-        return title;
     }
 
     public void setTitle(String title) {
         this.title = title;
     }
 
-    public String getContent() {
-        return content;
-    }
-
     public void setContent(String content) {
         this.content = content;
-    }
-
-    public int getClickCount() {
-        return clickCount;
     }
 
     public void setClickCount(int clickCount) {
         this.clickCount = clickCount;
     }
 
-    public int getLikeCount() {
-        return likeCount;
-    }
-
     public void setLikeCount(int likeCount) {
         this.likeCount = likeCount;
     }
 
-    public Object getExpert() {
-        return expert;
-    }
-
-    public void setExpert(Object expert) {
+    public void setExpert(String expert) {
         this.expert = expert;
     }
 
-    public UserBean getUser() {
-        return user;
-    }
-
-    public void setUser(UserBean user) {
+    public void setUser(UserEntity user) {
         this.user = user;
-    }
-
-    public String getQuestionAuditState() {
-        return questionAuditState;
     }
 
     public void setQuestionAuditState(String questionAuditState) {
         this.questionAuditState = questionAuditState;
     }
 
-    public String getQuestionResolveState() {
-        return questionResolveState;
-    }
-
     public void setQuestionResolveState(String questionResolveState) {
         this.questionResolveState = questionResolveState;
-    }
-
-    public String getImages() {
-        return images;
     }
 
     public void setImages(String images) {
         this.images = images;
     }
 
-    public boolean isFav() {
-        return fav;
+    public void setMediaId(String mediaId) {
+        this.mediaId = mediaId;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
     }
 
     public void setFav(boolean fav) {
         this.fav = fav;
     }
 
-    public List<?> getAnswers() {
-        return answers;
+    public int getId() {
+        return id;
     }
 
-    public void setAnswers(List<?> answers) {
-        this.answers = answers;
+    public long getWhenCreated() {
+        return whenCreated;
     }
 
-    public static class CategoryBean implements Serializable {
+    public long getWhenUpdated() {
+        return whenUpdated;
+    }
+
+    public CategoryEntity getCategory() {
+        return category;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public int getClickCount() {
+        return clickCount;
+    }
+
+    public int getLikeCount() {
+        return likeCount;
+    }
+
+    public String getExpert() {
+        return expert;
+    }
+
+    public UserEntity getUser() {
+        return user;
+    }
+
+    public String getQuestionAuditState() {
+        return questionAuditState;
+    }
+
+    public String getQuestionResolveState() {
+        return questionResolveState;
+    }
+
+    public String getImages() {
+        return images;
+    }
+
+    public String getMediaId() {
+        return mediaId;
+    }
+
+    public String getAnswer() {
+        return answer;
+    }
+
+    public boolean isFav() {
+        return fav;
+    }
+
+    public static class CategoryEntity implements Serializable{
         private int id;
         private long whenCreated;
         private long whenUpdated;
@@ -200,72 +211,72 @@ public class QuestionData implements Serializable {
         private String image;
         private int sort;
 
-        public int getId() {
-            return id;
-        }
-
         public void setId(int id) {
             this.id = id;
-        }
-
-        public long getWhenCreated() {
-            return whenCreated;
         }
 
         public void setWhenCreated(long whenCreated) {
             this.whenCreated = whenCreated;
         }
 
-        public long getWhenUpdated() {
-            return whenUpdated;
-        }
-
         public void setWhenUpdated(long whenUpdated) {
             this.whenUpdated = whenUpdated;
-        }
-
-        public int getPid() {
-            return pid;
         }
 
         public void setPid(int pid) {
             this.pid = pid;
         }
 
-        public String getName() {
-            return name;
-        }
-
         public void setName(String name) {
             this.name = name;
-        }
-
-        public String getCategoryType() {
-            return categoryType;
         }
 
         public void setCategoryType(String categoryType) {
             this.categoryType = categoryType;
         }
 
-        public String getImage() {
-            return image;
-        }
-
         public void setImage(String image) {
             this.image = image;
-        }
-
-        public int getSort() {
-            return sort;
         }
 
         public void setSort(int sort) {
             this.sort = sort;
         }
+
+        public int getId() {
+            return id;
+        }
+
+        public long getWhenCreated() {
+            return whenCreated;
+        }
+
+        public long getWhenUpdated() {
+            return whenUpdated;
+        }
+
+        public int getPid() {
+            return pid;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getCategoryType() {
+            return categoryType;
+        }
+
+        public String getImage() {
+            return image;
+        }
+
+        public int getSort() {
+            return sort;
+        }
     }
 
-    public static class UserBean  implements Serializable{
+    public static class UserEntity implements Serializable{
         private int id;
         private long whenCreated;
         private long whenUpdated;
@@ -275,113 +286,122 @@ public class QuestionData implements Serializable {
         private String realName;
         private String phone;
         private String name;
-        private Object avatar;
+        private String avatar;
         private String industry;
         private String scale;
         private String lastIp;
-
-        public int getId() {
-            return id;
-        }
+        private String weChatOpenId;
 
         public void setId(int id) {
             this.id = id;
-        }
-
-        public long getWhenCreated() {
-            return whenCreated;
         }
 
         public void setWhenCreated(long whenCreated) {
             this.whenCreated = whenCreated;
         }
 
-        public long getWhenUpdated() {
-            return whenUpdated;
-        }
-
         public void setWhenUpdated(long whenUpdated) {
             this.whenUpdated = whenUpdated;
-        }
-
-        public String getEmail() {
-            return email;
         }
 
         public void setEmail(String email) {
             this.email = email;
         }
 
-        public String getUserType() {
-            return userType;
-        }
-
         public void setUserType(String userType) {
             this.userType = userType;
-        }
-
-        public String getAddress() {
-            return address;
         }
 
         public void setAddress(String address) {
             this.address = address;
         }
 
-        public String getRealName() {
-            return realName;
-        }
-
         public void setRealName(String realName) {
             this.realName = realName;
-        }
-
-        public String getPhone() {
-            return phone;
         }
 
         public void setPhone(String phone) {
             this.phone = phone;
         }
 
-        public String getName() {
-            return name;
-        }
-
         public void setName(String name) {
             this.name = name;
         }
 
-        public Object getAvatar() {
-            return avatar;
-        }
-
-        public void setAvatar(Object avatar) {
+        public void setAvatar(String avatar) {
             this.avatar = avatar;
-        }
-
-        public String getIndustry() {
-            return industry;
         }
 
         public void setIndustry(String industry) {
             this.industry = industry;
         }
 
-        public String getScale() {
-            return scale;
-        }
-
         public void setScale(String scale) {
             this.scale = scale;
+        }
+
+        public void setLastIp(String lastIp) {
+            this.lastIp = lastIp;
+        }
+
+        public void setWeChatOpenId(String weChatOpenId) {
+            this.weChatOpenId = weChatOpenId;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public long getWhenCreated() {
+            return whenCreated;
+        }
+
+        public long getWhenUpdated() {
+            return whenUpdated;
+        }
+
+        public String getEmail() {
+            return email;
+        }
+
+        public String getUserType() {
+            return userType;
+        }
+
+        public String getAddress() {
+            return address;
+        }
+
+        public String getRealName() {
+            return realName;
+        }
+
+        public String getPhone() {
+            return phone;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getAvatar() {
+            return avatar;
+        }
+
+        public String getIndustry() {
+            return industry;
+        }
+
+        public String getScale() {
+            return scale;
         }
 
         public String getLastIp() {
             return lastIp;
         }
 
-        public void setLastIp(String lastIp) {
-            this.lastIp = lastIp;
+        public String getWeChatOpenId() {
+            return weChatOpenId;
         }
     }
 }

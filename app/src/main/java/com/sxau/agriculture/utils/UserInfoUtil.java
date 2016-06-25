@@ -1,5 +1,7 @@
 package com.sxau.agriculture.utils;
 
+import android.util.Log;
+
 import com.sxau.agriculture.AgricultureApplication;
 import com.sxau.agriculture.bean.User;
 
@@ -43,6 +45,7 @@ public class UserInfoUtil {
         User user = (User) mCache.getAsObject(ConstantUtil.CACHE_KEY);
         if (user != null && user.getAvatar() != null) {
             userAvatar = user.getAvatar();
+            Log.e("UserIU","userAvatar:"+userAvatar);
             return userAvatar;
         }else {
             return null;

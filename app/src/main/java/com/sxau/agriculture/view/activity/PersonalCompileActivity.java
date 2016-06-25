@@ -458,6 +458,7 @@ public class PersonalCompileActivity extends BaseActivity implements View.OnClic
                     .placeholder(R.mipmap.img_default_user_portrait_150px)
                     .error(R.mipmap.img_default_user_portrait_150px)
                     .into(rw_Head);
+            Log.e("PersonalCA", "avatar:" + user.getAvatar());
         }
         if (!ismEmpty(user.getRealName())){
             tv_UserRealName.setText(user.getRealName());

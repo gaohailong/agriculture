@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.sxau.agriculture.AgricultureApplication;
 import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.bean.User;
+import com.sxau.agriculture.update.UpdateChecker;
 import com.sxau.agriculture.utils.ACache;
 import com.sxau.agriculture.utils.ActivityCollectorUtil;
 import com.sxau.agriculture.utils.ConstantUtil;
@@ -54,8 +55,6 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     private String phoneNumber;
     private static final String TAG = "JPush";
     private static final int MSG_SET_ALIAS = 1001;
-    private TitleBarTwo titleBarTwo;
-
     public static boolean isForeground = false;
 
     @Override
@@ -81,26 +80,10 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         }
         radioGroup.setOnCheckedChangeListener(this);
         fragmentTabHost.setCurrentTab(0);
+        //TODO 设置自动更新
+        UpdateChecker.checkForDialog(MainActivity.this, ConstantUtil.APP_UPDATE_SERVER_URL);
     }
 
-  /*  public void iniTitle() {
-        titleBarTwo= (TitleBarTwo) findViewById(R.id.topBar);
-        titleBarTwo.setBackgroundColor(Color.parseColor("#00b5ad"));
-        titleBarTwo.setLeftImageResource(R.mipmap.ic_back_left);
-        titleBarTwo.setLeftTextColor(Color.WHITE);
-        titleBarTwo.setDividerColor(Color.GRAY);
-        titleBarTwo.setLeftClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-        titleBarTwo.setTitleColor(Color.WHITE);
-    }*/
-
-    /**
-     * 初始化标题
-     */
     private void iniTitle() {
         TopBarUtil topBar = (TopBarUtil) findViewById(R.id.topBar);
         topBar.setLeftRoundImageIsVisible(false);
@@ -145,6 +128,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
             }
         });
     }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -261,7 +245,6 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
             finish();
         }
     }
-
 
     //JPush方法别名的设置
     private void setAlias() {

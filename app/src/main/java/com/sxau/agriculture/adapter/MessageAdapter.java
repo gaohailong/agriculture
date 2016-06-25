@@ -8,20 +8,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
 import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.bean.MessageInfo;
 import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.TimeUtil;
-import com.sxau.agriculture.view.activity.DetailQuestionActivity;
-import com.sxau.agriculture.view.activity.TradeContentActivity;
-import com.sxau.agriculture.view.activity.WebViewTwoActivity;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 消息界面的adapter
@@ -65,41 +59,42 @@ public class MessageAdapter extends BaseAdapter {
             holder.iv_messagetype = (ImageView) convertView.findViewById(R.id.iv_messagetype);
             holder.tv_title = (TextView) convertView.findViewById(R.id.tv_title);
             holder.tv_time = (TextView) convertView.findViewById(R.id.tv_time);
+            holder.tv_content = (TextView) convertView.findViewById(R.id.tv_content);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
         MessageInfo messageInfo = dates.get(position);
-        Log.e("messageInfo6", messageInfo.toString());
         String type = messageInfo.getMessageType();
         switch (type) {
             case ConstantUtil.QUESTION://问答
-                holder.iv_messagetype.setImageResource(R.drawable.ic_message_question_128px);
+                holder.iv_messagetype.setImageResource(R.mipmap.ic_question_message);
                 break;
             case ConstantUtil.TRADE://交易
-                holder.iv_messagetype.setImageResource(R.drawable.ic_message_money_128px);
+                holder.iv_messagetype.setImageResource(R.mipmap.ic_trade_message);
                 break;
-            case ConstantUtil.ARTICLE://文章
-                holder.iv_messagetype.setImageResource(R.drawable.ic_message_question_128px);//TODO 没有图片
-                break;
-            case ConstantUtil.RELATION://关系
-                holder.iv_messagetype.setImageResource(R.drawable.ic_message_system_128px);//TODO 没有图片
-                break;
+         /*   case ConstantUtil.ARTICLE://文章
+                holder.iv_messagetype.setImageResource(R.mipmap.ic_question_message);//TODO 没有图片
+                break;*/
+           /* case ConstantUtil.RELATION://关系
+                holder.iv_messagetype.setImageResource(R.mipmap.ic_question_message);//TODO 没有图片
+                break;*/
             case ConstantUtil.SYSTEM://系统
-                holder.iv_messagetype.setImageResource(R.drawable.ic_message_system_128px);
+                holder.iv_messagetype.setImageResource(R.mipmap.ic_system_message);
                 break;
             case ConstantUtil.WECHAT://微信
-                holder.iv_messagetype.setImageResource(R.drawable.ic_message_wechat_128px);
+                holder.iv_messagetype.setImageResource(R.mipmap.ic_weixin_message);
                 break;
             case ConstantUtil.NOTICE://公告
-                holder.iv_messagetype.setImageResource(R.drawable.ic_message_system_128px);//TODO 没有图片
+                holder.iv_messagetype.setImageResource(R.mipmap.ic_notice_message);//TODO 没有图片
                 break;
             default:
                 break;
         }
         holder.tv_title.setText(messageInfo.getTitle());
         holder.tv_time.setText(TimeUtil.format(messageInfo.getWhenCreated()));
+        holder.tv_content.setText(messageInfo.getRemark());
         if (messageInfo.isMarkRead()) {
             holder.v_left.setBackgroundColor(Color.parseColor("#00b5ad"));
         } else {
@@ -112,6 +107,7 @@ public class MessageAdapter extends BaseAdapter {
         View v_left;
         ImageView iv_messagetype;
         TextView tv_title;
+        TextView tv_content;
         TextView tv_time;
     }
 }

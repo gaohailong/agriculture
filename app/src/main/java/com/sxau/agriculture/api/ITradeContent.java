@@ -1,6 +1,5 @@
 package com.sxau.agriculture.api;
 
-import com.sxau.agriculture.bean.MyPersonalTrade;
 import com.sxau.agriculture.bean.TradeData;
 
 import retrofit.Call;

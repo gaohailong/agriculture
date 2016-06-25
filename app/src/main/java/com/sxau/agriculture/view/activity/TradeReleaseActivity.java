@@ -30,6 +30,7 @@ import com.sxau.agriculture.adapter.SelectPhotoAdapter;
 import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.api.ITradeRelease;
 import com.sxau.agriculture.api.IUploadToken;
+import com.sxau.agriculture.bean.CategorieData;
 import com.sxau.agriculture.presenter.acitivity_presenter.TradeReleasePresenter;
 import com.sxau.agriculture.presenter.activity_presenter_interface.ITradeReleasePresenter;
 import com.sxau.agriculture.qiniu.FileUtilsQiNiu;
@@ -60,11 +61,6 @@ import retrofit.Response;
 import retrofit.Retrofit;
 
 /**
- * Info发布供求界面
- * <p/>
- * 没有更新成MVP模式，全都放在一个Activity中
- * 逻辑有问题，应该先判断数据是否满足条件，再上传图片
- *
  * @author 田帅.
  */
 public class TradeReleaseActivity extends BaseActivity implements View.OnClickListener, ITradeReleaseActivity {
@@ -87,7 +83,6 @@ public class TradeReleaseActivity extends BaseActivity implements View.OnClickLi
 
     private int tradeCategoryId;
     private String tradeTitle;
-    private String tradeType;
     private String tradeContent;
     private String tradeImage;
 
@@ -97,7 +92,8 @@ public class TradeReleaseActivity extends BaseActivity implements View.OnClickLi
     private ITradeReleasePresenter iTradeReleasePresenter;
     private Handler mhandler;
     private String authToken;
-    private ArrayList<String> spinData;
+    private ArrayList<CategorieData> spinData;
+    private ArrayList<String> spinGetData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,7 +105,7 @@ public class TradeReleaseActivity extends BaseActivity implements View.OnClickLi
         spTradeType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                tradeType = spinData.get(position);
+                tradeCategoryId = spinData.get(position).getId();
             }
 
             @Override
@@ -121,13 +117,20 @@ public class TradeReleaseActivity extends BaseActivity implements View.OnClickLi
         mhandler = new MyHandler();
         iTradeReleasePresenter = new TradeReleasePresenter(mhandler);
         spinData = new ArrayList<>();
+        spinGetData = new ArrayList<>();
         context = TradeReleaseActivity.this;
         startNet();
     }
 
-    /**
-     * 初始化控件
-     */
+    public ArrayList<String> getSpinner() {
+        String data = null;
+        for (int i = 0; i < spinData.size(); i++) {
+            data = spinData.get(i).getName();
+            spinGetData.add(data);
+        }
+        return spinGetData;
+    }
+
     public void initView() {
         ivPhoto = (ImageView) findViewById(R.id.iv_info_release_photo);
         etTradeTitle = (EditText) findViewById(R.id.et_trade_title);
@@ -174,9 +177,10 @@ public class TradeReleaseActivity extends BaseActivity implements View.OnClickLi
                 showPhotoDialog();
                 break;
             case R.id.btn_trade_release:
-                if (isDataViable()){
+                if (isDataAvailable()) {
                     //执行上传数据操作
                     showProgress(true);
+                    Log.e("categoryId", "执行方法");
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
@@ -187,6 +191,7 @@ public class TradeReleaseActivity extends BaseActivity implements View.OnClickLi
                                     doupdata();
                                 } else {
                                     submitData();
+                                    Log.e("categoryId", "进行网络数据的提交");
                                 }
                             } catch (Exception e) {
                                 e.printStackTrace();
@@ -210,19 +215,33 @@ public class TradeReleaseActivity extends BaseActivity implements View.OnClickLi
     }
 
     public void submitData() {
-        tradeCategoryId = rgTradeCategory.getId();
-        if (imageUriList != null) {
+        String tradeTypeCatagory = null;
+        int getId = rgTradeCategory.getCheckedRadioButtonId();
+        switch (getId) {
+            case R.id.rb_supply:
+                tradeTypeCatagory = "SUPPLY";
+                break;
+            case R.id.rb_demand:
+                tradeTypeCatagory = "DEMAND";
+                break;
+        }
+
+        if (imageUriList != null && imageUriList.size() > 0) {
             tradeImage = StringUtil.changeListToString(imageUriList);
         } else {
             tradeImage = "";
         }
         Map map = new HashMap();
         map.put("categoryId", tradeCategoryId);
+        Log.e("categoryId1", tradeCategoryId + "");
         map.put("title", tradeTitle);
-        map.put("tradeType", tradeType);
+        Log.e("categoryId2", tradeTitle + "");
+        map.put("tradeType", tradeTypeCatagory);
+        Log.e("categoryId3", tradeTypeCatagory + "");
         map.put("content", tradeContent);
+        Log.e("categoryId4", tradeContent + "");
         map.put("image", tradeImage);
-
+        Log.e("categoryId5", tradeImage + "");
 
         finish();
         Call<JsonObject> call = RetrofitUtil.getRetrofit().create(ITradeRelease.class).postTrade(map, authToken);
@@ -245,7 +264,6 @@ public class TradeReleaseActivity extends BaseActivity implements View.OnClickLi
         });
     }
 
-
     public void showPhotoDialog() {
         ImageConfig imageConfig
                 = new ImageConfig.Builder(
@@ -264,7 +282,7 @@ public class TradeReleaseActivity extends BaseActivity implements View.OnClickLi
         ImageSelector.open(TradeReleaseActivity.this, imageConfig);   // 开启图片选择器
     }
 
-    public boolean isDataViable() {
+    public boolean isDataAvailable() {
         boolean flag = false;
         tradeTitle = etTradeTitle.getText().toString();
         tradeContent = etTradeContent.getText().toString();
@@ -302,7 +320,8 @@ public class TradeReleaseActivity extends BaseActivity implements View.OnClickLi
      * 初始化下拉菜单
      */
     public void initSpin() {
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, R.layout.item_spinner, spinData);
+        ArrayList<String> data = getSpinner();
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, R.layout.item_spinner, data);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
         spTradeType.setAdapter(arrayAdapter);
     }
@@ -312,27 +331,26 @@ public class TradeReleaseActivity extends BaseActivity implements View.OnClickLi
 
     }
 
-public class MyHandler extends Handler {
-    @Override
-    public void handleMessage(Message msg) {
-        super.handleMessage(msg);
-        switch (msg.what) {
-            case ConstantUtil.INIT_DATA:
-                iTradeReleasePresenter.doRequest();
-                break;
-            case ConstantUtil.GET_NET_DATA:
-                spinData = iTradeReleasePresenter.getCategorieinfo();
-                initSpin();
-                break;
-            case ConstantUtil.SUCCESS_UPLOAD_PICTURE:
-                //图片上传成功，执行上传数据信息
-                submitData();
-            default:
-                break;
+    public class MyHandler extends Handler {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case ConstantUtil.INIT_DATA:
+                    iTradeReleasePresenter.doRequest();
+                    break;
+                case ConstantUtil.GET_NET_DATA:
+                    spinData = iTradeReleasePresenter.getCategorieinfo();
+                    initSpin();
+                    break;
+                case ConstantUtil.SUCCESS_UPLOAD_PICTURE:
+                    //图片上传成功，执行上传数据信息
+                    submitData();
+                default:
+                    break;
+            }
         }
     }
-
-}
 
     //======================七牛云存储部分==============================
     public void doupdata() {

@@ -8,7 +8,6 @@ import android.util.Log;
 
 import com.sxau.agriculture.view.activity.DetailQuestionActivity;
 import com.sxau.agriculture.view.activity.TradeContentActivity;
-import com.sxau.agriculture.view.activity.WebViewActivity;
 import com.sxau.agriculture.view.activity.WebViewTwoActivity;
 import com.sxau.agriculture.view.fragment.MessageFragment;
 
@@ -21,7 +20,7 @@ import cn.jpush.android.api.JPushInterface;
 
 /**
  * 自定义接收器
- * <p>
+ * <p/>
  * 如果不定义这个 Receiver，则：
  * 1) 默认用户会打开主界面
  * 2) 接收不到自定义消息
@@ -64,74 +63,44 @@ public class MyReceiver extends BroadcastReceiver {
                 switch (type) {
                     case ConstantUtil.QUESTION://问答
                         intentStart.setClass(context, DetailQuestionActivity.class);
-                        intentStart.putExtra("indexPosition", id);
+                        intentStart.putExtra("indexPosition", Integer.valueOf(id));
                         break;
                     case ConstantUtil.TRADE://交易
                         intentStart.setClass(context, TradeContentActivity.class);
-                        intentStart.putExtra("TradeId", id);
+                        intentStart.putExtra("TradeId", Integer.valueOf(id));
                         break;
                     case ConstantUtil.ARTICLE://文章
                         intentStart.setClass(context, WebViewTwoActivity.class);
-                        intentStart.putExtra("article", id);
+                        intentStart.putExtra("article", Integer.valueOf(id));
                         break;
-                    case ConstantUtil.RELATION://关系
-                        intentStart.setClass(context, MessageFragment.class);
+                    case ConstantUtil.RELATION://关系(未试验)
+                        //TODO fragment是否能跳转
+//                        intentStart.setClass(context, MessageFragment.class);
                         break;
-                    case ConstantUtil.SYSTEM://系统
-                        intentStart.setClass(context, MessageFragment.class);
+                    case ConstantUtil.SYSTEM://系统(未试验)
+//                        intentStart.setClass(context, MessageFragment.class);
                         break;
-                    case ConstantUtil.WECHAT://微信
-                        intentStart.setClass(context, MessageFragment.class);
+                    case ConstantUtil.WECHAT://微信(未试验)
+//                        intentStart.setClass(context, MessageFragment.class);
                         break;
-                    case ConstantUtil.NOTICE://公告
-                        intentStart.setClass(context, MessageFragment.class);
+                    case ConstantUtil.NOTICE://公告(未试验)
+//                        intentStart.setClass(context, MessageFragment.class);
                         break;
                     default:
                         break;
                 }
+                intentStart.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intentStart);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-          /*  String type = intent.getStringExtra("type");
-            String id = intent.getStringExtra("id");
-            Log.e("getType",type);
-            Log.e("getId",type);
-//            bundle.getString(JPushInterface.EXTRA_EXTRA);
-            //TODO 将要选择跳转的activity写到这*/
-       /* 	//打开自定义的Activity 应该是打开内容的activity
-            Intent i = new Intent(context, TestActivity.class);
-        	i.putExtras(bundle);
-        	//i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        	i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP );
-        	context.startActivity(i);*/
-
         } else if (JPushInterface.ACTION_RICHPUSH_CALLBACK.equals(intent.getAction())) {
             Log.d(TAG, "[MyReceiver] 用户收到到RICH PUSH CALLBACK: " + bundle.getString(JPushInterface.EXTRA_EXTRA));
-            //在这里根据 JPushInterface.EXTRA_EXTRA 的内容处理代码，比如打开新的Activity， 打开一个网页等..
 
         } else if (JPushInterface.ACTION_CONNECTION_CHANGE.equals(intent.getAction())) {
             boolean connected = intent.getBooleanExtra(JPushInterface.EXTRA_CONNECTION_CHANGE, false);
             Log.w(TAG, "[MyReceiver]" + intent.getAction() + " connected state change to " + connected);
-        } /*else if (JPushInterface.EXTRA_EXTRA.equals(intent.getAction())) {
-            String type = intent.getStringExtra("type");
-            String id = intent.getStringExtra("id");
-            if (type.equals("QUESTION")) {
-
-            } else if (type.equals("RELATION")) {
-
-            } else if (type.equals("SYSTEM")) {
-
-            } else if (type.equals("WECHAT")) {
-
-            } else if (type.equals("NOTICE")) {
-
-            } else if (type.equals("TRADE")) {
-
-            } else {
-
-            }
-        } */ else {
+        } else {
             Log.d(TAG, "[MyReceiver] Unhandled intent - " + intent.getAction());
         }
     }
