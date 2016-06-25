@@ -12,7 +12,9 @@
 
     <TextView
         android:id="@+id/tv_personal_photo_graph"
-        android:padding="5dp"
+        android:padding="10dp"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_linear_layout_shape_top_white"
@@ -24,31 +26,36 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
+        android:layout_marginRight="3dp"
+        android:layout_marginLeft="3dp"
         android:background="@color/white" />
 
     <TextView
         android:id="@+id/tv_personal_photo_album"
-        android:padding="5dp"
+        android:padding="10dp"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"
-        android:background="@drawable/bg_linear_layout_shape_center_white"
+        android:background="@drawable/bg_linear_layout_shape_bottom_white"
         android:gravity="center_horizontal"
         android:text="从相册选择"
         android:textColor="@color/white"
         android:textSize="@dimen/font_size_large" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/white" />
+    <!--<View-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="1dp"-->
+        <!--android:background="@color/white" />-->
 
     <TextView
         android:id="@+id/tv_cancel"
-        android:padding="5dp"
+        android:padding="10dp"
+        android:layout_margin="3dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_linear_layout_shape_bottom_white"
+        android:background="@drawable/bg_linear_layout_shape_center_white"
         android:gravity="center_horizontal"
         android:text="取消"
         android:textColor="@color/white"

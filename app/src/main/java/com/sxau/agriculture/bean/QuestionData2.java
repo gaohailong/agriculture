@@ -6,24 +6,24 @@ import java.io.Serializable;
  * 问题数据的实体类
  * @author 崔志泽
  */
-public class QuestionData implements Serializable {
+public class QuestionData2 implements Serializable {
 
 
     /**
-     * id : 73
-     * whenCreated : 1466737372000
-     * whenUpdated : 1466876497196
+     * id : 61
+     * whenCreated : 1466702271000
+     * whenUpdated : 1466702343000
      * category : {"id":73,"whenCreated":1465198398000,"whenUpdated":1465198398000,"pid":0,"name":"信息","categoryType":"QUESTION","image":null,"sort":3}
      * title : 语音问题
      * content : 语音内容
-     * clickCount : 11
+     * clickCount : 1
      * likeCount : 0
      * expert : null
-     * user : {"id":8,"whenCreated":1466656263000,"whenUpdated":1466867323000,"email":null,"userType":"EXPERT","address":"山西省太原市小店区","realName":"雅文","phone":"18535494897","name":"yawen999","avatar":"FmTf86UznVrUq-4FHiDvezTo-khW","industry":"软件工程","scale":"哈哈哈","lastIp":"60.223.239.8","weChatOpenId":"o451ewLgzvgHP4j6uRuPFwdLVm2A"}
+     * user : {"id":8,"whenCreated":1466656263000,"whenUpdated":1466698602000,"email":"****","userType":"EXPERT","address":"山西省太原市小店区","realName":"雅文","phone":"****","name":"yawen999","avatar":null,"industry":"软件工程","scale":"100人","lastIp":"****","weChatOpenId":null}
      * questionAuditState : AUDITED
      * questionResolveState : WAIT_RESOLVE
      * images :
-     * mediaId : http://storage.workerhub.cn/FtbJga0TcgEzPSIua2vQBO3z0WWs
+     * mediaId : null
      * answer : null
      * fav : false
      */
@@ -47,22 +47,22 @@ public class QuestionData implements Serializable {
     private String content;
     private int clickCount;
     private int likeCount;
-    private Object expert;
+    private String expert;
     /**
      * id : 8
      * whenCreated : 1466656263000
-     * whenUpdated : 1466867323000
-     * email : null
+     * whenUpdated : 1466698602000
+     * email : ****
      * userType : EXPERT
      * address : 山西省太原市小店区
      * realName : 雅文
-     * phone : 18535494897
+     * phone : ****
      * name : yawen999
-     * avatar : FmTf86UznVrUq-4FHiDvezTo-khW
+     * avatar : null
      * industry : 软件工程
-     * scale : 哈哈哈
-     * lastIp : 60.223.239.8
-     * weChatOpenId : o451ewLgzvgHP4j6uRuPFwdLVm2A
+     * scale : 100人
+     * lastIp : ****
+     * weChatOpenId : null
      */
 
     private UserEntity user;
@@ -70,7 +70,7 @@ public class QuestionData implements Serializable {
     private String questionResolveState;
     private String images;
     private String mediaId;
-    private Object answer;
+    private String answer;
     private boolean fav;
 
     public void setId(int id) {
@@ -105,7 +105,7 @@ public class QuestionData implements Serializable {
         this.likeCount = likeCount;
     }
 
-    public void setExpert(Object expert) {
+    public void setExpert(String expert) {
         this.expert = expert;
     }
 
@@ -129,7 +129,7 @@ public class QuestionData implements Serializable {
         this.mediaId = mediaId;
     }
 
-    public void setAnswer(Object answer) {
+    public void setAnswer(String answer) {
         this.answer = answer;
     }
 
@@ -169,7 +169,7 @@ public class QuestionData implements Serializable {
         return likeCount;
     }
 
-    public Object getExpert() {
+    public String getExpert() {
         return expert;
     }
 
@@ -193,7 +193,7 @@ public class QuestionData implements Serializable {
         return mediaId;
     }
 
-    public Object getAnswer() {
+    public String getAnswer() {
         return answer;
     }
 
@@ -201,14 +201,14 @@ public class QuestionData implements Serializable {
         return fav;
     }
 
-    public static class CategoryEntity {
+    public static class CategoryEntity implements Serializable{
         private int id;
         private long whenCreated;
         private long whenUpdated;
         private int pid;
         private String name;
         private String categoryType;
-        private Object image;
+        private String image;
         private int sort;
 
         public void setId(int id) {
@@ -235,7 +235,7 @@ public class QuestionData implements Serializable {
             this.categoryType = categoryType;
         }
 
-        public void setImage(Object image) {
+        public void setImage(String image) {
             this.image = image;
         }
 
@@ -267,7 +267,7 @@ public class QuestionData implements Serializable {
             return categoryType;
         }
 
-        public Object getImage() {
+        public String getImage() {
             return image;
         }
 
@@ -276,11 +276,11 @@ public class QuestionData implements Serializable {
         }
     }
 
-    public static class UserEntity {
+    public static class UserEntity implements Serializable{
         private int id;
         private long whenCreated;
         private long whenUpdated;
-        private Object email;
+        private String email;
         private String userType;
         private String address;
         private String realName;
@@ -304,7 +304,7 @@ public class QuestionData implements Serializable {
             this.whenUpdated = whenUpdated;
         }
 
-        public void setEmail(Object email) {
+        public void setEmail(String email) {
             this.email = email;
         }
 
@@ -360,7 +360,7 @@ public class QuestionData implements Serializable {
             return whenUpdated;
         }
 
-        public Object getEmail() {
+        public String getEmail() {
             return email;
         }
 

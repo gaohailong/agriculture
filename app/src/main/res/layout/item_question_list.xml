@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="110dp"
+    android:layout_height="wrap_content"
     android:background="@color/white"
     android:descendantFocusability="blocksDescendants"
     android:orientation="horizontal">
@@ -15,6 +15,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
         android:orientation="vertical">
 
         <TextView
@@ -23,51 +25,51 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp"
-            android:text="标题:高海龙你是不是傻！"
-            android:textColor="@color/little_black"
-            android:textSize="@dimen/font_title"
+            android:layout_weight="1"
             android:ellipsize="end"
             android:singleLine="true"
-            android:layout_weight="1"
-            />
+            android:text="标题:高海龙你是不是傻！"
+            android:textColor="@color/little_black"
+            android:textSize="@dimen/font_title" />
+
         <TextView
             android:id="@+id/tv_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp"
-            android:text="概要答案:不是复反反复复反反复复反反复复反反复复反反复复"
-            android:gravity="center_vertical"
-            android:textSize="@dimen/font_size_large"
-            android:lineSpacingExtra="@dimen/font_space"
+            android:layout_weight="1"
             android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:lineSpacingExtra="@dimen/font_space"
             android:lines="2"
+            android:text="概要答案:不是复反反复复反反复复反反复复反反复复反反复复"
             android:textColor="@color/greylittleBlack"
-            android:layout_weight="1"/>
+            android:textSize="@dimen/font_size_large" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1">
 
-        <TextView
-            android:id="@+id/tv_ntdmix"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="名字+提问于+日期"
-            android:textSize="@dimen/font_size"
-            android:layout_centerVertical="true"/>
+            <TextView
+                android:id="@+id/tv_ntdmix"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:text="名字+提问于+日期"
+                android:textSize="@dimen/font_size" />
 
             <ImageView
                 android:id="@+id/iv_fav"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/collection"
-                android:visibility="visible"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="10dp"/>
+                android:visibility="visible" />
 
         </RelativeLayout>
     </LinearLayout>

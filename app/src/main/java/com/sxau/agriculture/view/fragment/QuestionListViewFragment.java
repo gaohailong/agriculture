@@ -98,15 +98,23 @@ public class QuestionListViewFragment extends BaseFragment implements IQuestionL
         isLoadOver = false;
         aCache = ACache.get(context);
         cateId = 0;
+
+
         return mView;
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
         initRefresh();
         initList();
-        myHandler.sendEmptyMessage(ConstantUtil.INIT_DATA);
+        myHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                myHandler.sendEmptyMessage(ConstantUtil.INIT_DATA);
+            }
+        }, 3000);
+
+        super.onViewCreated(view, savedInstanceState);
     }
 
     public void initRefresh() {
@@ -154,10 +162,11 @@ public class QuestionListViewFragment extends BaseFragment implements IQuestionL
                 case ConstantUtil.GET_CATEGEORYDATA:
                     currentPage = 1;
                     int position = FragmentPagerItem.getPosition(getArguments());
+                    Log.e("categotyData","position:"+position);
                     cateId = categorieDatas.get(position).getId();
                     //滑动显示提问按钮
                     questionFragment.btn_ask.setVisibility(View.VISIBLE);
-                    getQuestionData(String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER, true, String.valueOf(cateId));
+                    getQuestionData(String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER, true, cateId);
                     break;
                 case ConstantUtil.GET_NET_DATA:
                     Log.e("questionDatas", questionDatas.size() + "");
@@ -170,13 +179,13 @@ public class QuestionListViewFragment extends BaseFragment implements IQuestionL
                     break;
                 case ConstantUtil.PULL_REFRESH:
                     currentPage = 1;
-                    getQuestionData(String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER, true, String.valueOf(cateId));
+                    getQuestionData(String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER, true, cateId);
                     rl_refresh.setRefreshing(false);
                     RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOAD_MORE);
                     break;
                 case ConstantUtil.UP_LOAD:
                     currentPage++;
-                    getQuestionData(String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER, false, String.valueOf(cateId));
+                    getQuestionData(String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER, false, cateId);
                     rl_refresh.setLoading(false);
                     break;
                 default:
@@ -186,17 +195,20 @@ public class QuestionListViewFragment extends BaseFragment implements IQuestionL
     }
 
     //网络请求方法
-    public void getQuestionData(String page, String pageSize, final boolean isRefresh, String category) {
+    public void getQuestionData(String page, String pageSize, final boolean isRefresh, int category) {
         Log.d("rqstline", "3进行网络请求");
+        Log.d("rqstline","category:"+category);
         Call<ArrayList<QuestionData>> call = RetrofitUtil.getRetrofit().create(IQuestionList.class).getQuestionList(page, pageSize, category);
         call.enqueue(new Callback<ArrayList<QuestionData>>() {
             @Override
             public void onResponse(Response<ArrayList<QuestionData>> response, Retrofit retrofit) {
                 if (response.isSuccess()) {
-                    ArrayList<QuestionData> questionDatas1 = response.body();
+                    ArrayList<QuestionData> questionDatas1 = new ArrayList<QuestionData>();
+                          questionDatas1  = response.body();
                     if (isRefresh) {
                         questionDatas.clear();
                         questionDatas.addAll(questionDatas1);
+//                        Log.e("success","name:"+questionDatas1.get(0).getCategory().getName()+" Id:"+questionDatas1.get(0).getCategory().getId());
                         Log.e("data1", questionDatas1.size()+"");
                         Log.e("data2", questionDatas.size()+"");
                         isLoadOver = false;
@@ -214,6 +226,9 @@ public class QuestionListViewFragment extends BaseFragment implements IQuestionL
 
             @Override
             public void onFailure(Throwable t) {
+                t.printStackTrace();
+
+                Log.e("QuestionLVF","message:"+t.getMessage());
                 RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOAD_FAIL);
                 if (currentPage > 1) {
                     rl_refresh.setRefreshing(false);

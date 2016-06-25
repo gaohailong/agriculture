@@ -1,5 +1,6 @@
 package com.sxau.agriculture.utils;
 
+import android.view.View;
 import android.widget.TextView;
 
 /**
@@ -15,6 +16,14 @@ public class RefreshBottomTextUtil {
      * @param type    传入要改变的类型
      */
     public static void setTextMore(TextView tv_more, int type) {
+        class myClickListener implements View.OnClickListener{
+
+            @Override
+            public void onClick(View v) {
+                //什么也不做了
+            }
+        }
+        myClickListener myClickListener = new myClickListener();
         switch (type) {
             case ConstantUtil.LOAD_MORE:
                 tv_more.setText("点击加载更多...");
@@ -24,9 +33,16 @@ public class RefreshBottomTextUtil {
                 break;
             case ConstantUtil.LOAD_OVER:
                 tv_more.setText("没有更多了");
+                //设置不能再点击
+                tv_more.setOnClickListener(myClickListener);
+                tv_more.setFocusable(false);
+                tv_more.setSelected(false);
+                tv_more.setClickable(false);
+//                tv_more.setVisibility(View.GONE);
                 break;
             default:
                 break;
         }
+
     }
 }
