@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,7 +13,6 @@ import android.widget.Toast;
 import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.presenter.acitivity_presenter.LoginPresenter;
 import com.sxau.agriculture.presenter.activity_presenter_interface.ILoginPresenter;
-import com.sxau.agriculture.utils.ActivityCollectorUtil;
 import com.sxau.agriculture.utils.NetUtil;
 import com.sxau.agriculture.view.activity_interface.ILoginActivty;
 
@@ -29,7 +27,7 @@ public class LoginActivity extends BaseActivity implements ILoginActivty, View.O
     private EditText etPhone;
     private EditText etPassword;
     private Button btnLogin;
-    private Button btnRegister;
+    private TextView tv_reg;
     private TextView tvForgetPsd;
     private ProgressDialog pdLoginwait;
 
@@ -54,11 +52,11 @@ public class LoginActivity extends BaseActivity implements ILoginActivty, View.O
         etPassword = (EditText) findViewById(R.id.et_password);
         tvForgetPsd = (TextView) findViewById(R.id.tv_forgetpsd);
         btnLogin = (Button) findViewById(R.id.btn_login);
-        btnRegister = (Button) findViewById(R.id.btn_regist);
+        tv_reg = (TextView) findViewById(R.id.tv_reg);
 
         tvForgetPsd.setOnClickListener(this);
         btnLogin.setOnClickListener(this);
-        btnRegister.setOnClickListener(this);
+        tv_reg.setOnClickListener(this);
 
 
         pdLoginwait = new ProgressDialog(LoginActivity.this);
@@ -68,10 +66,12 @@ public class LoginActivity extends BaseActivity implements ILoginActivty, View.O
 
 
     }
+
     /**
      * 在正式提交请求前对用户输入的数据进行验证
      * 通过验证，提交请求
      * 验证失败，提示错误信息
+     *
      * @param v
      */
     @Override
@@ -83,19 +83,19 @@ public class LoginActivity extends BaseActivity implements ILoginActivty, View.O
                 //输入验证
                 if (iLoginPresenter.isPasswordEnable() && iLoginPresenter.isPhoneEnable() && isNetAvailable) {
                     iLoginPresenter.doLogin();
-                }else {
+                } else {
                     //输入验证出错，显示对应错误信息
-                    if (!iLoginPresenter.isPasswordEnable()){
-                        Toast.makeText(LoginActivity.this,"密码长度不得小于6位",Toast.LENGTH_LONG).show();
-                    }else if (!iLoginPresenter.isPhoneEnable()){
-                        Toast.makeText(LoginActivity.this,"手机号输入不正确，请重新输入",Toast.LENGTH_LONG).show();
-                    }else if (!isNetAvailable){
-                        Toast.makeText(LoginActivity.this,"没有网络连接，请检查网络",Toast.LENGTH_LONG).show();
+                    if (!iLoginPresenter.isPasswordEnable()) {
+                        Toast.makeText(LoginActivity.this, "密码长度不得小于6位", Toast.LENGTH_LONG).show();
+                    } else if (!iLoginPresenter.isPhoneEnable()) {
+                        Toast.makeText(LoginActivity.this, "手机号输入不正确，请重新输入", Toast.LENGTH_LONG).show();
+                    } else if (!isNetAvailable) {
+                        Toast.makeText(LoginActivity.this, "没有网络连接，请检查网络", Toast.LENGTH_LONG).show();
                     }
                 }
                 break;
-            case R.id.btn_regist:
-                Intent intent = new Intent(LoginActivity.this,RegisterActivity.class);
+            case R.id.tv_reg:
+                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
                 LoginActivity.this.startActivity(intent);
                 break;
             case R.id.tv_forgetpsd:

@@ -3,11 +3,10 @@ package com.sxau.agriculture.view.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -22,14 +21,12 @@ import android.widget.Toast;
 import com.sxau.agriculture.adapter.TradeListViewAdapter;
 import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.bean.TradeData;
-
+import com.sxau.agriculture.presenter.fragment_presenter.TradeListViewPresenter;
+import com.sxau.agriculture.presenter.fragment_presenter_interface.ITradeListViewPresenter;
 import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.NetUtil;
 import com.sxau.agriculture.utils.RefreshBottomTextUtil;
 import com.sxau.agriculture.view.activity.TradeContentActivity;
-
-import com.sxau.agriculture.presenter.fragment_presenter.TradeListViewPresenter;
-import com.sxau.agriculture.presenter.fragment_presenter_interface.ITradeListViewPresenter;
 import com.sxau.agriculture.view.fragment_interface.ITradeListViewFragment;
 import com.sxau.agriculture.widgets.RefreshLayout;
 
@@ -45,7 +42,7 @@ import java.util.ArrayList;
 
 public class TradeSupplyListViewFragment extends BaseFragment implements ITradeListViewFragment, AdapterView.OnItemClickListener, View.OnTouchListener {
 
-    private View mview;
+    private View mView;
     private ListView lv_Info;
     private ImageView iv_collection;
     private TradeListViewAdapter tradeListViewAdapter;
@@ -64,31 +61,42 @@ public class TradeSupplyListViewFragment extends BaseFragment implements ITradeL
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        context = TradeSupplyListViewFragment.this.getActivity();
-        handler = new MyHandler(TradeSupplyListViewFragment.this);
-        iTradeListViewPresenter = new TradeListViewPresenter(TradeSupplyListViewFragment.this, context, handler);
-        currentPage = 1;
-        supplyDatas = new ArrayList<TradeData>();
 
-        mview = inflater.inflate(R.layout.fragment_trade_listview, container, false);
-        lv_Info = (ListView) mview.findViewById(R.id.lv_info);
-        rl_refresh = (RefreshLayout) mview.findViewById(R.id.srl_refresh);
-        rl_refresh.setColorSchemeColors(Color.parseColor("#00b5ad"));
-        footerLayout = getLayoutInflater(savedInstanceState).inflate(R.layout.listview_footer, null);
-        tv_more = (TextView) footerLayout.findViewById(R.id.tv_more);
-//        iv_collection = (ImageView) mview.findViewById(R.id.iv_demand_collection);
-        emptyView = mview.findViewById(R.id.emptyView);
-        lv_Info.setOnItemClickListener(this);
-        lv_Info.setOnTouchListener(this);
-        return mview;
+        if (mView == null) {
+
+            context = TradeSupplyListViewFragment.this.getActivity();
+            handler = new MyHandler(TradeSupplyListViewFragment.this);
+            iTradeListViewPresenter = new TradeListViewPresenter(TradeSupplyListViewFragment.this, context, handler);
+            currentPage = 1;
+            supplyDatas = new ArrayList<TradeData>();
+
+            mView = inflater.inflate(R.layout.fragment_trade_listview, container, false);
+            lv_Info = (ListView) mView.findViewById(R.id.lv_info);
+            rl_refresh = (RefreshLayout) mView.findViewById(R.id.srl_refresh);
+            rl_refresh.setColorSchemeColors(Color.parseColor("#00b5ad"));
+            footerLayout = getLayoutInflater(savedInstanceState).inflate(R.layout.listview_footer, null);
+            tv_more = (TextView) footerLayout.findViewById(R.id.tv_more);
+//        iv_collection = (ImageView) mView.findViewById(R.id.iv_demand_collection);
+            emptyView = mView.findViewById(R.id.emptyView);
+            lv_Info.setOnItemClickListener(this);
+            lv_Info.setOnTouchListener(this);
+
+            initRefresh();
+            initListView();
+            handler.sendEmptyMessage(ConstantUtil.INIT_DATA);
+        }
+
+        ViewGroup parent = (ViewGroup) mView.getParent();
+        if (parent != null) {
+            parent.removeView(mView);
+        }
+
+        return mView;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initRefresh();
-        initListView();
-        handler.sendEmptyMessage(ConstantUtil.INIT_DATA);
     }
 
     public void initRefresh() {

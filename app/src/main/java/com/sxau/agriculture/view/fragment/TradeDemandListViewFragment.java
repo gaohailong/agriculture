@@ -1,42 +1,34 @@
 package com.sxau.agriculture.view.fragment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.sxau.agriculture.adapter.TradeListViewAdapter;
 import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.bean.TradeData;
-
-import com.sxau.agriculture.utils.ConstantUtil;
-import com.sxau.agriculture.utils.NetUtil;
-import com.sxau.agriculture.utils.RefreshBottomTextUtil;
-import com.sxau.agriculture.view.activity.TradeContentActivity;
-
 import com.sxau.agriculture.presenter.fragment_presenter.TradeListViewPresenter;
 import com.sxau.agriculture.presenter.fragment_presenter_interface.ITradeListViewPresenter;
+import com.sxau.agriculture.utils.ConstantUtil;
+import com.sxau.agriculture.utils.RefreshBottomTextUtil;
+import com.sxau.agriculture.view.activity.TradeContentActivity;
 import com.sxau.agriculture.view.fragment_interface.ITradeListViewFragment;
 import com.sxau.agriculture.widgets.RefreshLayout;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 消息专区需求ListView
@@ -44,7 +36,8 @@ import java.util.List;
  * @author 田帅
  */
 public class TradeDemandListViewFragment extends BaseFragment implements ITradeListViewFragment, AdapterView.OnItemClickListener, View.OnTouchListener {
-    private View mview;
+
+    private View mView;
     private ListView lv_Info;
     private ImageView iv_collection;
     private View footerLayout;
@@ -64,31 +57,41 @@ public class TradeDemandListViewFragment extends BaseFragment implements ITradeL
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        handler = new MyHandler(TradeDemandListViewFragment.this);
-        context = TradeDemandListViewFragment.this.getActivity();
-        iTradeListViewPresenter = new TradeListViewPresenter(TradeDemandListViewFragment.this, context, handler);
-        currentPage = 1;
+        if (mView == null) {
 
-        mview = inflater.inflate(R.layout.fragment_trade_listview, container, false);
-        lv_Info = (ListView) mview.findViewById(R.id.lv_info);
-        rl_refresh = (RefreshLayout) mview.findViewById(R.id.srl_refresh);
-        rl_refresh.setColorSchemeColors(Color.parseColor("#00b5ad"));
-        footerLayout = getLayoutInflater(savedInstanceState).inflate(R.layout.listview_footer, null);
-        tv_more = (TextView) footerLayout.findViewById(R.id.tv_more);
-        emptyView = mview.findViewById(R.id.emptyView);
+            handler = new MyHandler(TradeDemandListViewFragment.this);
+            context = TradeDemandListViewFragment.this.getActivity();
+            iTradeListViewPresenter = new TradeListViewPresenter(TradeDemandListViewFragment.this, context, handler);
+            currentPage = 1;
 
-        lv_Info.setOnItemClickListener(this);
-        lv_Info.setOnTouchListener(this);
-//    iv_collection = (ImageView) mview.findViewById(R.id.iv_demand_collection);
-        return mview;
+            mView = inflater.inflate(R.layout.fragment_trade_listview, container, false);
+            lv_Info = (ListView) mView.findViewById(R.id.lv_info);
+            rl_refresh = (RefreshLayout) mView.findViewById(R.id.srl_refresh);
+            rl_refresh.setColorSchemeColors(Color.parseColor("#00b5ad"));
+            footerLayout = getLayoutInflater(savedInstanceState).inflate(R.layout.listview_footer, null);
+            tv_more = (TextView) footerLayout.findViewById(R.id.tv_more);
+            emptyView = mView.findViewById(R.id.emptyView);
+
+            lv_Info.setOnItemClickListener(this);
+            lv_Info.setOnTouchListener(this);
+            //    iv_collection = (ImageView) mView.findViewById(R.id.iv_demand_collection);
+
+            initRefresh();
+            initListView();
+            handler.sendEmptyMessage(ConstantUtil.PULL_REFRESH);
+        }
+
+        ViewGroup parent = (ViewGroup) mView.getParent();
+        if (parent != null) {
+            parent.removeView(mView);
+        }
+
+        return mView;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initRefresh();
-        initListView();
-        handler.sendEmptyMessage(ConstantUtil.PULL_REFRESH);
     }
 
     public void initRefresh() {
@@ -131,13 +134,13 @@ public class TradeDemandListViewFragment extends BaseFragment implements ITradeL
                     break;
                 case ConstantUtil.PULL_REFRESH:
                     currentPage = 1;
-                    iTradeListViewPresenter.doRequest(String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER, true,"DEMAND");
+                    iTradeListViewPresenter.doRequest(String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER, true, "DEMAND");
                     rl_refresh.setRefreshing(false);
                     RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOAD_MORE);
                     break;
                 case ConstantUtil.UP_LOAD:
                     currentPage++;
-                    iTradeListViewPresenter.doRequest(String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER, false,"DEMAND");
+                    iTradeListViewPresenter.doRequest(String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER, false, "DEMAND");
                     rl_refresh.setLoading(false);
                     break;
                 case ConstantUtil.LOAD_FAIL:
@@ -181,7 +184,7 @@ public class TradeDemandListViewFragment extends BaseFragment implements ITradeL
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        TradeContentActivity.actionStart(context,demandDatas.get(position).getId(),true);
+        TradeContentActivity.actionStart(context, demandDatas.get(position).getId(), true);
     }
 
  /*   @Override

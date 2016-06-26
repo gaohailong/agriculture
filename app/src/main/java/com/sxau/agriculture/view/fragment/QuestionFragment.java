@@ -3,7 +3,6 @@ package com.sxau.agriculture.view.fragment;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -20,7 +19,6 @@ import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.api.ICategoriesData;
 import com.sxau.agriculture.bean.CategorieData;
-import com.sxau.agriculture.utils.ACache;
 import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.RetrofitUtil;
 import com.sxau.agriculture.view.activity.AskQuestionActivity;
@@ -51,25 +49,32 @@ public class QuestionFragment extends BaseFragment implements View.OnClickListen
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.fragment_question, container, false);
+        if (mView == null) {
 
-        vPager = (ViewPager) mView.findViewById(R.id.vp_question_viewpager);
-        btn_ask = (Button) mView.findViewById(R.id.btn_ask);
-        btn_ask.setOnClickListener(this);
-        myHandler = new MyHandler();
-        categorieDatas = new ArrayList<>();
-        context = QuestionFragment.this.getActivity();
-        list = new ArrayList<>();
-        list.add("等待加载");
+            mView = inflater.inflate(R.layout.fragment_question, container, false);
+
+            vPager = (ViewPager) mView.findViewById(R.id.vp_question_viewpager);
+            btn_ask = (Button) mView.findViewById(R.id.btn_ask);
+            btn_ask.setOnClickListener(this);
+            myHandler = new MyHandler();
+            categorieDatas = new ArrayList<>();
+            context = QuestionFragment.this.getActivity();
+            list = new ArrayList<>();
+            addData();
+            myHandler.sendEmptyMessage(ConstantUtil.INIT_DATA);
+        }
+
+        ViewGroup parent = (ViewGroup) mView.getParent();
+        if (parent != null) {
+            parent.removeView(mView);
+        }
+
         return mView;
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        addData();
-        myHandler.sendEmptyMessage(ConstantUtil.INIT_DATA);
-
     }
 
     //伴随数据动态加载fragment

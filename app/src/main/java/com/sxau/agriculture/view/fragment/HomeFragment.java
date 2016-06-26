@@ -28,16 +28,12 @@ import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.api.IHomeArticleList;
 import com.sxau.agriculture.bean.HomeArticle;
 import com.sxau.agriculture.bean.HomeBannerPicture;
-import com.sxau.agriculture.bean.HomeRotatePicture;
 import com.sxau.agriculture.presenter.fragment_presenter_interface.IHomePresenter;
-import com.sxau.agriculture.utils.ACache;
 import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.NetUtil;
 import com.sxau.agriculture.utils.RefreshBottomTextUtil;
 import com.sxau.agriculture.utils.RetrofitUtil;
-import com.sxau.agriculture.view.activity.PictureWebViewActivity;
 import com.sxau.agriculture.view.activity.WebViewActivity;
-import com.sxau.agriculture.view.activity.WebViewTwoActivity;
 import com.sxau.agriculture.widgets.RefreshLayout;
 
 import java.lang.ref.WeakReference;
@@ -92,43 +88,51 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
                              Bundle savedInstanceState) {
         //将HomeFragment与HomePresenter绑定起来
 //        iHomePresenter = new HomePresenter(HomeFragment.this);
+        if (mView == null) {
+            mView = inflater.inflate(R.layout.fragment_home, container, false);
+            lv_push = (ListView) mView.findViewById(R.id.lv_push);
 
-        mView = inflater.inflate(R.layout.fragment_home, container, false);
-        lv_push = (ListView) mView.findViewById(R.id.lv_push);
+            rl_refresh = (RefreshLayout) mView.findViewById(R.id.srl_refresh);
+            rl_refresh.setColorSchemeColors(Color.parseColor("#00b5ad"));
+            footerLayout = getLayoutInflater(savedInstanceState).inflate(R.layout.listview_footer, null);
+            tv_more = (TextView) footerLayout.findViewById(R.id.tv_more);
+            tv_title = (TextView) mView.findViewById(R.id.tv_title);
+            fl_adv = (FrameLayout) mView.findViewById(R.id.fl_adv);
 
-        rl_refresh = (RefreshLayout) mView.findViewById(R.id.srl_refresh);
-        rl_refresh.setColorSchemeColors(Color.parseColor("#00b5ad"));
-        footerLayout = getLayoutInflater(savedInstanceState).inflate(R.layout.listview_footer, null);
-        tv_more = (TextView) footerLayout.findViewById(R.id.tv_more);
-        tv_title= (TextView) mView.findViewById(R.id.tv_title);
-        fl_adv= (FrameLayout) mView.findViewById(R.id.fl_adv);
+            currentPage = 1;
+            isLoadOver = false;
+            currentIndex = 300;
+            context = HomeFragment.this.getActivity();
+            homeArticles = new ArrayList<HomeArticle>();
+            myHandler = new MyHandler(HomeFragment.this);
+            bannerData = new ArrayList<>();
+            imagePath = new ArrayList<>();
 
-        currentPage = 1;
-        isLoadOver = false;
-        currentIndex = 300;
-        context = HomeFragment.this.getActivity();
-        homeArticles = new ArrayList<HomeArticle>();
-        myHandler = new MyHandler(HomeFragment.this);
-        bannerData= new ArrayList<>();
-        imagePath=new ArrayList<>();
+            if (NetUtil.isNetAvailable(context)) {
+                lv_push.setOnItemClickListener(this);
+            }
 
-        if (NetUtil.isNetAvailable(context)) {
-            lv_push.setOnItemClickListener(this);
+            imagePath.add("error");
+
+            dbUtil = DbUtils.create(context);
+
+            initPictureView();
+            initRefresh();
+            initListView();
+            myHandler.sendEmptyMessage(ConstantUtil.INIT_DATA);
         }
 
-        imagePath.add("error");
-
-        dbUtil = DbUtils.create(context);
+        ViewGroup parent = (ViewGroup) mView.getParent();
+        if (parent != null) {
+            parent.removeView(mView);
+        }
         return mView;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initPictureView();
-        initRefresh();
-        initListView();
-        myHandler.sendEmptyMessage(ConstantUtil.INIT_DATA);
+
     }
 
     public void initRefresh() {

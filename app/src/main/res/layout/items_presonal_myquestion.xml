@@ -7,14 +7,14 @@
 
     <View
         android:id="@+id/v_left"
-        android:layout_width="5dp"
+        android:layout_width="3dp"
         android:layout_height="match_parent"
         android:background="@color/croci" />
 
     <ImageView
         android:id="@+id/iv_messagetype"
         android:layout_width="0dp"
-        android:padding="10dp"
+        android:padding="15dp"
         android:layout_height="match_parent"
         android:layout_gravity="center_vertical"
         android:layout_weight="1"
@@ -24,13 +24,13 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="4"
+        android:padding="10dp"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
             android:ellipsize="end"
             android:singleLine="true"
             android:text="啦啦啦"
@@ -41,7 +41,7 @@
             android:id="@+id/tv_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
+            android:layout_marginTop="5dp"
             android:ellipsize="end"
             android:textColor="@color/littleColor"
             android:singleLine="true"
@@ -53,8 +53,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|right"
-            android:layout_marginBottom="5dp"
-            android:layout_marginRight="10dp"
             android:layout_marginTop="3dp"
             android:text="2013-13-13" />
     </LinearLayout>

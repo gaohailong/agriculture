@@ -2,7 +2,6 @@ package com.sxau.agriculture.view.fragment;
 
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -18,8 +17,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.lidroid.xutils.DbUtils;
-import com.lidroid.xutils.exception.DbException;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItem;
 import com.sxau.agriculture.adapter.QuestionAdapter;
 import com.sxau.agriculture.agriculture.R;
@@ -40,7 +37,6 @@ import com.sxau.agriculture.widgets.RefreshLayout;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.List;
 
 import retrofit.Call;
 import retrofit.Callback;
@@ -75,45 +71,54 @@ public class QuestionListViewFragment extends BaseFragment implements IQuestionL
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //将QuestionLvFragment与QuestionLvPresenter绑定
-        iQuestionListViewPresenter = new QuestionListViewPresenter(QuestionListViewFragment.this);
-        mView = inflater.inflate(R.layout.fragment_question_list, container, false);
-        context = QuestionListViewFragment.this.getActivity();
-        lvQuestionList = (ListView) mView.findViewById(R.id.lv_question);
-        if (NetUtil.isNetAvailable(context)) {
-            lvQuestionList.setOnItemClickListener(this);
-        } else {
-            Toast.makeText(context, "请检查网络设置", Toast.LENGTH_SHORT).show();
+
+        if (mView == null) {
+
+            iQuestionListViewPresenter = new QuestionListViewPresenter(QuestionListViewFragment.this);
+            mView = inflater.inflate(R.layout.fragment_question_list, container, false);
+            context = QuestionListViewFragment.this.getActivity();
+            lvQuestionList = (ListView) mView.findViewById(R.id.lv_question);
+            if (NetUtil.isNetAvailable(context)) {
+                lvQuestionList.setOnItemClickListener(this);
+            } else {
+                Toast.makeText(context, "请检查网络设置", Toast.LENGTH_SHORT).show();
+            }
+            lvQuestionList.setOnTouchListener(this);
+            questionFragment = new QuestionFragment();
+            questionDatas = new ArrayList<QuestionData>();
+            myHandler = new MyHandler(QuestionListViewFragment.this);
+
+            //刷新&加载
+            rl_refresh = (RefreshLayout) mView.findViewById(R.id.rl_refresh);
+            rl_refresh.setColorSchemeColors(Color.parseColor("#00b5ad"));
+            footView = getLayoutInflater(savedInstanceState).inflate(R.layout.listview_footer, null);
+            tv_more = (TextView) footView.findViewById(R.id.tv_more);
+            currentPage = 1;
+            isLoadOver = false;
+            aCache = ACache.get(context);
+            cateId = 0;
+
+            initRefresh();
+            initList();
+            myHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    myHandler.sendEmptyMessage(ConstantUtil.INIT_DATA);
+                }
+            }, 3000);
+
         }
-        lvQuestionList.setOnTouchListener(this);
-        questionFragment = new QuestionFragment();
-        questionDatas = new ArrayList<QuestionData>();
-        myHandler = new MyHandler(QuestionListViewFragment.this);
 
-        //刷新&加载
-        rl_refresh = (RefreshLayout) mView.findViewById(R.id.rl_refresh);
-        rl_refresh.setColorSchemeColors(Color.parseColor("#00b5ad"));
-        footView = getLayoutInflater(savedInstanceState).inflate(R.layout.listview_footer, null);
-        tv_more = (TextView) footView.findViewById(R.id.tv_more);
-        currentPage = 1;
-        isLoadOver = false;
-        aCache = ACache.get(context);
-        cateId = 0;
-
+        ViewGroup parent = (ViewGroup) mView.getParent();
+        if (parent != null) {
+            parent.removeView(mView);
+        }
 
         return mView;
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        initRefresh();
-        initList();
-        myHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                myHandler.sendEmptyMessage(ConstantUtil.INIT_DATA);
-            }
-        }, 3000);
-
         super.onViewCreated(view, savedInstanceState);
     }
 

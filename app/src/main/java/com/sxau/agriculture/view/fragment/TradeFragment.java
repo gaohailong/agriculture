@@ -1,7 +1,5 @@
 package com.sxau.agriculture.view.fragment;
 
-import com.sxau.agriculture.agriculture.R;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,6 +18,7 @@ import android.widget.Toast;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
+import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.view.activity.TradeReleaseActivity;
 
 import java.util.ArrayList;
@@ -39,20 +38,27 @@ public class TradeFragment extends BaseFragment implements View.OnClickListener{
     private int offset;//图片移动的偏移量
     public static Button btn_info_float;
     private Context mcontext;
-
-
+    private View mView;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View convertView = inflater.inflate(R.layout.fragment_trade, container, false);
-        mcontext=TradeFragment.this.getActivity();
 
-        initView(convertView);
+        if (mView == null) {
 
-        btn_info_float.setOnClickListener(this);
+            mView = inflater.inflate(R.layout.fragment_trade, container, false);
+            mcontext = TradeFragment.this.getActivity();
 
-        return convertView;
+            initView(mView);
+
+            btn_info_float.setOnClickListener(this);
+        }
+
+        ViewGroup parent = (ViewGroup) mView.getParent();
+        if (parent != null) {
+            parent.removeView(mView);
+        }
+        return mView;
     }
 
     private void initView(View convertView) {

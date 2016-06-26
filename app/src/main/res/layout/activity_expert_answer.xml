@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/mainColor"
+    android:background="@color/white"
+    android:orientation="vertical"
     tools:context="com.sxau.agriculture.view.activity.ExpertAnswerActivity">
 
     <com.sxau.agriculture.utils.TitleBarTwo
@@ -11,52 +12,63 @@
         android:layout_width="match_parent"
         android:layout_height="50dp" />
 
-    <TextView
-        android:id="@+id/tv_question"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/topBarUtil"
-        android:layout_centerHorizontal="true"
-        android:text="如何在草本中使用农业？"
-        android:textColor="@color/white"
-        android:textSize="20sp" />
-
-    <TextView
-        android:id="@+id/tv_answer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_question"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="10dp"
-        android:text="您的答案："
-        android:textColor="@color/white"
-        android:textSize="20sp" />
-
-
-    <EditText
-        android:id="@+id/et_answer"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_below="@+id/tv_answer"
-        android:layout_margin="10dp"
-        android:background="@drawable/bg_linear_layout_shape_10_white"
-        android:gravity="top"
-        android:padding="15px"
-        android:textSize="20sp" />
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="15dp">
+
+            <TextView
+                android:id="@+id/tv_question"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/topBarUtil"
+                android:text="如何在草本中使用农业？"
+                android:textSize="17sp" />
+
+            <TextView
+                android:id="@+id/tv_answer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_question"
+                android:layout_marginTop="15dp"
+                android:text="您的答案："
+                android:textSize="16sp" />
 
 
-    <Button
-        android:id="@+id/bt_submit"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_gravity="bottom|right"
-        android:layout_marginBottom="20dp"
-        android:layout_marginRight="20dp"
-        android:background="@drawable/bg_ask_btn_shape"
-        android:text="提交"
-        android:textColor="@color/white"
-        android:textSize="14sp"
-        android:visibility="visible" />
-</RelativeLayout>
+            <EditText
+                android:id="@+id/et_answer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:lineSpacingExtra="5dp"
+                android:minLines="5"
+                android:layout_below="@+id/tv_answer"
+                android:gravity="top"
+                android:hint="在此写下您的解决方案"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+
+
+        <Button
+            android:id="@+id/bt_submit"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_gravity="bottom|right"
+            android:layout_marginBottom="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/bg_ask_btn_shape"
+            android:text="提交"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:visibility="visible" />
+
+    </FrameLayout>
+
+
+</LinearLayout>

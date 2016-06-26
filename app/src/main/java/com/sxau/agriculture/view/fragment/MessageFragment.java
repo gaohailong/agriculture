@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,30 +16,19 @@ import android.widget.Toast;
 
 import com.sxau.agriculture.adapter.MessageAdapter;
 import com.sxau.agriculture.agriculture.R;
-import com.sxau.agriculture.api.IGetMessageList;
 import com.sxau.agriculture.bean.MessageInfo;
-import com.sxau.agriculture.bean.MessageList;
 import com.sxau.agriculture.presenter.fragment_presenter.MessagePresenter;
 import com.sxau.agriculture.presenter.fragment_presenter_interface.IMessagePresenter;
 import com.sxau.agriculture.utils.ConstantUtil;
-import com.sxau.agriculture.utils.LogUtil;
 import com.sxau.agriculture.utils.NetUtil;
 import com.sxau.agriculture.utils.RefreshBottomTextUtil;
-import com.sxau.agriculture.utils.RetrofitUtil;
 import com.sxau.agriculture.view.activity.DetailQuestionActivity;
 import com.sxau.agriculture.view.activity.TradeContentActivity;
-import com.sxau.agriculture.view.activity.WebViewTwoActivity;
 import com.sxau.agriculture.view.fragment_interface.IMessageFragment;
 import com.sxau.agriculture.widgets.RefreshLayout;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.List;
-
-import retrofit.Call;
-import retrofit.Callback;
-import retrofit.Response;
-import retrofit.Retrofit;
 
 /**
  * 消息的Fragment
@@ -60,24 +48,43 @@ public class MessageFragment extends BaseFragment implements IMessageFragment, A
 
     private int currentPage = 1;
     private MyHandler handler;
+    private View view;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        context = MessageFragment.this.getActivity();
-        //将MessageFragment与MessagePresenter绑定
-        handler = new MyHandler(MessageFragment.this);
-        messageInfos = new ArrayList<MessageInfo>();
-        iMessagePresenter = new MessagePresenter(MessageFragment.this, handler, context);
-        context = MessageFragment.this.getActivity();
-        View view = inflater.inflate(R.layout.fragment_message, container, false);
-        lv_message = (ListView) view.findViewById(R.id.lv_message);
+        if (view == null) {
 
-        srl_refresh = (RefreshLayout) view.findViewById(R.id.srl_refresh);
-        srl_refresh.setColorSchemeColors(R.color.mainColor);
+            context = MessageFragment.this.getActivity();
+            //将MessageFragment与MessagePresenter绑定
+            handler = new MyHandler(MessageFragment.this);
+            messageInfos = new ArrayList<MessageInfo>();
+            iMessagePresenter = new MessagePresenter(MessageFragment.this, handler, context);
+            context = MessageFragment.this.getActivity();
+            view = inflater.inflate(R.layout.fragment_message, container, false);
+            lv_message = (ListView) view.findViewById(R.id.lv_message);
 
-        footerLayout = getLayoutInflater(savedInstanceState).inflate(R.layout.listview_footer, null);
-        tv_more = (TextView) footerLayout.findViewById(R.id.tv_more);
+            srl_refresh = (RefreshLayout) view.findViewById(R.id.srl_refresh);
+            srl_refresh.setColorSchemeColors(R.color.mainColor);
+
+            footerLayout = getLayoutInflater(savedInstanceState).inflate(R.layout.listview_footer, null);
+            tv_more = (TextView) footerLayout.findViewById(R.id.tv_more);
+
+            initListView();
+            initRefresh();
+            if (NetUtil.isNetAvailable(context)) {
+                handler.sendEmptyMessage(ConstantUtil.INIT_DATA);
+                srl_refresh.setLoading(false);
+            } else {
+                Toast.makeText(context, "没有网络连接", Toast.LENGTH_SHORT).show();
+                srl_refresh.setLoading(false);
+            }
+        }
+
+        ViewGroup parent = (ViewGroup) view.getParent();
+        if (parent != null) {
+            parent.removeView(view);
+        }
 
         return view;
     }
@@ -85,15 +92,6 @@ public class MessageFragment extends BaseFragment implements IMessageFragment, A
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initListView();
-        initRefresh();
-        if (NetUtil.isNetAvailable(context)) {
-            handler.sendEmptyMessage(ConstantUtil.INIT_DATA);
-            srl_refresh.setLoading(false);
-        } else {
-            Toast.makeText(context, "没有网络连接", Toast.LENGTH_SHORT).show();
-            srl_refresh.setLoading(false);
-        }
     }
 
     //初始化listView

@@ -121,7 +121,7 @@
         android:layout_marginRight="20dp"
         android:background="@drawable/bg_ask_btn_shape"
         android:text="发布供求"
-        android:textSize="14sp"
+        android:textSize="@dimen/float_font_size"
         android:textColor="@color/white"
         />
 </FrameLayout>
