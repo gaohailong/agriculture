@@ -28,12 +28,20 @@ public class StringUtil {
         String str1 = new String();
         String str2 = new String();
         List<String> wholeList = new ArrayList<String>();
-        for (int i = 0 ; i<strList.size();i++){
+        for (int i = 0; i < strList.size(); i++) {
             str1 = strList.get(i).substring(0, strList.get(i).length());
-            str2 = ConstantUtil.DOMAIN + str1 + "?imageView2/0/w/0/format/jpg";
+            str2 = ConstantUtil.DOMAIN + str1 + ConstantUtil.UPLOAD_PIC_SUFFIX;
             wholeList.add(str2);
         }
 
         return wholeList;
+    }
+
+    public static String changeToWholeUrl(String str) {
+        String str1 = new String();
+        String str2 = new String();
+        str1 = str.substring(0, str.length());
+        str2 = ConstantUtil.DOMAIN + str1 + ConstantUtil.UPLOAD_PIC_SUFFIX;
+        return str2;
     }
 }
