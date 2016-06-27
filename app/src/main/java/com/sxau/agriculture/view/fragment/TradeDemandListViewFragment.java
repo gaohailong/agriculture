@@ -57,7 +57,7 @@ public class TradeDemandListViewFragment extends BaseFragment implements ITradeL
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-//        if (mView == null) {
+        if (mView == null) {
 
             handler = new MyHandler(TradeDemandListViewFragment.this);
             context = TradeDemandListViewFragment.this.getActivity();
@@ -78,12 +78,11 @@ public class TradeDemandListViewFragment extends BaseFragment implements ITradeL
             initRefresh();
             initListView();
             handler.sendEmptyMessage(ConstantUtil.PULL_REFRESH);
-//        }
- /*       ViewGroup parent = (ViewGroup) mView.getParent();
+        }
+        ViewGroup parent = (ViewGroup) mView.getParent();
         if (parent != null) {
             parent.removeView(mView);
         }
-*/
         return mView;
     }
 
