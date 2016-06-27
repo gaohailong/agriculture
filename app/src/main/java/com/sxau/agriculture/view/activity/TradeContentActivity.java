@@ -3,12 +3,17 @@ package com.sxau.agriculture.view.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -102,6 +107,33 @@ public class TradeContentActivity extends BaseActivity implements View.OnClickLi
             @Override
             protected void onItemImageClick(Context context, int index, List<String> list) {
 //                Toast.makeText(context, "image position is " + index, Toast.LENGTH_SHORT).show();
+                View view = getLayoutInflater().inflate(R.layout.dialog_pic, null);
+                ImageView ivPic = (ImageView) view.findViewById(R.id.iv_pic);
+                Picasso.with(context).load(list.get(index)).placeholder(R.mipmap.ic_loading).into(ivPic);
+                final PopupWindow popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                popupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+                popupWindow.setAnimationStyle(android.R.style.Animation_Translucent);
+                popupWindow.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_pop_alert));
+                ColorDrawable dw = new ColorDrawable(0xb0000000);
+                // 设置背景颜色变暗
+                WindowManager.LayoutParams lp = getWindow().getAttributes();
+                lp.alpha = 0.7f;
+                getWindow().setAttributes(lp);
+                popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                    @Override
+                    public void onDismiss() {
+                        WindowManager.LayoutParams lp = getWindow().getAttributes();
+                        lp.alpha = 1f;
+                        getWindow().setAttributes(lp);
+                    }
+                });
+                //点击窗口外边消失
+                popupWindow.setOutsideTouchable(true);
+                popupWindow.setFocusable(true);
+                popupWindow.setTouchable(true);
+                //显示位置
+                popupWindow.showAtLocation(ivPic, Gravity.CENTER_VERTICAL, 0, 0);
+                Picasso.with(context).load(list.get(index)).placeholder(R.mipmap.ic_loading).into(ivPic);
             }
         };
         nineGridImageView.setAdapter(mAdapter);
