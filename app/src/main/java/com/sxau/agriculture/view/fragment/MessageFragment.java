@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ import com.sxau.agriculture.utils.NetUtil;
 import com.sxau.agriculture.utils.RefreshBottomTextUtil;
 import com.sxau.agriculture.view.activity.DetailQuestionActivity;
 import com.sxau.agriculture.view.activity.TradeContentActivity;
+import com.sxau.agriculture.view.activity.WebViewTwoActivity;
 import com.sxau.agriculture.view.fragment_interface.IMessageFragment;
 import com.sxau.agriculture.widgets.RefreshLayout;
 
@@ -123,7 +125,11 @@ public class MessageFragment extends BaseFragment implements IMessageFragment, A
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if (messageInfos.size() > 0 && messageInfos.size() < position) {
+        int s = messageAdapter.getCount();
+        int y = messageInfos.size();
+        Log.e("itemCount1", "" + s);
+        Log.e("itemCount2", "" + y);
+        if (messageInfos.size() > 0) {
             Intent intentStart = new Intent();
             String type = messageInfos.get(position).getMessageType();
             int itemId = messageInfos.get(position).getRelationId();
@@ -136,10 +142,10 @@ public class MessageFragment extends BaseFragment implements IMessageFragment, A
                     intentStart.setClass(context, TradeContentActivity.class);
                     intentStart.putExtra("TradeId", itemId);
                     break;
-              /*  case ConstantUtil.ARTICLE://文章(未试验)
+                case ConstantUtil.ARTICLE://文章(未试验)
                     intentStart.setClass(context, WebViewTwoActivity.class);
-                    intentStart.putExtra("article", id);
-                    break;*/
+                    intentStart.putExtra("article", itemId);
+                    break;
                 case ConstantUtil.RELATION://关系
                     break;
                 case ConstantUtil.SYSTEM://系统

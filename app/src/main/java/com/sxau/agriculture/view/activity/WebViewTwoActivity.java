@@ -95,7 +95,6 @@ public class WebViewTwoActivity extends BaseActivity {
         homeArticleCall.enqueue(new Callback<HomeArticle>() {
             @Override
             public void onResponse(Response<HomeArticle> response, Retrofit retrofit) {
-                Log.e("responseCode", response.code() + "");
                 if (response.isSuccess()) {
                     homeArticle = response.body();
                     handler.sendEmptyMessage(ConstantUtil.GET_NET_DATA);

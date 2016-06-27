@@ -414,7 +414,7 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if (homeArticles.size() > 0 && homeArticles.size() < position) {
+        if (homeArticles.size() > 0) {
             Intent intent = new Intent();
             Bundle bundle = new Bundle();
             bundle.putSerializable("ArticleData", homeArticles.get(position));
