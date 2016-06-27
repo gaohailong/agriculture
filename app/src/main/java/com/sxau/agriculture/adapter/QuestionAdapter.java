@@ -2,16 +2,13 @@ package com.sxau.agriculture.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
 import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.bean.QuestionData;
 import com.sxau.agriculture.utils.LogUtil;
@@ -68,7 +65,7 @@ public class QuestionAdapter extends BaseAdapter {
         QuestionData questionData = questionDatas.get(position);
         holder.tv_title.setText(questionData.getTitle());
         holder.tv_content.setText(questionData.getContent());
-        holder.tv_ntdmix.setText(questionData.getUser().getName() + "提问于" + TimeUtil.format(questionData.getWhenCreated()));
+        holder.tv_ntdmix.setText(questionData.getUser().getName() + " 提问于 " + TimeUtil.format(questionData.getWhenCreated()));
         favIndex = questionData.isFav();
         LogUtil.e("QuestionAdapter","position:"+questionData.getId()+"isFav:"+favIndex);
         if (questionData.getTitle() != null && !questionData.getQuestionAuditState().equals("WAIT_AUDITED")

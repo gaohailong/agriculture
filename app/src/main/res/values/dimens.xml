@@ -12,10 +12,11 @@
     <dimen name="font_size">14sp</dimen>
     <dimen name="float_font_size">16sp</dimen>
     <dimen name="font_title">16sp</dimen>
+    <dimen name="news_title">17sp</dimen>
     <dimen name="font_time">14sp</dimen>
     <dimen name="font_personal_info">14sp</dimen>
     <dimen name="font_size_large">14sp</dimen>
     <!--行间距-->
-    <dimen name="font_space">3dp</dimen>
+    <dimen name="font_space">5dp</dimen>
 
 </resources>

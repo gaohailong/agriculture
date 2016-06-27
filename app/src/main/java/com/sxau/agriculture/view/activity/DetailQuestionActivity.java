@@ -44,7 +44,7 @@ import java.util.List;
  */
 public class DetailQuestionActivity extends BaseActivity implements IDetailQuestionActivity, View.OnClickListener {
     private ImageView rv_question_head, rv_professor_head, iv_collection;
-    private TextView tv_question_name, tv_question_content, tv_question_title, tv_question_time, tv_is_answer, tv_professor_name, tv_professor_content, tv_professor_ok;
+    private TextView tv_question_name, tv_question_content, tv_question_title, tv_question_time,tv_question_answer_time, tv_is_answer, tv_professor_name, tv_professor_content, tv_professor_ok;
     private TextView tv_voice;
     private Button bt_answer;
     private LinearLayout ll_expert_answer;
@@ -85,6 +85,7 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
         tv_question_name = (TextView) findViewById(R.id.tv_question_name);
         tv_question_title = (TextView) findViewById(R.id.tv_question_title);
         tv_question_time = (TextView) findViewById(R.id.tv_question_time);
+        tv_question_answer_time = (TextView) findViewById(R.id.tv_question_answer_time);
         tv_is_answer = (TextView) findViewById(R.id.tv_is_answer);
         tv_professor_name = (TextView) findViewById(R.id.tv_professor_name);
         tv_professor_content = (TextView) findViewById(R.id.tv_professor_content);
@@ -102,7 +103,7 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
     }
 
     public void initNineGridView() {
-         mAdapter = new NineGridImageViewAdapter<String>() {
+        mAdapter = new NineGridImageViewAdapter<String>() {
             @Override
             protected void onDisplayImage(Context context, ImageView imageView, String t) {
                 Picasso.with(context).load(t).placeholder(R.mipmap.ic_loading).into(imageView);
@@ -146,15 +147,15 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
                 doCollection();
                 break;
             case R.id.tv_voice:
-                if (NetUtil.isNetAvailable(DetailQuestionActivity.this)){
+                if (NetUtil.isNetAvailable(DetailQuestionActivity.this)) {
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
                             playAudio();
                         }
                     }).start();
-                }else {
-                    Toast.makeText(DetailQuestionActivity.this,"请检查网络",Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(DetailQuestionActivity.this, "请检查网络", Toast.LENGTH_LONG).show();
                 }
                 break;
             default:
@@ -162,13 +163,13 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
         }
     }
 
-    public void playAudio(){
-        if (mediaPlayer.isPlaying()){
+    public void playAudio() {
+        if (mediaPlayer.isPlaying()) {
             mediaPlayer.pause();
-        }else {
+        } else {
             try {
                 mediaPlayer.reset();
-                mediaPlayer.setDataSource(ConstantUtil.DOMAIN+audioUrl);
+                mediaPlayer.setDataSource(ConstantUtil.DOMAIN + audioUrl);
                 mediaPlayer.prepare();
                 mediaPlayer.start();
             } catch (IOException e) {
@@ -196,12 +197,14 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
                     if (detailQuestionData.getImages() != null && detailQuestionData.getImages().length() > 4) {
                         imgDatas = StringUtil.changeStringToList(detailQuestionData.getImages());
                         imgDatas = StringUtil.changeToWholeUrlList(imgDatas);
-                        Log.d("DetailQA","imgDatas："+detailQuestionData.getImages().toString());
-                        for (int i=0;i<imgDatas.size();i++){
-                            Log.d("DetailQA","imgDatas："+imgDatas.get(i)+" 位置："+i);
+                        Log.d("DetailQA", "imgDatas：" + detailQuestionData.getImages().toString());
+                        for (int i = 0; i < imgDatas.size(); i++) {
+                            Log.d("DetailQA", "imgDatas：" + imgDatas.get(i) + " 位置：" + i);
                         }
                         //设置九宫格数据源
                         nineGridImageView.setImagesData(imgDatas);
+                    } else {
+                        nineGridImageView.setVisibility(View.GONE);
                     }
                     updateView();
                     break;
@@ -241,11 +244,12 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
     }
 
     //更改收藏图标
-    private void changeToCollectionIC(){
+    private void changeToCollectionIC() {
         iv_collection.setImageResource(R.drawable.collection_fill);
         isFav = true;
     }
-    private void changeToNoCollectionIC(){
+
+    private void changeToNoCollectionIC() {
         iv_collection.setImageResource(R.drawable.collection);
         isFav = false;
     }
@@ -261,23 +265,25 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
     public void updateView() {
         Picasso.with(context).load(detailQuestionData.getUser().getAvatar()).
                 placeholder(R.mipmap.img_user_default).error(R.mipmap.img_user_default).into(rv_question_head);
-        Log.e("DetailQA","avatar:"+detailQuestionData.getUser().getAvatar());
+        Log.e("DetailQA", "avatar:" + detailQuestionData.getUser().getAvatar());
         tv_question_name.setText(detailQuestionData.getUser().getName());
         tv_question_title.setText(detailQuestionData.getTitle());
-        Log.e("DetailQA","mediaId:"+detailQuestionData.getMediaId());
-        if (detailQuestionData.getMediaId() != null){
+        Log.e("DetailQA", "mediaId:" + detailQuestionData.getMediaId());
+        if (detailQuestionData.getMediaId() != null) {
             tv_question_content.setVisibility(View.GONE);
             tv_voice.setVisibility(View.VISIBLE);
             audioUrl = detailQuestionData.getMediaId();
-        }else {
+        } else {
             tv_voice.setVisibility(View.GONE);
         }
         tv_question_content.setText(detailQuestionData.getContent());
-        tv_question_time.setText(TimeUtil.format(detailQuestionData.getWhenCreated()));
+        tv_question_time.setText("发布于" + TimeUtil.format(detailQuestionData.getWhenCreated()));
         if (detailQuestionData.getExpert() != null) {
             ll_expert_answer.setVisibility(View.VISIBLE);
             bt_answer.setVisibility(View.GONE);
             tv_is_answer.setText("专家已回答");
+            tv_question_answer_time.setText("回答于" + TimeUtil.format(detailQuestionData.getWhenUpdated()));
+
             //专家部分
             Picasso.with(context).load(detailQuestionData.getUser().getAvatar()).centerCrop().
                     placeholder(R.mipmap.img_default_user_portrait_150px).error(R.mipmap.img_default_user_portrait_150px).into(rv_professor_head);
@@ -286,9 +292,9 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
 //            tv_professor_ok.setText("点赞人数" + detailQuestionData.getLikeCount());
         } else {
             ll_expert_answer.setVisibility(View.GONE);
-            if (UserInfoUtil.isUserTypeEXPERT()){
+            if (UserInfoUtil.isUserTypeEXPERT()) {
                 bt_answer.setVisibility(View.VISIBLE);
-            }else {
+            } else {
                 bt_answer.setVisibility(View.GONE);
             }
             tv_is_answer.setText("专家未回答");

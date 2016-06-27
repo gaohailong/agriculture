@@ -13,7 +13,7 @@ public class TimeUtil {
     //将秒转换为日期
     public static String format(long sec) {
         Date date = new Date(sec);
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yy-MM-dd");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yy-MM-dd HH:mm");
         return simpleDateFormat.format(date);
     }
 }

@@ -21,7 +21,7 @@
         android:ellipsize="end"
         android:lines="3"
         android:text="全面推动“三品一标”工作再上新台阶"
-        android:textSize="@dimen/font_title" />
+        android:textSize="@dimen/news_title" />
 
     <TextView
         android:id="@+id/tv_time"

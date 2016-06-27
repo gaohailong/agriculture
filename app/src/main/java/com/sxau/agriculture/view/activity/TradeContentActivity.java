@@ -51,6 +51,7 @@ public class TradeContentActivity extends BaseActivity implements View.OnClickLi
     private TextView tv_timeStart;
     private TextView tv_timeEnd;
     private TextView tv_phone;
+    private TextView tv_trade_time;
     //实体类对象
     private TradeData tradeData;
     //点击的交易的id
@@ -114,6 +115,7 @@ public class TradeContentActivity extends BaseActivity implements View.OnClickLi
         tv_location = (TextView) findViewById(R.id.tv_location);
         iv_collection = (ImageView) findViewById(R.id.iv_trade_content_collection);
         tv_timeStart = (TextView) findViewById(R.id.tv_timeStart);
+        tv_trade_time = (TextView) findViewById(R.id.tv_trade_time);
         tv_timeEnd = (TextView) findViewById(R.id.tv_timeEnd);
         tv_phone = (TextView) findViewById(R.id.tv_phone);
         topBarUtil = (TitleBarTwo) findViewById(R.id.topBar_detail);
@@ -173,6 +175,8 @@ public class TradeContentActivity extends BaseActivity implements View.OnClickLi
                         }
                         //设置九宫格数据源
                         nineGridImageView.setImagesData(imgDatas);
+                    } else {
+                        nineGridImageView.setVisibility(View.GONE);
                     }
                     break;
                 default:
@@ -213,6 +217,7 @@ public class TradeContentActivity extends BaseActivity implements View.OnClickLi
         tv_attentionNum.setText("关注人数：" + tradeData.getLikeCount() + "");
         tv_location.setText(tradeData.getUser().getAddress());
         tv_timeStart.setText(TimeUtil.format(tradeData.getWhenCreated()));
+        tv_trade_time.setText(TimeUtil.format(tradeData.getWhenCreated()));
         tv_timeEnd.setText("至" + TimeUtil.format(tradeData.getWhenUpdated()));
         tv_phone.setText("联系电话：" + tradeData.getUser().getPhone());
         collection = tradeData.isFav();
