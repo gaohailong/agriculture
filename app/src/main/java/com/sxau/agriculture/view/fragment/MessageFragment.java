@@ -123,6 +123,8 @@ public class MessageFragment extends BaseFragment implements IMessageFragment, A
             Intent intentStart = new Intent();
             try {
                 int itemId = messageInfos.get(position).getRelationId();
+                iMessagePresenter.changeRead(itemId);
+                Log.e("itemIdGet","itemId=="+itemId);
                 String type = messageInfos.get(position).getMessageType();
                 switch (type) {
                     case ConstantUtil.QUESTION://问答(已成功)
