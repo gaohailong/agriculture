@@ -56,7 +56,6 @@ public class MessageFragment extends BaseFragment implements IMessageFragment, A
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         if (view == null) {
-
             context = MessageFragment.this.getActivity();
             //将MessageFragment与MessagePresenter绑定
             handler = new MyHandler(MessageFragment.this);
@@ -76,24 +75,19 @@ public class MessageFragment extends BaseFragment implements IMessageFragment, A
             initRefresh();
             if (NetUtil.isNetAvailable(context)) {
                 handler.sendEmptyMessage(ConstantUtil.INIT_DATA);
+                RefreshBottomTextUtil.setTextMore(tv_more,ConstantUtil.LOADINDG);
                 srl_refresh.setLoading(false);
             } else {
                 Toast.makeText(context, "没有网络连接", Toast.LENGTH_SHORT).show();
                 srl_refresh.setLoading(false);
             }
         }
-
         ViewGroup parent = (ViewGroup) view.getParent();
         if (parent != null) {
             parent.removeView(view);
         }
 
         return view;
-    }
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
     }
 
     //初始化listView

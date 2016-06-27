@@ -120,6 +120,7 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
             initListView();
             initRefresh();
             myHandler.sendEmptyMessage(ConstantUtil.INIT_DATA);
+            RefreshBottomTextUtil.setTextMore(tv_more,ConstantUtil.LOADINDG);
         }
 
         ViewGroup parent = (ViewGroup) mView.getParent();

@@ -83,6 +83,7 @@ public class TradeSupplyListViewFragment extends BaseFragment implements ITradeL
             initRefresh();
             initListView();
             handler.sendEmptyMessage(ConstantUtil.INIT_DATA);
+            RefreshBottomTextUtil.setTextMore(tv_more,ConstantUtil.LOADINDG);
         }
         ViewGroup parent = (ViewGroup) mView.getParent();
         if (parent != null) {
@@ -90,11 +91,6 @@ public class TradeSupplyListViewFragment extends BaseFragment implements ITradeL
         }
 
         return mView;
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
     }
 
     public void initRefresh() {

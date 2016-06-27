@@ -101,6 +101,7 @@ public class QuestionListViewFragment extends BaseFragment implements IQuestionL
                 @Override
                 public void run() {
                     myHandler.sendEmptyMessage(ConstantUtil.INIT_DATA);
+                    RefreshBottomTextUtil.setTextMore(tv_more,ConstantUtil.LOADINDG);
                 }
             }, 3000);
             RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOADINDG);
