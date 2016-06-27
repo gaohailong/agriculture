@@ -121,7 +121,7 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
         mAdapter = new NineGridImageViewAdapter<String>() {
             @Override
             protected void onDisplayImage(Context context, ImageView imageView, String t) {
-                Picasso.with(context).load(t).resize(120,120).placeholder(R.mipmap.ic_loading).error(R.mipmap.ic_load_fail).into(imageView);
+                Picasso.with(context).load(t).resize(120, 120).placeholder(R.mipmap.ic_loading).error(R.mipmap.ic_load_fail).into(imageView);
                 Log.e("url", "url:t:  " + t);
             }
 
@@ -132,18 +132,10 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
 
             @Override
             protected void onItemImageClick(Context context, int index, List<String> list) {
-//                Toast.makeText(context, "image position is " + index, Toast.LENGTH_SHORT).show();
-             /*   View view = getLayoutInflater().inflate(R.layout.dialog_pic, null);
-                ImageView ivPic = (ImageView) view.findViewById(R.id.iv_pic);
-
-                picDialog = new AlertDialog.Builder(DetailQuestionActivity.this).create();
-                picDialog.setCancelable(true);
-                picDialog.setView(view);
-                picDialog.show();*/
 
                 View view = getLayoutInflater().inflate(R.layout.dialog_pic, null);
                 ImageView ivPic = (ImageView) view.findViewById(R.id.iv_pic);
-                Picasso.with(context).load(list.get(index)).placeholder(R.mipmap.ic_loading).into(ivPic);
+//                Picasso.with(context).load(list.get(index)).placeholder(R.mipmap.ic_loading).into(ivPic);
                 final PopupWindow popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 popupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
                 popupWindow.setAnimationStyle(android.R.style.Animation_Translucent);
@@ -167,7 +159,7 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
                 popupWindow.setTouchable(true);
                 //显示位置
                 popupWindow.showAtLocation(ivPic, Gravity.CENTER_VERTICAL, 0, 0);
-                Picasso.with(context).load(list.get(index)).placeholder(R.mipmap.ic_loading).into(ivPic);
+                Picasso.with(context).load(list.get(index)).fit().centerCrop().placeholder(R.mipmap.ic_loading).into(ivPic);
             }
         };
         nineGridImageView.setAdapter(mAdapter);
