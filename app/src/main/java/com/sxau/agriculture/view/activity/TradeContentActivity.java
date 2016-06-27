@@ -264,7 +264,7 @@ public class TradeContentActivity extends BaseActivity implements View.OnClickLi
         tv_trade_time.setText(TimeUtil.format(tradeData.getWhenCreated()));
         tv_timeEnd.setText("至" + TimeUtil.format(tradeData.getWhenUpdated()));
         tv_phone.setText("联系电话：" + tradeData.getUser().getPhone());
-//        Picasso.with(context).load(StringUtil.)
+        Picasso.with(context).load(StringUtil.changeToWholeUrl(tradeData.getUser().getAvatar())).placeholder(R.mipmap.img_default_user_portrait_150px).error(R.mipmap.img_default_user_portrait_150px).into(rv_trade_head);
         collection = tradeData.isFav();
         Log.e("Trade", "isFav:" + collection);
         if (tradeData.isFav()) {

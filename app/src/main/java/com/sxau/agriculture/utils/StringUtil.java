@@ -40,8 +40,12 @@ public class StringUtil {
     public static String changeToWholeUrl(String str) {
         String str1 = new String();
         String str2 = new String();
-        str1 = str.substring(0, str.length());
-        str2 = ConstantUtil.DOMAIN + str1 + ConstantUtil.UPLOAD_PIC_SUFFIX;
+        if (str != null){
+            str1 = str.substring(0, str.length());
+            str2 = ConstantUtil.DOMAIN + str1 + ConstantUtil.UPLOAD_PIC_SUFFIX;
+        }else {
+            str2 = null;
+        }
         return str2;
     }
 }

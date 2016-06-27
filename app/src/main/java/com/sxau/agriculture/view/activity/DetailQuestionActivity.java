@@ -340,7 +340,7 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
             tv_question_answer_time.setText("回答于" + TimeUtil.format(detailQuestionData.getWhenUpdated()));
 
             //专家部分
-            Picasso.with(context).load(detailQuestionData.getUser().getAvatar()).
+            Picasso.with(context).load(StringUtil.changeToWholeUrl(detailQuestionData.getExpert().getAvatar().toString())).
                     placeholder(R.mipmap.img_default_user_portrait_150px).error(R.mipmap.img_default_user_portrait_150px).into(rv_professor_head);
             tv_professor_name.setText(detailQuestionData.getExpert().getName());
             tv_professor_content.setText(detailQuestionData.getAnswer());//有问题,接口返回了多个问题的答案
