@@ -78,13 +78,19 @@ public class TradeDemandListViewFragment extends BaseFragment implements ITradeL
             initRefresh();
             initListView();
             handler.sendEmptyMessage(ConstantUtil.PULL_REFRESH);
-            RefreshBottomTextUtil.setTextMore(tv_more,ConstantUtil.LOADINDG);
+            RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOADINDG);
         }
         ViewGroup parent = (ViewGroup) mView.getParent();
         if (parent != null) {
             parent.removeView(mView);
         }
         return mView;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        handler.sendEmptyMessage(ConstantUtil.PULL_REFRESH);
     }
 
     public void initRefresh() {
@@ -109,7 +115,6 @@ public class TradeDemandListViewFragment extends BaseFragment implements ITradeL
         adapter = new TradeListViewAdapter(context, demandDatas);
         lv_Info.setAdapter(adapter);
     }
-
 
     public class MyHandler extends Handler {
         WeakReference<TradeDemandListViewFragment> weakReference;
