@@ -61,9 +61,7 @@ public class TradeSupplyListViewFragment extends BaseFragment implements ITradeL
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        if (mView == null) {
-
+//        if (mView == null) {
             context = TradeSupplyListViewFragment.this.getActivity();
             handler = new MyHandler(TradeSupplyListViewFragment.this);
             iTradeListViewPresenter = new TradeListViewPresenter(TradeSupplyListViewFragment.this, context, handler);
@@ -84,12 +82,12 @@ public class TradeSupplyListViewFragment extends BaseFragment implements ITradeL
             initRefresh();
             initListView();
             handler.sendEmptyMessage(ConstantUtil.INIT_DATA);
-        }
-
+//        }
+/*
         ViewGroup parent = (ViewGroup) mView.getParent();
         if (parent != null) {
             parent.removeView(mView);
-        }
+        }*/
 
         return mView;
     }
@@ -136,7 +134,7 @@ public class TradeSupplyListViewFragment extends BaseFragment implements ITradeL
                 case ConstantUtil.INIT_DATA:
                     currentPage = 1;
                     if (NetUtil.isNetAvailable(context)) {
-                        iTradeListViewPresenter.doRequest(String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER, true,"SUPPLY");
+                        iTradeListViewPresenter.doRequest(String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER, true, "SUPPLY");
                     } else {
                         Toast.makeText(context, "没有网络连接", Toast.LENGTH_SHORT).show();
                         supplyDatas = iTradeListViewPresenter.getSupplyDatas();
@@ -147,13 +145,13 @@ public class TradeSupplyListViewFragment extends BaseFragment implements ITradeL
                     break;
                 case ConstantUtil.PULL_REFRESH:
                     currentPage = 1;
-                    iTradeListViewPresenter.doRequest(String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER, true,"SUPPLY");
+                    iTradeListViewPresenter.doRequest(String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER, true, "SUPPLY");
                     rl_refresh.setRefreshing(false);
                     RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOAD_MORE);
                     break;
                 case ConstantUtil.UP_LOAD:
                     currentPage++;
-                    iTradeListViewPresenter.doRequest(String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER, false,"SUPPLY");
+                    iTradeListViewPresenter.doRequest(String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER, false, "SUPPLY");
                     rl_refresh.setLoading(false);
                     break;
                 case ConstantUtil.LOAD_FAIL:
@@ -195,12 +193,15 @@ public class TradeSupplyListViewFragment extends BaseFragment implements ITradeL
     }
 
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if(supplyDatas.size()>0){
-
-            Intent intent = new Intent();
-            intent.putExtra("TradeId", supplyDatas.get(position).getId());
-            intent.setClass(TradeSupplyListViewFragment.this.getActivity(), TradeContentActivity.class);
-            startActivity(intent);
+        if (supplyDatas.size() > 0) {
+            try {
+                Intent intent = new Intent();
+                intent.putExtra("TradeId", supplyDatas.get(position).getId());
+                intent.setClass(TradeSupplyListViewFragment.this.getActivity(), TradeContentActivity.class);
+                startActivity(intent);
+            } catch (IndexOutOfBoundsException e) {
+                e.printStackTrace();
+            }
         }
     }
 

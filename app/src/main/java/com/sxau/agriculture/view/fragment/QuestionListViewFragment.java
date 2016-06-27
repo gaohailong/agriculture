@@ -95,7 +95,6 @@ public class QuestionListViewFragment extends BaseFragment implements IQuestionL
             isLoadOver = false;
             aCache = ACache.get(context);
             cateId = 0;
-
             initRefresh();
             initList();
             myHandler.postDelayed(new Runnable() {
@@ -104,7 +103,7 @@ public class QuestionListViewFragment extends BaseFragment implements IQuestionL
                     myHandler.sendEmptyMessage(ConstantUtil.INIT_DATA);
                 }
             }, 3000);
-            RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOAD_MORE);
+            RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOADINDG);
         }
 
         ViewGroup parent = (ViewGroup) mView.getParent();
@@ -231,7 +230,11 @@ public class QuestionListViewFragment extends BaseFragment implements IQuestionL
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (questionDatas.size() > 0) {
-            DetailQuestionActivity.actionStart(context, questionDatas.get(position).getId());
+            try {
+                DetailQuestionActivity.actionStart(context, questionDatas.get(position).getId());
+            } catch (IndexOutOfBoundsException e) {
+                e.printStackTrace();
+            }
         }
     }
 

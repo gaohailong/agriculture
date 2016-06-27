@@ -125,40 +125,42 @@ public class MessageFragment extends BaseFragment implements IMessageFragment, A
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        int s = messageAdapter.getCount();
-        int y = messageInfos.size();
-        Log.e("itemCount1", "" + s);
-        Log.e("itemCount2", "" + y);
         if (messageInfos.size() > 0) {
             Intent intentStart = new Intent();
-            String type = messageInfos.get(position).getMessageType();
-            int itemId = messageInfos.get(position).getRelationId();
-            switch (type) {
-                case ConstantUtil.QUESTION://问答(已成功)
-                    intentStart.setClass(context, DetailQuestionActivity.class);
-                    intentStart.putExtra("indexPosition", itemId);
-                    break;
-                case ConstantUtil.TRADE://交易(已成功)
-                    intentStart.setClass(context, TradeContentActivity.class);
-                    intentStart.putExtra("TradeId", itemId);
-                    break;
-                case ConstantUtil.ARTICLE://文章(未试验)
-                    intentStart.setClass(context, WebViewTwoActivity.class);
-                    intentStart.putExtra("article", itemId);
-                    break;
-                case ConstantUtil.RELATION://关系
-                    break;
-                case ConstantUtil.SYSTEM://系统
-                    break;
-                case ConstantUtil.WECHAT://微信
-                    break;
-                case ConstantUtil.NOTICE://公告
-                    break;
-                default:
-                    break;
-                //Todo 发送网络请求去改变是否已读
+            try {
+                int itemId = messageInfos.get(position).getRelationId();
+                String type = messageInfos.get(position).getMessageType();
+                switch (type) {
+                    case ConstantUtil.QUESTION://问答(已成功)
+                        intentStart.setClass(context, DetailQuestionActivity.class);
+                        intentStart.putExtra("indexPosition", itemId);
+                        break;
+                    case ConstantUtil.TRADE://交易(已成功)
+                        intentStart.setClass(context, TradeContentActivity.class);
+                        intentStart.putExtra("TradeId", itemId);
+                        break;
+                    case ConstantUtil.ARTICLE://文章(未试验)
+                        intentStart.setClass(context, WebViewTwoActivity.class);
+                        intentStart.putExtra("article", itemId);
+                        break;
+                    case ConstantUtil.RELATION://关系
+                        break;
+                    case ConstantUtil.SYSTEM://系统
+                        break;
+                    case ConstantUtil.WECHAT://微信
+                        intentStart.setClass(context, DetailQuestionActivity.class);
+                        intentStart.putExtra("indexPosition", itemId);
+                        break;
+                    case ConstantUtil.NOTICE://公告
+                        break;
+                    default:
+                        break;
+                    //Todo 发送网络请求去改变是否已读
+                }
+                context.startActivity(intentStart);
+            } catch (IndexOutOfBoundsException e) {
+                e.printStackTrace();
             }
-            context.startActivity(intentStart);
         }
     }
 
