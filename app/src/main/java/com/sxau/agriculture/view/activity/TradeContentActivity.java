@@ -17,6 +17,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.JsonObject;
 import com.jaeger.ninegridimageview.NineGridImageView;
 import com.jaeger.ninegridimageview.NineGridImageViewAdapter;
@@ -96,7 +97,7 @@ public class TradeContentActivity extends BaseActivity implements View.OnClickLi
         mAdapter = new NineGridImageViewAdapter<String>() {
             @Override
             protected void onDisplayImage(Context context, ImageView imageView, String t) {
-                Picasso.with(context).load(t).resize(120,120).placeholder(R.mipmap.ic_loading).into(imageView);
+                Picasso.with(context).load(t).resize(120, 120).placeholder(R.mipmap.ic_loading).into(imageView);
             }
 
             @Override
@@ -109,7 +110,6 @@ public class TradeContentActivity extends BaseActivity implements View.OnClickLi
 //                Toast.makeText(context, "image position is " + index, Toast.LENGTH_SHORT).show();
                 View view = getLayoutInflater().inflate(R.layout.dialog_pic, null);
                 ImageView ivPic = (ImageView) view.findViewById(R.id.iv_pic);
-                Picasso.with(context).load(list.get(index)).placeholder(R.mipmap.ic_loading).into(ivPic);
                 final PopupWindow popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 popupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
                 popupWindow.setAnimationStyle(android.R.style.Animation_Translucent);
@@ -117,7 +117,7 @@ public class TradeContentActivity extends BaseActivity implements View.OnClickLi
                 ColorDrawable dw = new ColorDrawable(0xb0000000);
                 // 设置背景颜色变暗
                 WindowManager.LayoutParams lp = getWindow().getAttributes();
-                lp.alpha = 0.7f;
+                lp.alpha = 1f;
                 getWindow().setAttributes(lp);
                 popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
                     @Override
@@ -127,13 +127,22 @@ public class TradeContentActivity extends BaseActivity implements View.OnClickLi
                         getWindow().setAttributes(lp);
                     }
                 });
+                ivPic.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        WindowManager.LayoutParams lp = getWindow().getAttributes();
+                        lp.alpha = 1f;
+                        getWindow().setAttributes(lp);
+                        popupWindow.dismiss();
+                    }
+                });
                 //点击窗口外边消失
                 popupWindow.setOutsideTouchable(true);
                 popupWindow.setFocusable(true);
                 popupWindow.setTouchable(true);
                 //显示位置
                 popupWindow.showAtLocation(ivPic, Gravity.CENTER_VERTICAL, 0, 0);
-                Picasso.with(context).load(list.get(index)).placeholder(R.mipmap.ic_loading).into(ivPic);
+                Glide.with(TradeContentActivity.this).load(list.get(index)).placeholder(R.mipmap.ic_loading).into(ivPic);
             }
         };
         nineGridImageView.setAdapter(mAdapter);
