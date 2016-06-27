@@ -44,7 +44,7 @@ import java.util.List;
  */
 public class DetailQuestionActivity extends BaseActivity implements IDetailQuestionActivity, View.OnClickListener {
     private ImageView rv_question_head, rv_professor_head, iv_collection;
-    private TextView tv_question_name, tv_question_content, tv_question_title, tv_question_time,tv_question_answer_time, tv_is_answer, tv_professor_name, tv_professor_content, tv_professor_ok;
+    private TextView tv_question_name, tv_question_content, tv_question_title, tv_question_time, tv_question_answer_time, tv_is_answer, tv_professor_name, tv_professor_content, tv_professor_ok;
     private TextView tv_voice;
     private Button bt_answer;
     private LinearLayout ll_expert_answer;
@@ -264,7 +264,7 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
     @Override
     public void updateView() {
         Picasso.with(context).load(detailQuestionData.getUser().getAvatar()).
-                placeholder(R.mipmap.img_user_default).error(R.mipmap.img_user_default).into(rv_question_head);
+                placeholder(R.mipmap.img_default_user_portrait_150px).error(R.mipmap.img_default_user_portrait_150px).into(rv_question_head);
         Log.e("DetailQA", "avatar:" + detailQuestionData.getUser().getAvatar());
         tv_question_name.setText(detailQuestionData.getUser().getName());
         tv_question_title.setText(detailQuestionData.getTitle());
@@ -285,7 +285,7 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
             tv_question_answer_time.setText("回答于" + TimeUtil.format(detailQuestionData.getWhenUpdated()));
 
             //专家部分
-            Picasso.with(context).load(detailQuestionData.getUser().getAvatar()).centerCrop().
+            Picasso.with(context).load(detailQuestionData.getUser().getAvatar()).
                     placeholder(R.mipmap.img_default_user_portrait_150px).error(R.mipmap.img_default_user_portrait_150px).into(rv_professor_head);
             tv_professor_name.setText(detailQuestionData.getExpert().getName());
             tv_professor_content.setText(detailQuestionData.getAnswer());//有问题,接口返回了多个问题的答案
