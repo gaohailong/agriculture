@@ -122,7 +122,7 @@ public class MessageFragment extends BaseFragment implements IMessageFragment, A
         if (messageInfos.size() > 0) {
             Intent intentStart = new Intent();
             try {
-                int itemId = messageInfos.get(position).getRelationId();
+                int itemId = messageInfos.get(position).getId();
                 iMessagePresenter.changeRead(itemId);
                 Log.e("itemIdGet","itemId=="+itemId);
                 String type = messageInfos.get(position).getMessageType();
