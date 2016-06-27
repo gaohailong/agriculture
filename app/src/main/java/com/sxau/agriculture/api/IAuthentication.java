@@ -86,4 +86,13 @@ public interface IAuthentication {
      */
     @GET("logout")
     Call<JsonObject> doExitRequest(@Header("X-AUTH-TOKEN") String authToken);
+
+    /**
+     * 忘记密码重新设置密码接口
+     * @param map
+     * @param verify_uuid
+     * @return
+     */
+    @POST("findPassword")
+    Call<JsonObject> findPassword(@Body Map map , @Header("VERIFY_UUID") String verify_uuid);
 }

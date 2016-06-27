@@ -75,7 +75,7 @@ public class ForgetPwdActivity extends BaseActivity implements IForgetPwdActivit
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_regist:
+            case R.id.btn_submit:
                 boolean isNetAvailable = NetUtil.isNetAvailable(ForgetPwdActivity.this);
                 iForgetPwdPresenter.initData();
                 //输入验证
