@@ -27,6 +27,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.jaeger.ninegridimageview.NineGridImageView;
 import com.jaeger.ninegridimageview.NineGridImageViewAdapter;
 import com.squareup.picasso.Picasso;
@@ -143,7 +144,7 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
                 ColorDrawable dw = new ColorDrawable(0xb0000000);
                 // 设置背景颜色变暗
                 WindowManager.LayoutParams lp = getWindow().getAttributes();
-                lp.alpha = 0.7f;
+                lp.alpha = 0.3f;
                 getWindow().setAttributes(lp);
                 popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
                     @Override
@@ -153,13 +154,23 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
                         getWindow().setAttributes(lp);
                     }
                 });
+                ivPic.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        WindowManager.LayoutParams lp = getWindow().getAttributes();
+                        lp.alpha = 1f;
+                        getWindow().setAttributes(lp);
+                        popupWindow.dismiss();
+                    }
+                });
                 //点击窗口外边消失
                 popupWindow.setOutsideTouchable(true);
                 popupWindow.setFocusable(true);
                 popupWindow.setTouchable(true);
                 //显示位置
                 popupWindow.showAtLocation(ivPic, Gravity.CENTER_VERTICAL, 0, 0);
-                Picasso.with(context).load(list.get(index)).fit().centerCrop().placeholder(R.mipmap.ic_loading).into(ivPic);
+                Glide.with(DetailQuestionActivity.this).load(list.get(index)).override(600, 1080).fitCenter().into(ivPic);
+
             }
         };
         nineGridImageView.setAdapter(mAdapter);

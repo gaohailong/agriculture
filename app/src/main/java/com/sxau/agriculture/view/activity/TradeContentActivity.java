@@ -33,6 +33,7 @@ import com.sxau.agriculture.utils.RetrofitUtil;
 import com.sxau.agriculture.utils.StringUtil;
 import com.sxau.agriculture.utils.TimeUtil;
 import com.sxau.agriculture.utils.TitleBarTwo;
+import com.sxau.agriculture.widgets.RoundImageView;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -58,6 +59,7 @@ public class TradeContentActivity extends BaseActivity implements View.OnClickLi
     private TextView tv_timeEnd;
     private TextView tv_phone;
     private TextView tv_trade_time;
+    private RoundImageView rv_trade_head;
     //实体类对象
     private TradeData tradeData;
     //点击的交易的id
@@ -117,7 +119,7 @@ public class TradeContentActivity extends BaseActivity implements View.OnClickLi
                 ColorDrawable dw = new ColorDrawable(0xb0000000);
                 // 设置背景颜色变暗
                 WindowManager.LayoutParams lp = getWindow().getAttributes();
-                lp.alpha = 1f;
+                lp.alpha = 0.3f;
                 getWindow().setAttributes(lp);
                 popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
                     @Override
@@ -142,7 +144,7 @@ public class TradeContentActivity extends BaseActivity implements View.OnClickLi
                 popupWindow.setTouchable(true);
                 //显示位置
                 popupWindow.showAtLocation(ivPic, Gravity.CENTER_VERTICAL, 0, 0);
-                Glide.with(TradeContentActivity.this).load(list.get(index)).placeholder(R.mipmap.ic_loading).into(ivPic);
+                Glide.with(TradeContentActivity.this).load(list.get(index)).override(600, 1080).placeholder(R.mipmap.ic_loading).fitCenter().into(ivPic);
             }
         };
         nineGridImageView.setAdapter(mAdapter);
@@ -154,6 +156,7 @@ public class TradeContentActivity extends BaseActivity implements View.OnClickLi
         tv_info = (TextView) findViewById(R.id.tv_info);
         tv_attentionNum = (TextView) findViewById(R.id.tv_attentionNum);
         tv_location = (TextView) findViewById(R.id.tv_location);
+        rv_trade_head= (RoundImageView) findViewById(R.id.rv_trade_head);
         iv_collection = (ImageView) findViewById(R.id.iv_trade_content_collection);
         tv_timeStart = (TextView) findViewById(R.id.tv_timeStart);
         tv_trade_time = (TextView) findViewById(R.id.tv_trade_time);
@@ -261,6 +264,7 @@ public class TradeContentActivity extends BaseActivity implements View.OnClickLi
         tv_trade_time.setText(TimeUtil.format(tradeData.getWhenCreated()));
         tv_timeEnd.setText("至" + TimeUtil.format(tradeData.getWhenUpdated()));
         tv_phone.setText("联系电话：" + tradeData.getUser().getPhone());
+//        Picasso.with(context).load(StringUtil.)
         collection = tradeData.isFav();
         Log.e("Trade", "isFav:" + collection);
         if (tradeData.isFav()) {
