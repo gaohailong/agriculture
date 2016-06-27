@@ -134,11 +134,12 @@ public class ForgetPwdPresenter implements IForgetPwdPresenter {
                     map.put("phone", phone);
                     map.put("verifyCode",checknum);
 
-                    Call call = RetrofitUtil.getRetrofit().create(IAuthentication.class).doRegister(map,VERIFY_UUID);
+                    Call call = RetrofitUtil.getRetrofit().create(IAuthentication.class).findPassword(map, VERIFY_UUID);
                     call.enqueue(new retrofit.Callback<JsonObject>() {
                         @Override
                         public void onResponse(Response<JsonObject> response, Retrofit retrofit) {
                             int responseCode = response.code();
+                            LogUtil.d("ForgetPwdP","message:"+response.message()+"  body:"+response.body());
                             if (response.isSuccess()) {
                                 JsonObject joResponseBody = response.body();
                                 authToken = joResponseBody.get("authToken").getAsString();
@@ -148,14 +149,14 @@ public class ForgetPwdPresenter implements IForgetPwdPresenter {
                                 User user = new User();
                                 user.setAuthToken(authToken);
                                 user.setPhone(strPhone);
-                                user.setUserType("PUBLIC");
+//                                user.setUserType("PUBLIC");
 
                                 //执行缓存
                                 ACache mCache = ACache.get(AgricultureApplication.getContext());
                                 mCache.put(ConstantUtil.CACHE_KEY,user);
 
                                 //打印验证
-                                LogUtil.d("RegisterP", userGson.toJson(user));
+                                LogUtil.d("RegisterP", "token:"+authToken);
 
                                 //密码更新成功，跳转到主界面
                                 IForgetPwdActivity.showFindPwdSucceed();

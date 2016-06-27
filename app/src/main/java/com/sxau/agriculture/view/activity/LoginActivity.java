@@ -99,6 +99,8 @@ public class LoginActivity extends BaseActivity implements ILoginActivty, View.O
                 LoginActivity.this.startActivity(intent);
                 break;
             case R.id.tv_forgetpsd:
+                Intent intent2 = new Intent(LoginActivity.this,ForgetPwdActivity.class);
+                LoginActivity.this.startActivity(intent2);
                 break;
             default:
                 break;
