@@ -63,7 +63,6 @@ public class MessagePresenter implements IMessagePresenter {
                     mCache.remove(ConstantUtil.CACHE_MESSAGE_KEY);
                     mCache.put(ConstantUtil.CACHE_MESSAGE_KEY, messageInfos);
                     handler.sendEmptyMessage(ConstantUtil.GET_NET_DATA);
-
                     if (messageInfos.size() < Integer.parseInt(ConstantUtil.ITEM_NUMBER)) {
                         isLoadOver = true;
                     }
@@ -92,22 +91,22 @@ public class MessagePresenter implements IMessagePresenter {
     }
 
     @Override
-    public void changeRead(int id) {
+    public void changeRead(final int id, final int postion) {
         authToken = UserInfoUtil.findAuthToken();
         Call<JsonObject> call = RetrofitUtil.getRetrofit().create(IGetMessageList.class).changeReadeStatus(authToken, id);
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Response<JsonObject> response, Retrofit retrofit) {
                 int s = response.code();
-                //TODO 还要改变ui
-                Log.e("itemIdToken", authToken + "");
-                Log.e("itemIdGettestCode", s + "");
+                ArrayList<MessageInfo> messageInfoData1 = getDatas();
+                messageInfoData1.get(postion).setMarkRead(true);
+                mCache.remove(ConstantUtil.CACHE_MESSAGE_KEY);
+                mCache.put(ConstantUtil.CACHE_MESSAGE_KEY, messageInfos);
+                handler.sendEmptyMessage(ConstantUtil.GET_NET_DATA);
             }
 
             @Override
             public void onFailure(Throwable t) {
-                Log.e("itemIdGetfailTestCode", "fail");
-                //TODO 还要改变ui
             }
         });
     }

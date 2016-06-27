@@ -51,6 +51,7 @@ public class MessageFragment extends BaseFragment implements IMessageFragment, A
     private int currentPage = 1;
     private MyHandler handler;
     private View view;
+    private int changeId;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -75,7 +76,7 @@ public class MessageFragment extends BaseFragment implements IMessageFragment, A
             initRefresh();
             if (NetUtil.isNetAvailable(context)) {
                 handler.sendEmptyMessage(ConstantUtil.INIT_DATA);
-                RefreshBottomTextUtil.setTextMore(tv_more,ConstantUtil.LOADINDG);
+                RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOADINDG);
                 srl_refresh.setLoading(false);
             } else {
                 Toast.makeText(context, "没有网络连接", Toast.LENGTH_SHORT).show();
@@ -123,8 +124,8 @@ public class MessageFragment extends BaseFragment implements IMessageFragment, A
             Intent intentStart = new Intent();
             try {
                 int itemId = messageInfos.get(position).getId();
-                iMessagePresenter.changeRead(itemId);
-                Log.e("itemIdGet","itemId=="+itemId);
+                iMessagePresenter.changeRead(itemId, position);
+                Log.e("itemIdGet", "itemId==" + itemId);
                 String type = messageInfos.get(position).getMessageType();
                 switch (type) {
                     case ConstantUtil.QUESTION://问答(已成功)
@@ -179,6 +180,7 @@ public class MessageFragment extends BaseFragment implements IMessageFragment, A
                     case ConstantUtil.GET_NET_DATA:
                         ArrayList<MessageInfo> messageInfoData = iMessagePresenter.getDatas();
                         updateView(messageInfoData);
+                        RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOAD_MORE);
                         break;
                     case ConstantUtil.PULL_REFRESH:
                         currentPage = 1;
@@ -199,6 +201,7 @@ public class MessageFragment extends BaseFragment implements IMessageFragment, A
                         }
                         RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOAD_FAIL);
                         break;
+                    case ConstantUtil.CHANGE_READ:
                     default:
                         break;
                 }
@@ -216,6 +219,10 @@ public class MessageFragment extends BaseFragment implements IMessageFragment, A
             RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOAD_OVER);
         }
     }
-    //-------------------接口方法结束--------------
 
+    //-------------------接口方法结束--------------
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 }
