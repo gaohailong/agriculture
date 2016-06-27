@@ -123,7 +123,7 @@ public class MessageFragment extends BaseFragment implements IMessageFragment, A
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if (messageInfos.size() > 0) {
+        if (messageInfos.size() > 0 && messageInfos.size() < position) {
             Intent intentStart = new Intent();
             String type = messageInfos.get(position).getMessageType();
             int itemId = messageInfos.get(position).getRelationId();

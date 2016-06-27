@@ -136,7 +136,7 @@ public class TradeSupplyListViewFragment extends BaseFragment implements ITradeL
                 case ConstantUtil.INIT_DATA:
                     currentPage = 1;
                     if (NetUtil.isNetAvailable(context)) {
-                        iTradeListViewPresenter.doRequest(String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER, true,"SUPPLY");
+                        iTradeListViewPresenter.doRequest(String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER, true, "SUPPLY");
                     } else {
                         Toast.makeText(context, "没有网络连接", Toast.LENGTH_SHORT).show();
                         supplyDatas = iTradeListViewPresenter.getSupplyDatas();
@@ -147,13 +147,13 @@ public class TradeSupplyListViewFragment extends BaseFragment implements ITradeL
                     break;
                 case ConstantUtil.PULL_REFRESH:
                     currentPage = 1;
-                    iTradeListViewPresenter.doRequest(String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER, true,"SUPPLY");
+                    iTradeListViewPresenter.doRequest(String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER, true, "SUPPLY");
                     rl_refresh.setRefreshing(false);
                     RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOAD_MORE);
                     break;
                 case ConstantUtil.UP_LOAD:
                     currentPage++;
-                    iTradeListViewPresenter.doRequest(String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER, false,"SUPPLY");
+                    iTradeListViewPresenter.doRequest(String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER, false, "SUPPLY");
                     rl_refresh.setLoading(false);
                     break;
                 case ConstantUtil.LOAD_FAIL:
@@ -195,10 +195,12 @@ public class TradeSupplyListViewFragment extends BaseFragment implements ITradeL
     }
 
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Intent intent = new Intent();
-        intent.putExtra("TradeId", supplyDatas.get(position).getId());
-        intent.setClass(TradeSupplyListViewFragment.this.getActivity(), TradeContentActivity.class);
-        startActivity(intent);
+        if (supplyDatas.size() > 0 && supplyDatas.size() < position) {
+            Intent intent = new Intent();
+            intent.putExtra("TradeId", supplyDatas.get(position).getId());
+            intent.setClass(TradeSupplyListViewFragment.this.getActivity(), TradeContentActivity.class);
+            startActivity(intent);
+        }
     }
 
     //提示没有网络

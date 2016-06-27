@@ -184,7 +184,9 @@ public class TradeDemandListViewFragment extends BaseFragment implements ITradeL
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        TradeContentActivity.actionStart(context, demandDatas.get(position).getId(), true);
+        if (demandDatas.size() > 0 && demandDatas.size() < position) {
+            TradeContentActivity.actionStart(context, demandDatas.get(position).getId(), true);
+        }
     }
 
  /*   @Override
