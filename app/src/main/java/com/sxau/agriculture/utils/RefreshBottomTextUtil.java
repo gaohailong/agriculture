@@ -16,6 +16,7 @@ public class RefreshBottomTextUtil {
      * @param type    传入要改变的类型
      */
     public static void setTextMore(TextView tv_more, int type) {
+
         switch (type) {
             case ConstantUtil.LOAD_MORE:
                 tv_more.setText("点击加载更多...");
@@ -27,6 +28,12 @@ public class RefreshBottomTextUtil {
                 tv_more.setText("正在加载...");
                 break;
             case ConstantUtil.LOAD_OVER:
+                tv_more.setText("没有更多了");
+                //设置不能再点击
+                tv_more.setFocusable(false);
+                tv_more.setSelected(false);
+                tv_more.setClickable(false);
+//                tv_more.setVisibility(View.GONE);
                 tv_more.setText(ConstantUtil.NO_MORE);
                 break;
             default:
