@@ -127,14 +127,13 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
             @Override
             protected void onItemImageClick(Context context, int index, List<String> list) {
 //                Toast.makeText(context, "image position is " + index, Toast.LENGTH_SHORT).show();
-
-                View view = LayoutInflater.from(DetailQuestionActivity.this).inflate(R.layout.dialog_pic,null);
+                View view =getLayoutInflater().inflate(R.layout.dialog_pic,null);
                 ImageView ivPic = (ImageView) view.findViewById(R.id.iv_pic);
                 Picasso.with(context).load(list.get(index)).placeholder(R.mipmap.ic_loading).into(ivPic);
 
                 picDialog = new AlertDialog.Builder(DetailQuestionActivity.this).create();
                 picDialog.setCancelable(true);
-                picDialog.setView(view,10,10,10,10);
+                picDialog.setView(view);
                 picDialog.show();
 //                Window window = picDialog.getWindow();
 //                window.setContentView(R.layout.dialog_pic);

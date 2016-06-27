@@ -106,6 +106,7 @@ public class MessagePresenter implements IMessagePresenter {
             @Override
             public void onFailure(Throwable t) {
                 Log.e("itemIdGetfailTestCode", "fail");
+                //TODO 还要改变ui
             }
         });
     }
