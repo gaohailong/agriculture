@@ -101,7 +101,7 @@ public class MessagePresenter implements IMessagePresenter {
                 ArrayList<MessageInfo> messageInfoData1 = getDatas();
                 messageInfoData1.get(postion).setMarkRead(true);
                 mCache.remove(ConstantUtil.CACHE_MESSAGE_KEY);
-                mCache.put(ConstantUtil.CACHE_MESSAGE_KEY, messageInfos);
+                mCache.put(ConstantUtil.CACHE_MESSAGE_KEY, messageInfoData1);
                 handler.sendEmptyMessage(ConstantUtil.GET_NET_DATA);
             }
 
