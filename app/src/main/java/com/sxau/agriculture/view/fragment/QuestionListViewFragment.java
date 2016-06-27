@@ -245,16 +245,6 @@ public class QuestionListViewFragment extends BaseFragment implements IQuestionL
         });
     }
 
-    public void getCatchData() {
-       /* try {
-//            List<QuestionData> list = dbUtil.findAll(QuestionData.class);
-//            questionDatas = (ArrayList<QuestionData>) list;
-        } catch (DbException e) {
-            e.printStackTrace();
-        }*/
-    }
-
-
     //item点击事件
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

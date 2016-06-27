@@ -117,8 +117,8 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
             dbUtil = DbUtils.create(context);
 
             initPictureView();
-            initRefresh();
             initListView();
+            initRefresh();
             myHandler.sendEmptyMessage(ConstantUtil.INIT_DATA);
         }
 
@@ -170,8 +170,8 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
                 imageViews.add(img);
                 myHandler.postDelayed(runnableForBanner, 2000);
             }
-        }else {
-            for (int i=0;i<2;i++) {
+        } else {
+            for (int i = 0; i < 2; i++) {
                 ImageView img = new ImageView(context);
                 Picasso.with(context).load(R.mipmap.ic_phone_green_96px).resize(48, 48).centerCrop().into(img);
                 imageViews.add(img);
@@ -202,7 +202,7 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
                         getHomeBannerData();
                     } else {
                         try {
-                            Toast.makeText(context,"当前没有网络，请检查网络设置",Toast.LENGTH_LONG).show();
+                            Toast.makeText(context, "当前没有网络，请检查网络设置", Toast.LENGTH_LONG).show();
                             dbUtil.createTableIfNotExist(HomeArticle.class);
                             dbUtil.createTableIfNotExist(HomeBannerPicture.class);
                             getCacheData();
@@ -257,7 +257,7 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
                             homeArticles.clear();
                             homeArticles.addAll(homeArticles1);
                             dbUtil.saveAll(homeArticles1);
-                            isLoadOver=false;
+                            isLoadOver = false;
                         } else {
                             homeArticles.addAll(homeArticles1);
                             dbUtil.saveAll(homeArticles);
@@ -286,19 +286,19 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
     }
 
     //获取轮播图网络数据
-    public void getHomeBannerData(){
-        Call<ArrayList<HomeBannerPicture>> pictureCall=RetrofitUtil.getRetrofit().create(IHomeArticleList.class).getPicturelist();
+    public void getHomeBannerData() {
+        Call<ArrayList<HomeBannerPicture>> pictureCall = RetrofitUtil.getRetrofit().create(IHomeArticleList.class).getPicturelist();
         pictureCall.enqueue(new Callback<ArrayList<HomeBannerPicture>>() {
             @Override
             public void onResponse(Response<ArrayList<HomeBannerPicture>> response, Retrofit retrofit) {
-                if (response.isSuccess()){
-                    bannerData=response.body();
-                    if ((bannerData==null) || (bannerData.size()==0)){
+                if (response.isSuccess()) {
+                    bannerData = response.body();
+                    if ((bannerData == null) || (bannerData.size() == 0)) {
                         imagePath.clear();
                         imagePath.add("error");
                         imagePath.add("error");
                         fl_adv.setVisibility(View.GONE);
-                    }else {
+                    } else {
                         try {
                             dbUtil.deleteAll(HomeBannerPicture.class);
                             dbUtil.saveAll(bannerData);
@@ -323,10 +323,10 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
     }
 
     //拼接图片地址
-    public void getPictureInfo(){
+    public void getPictureInfo() {
         imagePath.clear();
-        for (int j=0;j<bannerData.size();j++){
-            String img=ConstantUtil.BASE_PICTURE_URL+bannerData.get(j).getImage();
+        for (int j = 0; j < bannerData.size(); j++) {
+            String img = ConstantUtil.BASE_PICTURE_URL + bannerData.get(j).getImage();
             imagePath.add(img);
         }
     }
@@ -338,7 +338,7 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
             List<HomeArticle> list = dbUtil.findAll(HomeArticle.class);
             homeArticles = (ArrayList<HomeArticle>) list;
             List<HomeBannerPicture> listBanner = dbUtil.findAll(HomeBannerPicture.class);
-            bannerData= (ArrayList<HomeBannerPicture>) listBanner;
+            bannerData = (ArrayList<HomeBannerPicture>) listBanner;
         } catch (DbException e) {
             e.printStackTrace();
         }
@@ -367,11 +367,11 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
         currentIndex = position;
         lastTime = System.currentTimeMillis();
         //设置轮播文字改变
-        final int index=position % imageViews.size();
-        if (NetUtil.isNetAvailable(context)){
-            if (bannerData==null || bannerData.size()==0){
+        final int index = position % imageViews.size();
+        if (NetUtil.isNetAvailable(context)) {
+            if (bannerData == null || bannerData.size() == 0) {
                 tv_title.setText("暂无数据");
-            }else {
+            } else {
                 tv_title.setText(bannerData.get(index).getName());
                 //TODO 轮播图点击事件
                /* imageViews.get(index).setOnClickListener(new View.OnClickListener() {
@@ -384,7 +384,7 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
                     }
                 });*/
             }
-        }else {
+        } else {
             tv_title.setText("当前没有网络，请检查网络设置");
         }
     }
@@ -414,14 +414,16 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Intent intent = new Intent();
-        Bundle bundle=new Bundle();
-        bundle.putSerializable("ArticleData", homeArticles.get(position));
-        intent.putExtras(bundle);
-        intent.setClass(context, WebViewActivity.class);
+        if (homeArticles.size() < position) {
+            Intent intent = new Intent();
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("ArticleData", homeArticles.get(position));
+            intent.putExtras(bundle);
+            intent.setClass(context, WebViewActivity.class);
 //        intent.putExtra("ArticleUrl", ConstantUtil.ARTICLE_BASE_URL + homeArticles.get(position).getId());
 //        intent.setClass(context, WebViewActivity.class);
-        startActivity(intent);
+            startActivity(intent);
+        }
     }
 
     @Override
