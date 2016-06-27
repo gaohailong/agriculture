@@ -8,7 +8,6 @@ import java.io.Serializable;
  * @author 高海龙
  */
 public class MessageInfo implements Serializable{
-
     /**
      * id : 3
      * whenCreated : 1466391653000

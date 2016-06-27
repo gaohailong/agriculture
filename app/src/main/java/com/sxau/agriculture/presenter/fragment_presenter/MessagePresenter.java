@@ -99,6 +99,7 @@ public class MessagePresenter implements IMessagePresenter {
             @Override
             public void onResponse(Response<JsonObject> response, Retrofit retrofit) {
                 int s = response.code();
+                //TODO 还要改变ui
                 Log.e("itemIdToken", authToken + "");
                 Log.e("itemIdGettestCode", s + "");
             }
