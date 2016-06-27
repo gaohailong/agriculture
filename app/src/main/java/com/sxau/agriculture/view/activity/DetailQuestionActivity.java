@@ -121,7 +121,7 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
         mAdapter = new NineGridImageViewAdapter<String>() {
             @Override
             protected void onDisplayImage(Context context, ImageView imageView, String t) {
-                Picasso.with(context).load(t).placeholder(R.mipmap.ic_loading).error(R.mipmap.ic_load_fail).into(imageView);
+                Picasso.with(context).load(t).resize(120,120).placeholder(R.mipmap.ic_loading).error(R.mipmap.ic_load_fail).into(imageView);
                 Log.e("url", "url:t:  " + t);
             }
 

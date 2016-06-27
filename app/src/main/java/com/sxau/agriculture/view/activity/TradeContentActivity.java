@@ -96,7 +96,7 @@ public class TradeContentActivity extends BaseActivity implements View.OnClickLi
         mAdapter = new NineGridImageViewAdapter<String>() {
             @Override
             protected void onDisplayImage(Context context, ImageView imageView, String t) {
-                Picasso.with(context).load(t).placeholder(R.mipmap.ic_loading).into(imageView);
+                Picasso.with(context).load(t).resize(120,120).placeholder(R.mipmap.ic_loading).into(imageView);
             }
 
             @Override
