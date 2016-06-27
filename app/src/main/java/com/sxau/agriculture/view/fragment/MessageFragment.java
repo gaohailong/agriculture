@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ import com.sxau.agriculture.utils.NetUtil;
 import com.sxau.agriculture.utils.RefreshBottomTextUtil;
 import com.sxau.agriculture.view.activity.DetailQuestionActivity;
 import com.sxau.agriculture.view.activity.TradeContentActivity;
+import com.sxau.agriculture.view.activity.WebViewTwoActivity;
 import com.sxau.agriculture.view.fragment_interface.IMessageFragment;
 import com.sxau.agriculture.widgets.RefreshLayout;
 
@@ -54,7 +56,6 @@ public class MessageFragment extends BaseFragment implements IMessageFragment, A
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         if (view == null) {
-
             context = MessageFragment.this.getActivity();
             //将MessageFragment与MessagePresenter绑定
             handler = new MyHandler(MessageFragment.this);
@@ -74,24 +75,19 @@ public class MessageFragment extends BaseFragment implements IMessageFragment, A
             initRefresh();
             if (NetUtil.isNetAvailable(context)) {
                 handler.sendEmptyMessage(ConstantUtil.INIT_DATA);
+                RefreshBottomTextUtil.setTextMore(tv_more,ConstantUtil.LOADINDG);
                 srl_refresh.setLoading(false);
             } else {
                 Toast.makeText(context, "没有网络连接", Toast.LENGTH_SHORT).show();
                 srl_refresh.setLoading(false);
             }
         }
-
         ViewGroup parent = (ViewGroup) view.getParent();
         if (parent != null) {
             parent.removeView(view);
         }
 
         return view;
-    }
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
     }
 
     //初始化listView
@@ -125,34 +121,40 @@ public class MessageFragment extends BaseFragment implements IMessageFragment, A
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (messageInfos.size() > 0) {
             Intent intentStart = new Intent();
-            String type = messageInfos.get(position).getMessageType();
-            int itemId = messageInfos.get(position).getRelationId();
-            switch (type) {
-                case ConstantUtil.QUESTION://问答(已成功)
-                    intentStart.setClass(context, DetailQuestionActivity.class);
-                    intentStart.putExtra("indexPosition", itemId);
-                    break;
-                case ConstantUtil.TRADE://交易(已成功)
-                    intentStart.setClass(context, TradeContentActivity.class);
-                    intentStart.putExtra("TradeId", itemId);
-                    break;
-              /*  case ConstantUtil.ARTICLE://文章(未试验)
-                    intentStart.setClass(context, WebViewTwoActivity.class);
-                    intentStart.putExtra("article", id);
-                    break;*/
-                case ConstantUtil.RELATION://关系
-                    break;
-                case ConstantUtil.SYSTEM://系统
-                    break;
-                case ConstantUtil.WECHAT://微信
-                    break;
-                case ConstantUtil.NOTICE://公告
-                    break;
-                default:
-                    break;
-                //Todo 发送网络请求去改变是否已读
+            try {
+                int itemId = messageInfos.get(position).getRelationId();
+                String type = messageInfos.get(position).getMessageType();
+                switch (type) {
+                    case ConstantUtil.QUESTION://问答(已成功)
+                        intentStart.setClass(context, DetailQuestionActivity.class);
+                        intentStart.putExtra("indexPosition", itemId);
+                        break;
+                    case ConstantUtil.TRADE://交易(已成功)
+                        intentStart.setClass(context, TradeContentActivity.class);
+                        intentStart.putExtra("TradeId", itemId);
+                        break;
+                    case ConstantUtil.ARTICLE://文章(未试验)
+                        intentStart.setClass(context, WebViewTwoActivity.class);
+                        intentStart.putExtra("article", itemId);
+                        break;
+                    case ConstantUtil.RELATION://关系
+                        break;
+                    case ConstantUtil.SYSTEM://系统
+                        break;
+                    case ConstantUtil.WECHAT://微信
+                        intentStart.setClass(context, DetailQuestionActivity.class);
+                        intentStart.putExtra("indexPosition", itemId);
+                        break;
+                    case ConstantUtil.NOTICE://公告
+                        break;
+                    default:
+                        break;
+                    //Todo 发送网络请求去改变是否已读
+                }
+                context.startActivity(intentStart);
+            } catch (IndexOutOfBoundsException e) {
+                e.printStackTrace();
             }
-            context.startActivity(intentStart);
         }
     }
 

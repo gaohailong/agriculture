@@ -75,23 +75,22 @@ public class TradeDemandListViewFragment extends BaseFragment implements ITradeL
             lv_Info.setOnItemClickListener(this);
             lv_Info.setOnTouchListener(this);
             //    iv_collection = (ImageView) mView.findViewById(R.id.iv_demand_collection);
-
             initRefresh();
             initListView();
             handler.sendEmptyMessage(ConstantUtil.PULL_REFRESH);
+            RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOADINDG);
         }
-
         ViewGroup parent = (ViewGroup) mView.getParent();
         if (parent != null) {
             parent.removeView(mView);
         }
-
         return mView;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        handler.sendEmptyMessage(ConstantUtil.PULL_REFRESH);
     }
 
     public void initRefresh() {
@@ -116,7 +115,6 @@ public class TradeDemandListViewFragment extends BaseFragment implements ITradeL
         adapter = new TradeListViewAdapter(context, demandDatas);
         lv_Info.setAdapter(adapter);
     }
-
 
     public class MyHandler extends Handler {
         WeakReference<TradeDemandListViewFragment> weakReference;
@@ -184,14 +182,14 @@ public class TradeDemandListViewFragment extends BaseFragment implements ITradeL
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        TradeContentActivity.actionStart(context, demandDatas.get(position).getId(), true);
+        if (demandDatas.size() > 0) {
+            try {
+                TradeContentActivity.actionStart(context, demandDatas.get(position).getId(), true);
+            } catch (IndexOutOfBoundsException e) {
+                e.printStackTrace();
+            }
+        }
     }
-
- /*   @Override
-    public void changeItemView() {
-    }
-
-    */
 
     /**
      * 获取收藏的状态，是否已经收藏

@@ -58,6 +58,8 @@ public class ConstantUtil {
     public static final String TRADE = "TRADE";
     public static final String ARTICLE = "ARTICLE";
 
+    public static final String NO_MORE = "没有更多了";
+
     //============================整形常量的定义===================================
     //下拉刷新的时间
     public static final int PULL_TIME = 3000;
@@ -87,6 +89,7 @@ public class ConstantUtil {
     public static final int CHANGE_TO_COLLECTION_STATE = 0x00000013;
     //改变收藏状态为取消收藏
     public static final int CHANGE_TO_NOCOLLECTION_STATE = 0x00000014;
+    public static final int LOADINDG = 0x00000015;
 
 
 }

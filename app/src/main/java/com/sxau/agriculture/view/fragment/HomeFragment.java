@@ -120,6 +120,7 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
             initListView();
             initRefresh();
             myHandler.sendEmptyMessage(ConstantUtil.INIT_DATA);
+            RefreshBottomTextUtil.setTextMore(tv_more,ConstantUtil.LOADINDG);
         }
 
         ViewGroup parent = (ViewGroup) mView.getParent();
@@ -414,15 +415,17 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if (homeArticles.size() < position) {
-            Intent intent = new Intent();
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("ArticleData", homeArticles.get(position));
-            intent.putExtras(bundle);
-            intent.setClass(context, WebViewActivity.class);
-//        intent.putExtra("ArticleUrl", ConstantUtil.ARTICLE_BASE_URL + homeArticles.get(position).getId());
-//        intent.setClass(context, WebViewActivity.class);
-            startActivity(intent);
+        if (homeArticles.size() > 0) {
+            try {
+                Intent intent = new Intent();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("ArticleData", homeArticles.get(position));
+                intent.putExtras(bundle);
+                intent.setClass(context, WebViewActivity.class);
+                startActivity(intent);
+            }catch (IndexOutOfBoundsException e){
+                e.printStackTrace();
+            }
         }
     }
 

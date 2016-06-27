@@ -81,10 +81,11 @@ public class MyReceiver extends BroadcastReceiver {
 //                        intentStart.setClass(context, MessageFragment.class);
                         break;
                     case ConstantUtil.WECHAT://微信(未试验)
-//                        intentStart.setClass(context, MessageFragment.class);
+                        intentStart.setClass(context, DetailQuestionActivity.class);
+                        intentStart.putExtra("indexPosition", Integer.valueOf(id));
                         break;
                     case ConstantUtil.NOTICE://公告(未试验)
-//                        intentStart.setClass(context, MessageFragment.class);
+//                        intentStavrt.setClass(context, MessageFragment.class);
                         break;
                     default:
                         break;
