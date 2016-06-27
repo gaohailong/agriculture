@@ -1,5 +1,6 @@
 package com.sxau.agriculture.utils;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -28,7 +29,7 @@ public class StringUtil {
         String str2 = new String();
         List<String> wholeList = new ArrayList<String>();
         for (int i = 0 ; i<strList.size();i++){
-            str1 = strList.get(i).substring(0, strList.get(i).length() - 4);
+            str1 = strList.get(i).substring(0, strList.get(i).length());
             str2 = ConstantUtil.DOMAIN + str1 + "?imageView2/0/w/0/format/jpg";
             wholeList.add(str2);
         }

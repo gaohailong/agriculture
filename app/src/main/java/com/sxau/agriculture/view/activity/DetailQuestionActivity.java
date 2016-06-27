@@ -1,14 +1,21 @@
 package com.sxau.agriculture.view.activity;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -55,6 +62,8 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
     private MyHandler handler;
     private Context context;
     private Boolean isFav = false;  //问题是否收藏状态
+    private AlertDialog picDialog;
+
 
     private NineGridImageView nineGridImageView;    //九宫格View
     private List<String> imgDatas;                  //九宫格图片数据
@@ -106,7 +115,8 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
         mAdapter = new NineGridImageViewAdapter<String>() {
             @Override
             protected void onDisplayImage(Context context, ImageView imageView, String t) {
-                Picasso.with(context).load(t).placeholder(R.mipmap.ic_loading).into(imageView);
+                Picasso.with(context).load(t).placeholder(R.mipmap.ic_loading).error(R.mipmap.ic_load_fail).into(imageView);
+                Log.e("url","url:t:  "+t);
             }
 
             @Override
@@ -116,11 +126,27 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
 
             @Override
             protected void onItemImageClick(Context context, int index, List<String> list) {
-                Toast.makeText(context, "image position is " + index, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context, "image position is " + index, Toast.LENGTH_SHORT).show();
+
+                View view = LayoutInflater.from(DetailQuestionActivity.this).inflate(R.layout.dialog_pic,null);
+                ImageView ivPic = (ImageView) view.findViewById(R.id.iv_pic);
+                Picasso.with(context).load(list.get(index)).placeholder(R.mipmap.ic_loading).into(ivPic);
+
+                picDialog = new AlertDialog.Builder(DetailQuestionActivity.this).create();
+                picDialog.setCancelable(true);
+                picDialog.setView(view,10,10,10,10);
+                picDialog.show();
+//                Window window = picDialog.getWindow();
+//                window.setContentView(R.layout.dialog_pic);
+
+
+//                Dialog dialog = new Dialog(DetailQuestionActivity.this, R.style.fillscrendialog);
+//                dialog.show();
             }
         };
         nineGridImageView.setAdapter(mAdapter);
     }
+
 
     private void initTopBar() {
         topBarUtil.setBackgroundColor(Color.parseColor("#00b5ad"));
