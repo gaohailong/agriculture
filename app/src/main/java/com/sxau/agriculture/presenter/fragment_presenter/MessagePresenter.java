@@ -60,12 +60,12 @@ public class MessagePresenter implements IMessagePresenter {
                     } else {
                         messageInfos.addAll(messageInfoGet);
                     }
+                    if (messageInfoGet.size() < Integer.parseInt(ConstantUtil.ITEM_NUMBER)) {
+                        isLoadOver = true;
+                    }
                     mCache.remove(ConstantUtil.CACHE_MESSAGE_KEY);
                     mCache.put(ConstantUtil.CACHE_MESSAGE_KEY, messageInfos);
                     handler.sendEmptyMessage(ConstantUtil.GET_NET_DATA);
-                    if (messageInfos.size() < Integer.parseInt(ConstantUtil.ITEM_NUMBER)) {
-                        isLoadOver = true;
-                    }
                 }
             }
 
