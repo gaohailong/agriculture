@@ -18,6 +18,7 @@ public class UserInfoUtil {
     private static String authToken;
     private static String userType;
     private static String userAvatar;
+    private static String userId;
     private static ACache mCache = ACache.get(AgricultureApplication.getContext());
 
     public static String findAuthToken() {
@@ -50,6 +51,17 @@ public class UserInfoUtil {
         }else {
             return null;
         }
+    }
+
+    public static String getUserId(){
+        User user = (User) mCache.getAsObject(ConstantUtil.CACHE_KEY);
+        if (user != null && user.getId() != null) {
+            userId = user.getId();
+            Log.e("UserIU","userId"+userId);
+        }else {
+            userId = "";
+        }
+        return userId;
     }
 
     public static String getUserType(){

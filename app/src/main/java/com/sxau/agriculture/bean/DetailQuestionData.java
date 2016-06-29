@@ -292,7 +292,7 @@ public class DetailQuestionData implements Serializable {
     }
 
     public static class ExpertBean implements Serializable{
-        private int id;
+        private String id;
         private long whenCreated;
         private long whenUpdated;
         private Object email;
@@ -306,11 +306,11 @@ public class DetailQuestionData implements Serializable {
         private Object scale;
         private String lastIp;
 
-        public int getId() {
+        public String getId() {
             return id;
         }
 
-        public void setId(int id) {
+        public void setId(String id) {
             this.id = id;
         }
 

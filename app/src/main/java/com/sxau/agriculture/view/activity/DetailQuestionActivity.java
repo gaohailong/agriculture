@@ -347,7 +347,7 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
 //            tv_professor_ok.setText("点赞人数" + detailQuestionData.getLikeCount());
         } else {
             ll_expert_answer.setVisibility(View.GONE);
-            if (UserInfoUtil.isUserTypeEXPERT()) {
+            if (UserInfoUtil.isUserTypeEXPERT() && detailQuestionData.getExpert().getId().equals(UserInfoUtil.getUserId())) {
                 bt_answer.setVisibility(View.VISIBLE);
             } else {
                 bt_answer.setVisibility(View.GONE);
