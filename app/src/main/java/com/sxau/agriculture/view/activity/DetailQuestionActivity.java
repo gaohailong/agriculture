@@ -334,7 +334,7 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
         tv_question_content.setText(detailQuestionData.getContent());
         tv_question_time.setText("发布于" + TimeUtil.format(detailQuestionData.getWhenCreated()));
         if (detailQuestionData.getExpert() != null) {
-            if (detailQuestionData.getAnswer() != null){
+            if (detailQuestionData.getAnswer() != null) {
                 ll_expert_answer.setVisibility(View.VISIBLE);
                 bt_answer.setVisibility(View.GONE);
                 tv_is_answer.setText("专家已回答");
@@ -346,25 +346,20 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
                 tv_professor_name.setText(detailQuestionData.getExpert().getName());
                 tv_professor_content.setText(detailQuestionData.getAnswer());
 //            tv_professor_ok.setText("点赞人数" + detailQuestionData.getLikeCount());
-            }else {
+            } else {
                 //专家没回答，需要判断是否为指定的专家用户来回答问题
                 ll_expert_answer.setVisibility(View.GONE);
                 if (UserInfoUtil.isUserTypeEXPERT() && UserInfoUtil.getUserId().equals(detailQuestionData.getExpert().getId())) {
+                    Log.e("Detail", "UserId:" + UserInfoUtil.getUserId() + "   ExpertId:" + detailQuestionData.getExpert().getId());
                     bt_answer.setVisibility(View.VISIBLE);
                 } else {
                     bt_answer.setVisibility(View.GONE);
                 }
                 tv_is_answer.setText("专家未回答");
-
             }
-
         } else {
             ll_expert_answer.setVisibility(View.GONE);
-            if (UserInfoUtil.isUserTypeEXPERT()) {
-                bt_answer.setVisibility(View.VISIBLE);
-            } else {
-                bt_answer.setVisibility(View.GONE);
-            }
+            bt_answer.setVisibility(View.GONE);
             tv_is_answer.setText("专家未回答");
         }
         if (detailQuestionData.isFav()) {

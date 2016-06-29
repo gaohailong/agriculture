@@ -673,7 +673,7 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
 
     //获取上传音频权限token
     private void getUploadTokenForAudio() {
-        Call<JsonObject> call = RetrofitUtil.getRetrofit().create(IUploadToken.class).getUploadTokenForAudio(authorToken);
+        Call<JsonObject> call = RetrofitUtil.getRetrofit().create(IUploadToken.class).getUploadToken(authorToken);
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Response<JsonObject> response, Retrofit retrofit) {
