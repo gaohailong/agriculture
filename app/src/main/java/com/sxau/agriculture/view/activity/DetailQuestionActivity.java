@@ -334,20 +334,33 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
         tv_question_content.setText(detailQuestionData.getContent());
         tv_question_time.setText("发布于" + TimeUtil.format(detailQuestionData.getWhenCreated()));
         if (detailQuestionData.getExpert() != null) {
-            ll_expert_answer.setVisibility(View.VISIBLE);
-            bt_answer.setVisibility(View.GONE);
-            tv_is_answer.setText("专家已回答");
-            tv_question_answer_time.setText("回答于" + TimeUtil.format(detailQuestionData.getWhenUpdated()));
+            if (detailQuestionData.getAnswer() != null){
+                ll_expert_answer.setVisibility(View.VISIBLE);
+                bt_answer.setVisibility(View.GONE);
+                tv_is_answer.setText("专家已回答");
+                tv_question_answer_time.setText("回答于" + TimeUtil.format(detailQuestionData.getWhenUpdated()));
 
-            //专家部分
-            Picasso.with(context).load(StringUtil.changeToWholeUrl(detailQuestionData.getExpert().getAvatar().toString())).
-                    placeholder(R.mipmap.img_default_user_portrait_150px).error(R.mipmap.img_default_user_portrait_150px).into(rv_professor_head);
-            tv_professor_name.setText(detailQuestionData.getExpert().getName());
-            tv_professor_content.setText(detailQuestionData.getAnswer());//有问题,接口返回了多个问题的答案
+                //专家部分
+                Picasso.with(context).load(StringUtil.changeToWholeUrl(detailQuestionData.getExpert().getAvatar().toString())).
+                        placeholder(R.mipmap.img_default_user_portrait_150px).error(R.mipmap.img_default_user_portrait_150px).into(rv_professor_head);
+                tv_professor_name.setText(detailQuestionData.getExpert().getName());
+                tv_professor_content.setText(detailQuestionData.getAnswer());
 //            tv_professor_ok.setText("点赞人数" + detailQuestionData.getLikeCount());
+            }else {
+                //专家没回答，需要判断是否为指定的专家用户来回答问题
+                ll_expert_answer.setVisibility(View.GONE);
+                if (UserInfoUtil.isUserTypeEXPERT() && UserInfoUtil.getUserId().equals(detailQuestionData.getExpert().getId())) {
+                    bt_answer.setVisibility(View.VISIBLE);
+                } else {
+                    bt_answer.setVisibility(View.GONE);
+                }
+                tv_is_answer.setText("专家未回答");
+
+            }
+
         } else {
             ll_expert_answer.setVisibility(View.GONE);
-            if (UserInfoUtil.isUserTypeEXPERT() && detailQuestionData.getExpert().getId().equals(UserInfoUtil.getUserId())) {
+            if (UserInfoUtil.isUserTypeEXPERT()) {
                 bt_answer.setVisibility(View.VISIBLE);
             } else {
                 bt_answer.setVisibility(View.GONE);
