@@ -80,7 +80,7 @@ public class PersonalCollectQuestionAdapter extends BaseAdapter {
         }else {
             holder.v_left.setBackgroundColor(Color.parseColor("#FF6446"));
         }
-        Picasso.with(context).load(myPersonalQuestion.getUser().getAvatar()).resize(30, 30).centerCrop().placeholder(R.mipmap.ic_loading).error(R.mipmap.ic_load_fail).into(holder.rv_head);
+//        Picasso.with(context).load(myPersonalQuestion.getUser().getAvatar()).resize(30, 30).centerCrop().placeholder(R.mipmap.ic_loading).error(R.mipmap.ic_load_fail).into(holder.rv_head);
         return convertView;
     }
 
