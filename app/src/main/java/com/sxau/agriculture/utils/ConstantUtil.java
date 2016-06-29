@@ -15,8 +15,6 @@ public class ConstantUtil {
     public static final String BASE_PICTURE_URL = "http://storage.workerhub.cn/";
     //首页文章的基本URL
     public static final String ARTICLE_BASE_URL = "http://sxnk110.workerhub.cn/#/article/";
-    //后台资源根地址
-    public static final String STORAGE_URL = "http://storage.workerhub.cn/";
     //每个listView的item显示的数量
     public static final String ITEM_NUMBER = "10";
     //登录成功之后的缓存文件名（主要为了保存authToken）
@@ -48,7 +46,7 @@ public class ConstantUtil {
     //上传音频本地存储路径
     public static final String AUDIO_LOCAL_PATH = "/sdcard/nongke110_AudioCache/Record/";
     //app自动更新
-    public static final String APP_UPDATE_SERVER_URL = "http://192.168.205.33:8080/Hello/api/update";
+    public static final String APP_UPDATE_SERVER_URL = "app/checkUpdate";
     //以下为分类的常量定义（推送的类型，message页面的类型）
     public static final String QUESTION = "QUESTION";
     public static final String RELATION = "RELATION";
