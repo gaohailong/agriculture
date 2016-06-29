@@ -51,6 +51,7 @@ public class MessageFragment extends BaseFragment implements IMessageFragment, A
     private int currentPage = 1;
     private MyHandler handler;
     private View view;
+    private int changeId;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -75,7 +76,7 @@ public class MessageFragment extends BaseFragment implements IMessageFragment, A
             initRefresh();
             if (NetUtil.isNetAvailable(context)) {
                 handler.sendEmptyMessage(ConstantUtil.INIT_DATA);
-                RefreshBottomTextUtil.setTextMore(tv_more,ConstantUtil.LOADINDG);
+                RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOADINDG);
                 srl_refresh.setLoading(false);
             } else {
                 Toast.makeText(context, "没有网络连接", Toast.LENGTH_SHORT).show();
@@ -122,38 +123,42 @@ public class MessageFragment extends BaseFragment implements IMessageFragment, A
         if (messageInfos.size() > 0) {
             Intent intentStart = new Intent();
             try {
+                //改变已读未读
                 int itemId = messageInfos.get(position).getId();
-                iMessagePresenter.changeRead(itemId);
-                Log.e("itemIdGet","itemId=="+itemId);
+                iMessagePresenter.changeRead(itemId, position);
+                //item跳转
+                int mermberId = messageInfos.get(position).getRelationId();
                 String type = messageInfos.get(position).getMessageType();
                 switch (type) {
                     case ConstantUtil.QUESTION://问答(已成功)
                         intentStart.setClass(context, DetailQuestionActivity.class);
-                        intentStart.putExtra("indexPosition", itemId);
+                        intentStart.putExtra("indexPosition", mermberId);
+                        context.startActivity(intentStart);
                         break;
                     case ConstantUtil.TRADE://交易(已成功)
                         intentStart.setClass(context, TradeContentActivity.class);
-                        intentStart.putExtra("TradeId", itemId);
+                        intentStart.putExtra("TradeId", mermberId);
+                        context.startActivity(intentStart);
+                        break;
+                    case ConstantUtil.WECHAT://微信
+                        intentStart.setClass(context, DetailQuestionActivity.class);
+                        intentStart.putExtra("indexPosition", mermberId);
+                        context.startActivity(intentStart);
                         break;
                     case ConstantUtil.ARTICLE://文章(未试验)
                         intentStart.setClass(context, WebViewTwoActivity.class);
-                        intentStart.putExtra("article", itemId);
+                        intentStart.putExtra("article", mermberId);
+                        context.startActivity(intentStart);
                         break;
                     case ConstantUtil.RELATION://关系
                         break;
                     case ConstantUtil.SYSTEM://系统
                         break;
-                    case ConstantUtil.WECHAT://微信
-                        intentStart.setClass(context, DetailQuestionActivity.class);
-                        intentStart.putExtra("indexPosition", itemId);
-                        break;
                     case ConstantUtil.NOTICE://公告
                         break;
                     default:
                         break;
-                    //Todo 发送网络请求去改变是否已读
                 }
-                context.startActivity(intentStart);
             } catch (IndexOutOfBoundsException e) {
                 e.printStackTrace();
             }
@@ -178,6 +183,7 @@ public class MessageFragment extends BaseFragment implements IMessageFragment, A
                         break;
                     case ConstantUtil.GET_NET_DATA:
                         ArrayList<MessageInfo> messageInfoData = iMessagePresenter.getDatas();
+                        RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOAD_MORE);
                         updateView(messageInfoData);
                         break;
                     case ConstantUtil.PULL_REFRESH:
@@ -216,6 +222,10 @@ public class MessageFragment extends BaseFragment implements IMessageFragment, A
             RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOAD_OVER);
         }
     }
-    //-------------------接口方法结束--------------
 
+    //-------------------接口方法结束--------------
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 }

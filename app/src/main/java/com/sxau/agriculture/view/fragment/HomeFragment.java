@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -33,7 +34,9 @@ import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.NetUtil;
 import com.sxau.agriculture.utils.RefreshBottomTextUtil;
 import com.sxau.agriculture.utils.RetrofitUtil;
+import com.sxau.agriculture.utils.StringUtil;
 import com.sxau.agriculture.view.activity.WebViewActivity;
+import com.sxau.agriculture.view.activity.WebViewTwoActivity;
 import com.sxau.agriculture.widgets.RefreshLayout;
 
 import java.lang.ref.WeakReference;
@@ -120,7 +123,7 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
             initListView();
             initRefresh();
             myHandler.sendEmptyMessage(ConstantUtil.INIT_DATA);
-            RefreshBottomTextUtil.setTextMore(tv_more,ConstantUtil.LOADINDG);
+            RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOADINDG);
         }
 
         ViewGroup parent = (ViewGroup) mView.getParent();
@@ -329,9 +332,9 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
         for (int j = 0; j < bannerData.size(); j++) {
             String img = ConstantUtil.BASE_PICTURE_URL + bannerData.get(j).getImage();
             imagePath.add(img);
+            Log.e("imgUrlGet", "" + img);
         }
     }
-
 
     //获取缓存数据
     public void getCacheData() {
@@ -364,7 +367,7 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
     }
 
     @Override
-    public void onPageSelected(int position) {
+    public void onPageSelected(final int position) {
         currentIndex = position;
         lastTime = System.currentTimeMillis();
         //设置轮播文字改变
@@ -375,15 +378,17 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
             } else {
                 tv_title.setText(bannerData.get(index).getName());
                 //TODO 轮播图点击事件
-               /* imageViews.get(index).setOnClickListener(new View.OnClickListener() {
+                imageViews.get(index).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent();
-                        intent.putExtra("ArticleUrl", bannerData.get(index).getId());
-                        intent.setClass(context, PictureWebViewActivity.class);
-                        startActivity(intent);
+                        Intent intentStart = new Intent();
+                        int id = StringUtil.rotatePictureCut(bannerData.get(position % imageViews.size()).getUrl());
+                        Log.e("getId",""+id);
+                        intentStart.setClass(context, WebViewTwoActivity.class);
+                        intentStart.putExtra("article", id);
+                        startActivity(intentStart);
                     }
-                });*/
+                });
             }
         } else {
             tv_title.setText("当前没有网络，请检查网络设置");
@@ -423,7 +428,7 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
                 intent.putExtras(bundle);
                 intent.setClass(context, WebViewActivity.class);
                 startActivity(intent);
-            }catch (IndexOutOfBoundsException e){
+            } catch (IndexOutOfBoundsException e) {
                 e.printStackTrace();
             }
         }

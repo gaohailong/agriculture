@@ -60,18 +60,27 @@ public class MyReceiver extends BroadcastReceiver {
                 type = extrasJson.getString("type");
                 id = extrasJson.getString("id");
                 Intent intentStart = new Intent();
+                intentStart.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 switch (type) {
                     case ConstantUtil.QUESTION://问答
                         intentStart.setClass(context, DetailQuestionActivity.class);
                         intentStart.putExtra("indexPosition", Integer.valueOf(id));
+                        context.startActivity(intentStart);
                         break;
                     case ConstantUtil.TRADE://交易
                         intentStart.setClass(context, TradeContentActivity.class);
                         intentStart.putExtra("TradeId", Integer.valueOf(id));
+                        context.startActivity(intentStart);
                         break;
                     case ConstantUtil.ARTICLE://文章
                         intentStart.setClass(context, WebViewTwoActivity.class);
                         intentStart.putExtra("article", Integer.valueOf(id));
+                        context.startActivity(intentStart);
+                        break;
+                    case ConstantUtil.WECHAT://微信(未试验)
+                        intentStart.setClass(context, DetailQuestionActivity.class);
+                        intentStart.putExtra("indexPosition", Integer.valueOf(id));
+                        context.startActivity(intentStart);
                         break;
                     case ConstantUtil.RELATION://关系(未试验)
                         //TODO fragment是否能跳转
@@ -80,18 +89,12 @@ public class MyReceiver extends BroadcastReceiver {
                     case ConstantUtil.SYSTEM://系统(未试验)
 //                        intentStart.setClass(context, MessageFragment.class);
                         break;
-                    case ConstantUtil.WECHAT://微信(未试验)
-                        intentStart.setClass(context, DetailQuestionActivity.class);
-                        intentStart.putExtra("indexPosition", Integer.valueOf(id));
-                        break;
                     case ConstantUtil.NOTICE://公告(未试验)
 //                        intentStavrt.setClass(context, MessageFragment.class);
                         break;
                     default:
                         break;
                 }
-                intentStart.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intentStart);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

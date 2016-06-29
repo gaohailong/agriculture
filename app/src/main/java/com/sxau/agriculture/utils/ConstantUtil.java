@@ -89,7 +89,10 @@ public class ConstantUtil {
     public static final int CHANGE_TO_COLLECTION_STATE = 0x00000013;
     //改变收藏状态为取消收藏
     public static final int CHANGE_TO_NOCOLLECTION_STATE = 0x00000014;
+    //正在加载中
     public static final int LOADINDG = 0x00000015;
+    //已读和未读改变
+    public static final int CHANGE_READ = 0x00000015;
 
 
 }

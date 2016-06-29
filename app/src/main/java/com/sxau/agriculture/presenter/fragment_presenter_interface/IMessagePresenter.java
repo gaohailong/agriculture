@@ -11,5 +11,5 @@ public interface IMessagePresenter {
     ArrayList<MessageInfo> getDatas();
     void doRequest(String page,String pageSize,boolean isRefresh);
     boolean isLoadOver();
-    void changeRead(int id);
+    void changeRead(int id,int postion);
 }

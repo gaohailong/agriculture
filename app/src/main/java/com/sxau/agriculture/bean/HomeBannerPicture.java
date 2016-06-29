@@ -1,9 +1,11 @@
 package com.sxau.agriculture.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by czz on 2016/6/1.
  */
-public class HomeBannerPicture {
+public class HomeBannerPicture implements Serializable{
 
     /**
      * id : 4
