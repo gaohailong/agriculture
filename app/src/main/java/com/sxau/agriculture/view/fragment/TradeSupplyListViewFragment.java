@@ -93,6 +93,12 @@ public class TradeSupplyListViewFragment extends BaseFragment implements ITradeL
         return mView;
     }
 
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        handler.sendEmptyMessage( ConstantUtil.INIT_DATA);
+    }
+
     public void initRefresh() {
         lv_Info.addFooterView(footerLayout);
         rl_refresh.setChildView(lv_Info);

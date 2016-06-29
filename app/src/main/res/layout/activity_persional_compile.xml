@@ -384,7 +384,7 @@
             android:layout_toLeftOf="@+id/iv_right7"
             android:layout_centerInParent="true"
             android:textSize="@dimen/font_size"
-            android:text="@string/public_user" />
+            android:text="" />
 
         <ImageView
             android:id="@+id/iv_right7"

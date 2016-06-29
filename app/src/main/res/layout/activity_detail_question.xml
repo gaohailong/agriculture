@@ -48,7 +48,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="10dp"
                         android:layout_toRightOf="@id/rv_question_head"
-                        android:text="123123"
+                        android:text=""
                         android:textSize="@dimen/font_title" />
 
                     <TextView
@@ -58,7 +58,7 @@
                         android:layout_alignParentBottom="true"
                         android:layout_alignStart="@+id/tv_question_name"
                         android:layout_gravity="center_vertical"
-                        android:text="发布于 2016-06-18 12:00"
+                        android:text=""
                         android:textColor="@color/grey"
                         android:textSize="@dimen/font_time" />
 
@@ -91,7 +91,7 @@
                         android:layout_marginTop="5dp"
                         android:ellipsize="end"
                         android:lines="1"
-                        android:text="如何在禾本植物使用除草剂？"
+                        android:text=""
                         android:textSize="@dimen/font_title" />
 
                     <TextView
@@ -100,7 +100,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:lineSpacingExtra="@dimen/font_space"
-                        android:text="问题的描述"
+                        android:text=""
                         android:textSize="@dimen/font_size_large" />
 
 
@@ -166,7 +166,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:text="专家已回答"
+                        android:text=""
                         android:textSize="@dimen/font_size" />
 
                 </RelativeLayout>
@@ -203,7 +203,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:layout_toRightOf="@+id/rv_professor_head"
-                        android:text="w是专家"
+                        android:text=""
                         android:textSize="@dimen/font_title" />
 
 
@@ -214,7 +214,7 @@
                         android:layout_alignParentBottom="true"
                         android:layout_alignStart="@+id/tv_professor_name"
                         android:layout_gravity="center_vertical"
-                        android:text="回答于 2016-06-18 12:00"
+                        android:text=""
                         android:textColor="@color/grey"
                         android:textSize="@dimen/font_time" />
 
@@ -240,7 +240,7 @@
                     android:layout_height="wrap_content"
                     android:padding="15dp"
                     android:layout_marginTop="10dp"
-                    android:text="dddddddddddddd" />
+                    android:text="" />
 
                 <!--<TextView-->
                 <!--android:id="@+id/tv_professor_ok"-->

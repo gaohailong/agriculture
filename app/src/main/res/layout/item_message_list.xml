@@ -39,7 +39,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:text="2016.04.02"
+                        android:text=""
                         android:textSize="@dimen/font_time" />
 
                     <TextView
@@ -48,7 +48,7 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/bg_tv_shape_7"
                         android:gravity="right"
-                        android:text="@string/is_question"
+                        android:text=""
                         android:textColor="@color/white"
                         android:textSize="12sp" />
 
@@ -62,7 +62,7 @@
                     android:layout_marginBottom="7dp"
                     android:layout_marginTop="7dp"
                     android:lines="1"
-                    android:text="如何在笨笨发送发达省份?"
+                    android:text=""
                     android:textSize="@dimen/font_title" />
 
 
@@ -91,7 +91,7 @@
                     android:gravity="center_vertical"
                     android:lineSpacingExtra="@dimen/font_space"
                     android:lines="2"
-                    android:text="放大镜沙发上看连发三道街发生的法律福建阿萨德理发师傅发动机发达省份克林顿"
+                    android:text=""
                     android:textSize="@dimen/font_size" />
             </LinearLayout>
 

@@ -116,7 +116,6 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
             }
 
             imagePath.add("error");
-
             dbUtil = DbUtils.create(context);
 
             initPictureView();
