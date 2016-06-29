@@ -40,12 +40,31 @@ public class StringUtil {
     public static String changeToWholeUrl(String str) {
         String str1 = new String();
         String str2 = new String();
-        if (str != null){
+        if (str != null) {
             str1 = str.substring(0, str.length());
             str2 = ConstantUtil.DOMAIN + str1 + ConstantUtil.UPLOAD_PIC_SUFFIX;
-        }else {
+        } else {
             str2 = null;
         }
         return str2;
+    }
+
+
+//    http://sxnk110.workerhub.cn/#/article/100",
+
+    /**
+     * 获取图片id
+     *
+     * @param string
+     * @return
+     */
+    public static int rotatePictureCut(String string) {
+        String str = new String();
+        if (string != null) {
+            str = string.substring(ConstantUtil.ARTICLE_BASE_URL.length(), string.length());
+            return Integer.parseInt(str);
+        } else {
+            return 0;
+        }
     }
 }

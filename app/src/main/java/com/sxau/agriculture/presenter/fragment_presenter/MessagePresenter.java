@@ -58,6 +58,8 @@ public class MessagePresenter implements IMessagePresenter {
                         messageInfos.clear();
                         messageInfos.addAll(messageInfoGet);
                     } else {
+                      /*  messageInfos.clear();
+                        messageInfos = getDatas();*/
                         messageInfos.addAll(messageInfoGet);
                     }
                     if (messageInfoGet.size() < Integer.parseInt(ConstantUtil.ITEM_NUMBER)) {
