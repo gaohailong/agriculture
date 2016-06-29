@@ -139,7 +139,7 @@ public class PersonalTradeInfoFragment extends BaseFragment implements IPersonal
     //----------------------接口方法---------------------
     @Override
     public void showRequestTimeout() {
-        Toast.makeText(PersonalTradeInfoFragment.this.getActivity(), "请求超时，请检查网络", Toast.LENGTH_SHORT).show();
+        Toast.makeText(PersonalTradeInfoFragment.this.getContext(), "请求超时，请检查网络", Toast.LENGTH_SHORT).show();
     }
 
     @Override

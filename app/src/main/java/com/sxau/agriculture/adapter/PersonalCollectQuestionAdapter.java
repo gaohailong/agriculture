@@ -59,7 +59,7 @@ public class PersonalCollectQuestionAdapter extends BaseAdapter {
             holder.tv_title = (TextView) convertView.findViewById(R.id.tv_title);
             holder.tv_content = (TextView) convertView.findViewById(R.id.tv_content);
 
-            holder.rv_head = (ImageView) convertView.findViewById(R.id.rv_head);
+//            holder.rv_head = (ImageView) convertView.findViewById(R.id.rv_head);
             holder.tv_is_question = (TextView) convertView.findViewById(R.id.tv_is_question);
             holder.ll_answer = (LinearLayout) convertView.findViewById(R.id.ll_answer);
             holder.v_left = convertView.findViewById(R.id.v_left);

@@ -76,11 +76,6 @@
                 android:layout_marginTop="5dp"
                 android:orientation="horizontal">
 
-                <com.sxau.agriculture.widgets.RoundImageView
-                    android:id="@+id/rv_head"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:src="@mipmap/img_default_user_portrait_150px" />
 
                 <TextView
                     android:id="@+id/tv_content"
