@@ -66,17 +66,15 @@ public class PersonalCollectTradesAdapter extends BaseAdapter {
         holder.tv_TradeDate.setText(TimeUtil.format(myPersonalCollectTrades.getUser().getWhenUpdated()));
         holder.tv_TradeTitle.setText(myPersonalCollectTrades.getTrade().getTitle());
         holder.tv_TradeContent.setText(myPersonalCollectTrades.getTrade().getDescription());
+        holder.tv_is_question.setVisibility(View.GONE);
         switch (myPersonalCollectTrades.getTrade().getTradeState()) {
             case "WAIT_AUDITED":
-                holder.tv_is_question.setText("待审核");
                 holder.v_left.setBackgroundColor(Color.parseColor("#FF6446"));
                 break;
             case "FAILED":
-                holder.tv_is_question.setText("未通过");
                 holder.v_left.setBackgroundColor(Color.parseColor("#FF6446"));
                 break;
             case "AUDITED":
-                holder.tv_is_question.setText("已通过");
                 holder.v_left.setBackgroundColor(Color.parseColor("#00b5ad"));
                 break;
             default:

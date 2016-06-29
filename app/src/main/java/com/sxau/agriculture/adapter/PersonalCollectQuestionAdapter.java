@@ -20,6 +20,7 @@ import java.util.ArrayList;
 
 /**
  * 个人中心收藏的adapter
+ *
  * @author 李炳龙
  */
 public class PersonalCollectQuestionAdapter extends BaseAdapter {
@@ -72,20 +73,14 @@ public class PersonalCollectQuestionAdapter extends BaseAdapter {
         holder.tv_date.setText(TimeUtil.format(myPersonalQuestion.getWhenCreated()));
         holder.tv_title.setText(myPersonalQuestion.getQuestion().getTitle());
 
-        //对是否有回答，items显示的改变
-        if (myPersonalQuestion.getQuestion().getQuestionAuditState().equals("WAIT_AUDITED")) {
-            holder.ll_answer.setVisibility(View.GONE);
-            holder.tv_is_question.setText(R.string.no_daudited);
-        } else if (myPersonalQuestion.getQuestion().getQuestionResolveState().equals("WAIT_RESOLVE")) {
-            holder.ll_answer.setVisibility(View.GONE);
-            holder.tv_is_question.setText(R.string.no_question);
-        } else if(myPersonalQuestion.getQuestion().getQuestionAuditState().equals("AUDITED")&&myPersonalQuestion.getQuestion().getQuestionResolveState().equals("RESOLVE")) {
-            //这是一个有问题的地方
+        holder.tv_is_question.setVisibility(View.GONE);
+        if (myPersonalQuestion.getQuestion().getAnswer() != null) {
             holder.tv_content.setText(myPersonalQuestion.getQuestion().getAnswer());
-            Picasso.with(context).load(myPersonalQuestion.getUser().getAvatar()).resize(150, 150).centerCrop().placeholder(R.mipmap.ic_loading).error(R.mipmap.ic_load_fail).into(holder.rv_head);
-            holder.tv_is_question.setText(R.string.is_question);
             holder.v_left.setBackgroundColor(Color.parseColor("#009688"));
+        }else {
+            holder.v_left.setBackgroundColor(Color.parseColor("#FF6446"));
         }
+        Picasso.with(context).load(myPersonalQuestion.getUser().getAvatar()).resize(30, 30).centerCrop().placeholder(R.mipmap.ic_loading).error(R.mipmap.ic_load_fail).into(holder.rv_head);
         return convertView;
     }
 
