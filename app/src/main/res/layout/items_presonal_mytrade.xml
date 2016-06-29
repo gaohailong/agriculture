@@ -34,7 +34,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="2016.04.02"
+                    android:text=""
                     android:textSize="@dimen/font_time" />
 
                 <TextView
@@ -43,7 +43,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_tv_shape_7"
                     android:gravity="right"
-                    android:text="@string/is_question"
+                    android:text=""
                     android:textColor="@color/white"
                     android:textSize="12sp" />
 
@@ -57,7 +57,7 @@
                 android:layout_marginBottom="7dp"
                 android:layout_marginTop="7dp"
                 android:lines="1"
-                android:text="如何在笨笨发送发达省份?"
+                android:text=""
                 android:textSize="@dimen/font_title" />
 
 
@@ -72,7 +72,7 @@
             android:ellipsize="end"
             android:lines="2"
             android:textColor="@color/greylittleBlack"
-            android:text="我的他的你的我的他的你的我的他的你的我的他的你的我的他的你的我的他的你的我的他的你的我的他的你的我的他的你的我的他的你的我的他的你的"
+            android:text=""
             android:lineSpacingExtra="@dimen/font_space"
             android:textSize="@dimen/font_size" />
     </LinearLayout>

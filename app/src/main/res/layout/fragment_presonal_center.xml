@@ -37,7 +37,7 @@
                 android:id="@+id/tv_personal_nickname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="给人民种口粮"
+                android:text=""
                 android:textColor="@color/white"
                 android:textSize="30sp" />
 

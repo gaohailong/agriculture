@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:singleLine="true"
-            android:text="啦啦啦"
+            android:text=""
             android:textColor="@color/greylittleBlack"
             android:textSize="@dimen/font_title" />
 
@@ -45,7 +45,7 @@
             android:ellipsize="end"
             android:textColor="@color/littleColor"
             android:singleLine="true"
-            android:text="啦啦啦"
+            android:text=""
             android:textSize="@dimen/font_personal_info" />
 
         <TextView
@@ -54,7 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|right"
             android:layout_marginTop="3dp"
-            android:text="2013-13-13" />
+            android:text="" />
     </LinearLayout>
 
 </LinearLayout>
