@@ -14,7 +14,7 @@
         android:layout_gravity="center|top"
         android:gravity="center"
         android:textColor="@color/mainColor"
-        android:text="点击加载"
+        android:text=""
         android:textSize="14sp" />
 
 </FrameLayout>

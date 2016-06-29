@@ -28,7 +28,7 @@
             android:layout_weight="1"
             android:ellipsize="end"
             android:singleLine="true"
-            android:text="标题:高海龙你是不是傻！"
+            android:text=""
             android:textColor="@color/little_black"
             android:textSize="@dimen/font_title" />
 
@@ -43,7 +43,7 @@
             android:gravity="center_vertical"
             android:lineSpacingExtra="@dimen/font_space"
             android:lines="2"
-            android:text="概要答案:不是复反反复复反反复复反反复复反反复复反反复复"
+            android:text=""
             android:textColor="@color/greylittleBlack"
             android:textSize="@dimen/font_size_large" />
 
@@ -59,7 +59,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
-                android:text="名字+提问于+日期"
+                android:text=""
                 android:textSize="@dimen/font_size" />
 
             <ImageView

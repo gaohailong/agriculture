@@ -25,7 +25,7 @@
             android:textColor="@color/little_black"
             android:ellipsize="end"
             android:singleLine="true"
-            android:text="啦啦啦啦啦拉拉拉拉啊啦啦啦啦阿拉啦啦啦啊啦啦"
+            android:text=""
             android:textSize="@dimen/font_title" />
 
         <RelativeLayout
@@ -49,7 +49,7 @@
                 android:drawablePadding="5dp"
                 android:layout_toRightOf="@+id/iv_demand_location"
                 android:ellipsize="end"
-                android:text="山西" />
+                android:text="" />
 
             <TextView
                 android:id="@+id/tv_demand_date"
@@ -57,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:text="2016-6-12"
+                android:text=""
                 android:textSize="@dimen/font_time" />
 
         </RelativeLayout>
@@ -71,7 +71,7 @@
             android:lineSpacingExtra="@dimen/font_space"
             android:lines="2"
             android:textColor="@color/littleColor"
-            android:text="我他妈就不信了靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠靠"
+            android:text=""
             android:textSize="@dimen/font_size_large" />
 
         <RelativeLayout
@@ -93,7 +93,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@+id/rv_info_head"
-                android:text="天和集团"
+                android:text=""
                 android:textSize="@dimen/font_size" />
 
             <ImageView

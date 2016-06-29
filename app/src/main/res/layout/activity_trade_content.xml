@@ -42,7 +42,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="10dp"
                     android:layout_toRightOf="@id/rv_trade_head"
-                    android:text="123123"
+                    android:text=""
                     android:textSize="@dimen/font_title" />
 
                 <TextView
@@ -52,7 +52,7 @@
                     android:layout_alignParentBottom="true"
                     android:layout_alignStart="@+id/tv_name"
                     android:layout_gravity="center_vertical"
-                    android:text="发布于 2016-06-18 12:00"
+                    android:text=""
                     android:textColor="@color/grey"
                     android:textSize="@dimen/font_time" />
 
@@ -83,7 +83,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
-                    android:text="交易标题"
+                    android:text=""
                     android:textSize="16sp" />
 
                 <TextView
@@ -92,7 +92,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:lineSpacingExtra="@dimen/font_space"
-                    android:text="交易详情"
+                    android:text=""
                     android:textSize="@dimen/font_size" />
 
                 <com.jaeger.ninegridimageview.NineGridImageView
@@ -120,13 +120,13 @@
                     android:id="@+id/tv_timeStart"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="2016.03.22" />
+                    android:text="" />
 
                 <TextView
                     android:id="@+id/tv_timeEnd"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="-2016.04.22" />
+                    android:text="" />
             </LinearLayout>
 
             <View
@@ -146,7 +146,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_alignParentLeft="true"
-                    android:text="关注人数：1000+" />
+                    android:text="" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -165,7 +165,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="20dp"
-                        android:text="山西太原" />
+                        android:text="" />
 
                 </RelativeLayout>
 
@@ -175,7 +175,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginTop="5dp"
-                    android:text="800-820-2232" />
+                    android:text="" />
 
 
             </LinearLayout>
