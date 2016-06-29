@@ -81,7 +81,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         radioGroup.setOnCheckedChangeListener(this);
         fragmentTabHost.setCurrentTab(0);
         //TODO 设置自动更新
-        UpdateChecker.checkForDialog(MainActivity.this, ConstantUtil.APP_UPDATE_SERVER_URL);
+        UpdateChecker.checkForDialog(MainActivity.this,ConstantUtil.BASE_URL+ConstantUtil.APP_UPDATE_SERVER_URL);
     }
 
     private void iniTitle() {
