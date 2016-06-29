@@ -1,7 +1,6 @@
 package com.sxau.agriculture.presenter.acitivity_presenter;
 
 import android.os.Handler;
-import android.os.Message;
 
 import com.sxau.agriculture.api.ICategoriesData;
 import com.sxau.agriculture.bean.CategorieData;
@@ -32,7 +31,7 @@ public class TradeReleasePresenter implements ITradeReleasePresenter{
 
     @Override
     public void doRequest() {
-        Call<ArrayList<CategorieData>> call= RetrofitUtil.getRetrofit().create(ICategoriesData.class).getCategories();
+        Call<ArrayList<CategorieData>> call= RetrofitUtil.getRetrofit().create(ICategoriesData.class).getCategoriesForTrade();
         call.enqueue(new Callback<ArrayList<CategorieData>>() {
             @Override
             public void onResponse(Response<ArrayList<CategorieData>> response, Retrofit retrofit) {
