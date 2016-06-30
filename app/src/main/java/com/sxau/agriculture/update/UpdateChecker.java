@@ -277,7 +277,7 @@ public class UpdateChecker extends Fragment {
      */
     public void showNotification(String content, String apkUrl) {
         Notification noti;
-        Intent myIntent = new Intent(mContext, DownloadService.class);
+        Intent myIntent = new Intent(mContext, ExeDownloadService.class);
         myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         myIntent.putExtra(Constants.APK_DOWNLOAD_URL, apkUrl);
         PendingIntent pendingIntent = PendingIntent.getService(mContext, 0, myIntent, PendingIntent.FLAG_UPDATE_CURRENT);

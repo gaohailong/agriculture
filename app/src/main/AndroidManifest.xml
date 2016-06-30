@@ -104,7 +104,7 @@
         </activity>
         <!-- 检查更新 -->
         <service
-            android:name="com.sxau.agriculture.update.DownloadService"
+            android:name="com.sxau.agriculture.update.ExeDownloadService"
             android:enabled="true"
             android:exported="false" />
         <!-- Required  SDK核心功能 -->
