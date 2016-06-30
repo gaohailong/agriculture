@@ -43,6 +43,7 @@ public class DownloadService extends IntentService {
 		
 		mBuilder.setContentTitle(appName).setSmallIcon(icon);
 		String urlStr = intent.getStringExtra(Constants.APK_DOWNLOAD_URL);
+		Log.e("getUrl",urlStr);
 		InputStream in=null;
 		FileOutputStream out = null;
 		try {
@@ -55,9 +56,11 @@ public class DownloadService extends IntentService {
 			urlConnection.setReadTimeout(10 * 1000);
 			urlConnection.setRequestProperty("Connection", "Keep-Alive");
 			urlConnection.setRequestProperty("Charset", "UTF-8");
-			urlConnection.setRequestProperty("Accept-Encoding", "gzip, deflate");
+//			urlConnection.setRequestProperty("Accept-Encoding", "gzip, deflate, sdch");
 
 			urlConnection.connect();
+			Log.e("getUrl", "下载进度0");
+
 			long bytetotal = urlConnection.getContentLength();
 			long bytesum = 0;
 			int byteread = 0;
@@ -70,6 +73,8 @@ public class DownloadService extends IntentService {
 
 			int oldProgress = 0;
 
+			Log.e("getUrl","下载进度1");
+
 			while ((byteread = in.read(buffer)) != -1) {
 				bytesum += byteread;
 				out.write(buffer, 0, byteread);
@@ -81,6 +86,8 @@ public class DownloadService extends IntentService {
 				}
 				oldProgress = progress;
 			}
+			Log.e("getUrl","下载进度2");
+
 			// 下载完成
 			mBuilder.setContentText(getString(R.string.download_success)).setProgress(0, 0, false);
 

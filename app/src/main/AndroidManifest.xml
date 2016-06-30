@@ -102,6 +102,11 @@
                 <category android:name="com.sxau.agriculture" />
             </intent-filter>
         </activity>
+        <!-- 检查更新 -->
+        <service
+            android:name="com.sxau.agriculture.update.DownloadService"
+            android:enabled="true"
+            android:exported="false" />
         <!-- Required  SDK核心功能 -->
         <service
             android:name="cn.jpush.android.service.DownloadService"

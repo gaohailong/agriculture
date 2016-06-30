@@ -10,7 +10,8 @@ import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.os.Looper;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
@@ -20,20 +21,7 @@ import android.util.Log;
 import com.google.gson.JsonObject;
 import com.sxau.agriculture.agriculture.R;
 import com.sxau.agriculture.api.IVersionUpdate;
-import com.sxau.agriculture.bean.CategorieData;
 import com.sxau.agriculture.utils.RetrofitUtil;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.zip.GZIPInputStream;
 
 import retrofit.Call;
 import retrofit.Callback;
@@ -53,6 +41,10 @@ public class UpdateChecker extends Fragment {
     private FragmentActivity mContext;
     private Thread mThread;
     private int mTypeOfNotice;
+    private MyHandler handler=new MyHandler();
+    private String getApkUrl;
+    private int getApkCode;
+    private  String updateMessage;
 
     /**
      * Show a Dialog if an update is available for download. Callable in a
@@ -213,13 +205,13 @@ public class UpdateChecker extends Fragment {
                 try {
                     JsonObject json = response.body();
                     Log.e("updateMessage", json.toString());
-                    String updateMessage = String.valueOf(json.getAsJsonPrimitive(Constants.APK_UPDATE_CONTENT));
+                     updateMessage = String.valueOf(json.getAsJsonPrimitive(Constants.APK_UPDATE_CONTENT));
                     Log.e("updateMessage", updateMessage);
 //                String apkUrl = json.getString(Constants.APK_DOWNLOAD_URL);
-                    String apkUrl = String.valueOf(json.getAsJsonPrimitive(Constants.APK_DOWNLOAD_URL));
-                    Log.e("updateMessage", apkUrl);
-                    int apkCode = Integer.parseInt(String.valueOf(json.getAsJsonPrimitive(Constants.APK_VERSION_CODE)));
-                    Log.e("updateMessage", apkCode + "");
+                    getApkUrl  = String.valueOf(json.getAsJsonPrimitive(Constants.APK_DOWNLOAD_URL));
+//                    Log.e("updateMessage", apkUrl);
+                     getApkCode = Integer.parseInt(String.valueOf(json.getAsJsonPrimitive(Constants.APK_VERSION_CODE)));
+//                    Log.e("updateMessage", apkCode + "");
           /*  JSONObject obj = new JSONObject(json);
             String updateMessage = obj.getString(Constants.APK_UPDATE_CONTENT);
             Log.e("updateMessage", updateMessage);
@@ -230,12 +222,12 @@ public class UpdateChecker extends Fragment {
 
                     int versionCode = mContext.getPackageManager().getPackageInfo(mContext.getPackageName(), 0).versionCode;
 
-                    if (apkCode > versionCode) {
+                    if (getApkCode > versionCode) {
                         if (mTypeOfNotice == NOTICE_NOTIFICATION) {
-                            showNotification(updateMessage, apkUrl);
+//                            showNotification(updateMessage, apkUrl);
                         } else if (mTypeOfNotice == NOTICE_DIALOG) {
-                            showDialog(updateMessage, apkUrl);
-                            Log.e("apkUrl",apkUrl);
+                            handler.sendEmptyMessage(0);
+//                            Log.e("apkUrl",apkUrl);
                         }
                     } else {
                         //Toast.makeText(mContext, mContext.getString(R.string.app_no_new_update), Toast.LENGTH_SHORT).show();
@@ -252,7 +244,18 @@ public class UpdateChecker extends Fragment {
             }
         });
 
+    }
 
+    public class MyHandler extends Handler{
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case 0:
+                showDialog(updateMessage, getApkUrl);
+                    break;
+            }
+        }
     }
 
     /**
@@ -263,8 +266,9 @@ public class UpdateChecker extends Fragment {
         Bundle args = new Bundle();
         args.putString(Constants.APK_UPDATE_CONTENT, content);
         args.putString(Constants.APK_DOWNLOAD_URL, apkUrl);
-        Log.e("getArguments1",apkUrl);
+        Log.e("getArguments1", apkUrl);
         d.setArguments(args);
+       Log.e("getArgumentsValue", d.getArguments().getString(Constants.APK_DOWNLOAD_URL));
         d.show(mContext.getSupportFragmentManager(), null);
     }
 
