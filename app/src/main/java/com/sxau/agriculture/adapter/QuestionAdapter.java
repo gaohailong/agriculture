@@ -2,6 +2,7 @@ package com.sxau.agriculture.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,10 +68,14 @@ public class QuestionAdapter extends BaseAdapter {
         holder.tv_content.setText(questionData.getContent());
         holder.tv_ntdmix.setText(questionData.getUser().getName() + " 提问于 " + TimeUtil.format(questionData.getWhenCreated()));
         favIndex = questionData.isFav();
-        LogUtil.e("QuestionAdapter","position:"+questionData.getId()+"isFav:"+favIndex);
-        if (questionData.getTitle() != null && !questionData.getQuestionAuditState().equals("WAIT_AUDITED")
-                && !questionData.getQuestionResolveState().equals("WAIT_RESOLVE")) {
-            holder.v_left.setBackgroundColor(Color.parseColor("#009688"));
+        LogUtil.e("QuestionAdapter", "position:" + questionData.getId() + "isFav:" + favIndex);
+        if (questionData.getTitle() != null ){
+            Log.e("QuestionA","ResolveState: "+questionData.getQuestionResolveState());
+            if (questionData.getQuestionResolveState().equals("RESOLVED")) {
+                holder.v_left.setBackgroundColor(Color.parseColor("#009688"));
+            }else {
+                holder.v_left.setBackgroundColor(Color.parseColor("#FF6446"));
+            }
         }
         if (favIndex) {
             holder.iv_fav.setImageResource(R.drawable.collection_fill);
