@@ -1,5 +1,7 @@
 package com.sxau.agriculture.utils;
 
+import android.util.Log;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -65,6 +67,18 @@ public class StringUtil {
             return Integer.parseInt(str);
         } else {
             return 0;
+
+        }
+    }
+
+    public static String subStringToNoMark(String string) {
+        String str = new String();
+        if (string != null) {
+            str = string.substring(1, string.length() - 1);
+            str = str.replace("\\n","\n");
+            return str;
+        } else {
+            return null;
         }
     }
 }
