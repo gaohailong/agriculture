@@ -40,11 +40,12 @@ import retrofit.Retrofit;
 
 /**
  * 专家个人中心Activity
+ *
  * @author 李秉龙
  * @update Yawen_Li
  */
 
-public class ExpertPersonalCenterActivity extends BaseActivity implements View.OnClickListener,IPersonalCenterActivity {
+public class ExpertPersonalCenterActivity extends BaseActivity implements View.OnClickListener, IPersonalCenterActivity {
 
     private ViewPager vTitlePaper;
     private ImageButton ib_back;
@@ -74,7 +75,7 @@ public class ExpertPersonalCenterActivity extends BaseActivity implements View.O
         viewPagerTab.setViewPager(vTitlePaper);
         mCache = ACache.get(this);
         authToken = UserInfoUtil.findAuthToken();
-        Log.e("authToken获取",authToken);
+        Log.e("authToken获取", authToken);
         context = ExpertPersonalCenterActivity.this;
     }
 
@@ -91,9 +92,9 @@ public class ExpertPersonalCenterActivity extends BaseActivity implements View.O
         btn_exit = (Button) this.findViewById(R.id.btn_exit);
 
         User user = (User) mCache.getAsObject(ConstantUtil.CACHE_KEY);
-        userName = user.getName();
         phone = user.getPhone();
-        if (userName != null) {
+        if (user.getName() != null) {
+            userName = user.getName();
             tvUserName.setText(userName);
         } else {
             tvUserName.setText(phone);
@@ -119,7 +120,7 @@ public class ExpertPersonalCenterActivity extends BaseActivity implements View.O
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                if (NetUtil.isNetAvailable(context)){
+                if (NetUtil.isNetAvailable(context)) {
                     showProgress(true);
                     new Thread(new Runnable() {
                         @Override
@@ -127,12 +128,12 @@ public class ExpertPersonalCenterActivity extends BaseActivity implements View.O
                             try {
                                 Thread.sleep(1500);
                                 doExitRequest();
-                            }catch (Exception e){
+                            } catch (Exception e) {
                                 e.printStackTrace();
                             }
                         }
                     }).start();
-                }else {
+                } else {
                     showNoNetworking();
                 }
             }
@@ -164,16 +165,16 @@ public class ExpertPersonalCenterActivity extends BaseActivity implements View.O
         }
     }
 
-    private void doExitRequest(){
+    private void doExitRequest() {
         Call call = RetrofitUtil.getRetrofit().create(IAuthentication.class).doExitRequest(authToken);
         call.enqueue(new Callback() {
             @Override
             public void onResponse(Response response, Retrofit retrofit) {
-                if (response.isSuccess()){
+                if (response.isSuccess()) {
                     showProgress(false);
                     //退出成功
                     doExit();
-                }else {
+                } else {
                     showProgress(false);
                     //退出失败
                     showRequestTimeout();
@@ -189,7 +190,7 @@ public class ExpertPersonalCenterActivity extends BaseActivity implements View.O
         });
     }
 
-    private void doExit(){
+    private void doExit() {
         ActivityCollectorUtil.finishAll();
         //删除所用缓存
         mCache.clear();
