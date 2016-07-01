@@ -41,10 +41,10 @@ public class UpdateChecker extends Fragment {
     private FragmentActivity mContext;
     private Thread mThread;
     private int mTypeOfNotice;
-    private MyHandler handler=new MyHandler();
+    private MyHandler handler = new MyHandler();
     private String getApkUrl;
     private int getApkCode;
-    private  String updateMessage;
+    private String updateMessage;
 
     /**
      * Show a Dialog if an update is available for download. Callable in a
@@ -108,129 +108,32 @@ public class UpdateChecker extends Fragment {
         mThread = new Thread() {
             @Override
             public void run() {
-                parseJson();
-                //if (isNetworkAvailable(mContext)) {
-
-              /*  String json = sendPost(url);
-                if (json != null) {
-                    parseJson(json);
-                    Log.e("updateMessage", "json");
-                } else {
-                    Log.e(TAG, "can't get app update json");
-                }*/
-                //}
+                if (isNetworkAvailable(mContext)) {
+                    parseJson();
+                }
             }
-
         };
         mThread.start();
     }
 
-    //TODO: 2016/6/29 获取JSON 有问题
-    /*protected String sendPost(String urlStr) {
-        HttpURLConnection uRLConnection = null;
-        InputStream is = null;
-        BufferedReader buffer = null;
-        String result = null;
-        try {
-            URL url = new URL(urlStr);
-            uRLConnection = (HttpURLConnection) url.openConnection();
-            uRLConnection.setDoInput(false);
-            uRLConnection.setDoOutput(true);
-            uRLConnection.setRequestMethod("GET");
-            uRLConnection.setUseCaches(false);
-            uRLConnection.setConnectTimeout(10 * 1000);
-            uRLConnection.setReadTimeout(10 * 1000);
-            uRLConnection.setInstanceFollowRedirects(false);
-  *//*          uRLConnection.setRequestProperty("Connection", "Keep-Alive");
-            uRLConnection.setRequestProperty("Charset", "UTF-8");
-            uRLConnection.setRequestProperty("Accept-Encoding", "gzip, deflate");*//*
-            uRLConnection.setRequestProperty("Access-Control-Allow-Headers", "X-Requested-With,Content-Type,Accept,X-AUTH-TOKEN,VERIFY_UUID,WECHAT-AUTH-TOKEN");
-            uRLConnection.setRequestProperty("Access-Control-Allow-Origin", "*");
-//            uRLConnection.setRequestProperty("Accept-Encoding", "*");
-//            uRLConnection.setRequestProperty("Accept-Encoding", "gzip, deflate");
-            uRLConnection.setRequestProperty("Content-Type", "application/json; charset=utf-8");
-
-            uRLConnection.connect();
-            Log.e(TAG, "http post error  get1");
-
-            is = uRLConnection.getInputStream();
-            Log.e(TAG, "http post error  get2");
-            String content_encode = uRLConnection.getContentEncoding();
-            Log.e(TAG, "http post error  get3" + content_encode);
-            if (null != content_encode && !"".equals(content_encode) && content_encode.equals("gzip")) {
-                is = new GZIPInputStream(is);
-            }
-
-            buffer = new BufferedReader(new InputStreamReader(is));
-            StringBuilder strBuilder = new StringBuilder();
-            String line;
-            while ((line = buffer.readLine()) != null) {
-                strBuilder.append(line);
-                Log.e(TAG, "http post error  get3");
-            }
-            result = strBuilder.toString();
-        } catch (Exception e) {
-            Log.e(TAG, "http post error", e);
-        } finally {
-            if (buffer != null) {
-                try {
-                    buffer.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (is != null) {
-                try {
-                    is.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (uRLConnection != null) {
-                uRLConnection.disconnect();
-            }
-        }
-        return result;
-    }*/
-
-
-    //    private void parseJson(String json) {
     private void parseJson() {
-//        mThread.interrupt();
-//        Looper.prepare();
         Call<JsonObject> call = RetrofitUtil.getRetrofit().create(IVersionUpdate.class).getUpdateJson();
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Response<JsonObject> response, Retrofit retrofit) {
                 try {
                     JsonObject json = response.body();
-                    Log.e("updateMessage", json.toString());
-                     updateMessage = String.valueOf(json.getAsJsonPrimitive(Constants.APK_UPDATE_CONTENT));
-                    Log.e("updateMessage", updateMessage);
-//                String apkUrl = json.getString(Constants.APK_DOWNLOAD_URL);
-                    getApkUrl  = String.valueOf(json.getAsJsonPrimitive(Constants.APK_DOWNLOAD_URL));
-//                    Log.e("updateMessage", apkUrl);
-                     getApkCode = Integer.parseInt(String.valueOf(json.getAsJsonPrimitive(Constants.APK_VERSION_CODE)));
-//                    Log.e("updateMessage", apkCode + "");
-          /*  JSONObject obj = new JSONObject(json);
-            String updateMessage = obj.getString(Constants.APK_UPDATE_CONTENT);
-            Log.e("updateMessage", updateMessage);
-            String apkUrl = obj.getString(Constants.APK_DOWNLOAD_URL);
-            Log.e("updateMessage", apkUrl);
-            int apkCode = obj.getInt(Constants.APK_VERSION_CODE);
-            Log.e("updateMessage", apkCode + "");*/
-
+                    updateMessage = String.valueOf(json.getAsJsonPrimitive(Constants.APK_UPDATE_CONTENT));
+                    getApkUrl = String.valueOf(json.getAsJsonPrimitive(Constants.APK_DOWNLOAD_URL));
+                    getApkCode = Integer.parseInt(String.valueOf(json.getAsJsonPrimitive(Constants.APK_VERSION_CODE)));
                     int versionCode = mContext.getPackageManager().getPackageInfo(mContext.getPackageName(), 0).versionCode;
-
                     if (getApkCode > versionCode) {
                         if (mTypeOfNotice == NOTICE_NOTIFICATION) {
 //                            showNotification(updateMessage, apkUrl);
                         } else if (mTypeOfNotice == NOTICE_DIALOG) {
                             handler.sendEmptyMessage(0);
-//                            Log.e("apkUrl",apkUrl);
                         }
                     } else {
-                        //Toast.makeText(mContext, mContext.getString(R.string.app_no_new_update), Toast.LENGTH_SHORT).show();
                     }
 
                 } catch (PackageManager.NameNotFoundException ignored) {
@@ -246,13 +149,13 @@ public class UpdateChecker extends Fragment {
 
     }
 
-    public class MyHandler extends Handler{
+    public class MyHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            switch (msg.what){
+            switch (msg.what) {
                 case 0:
-                showDialog(updateMessage, getApkUrl);
+                    showDialog(updateMessage, getApkUrl);
                     break;
             }
         }
@@ -266,9 +169,7 @@ public class UpdateChecker extends Fragment {
         Bundle args = new Bundle();
         args.putString(Constants.APK_UPDATE_CONTENT, content);
         args.putString(Constants.APK_DOWNLOAD_URL, apkUrl);
-        Log.e("getArguments1", apkUrl);
         d.setArguments(args);
-       Log.e("getArgumentsValue", d.getArguments().getString(Constants.APK_DOWNLOAD_URL));
         d.show(mContext.getSupportFragmentManager(), null);
     }
 

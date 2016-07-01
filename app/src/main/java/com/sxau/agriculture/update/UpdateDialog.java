@@ -8,7 +8,9 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
 
+import com.qiniu.android.utils.StringUtils;
 import com.sxau.agriculture.agriculture.R;
+import com.sxau.agriculture.utils.StringUtil;
 
 public class UpdateDialog extends DialogFragment {
 
@@ -18,7 +20,7 @@ public class UpdateDialog extends DialogFragment {
         // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(R.string.newUpdateAvailable);
-        builder.setMessage(getArguments().getString(Constants.APK_UPDATE_CONTENT))
+        builder.setMessage(StringUtil.subStringToNoMark(getArguments().getString(Constants.APK_UPDATE_CONTENT)))
                 .setPositiveButton(R.string.dialogPositiveButton, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // FIRE ZE MISSILES!
