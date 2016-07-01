@@ -27,6 +27,7 @@ import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.JPushUtil;
 import com.sxau.agriculture.utils.TitleBarTwo;
 import com.sxau.agriculture.utils.TopBarUtil;
+import com.sxau.agriculture.utils.UserInfoUtil;
 import com.sxau.agriculture.view.fragment.HomeFragment;
 import com.sxau.agriculture.view.fragment.TradeFragment;
 import com.sxau.agriculture.view.fragment.MessageFragment;
@@ -81,7 +82,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         radioGroup.setOnCheckedChangeListener(this);
         fragmentTabHost.setCurrentTab(0);
         //TODO 设置自动更新
-        UpdateChecker.checkForDialog(MainActivity.this,ConstantUtil.BASE_URL+ConstantUtil.APP_UPDATE_SERVER_URL);
+        UpdateChecker.checkForDialog(MainActivity.this, ConstantUtil.BASE_URL + ConstantUtil.APP_UPDATE_SERVER_URL);
     }
 
     private void iniTitle() {
@@ -107,8 +108,13 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
             @Override
             public void onClickLeftImage() {
                 Intent intent = new Intent();
-                intent.setClass(MainActivity.this, PersonalCenterActivity.class);
-                startActivity(intent);
+                if (UserInfoUtil.isUserTypeEXPERT()) {
+                    intent.setClass(MainActivity.this, ExpertPersonalCenterActivity.class);
+                    startActivity(intent);
+                } else {
+                    intent.setClass(MainActivity.this, PersonalCenterActivity.class);
+                    startActivity(intent);
+                }
             }
 
             @Override

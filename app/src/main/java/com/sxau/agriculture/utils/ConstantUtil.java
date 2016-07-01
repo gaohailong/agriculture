@@ -19,6 +19,10 @@ public class ConstantUtil {
     public static final String ITEM_NUMBER = "10";
     //登录成功之后的缓存文件名（主要为了保存authToken）
     public static final String CACHE_KEY = "Cache_User";
+    //专家文章的缓存文件名
+    public static final String CACHE_EXPERTARTICLE_KEY = "Cache_ExpertArticleList";
+    //指派给专家的问题的缓存文件名
+    public static final String CACHE_EXPERTQUESTION_KEY = "Cache_ExpertQuestionList";
     //收藏交易的缓存文件名
     public static final String CACHE_PERSONALCOLLECTTRADE_KEY = "Cache_PersonalCollectTradeList";
     //收藏问题的缓存文件名
