@@ -1,5 +1,7 @@
 package com.sxau.agriculture.view.fragment_interface;
 
+import com.sxau.agriculture.bean.ExpertArticles;
+import com.sxau.agriculture.bean.HomeArticle;
 import com.sxau.agriculture.bean.MyPersonalCollectionQuestion;
 
 import java.util.ArrayList;
@@ -16,7 +18,7 @@ public interface IExpertArticleFragment {
     //没有网络提示
     void showNoNetworking();
     //请求到数据后对页面进行更新
-    void updateView(ArrayList<MyPersonalCollectionQuestion> myPersonalQuestions);
+    void updateView(ArrayList<HomeArticle> expertArticlesArrayList);
     //关闭掉下拉刷新控件
     void closeRefresh();
 }

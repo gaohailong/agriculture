@@ -14,18 +14,16 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.sxau.agriculture.adapter.PersonalCollectQuestionAdapter;
+import com.sxau.agriculture.adapter.ExpertArticlesAdapter;
 import com.sxau.agriculture.agriculture.R;
-import com.sxau.agriculture.bean.MyPersonalCollectionQuestion;
+import com.sxau.agriculture.bean.HomeArticle;
 import com.sxau.agriculture.presenter.fragment_presenter.ExpertArticlePresenter;
-import com.sxau.agriculture.presenter.fragment_presenter.PersonalCollectionQuestionsPresenter;
 import com.sxau.agriculture.presenter.fragment_presenter_interface.IExpertArticlePresenter;
 import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.LogUtil;
 import com.sxau.agriculture.utils.NetUtil;
-import com.sxau.agriculture.view.activity.DetailQuestionActivity;
+import com.sxau.agriculture.view.activity.WebViewActivity;
 import com.sxau.agriculture.view.fragment_interface.IExpertArticleFragment;
-import com.sxau.agriculture.view.fragment_interface.IPresonalCollectQuestionFragment;
 import com.sxau.agriculture.widgets.RefreshLayout;
 
 import java.lang.ref.WeakReference;
@@ -34,18 +32,19 @@ import java.util.ArrayList;
 /**
  * 专家个人中心——我的文章fragment
  *
- *
  * @author Yawen_Li
  */
 public class ExpertArticleFragment extends BaseFragment implements IExpertArticleFragment{
     private ListView listView;
-    private ArrayList<MyPersonalCollectionQuestion> mquestionslist;
+    private ArrayList<HomeArticle> expertArticleList;
     private View emptyView;
     private RefreshLayout rl_refresh;
     private IExpertArticlePresenter iExpertArticlePresenter;
-    private PersonalCollectQuestionAdapter adapter;
+    private ExpertArticlesAdapter adapter;
     private static MyHandler myHandler;
     private Context context;
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -58,7 +57,7 @@ public class ExpertArticleFragment extends BaseFragment implements IExpertArticl
         rl_refresh = (RefreshLayout) myQuestionView.findViewById(R.id.srl_refresh);
         rl_refresh.setColorSchemeColors(Color.parseColor("#00b5ad"));
         listView = (ListView) myQuestionView.findViewById(R.id.lv_MyQuestionListView);
-        mquestionslist = new ArrayList<MyPersonalCollectionQuestion>();
+        expertArticleList = new ArrayList<HomeArticle>();
         emptyView = myQuestionView.findViewById(R.id.emptyView);
         return myQuestionView;
     }
@@ -85,22 +84,25 @@ public class ExpertArticleFragment extends BaseFragment implements IExpertArticl
     private void initListView(){
 
         LogUtil.d("pcqf", "1、初始化View，获取数据");
-        mquestionslist = iExpertArticlePresenter.getDatas();
-        if (mquestionslist.isEmpty()){
+        expertArticleList = iExpertArticlePresenter.getDatas();
+        if (expertArticleList.isEmpty()){
             listView.setEmptyView(emptyView);
             listView.setVisibility(View.GONE);
         }else {
             LogUtil.d("pcqf", "2、有数据初始化View");
             emptyView.setVisibility(View.GONE);
             listView.setVisibility(View.VISIBLE);
-            adapter = new PersonalCollectQuestionAdapter(ExpertArticleFragment.this.getActivity(),mquestionslist);
+            adapter = new ExpertArticlesAdapter(expertArticleList,ExpertArticleFragment.this.getActivity());
             listView.setAdapter(adapter);
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                    if (NetUtil.isNetAvailable(getActivity())){
-                       Intent intent=new Intent(context,DetailQuestionActivity.class);
-                       intent.putExtra("ItemId",id);
+                       Intent intent = new Intent();
+                       Bundle bundle = new Bundle();
+                       bundle.putSerializable("ArticleData", expertArticleList.get(position));
+                       intent.putExtras(bundle);
+                       intent.setClass(context, WebViewActivity.class);
                        startActivity(intent);
                    }else {
                        Toast.makeText(getActivity(),"无网络连接,请检查网络！",Toast.LENGTH_SHORT).show();
@@ -130,9 +132,9 @@ public class ExpertArticleFragment extends BaseFragment implements IExpertArticl
             super.handleMessage(msg);
             switch (msg.what) {
                 case ConstantUtil.GET_NET_DATA:
-                    mquestionslist = iExpertArticlePresenter.getDatas();
+                    expertArticleList = iExpertArticlePresenter.getDatas();
                     Log.d("pcqf","拿到数据");
-                    updateView(mquestionslist);
+                    updateView(expertArticleList);
                     break;
                 default:
                     break;
@@ -157,9 +159,9 @@ public void showRequestTimeout() {
     }
 
     @Override
-    public void updateView(ArrayList<MyPersonalCollectionQuestion> myPersonalQuestions) {
+    public void updateView(final ArrayList<HomeArticle> expertArticles) {
         LogUtil.d("pcqf", "6、updateView方法执行");
-        if (myPersonalQuestions.isEmpty()) {
+        if (expertArticles.isEmpty()) {
             LogUtil.d("pcqf", "7、仍然是空数据");
             listView.setVisibility(View.GONE);
             emptyView.setVisibility(View.VISIBLE);
@@ -168,7 +170,7 @@ public void showRequestTimeout() {
             emptyView.setVisibility(View.GONE);
             listView.setVisibility(View.VISIBLE);
 
-            adapter = new PersonalCollectQuestionAdapter(ExpertArticleFragment.this.getActivity(), myPersonalQuestions);
+            adapter = new ExpertArticlesAdapter(expertArticles,ExpertArticleFragment.this.getActivity());
             listView.setAdapter(adapter);
             LogUtil.d("pcqf", "2");
 
@@ -176,9 +178,12 @@ public void showRequestTimeout() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     if(NetUtil.isNetAvailable(getActivity())){
-                    LogUtil.d("收藏", "2");
-                    DetailQuestionActivity.actionStart(ExpertArticleFragment.this.getActivity(), mquestionslist.get(position).getQuestion().getId());
-                    Log.e("collectionQuestion", mquestionslist.get(position).getId()+"");
+                        Intent intent = new Intent();
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("ArticleData", expertArticleList.get(position));
+                        intent.putExtras(bundle);
+                        intent.setClass(context, WebViewActivity.class);
+                        startActivity(intent);
                     }else {
                         Toast.makeText(getActivity(),"无网络连接,请检查网络！",Toast.LENGTH_SHORT).show();
                     }
@@ -192,4 +197,5 @@ public void showRequestTimeout() {
         rl_refresh.setRefreshing(false);
     }
 //----------------接口方法结束---------------
+
 }

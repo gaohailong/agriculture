@@ -5,11 +5,9 @@ import android.os.Handler;
 import android.util.Log;
 
 import com.sxau.agriculture.AgricultureApplication;
-import com.sxau.agriculture.api.IPersonalCollectQuestion;
-import com.sxau.agriculture.bean.MyPersonalCollectionQuestion;
-import com.sxau.agriculture.presenter.activity_presenter_interface.IExpertAnswerPresenter;
+import com.sxau.agriculture.api.IExpert;
+import com.sxau.agriculture.bean.HomeArticle;
 import com.sxau.agriculture.presenter.fragment_presenter_interface.IExpertArticlePresenter;
-import com.sxau.agriculture.presenter.fragment_presenter_interface.IPersonalCollectQuestionPresenter;
 import com.sxau.agriculture.utils.ACache;
 import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.LogUtil;
@@ -17,7 +15,6 @@ import com.sxau.agriculture.utils.NetUtil;
 import com.sxau.agriculture.utils.RetrofitUtil;
 import com.sxau.agriculture.utils.UserInfoUtil;
 import com.sxau.agriculture.view.fragment.ExpertArticleFragment;
-import com.sxau.agriculture.view.fragment.PersonalCollectQuestionFragment;
 import com.sxau.agriculture.view.fragment_interface.IExpertArticleFragment;
 
 import java.util.ArrayList;
@@ -32,13 +29,14 @@ import retrofit.Retrofit;
 /**
  * Created by Yawen_Li on 2016/4/22.
  */
-public class ExpertArticlePresenter implements IExpertArticlePresenter {
+public class ExpertArticlePresenter implements IExpertArticlePresenter{
     private IExpertArticleFragment iExpertArticleFragment;
-    private ArrayList<MyPersonalCollectionQuestion> myCQuestionsList;
+    private ArrayList<HomeArticle> expertArticleList;
     private String authToken;
+    private String userId;
     private Context context;
     private Handler handler;
-    private MyPersonalCollectionQuestion myPersonalQuestion;
+    private HomeArticle expertArticle;
     private ACache mCache;
     public ExpertArticlePresenter(IExpertArticleFragment iExpertArticleFragment, Context context, ExpertArticleFragment.MyHandler mhandler) {
         this.iExpertArticleFragment = iExpertArticleFragment;
@@ -59,49 +57,50 @@ public class ExpertArticlePresenter implements IExpertArticlePresenter {
      * 返回缓存好的数据
      * 当缓存内容为空时，返回空数据
      *
-     * @return ArrayList<MyPersonalQuestion>
+     * @return ArrayList<expertArticle>
      */
     @Override
-    public ArrayList<MyPersonalCollectionQuestion> getDatas() {
+    public ArrayList<HomeArticle> getDatas() {
         authToken = UserInfoUtil.findAuthToken();
-        LogUtil.d("PersonalQuestionP:authToken:",authToken+"");
-        myCQuestionsList = new ArrayList<MyPersonalCollectionQuestion>();
-        myPersonalQuestion = new MyPersonalCollectionQuestion();
-        List<MyPersonalCollectionQuestion> cQuestionList = new ArrayList<MyPersonalCollectionQuestion>();
-        cQuestionList = (List<MyPersonalCollectionQuestion>) mCache.getAsObject(ConstantUtil.CACHE_EXPERTARTICLE_KEY);
+        userId = UserInfoUtil.getUserId();
+        LogUtil.d("PersonalQuestionP:authToken:", authToken + "");
+        expertArticleList = new ArrayList<HomeArticle>();
+        expertArticle = new HomeArticle();
+        List<HomeArticle> cQuestionList = new ArrayList<HomeArticle>();
+        cQuestionList = (List<HomeArticle>) mCache.getAsObject(ConstantUtil.CACHE_EXPERTARTICLE_KEY);
 
         if (mCache.getAsObject(ConstantUtil.CACHE_EXPERTARTICLE_KEY) != null) {
             for (int i = 0; i < cQuestionList.size(); i++) {
-                myPersonalQuestion = cQuestionList.get(i);
-                myCQuestionsList.add(myPersonalQuestion);
+                expertArticle = cQuestionList.get(i);
+                expertArticleList.add(expertArticle);
             }
         }
-        return myCQuestionsList;
+        return expertArticleList;
     }
 
     @Override
     public boolean isNetAvailable() {
-        Log.d("pcqp" ,"isNetavailable");
+        Log.d("pcqp", "isNetavailable");
         return NetUtil.isNetAvailable(AgricultureApplication.getContext());
     }
 
     @Override
     public void doRequest() {
-
         authToken = UserInfoUtil.findAuthToken();
+        userId = UserInfoUtil.getUserId();
         Log.d("collectionQuestion",authToken);
-        Call<ArrayList<MyPersonalCollectionQuestion>> call = RetrofitUtil.getRetrofit().create(IPersonalCollectQuestion.class).getMessage(authToken);
-        call.enqueue(new Callback<ArrayList<MyPersonalCollectionQuestion>>() {
+        Call<ArrayList<HomeArticle>> call = RetrofitUtil.getRetrofit().create(IExpert.class).getExpertArticles(userId);
+        call.enqueue(new Callback<ArrayList<HomeArticle>>() {
             @Override
-            public void onResponse(Response<ArrayList<MyPersonalCollectionQuestion>> response, Retrofit retrofit) {
+            public void onResponse(Response<ArrayList<HomeArticle>> response, Retrofit retrofit) {
                 Log.d("pcqp:issuceess",response.isSuccess()+"");
                 if (response.isSuccess()){
-                    myCQuestionsList = response.body();
+                    expertArticleList = response.body();
                     Log.d("pcqp","code"+response.code()+"body:"+response.body().toString());
-//                    Log.d("pcqp",myCQuestionsList.get(1).getUser().getName());
+//                    Log.d("pcqp",expertArticleList.get(1).getUser().getName());
 //                    try {
 //                        dbUtils.deleteAll(MyPersonalCollectionQuestion.class);
-//                        dbUtils.saveAll(myCQuestionsList);
+//                        dbUtils.saveAll(expertArticleList);
 //                    } catch (DbException e) {
 //                        e.printStackTrace();
 //                    }
@@ -110,7 +109,7 @@ public class ExpertArticlePresenter implements IExpertArticlePresenter {
 
                     //加入缓存中,先清空缓存
                     mCache.remove(ConstantUtil.CACHE_EXPERTARTICLE_KEY);
-                    mCache.put(ConstantUtil.CACHE_EXPERTARTICLE_KEY, myCQuestionsList);
+                    mCache.put(ConstantUtil.CACHE_EXPERTARTICLE_KEY, expertArticleList);
 
                     handler.sendEmptyMessage(ConstantUtil.GET_NET_DATA);
                     iExpertArticleFragment.closeRefresh();

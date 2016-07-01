@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Handler;
 
 import com.sxau.agriculture.AgricultureApplication;
+import com.sxau.agriculture.api.IExpert;
 import com.sxau.agriculture.api.IPersonalQuestion;
 import com.sxau.agriculture.bean.MyPersonalQuestion;
 import com.sxau.agriculture.presenter.fragment_presenter_interface.IExpertQuestionPresenter;
@@ -39,6 +40,7 @@ public class ExpertQuestionPresenter implements IExpertQuestionPresenter {
     private MyPersonalQuestion myPersonalQuestion;
     private Handler handler;
     private String authToken;
+    private String userId;
     private ACache mCache;
 
 
@@ -91,8 +93,9 @@ public class ExpertQuestionPresenter implements IExpertQuestionPresenter {
     @Override
     public void doRequest() {
         authToken = UserInfoUtil.findAuthToken();
+        userId = UserInfoUtil.getUserId();
         LogUtil.d("PersonalQuestionP:authToken:", authToken + "");
-        Call<ArrayList<MyPersonalQuestion>> call = RetrofitUtil.getRetrofit().create(IPersonalQuestion.class).getMessage(authToken);
+        Call<ArrayList<MyPersonalQuestion>> call = RetrofitUtil.getRetrofit().create(IExpert.class).getExpertQuestions(userId);
         call.enqueue(new Callback<ArrayList<MyPersonalQuestion>>() {
             @Override
             public void onResponse(Response<ArrayList<MyPersonalQuestion>> response, Retrofit retrofit) {

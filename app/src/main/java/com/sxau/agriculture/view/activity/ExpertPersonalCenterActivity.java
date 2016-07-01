@@ -31,10 +31,6 @@ import com.sxau.agriculture.utils.UserInfoUtil;
 import com.sxau.agriculture.view.activity_interface.IPersonalCenterActivity;
 import com.sxau.agriculture.view.fragment.ExpertArticleFragment;
 import com.sxau.agriculture.view.fragment.ExpertQuestionFragment;
-import com.sxau.agriculture.view.fragment.PersonalCollectQuestionFragment;
-import com.sxau.agriculture.view.fragment.PersonalCollectTradeFragment;
-import com.sxau.agriculture.view.fragment.PersonalQuestionFragment;
-import com.sxau.agriculture.view.fragment.PersonalTradeInfoFragment;
 
 import retrofit.Call;
 import retrofit.Callback;

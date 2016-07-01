@@ -137,7 +137,11 @@ public class WebViewTwoActivity extends BaseActivity {
         }
         titleView.setText(homeArticle.getTitle());
         topBarUtil.setTitle(homeArticle.getTitle());
-        authorTextView.setText(homeArticle.getAdmin().getName());
+        if (homeArticle.getAdmin() != null){
+            authorTextView.setText(homeArticle.getAdmin().getName());
+        }else {
+            authorTextView.setText(homeArticle.getUser().getClass().getName());
+        }
         tv_data.setText(TimeUtil.format(homeArticle.getWhenCreated())+"发布于"+homeArticle.getCategory().getName());
         CommonExecutor.MAIN_HANDLER.postDelayed(new Runnable() {
             @Override
