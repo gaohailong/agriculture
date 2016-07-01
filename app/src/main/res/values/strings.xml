@@ -19,6 +19,8 @@
     <string name="TradeInfo">交易信息</string>
     <string name="collect_question">问题收藏</string>
     <string name="collect_trade">交易收藏</string>
+    <string name="expert_question">指派给我的问题</string>
+    <string name="expert_article">我的文章</string>
     <!--personal_information-->
     <string name="personal_information">个人信息</string>
     <string name="head_portrait">头像</string>
