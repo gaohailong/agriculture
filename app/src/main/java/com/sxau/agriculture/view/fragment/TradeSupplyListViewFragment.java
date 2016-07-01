@@ -93,12 +93,6 @@ public class TradeSupplyListViewFragment extends BaseFragment implements ITradeL
         return mView;
     }
 
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        handler.sendEmptyMessage(ConstantUtil.INIT_DATA);
-    }
-
     public void initRefresh() {
         lv_Info.addFooterView(footerLayout);
         rl_refresh.setChildView(lv_Info);
@@ -175,7 +169,14 @@ public class TradeSupplyListViewFragment extends BaseFragment implements ITradeL
     public void updateView(ArrayList<TradeData> supplyDataGet) {
         supplyDatas.clear();
         supplyDatas.addAll(supplyDataGet);
-        tradeListViewAdapter.notifyDataSetChanged();
+        if (supplyDatas.isEmpty()) {
+            lv_Info.setEmptyView(emptyView);
+            lv_Info.setVisibility(View.GONE);
+        } else {
+            emptyView.setVisibility(View.GONE);
+            lv_Info.setVisibility(View.VISIBLE);
+            tradeListViewAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override

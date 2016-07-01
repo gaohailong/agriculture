@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sxau.agriculture.adapter.TradeListViewAdapter;
 import com.sxau.agriculture.agriculture.R;
@@ -22,6 +23,7 @@ import com.sxau.agriculture.bean.TradeData;
 import com.sxau.agriculture.presenter.fragment_presenter.TradeListViewPresenter;
 import com.sxau.agriculture.presenter.fragment_presenter_interface.ITradeListViewPresenter;
 import com.sxau.agriculture.utils.ConstantUtil;
+import com.sxau.agriculture.utils.NetUtil;
 import com.sxau.agriculture.utils.RefreshBottomTextUtil;
 import com.sxau.agriculture.view.activity.TradeContentActivity;
 import com.sxau.agriculture.view.fragment_interface.ITradeListViewFragment;
@@ -77,7 +79,7 @@ public class TradeDemandListViewFragment extends BaseFragment implements ITradeL
             //    iv_collection = (ImageView) mView.findViewById(R.id.iv_demand_collection);
             initRefresh();
             initListView();
-            handler.sendEmptyMessage(ConstantUtil.PULL_REFRESH);
+            handler.sendEmptyMessage(ConstantUtil.INIT_DATA);
             RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOADINDG);
         }
         ViewGroup parent = (ViewGroup) mView.getParent();
@@ -85,12 +87,6 @@ public class TradeDemandListViewFragment extends BaseFragment implements ITradeL
             parent.removeView(mView);
         }
         return mView;
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        handler.sendEmptyMessage(ConstantUtil.PULL_REFRESH);
     }
 
     public void initRefresh() {
@@ -127,6 +123,14 @@ public class TradeDemandListViewFragment extends BaseFragment implements ITradeL
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             switch (msg.what) {
+                case ConstantUtil.INIT_DATA:
+                    currentPage = 1;
+                    if (NetUtil.isNetAvailable(context)) {
+                        iTradeListViewPresenter.doRequest(String.valueOf(currentPage), ConstantUtil.ITEM_NUMBER, true, "SUPPLY");
+                    } else {
+                        Toast.makeText(context, "没有网络连接", Toast.LENGTH_SHORT).show();
+                    }
+                    break;
                 case ConstantUtil.GET_NET_DATA:
                     updateView(iTradeListViewPresenter.getDemandDatas());
                     break;
