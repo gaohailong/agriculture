@@ -122,10 +122,14 @@ public class UpdateChecker extends Fragment {
             @Override
             public void onResponse(Response<JsonObject> response, Retrofit retrofit) {
                 try {
-                    JsonObject json = response.body();
-                    updateMessage = String.valueOf(json.getAsJsonPrimitive(Constants.APK_UPDATE_CONTENT));
-                    getApkUrl = String.valueOf(json.getAsJsonPrimitive(Constants.APK_DOWNLOAD_URL));
-                    getApkCode = Integer.parseInt(String.valueOf(json.getAsJsonPrimitive(Constants.APK_VERSION_CODE)));
+                    try {
+                        JsonObject json = response.body();
+                        updateMessage = String.valueOf(json.getAsJsonPrimitive(Constants.APK_UPDATE_CONTENT));
+                        getApkUrl = String.valueOf(json.getAsJsonPrimitive(Constants.APK_DOWNLOAD_URL));
+                        getApkCode = Integer.parseInt(String.valueOf(json.getAsJsonPrimitive(Constants.APK_VERSION_CODE)));
+                    } catch (NullPointerException e) {
+                        e.printStackTrace();
+                    }
                     int versionCode = mContext.getPackageManager().getPackageInfo(mContext.getPackageName(), 0).versionCode;
                     if (getApkCode > versionCode) {
                         if (mTypeOfNotice == NOTICE_NOTIFICATION) {
