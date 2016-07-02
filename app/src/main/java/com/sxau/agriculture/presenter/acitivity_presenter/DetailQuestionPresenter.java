@@ -39,7 +39,7 @@ public class DetailQuestionPresenter implements IDetailQuestionPresenter {
     //---------------------接口方法开始-----------------------
     @Override
     public void getDetailData(String id) {
-        final Call<DetailQuestionData> detailQuestionDataCall = RetrofitUtil.getRetrofit().create(IDetailQuestion.class).getDetailQuestionData(id);
+        final Call<DetailQuestionData> detailQuestionDataCall = RetrofitUtil.getRetrofit().create(IDetailQuestion.class).getDetailQuestionData(authToken,id);
         detailQuestionDataCall.enqueue(new Callback<DetailQuestionData>() {
             @Override
             public void onResponse(Response<DetailQuestionData> response, Retrofit retrofit) {

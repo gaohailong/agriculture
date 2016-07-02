@@ -31,6 +31,7 @@ import com.sxau.agriculture.utils.ConstantUtil;
 import com.sxau.agriculture.utils.NetUtil;
 import com.sxau.agriculture.utils.RefreshBottomTextUtil;
 import com.sxau.agriculture.utils.RetrofitUtil;
+import com.sxau.agriculture.utils.UserInfoUtil;
 import com.sxau.agriculture.view.activity.DetailQuestionActivity;
 import com.sxau.agriculture.view.fragment_interface.IQuestionListViewFragment;
 import com.sxau.agriculture.widgets.RefreshLayout;
@@ -66,6 +67,7 @@ public class QuestionListViewFragment extends BaseFragment implements IQuestionL
     private boolean isLoadOver;
     private int cateId;
     private ACache aCache;
+    private String authToken;
     private IQuestionListViewPresenter iQuestionListViewPresenter;
 
     @Override
@@ -76,6 +78,7 @@ public class QuestionListViewFragment extends BaseFragment implements IQuestionL
             mView = inflater.inflate(R.layout.fragment_question_list, container, false);
             context = QuestionListViewFragment.this.getActivity();
             lvQuestionList = (ListView) mView.findViewById(R.id.lv_question);
+            authToken = UserInfoUtil.findAuthToken();
             if (NetUtil.isNetAvailable(context)) {
                 lvQuestionList.setOnItemClickListener(this);
             } else {
@@ -190,7 +193,7 @@ public class QuestionListViewFragment extends BaseFragment implements IQuestionL
 
     //网络请求方法
     public void getQuestionData(String page, String pageSize, final boolean isRefresh, int category) {
-        Call<ArrayList<QuestionData>> call = RetrofitUtil.getRetrofit().create(IQuestionList.class).getQuestionList(page, pageSize, category);
+        Call<ArrayList<QuestionData>> call = RetrofitUtil.getRetrofit().create(IQuestionList.class).getQuestionList(authToken,page, pageSize, category);
         call.enqueue(new Callback<ArrayList<QuestionData>>() {
             @Override
             public void onResponse(Response<ArrayList<QuestionData>> response, Retrofit retrofit) {

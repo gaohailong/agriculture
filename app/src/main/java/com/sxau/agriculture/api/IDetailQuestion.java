@@ -4,6 +4,7 @@ import com.sxau.agriculture.bean.DetailQuestionData;
 
 import retrofit.Call;
 import retrofit.http.GET;
+import retrofit.http.Header;
 import retrofit.http.Path;
 
 /**
@@ -12,5 +13,5 @@ import retrofit.http.Path;
  */
 public interface IDetailQuestion {
     @GET("question/{id}")
-    Call<DetailQuestionData> getDetailQuestionData(@Path("id") String id);
+    Call<DetailQuestionData> getDetailQuestionData(@Header("X-AUTH-TOKEN") String authToken ,@Path("id") String id);
 }

@@ -105,7 +105,7 @@ public class ExpertArticleFragment extends BaseFragment implements IExpertArticl
                        intent.setClass(context, WebViewActivity.class);
                        startActivity(intent);
                    }else {
-                       Toast.makeText(getActivity(),"无网络连接,请检查网络！",Toast.LENGTH_SHORT).show();
+                       Toast.makeText(getContext(),"无网络连接,请检查网络！",Toast.LENGTH_SHORT).show();
                    }
 
                 }
@@ -144,7 +144,7 @@ public class ExpertArticleFragment extends BaseFragment implements IExpertArticl
 //-------------------接口方法-------------
 @Override
 public void showRequestTimeout() {
-    Toast.makeText(ExpertArticleFragment.this.getActivity(), "请求超时，请检查网络", Toast.LENGTH_SHORT).show();
+    Toast.makeText(ExpertArticleFragment.this.getContext(), "请求超时，请检查网络", Toast.LENGTH_SHORT).show();
 }
 
     @Override
@@ -155,7 +155,7 @@ public void showRequestTimeout() {
     //提示没有网络
     @Override
     public void showNoNetworking() {
-        Toast.makeText(ExpertArticleFragment.this.getActivity(), "没有网络连接，请检查网络", Toast.LENGTH_SHORT).show();
+        Toast.makeText(ExpertArticleFragment.this.getContext(), "没有网络连接，请检查网络", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -185,7 +185,7 @@ public void showRequestTimeout() {
                         intent.setClass(context, WebViewActivity.class);
                         startActivity(intent);
                     }else {
-                        Toast.makeText(getActivity(),"无网络连接,请检查网络！",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(),"无网络连接,请检查网络！",Toast.LENGTH_SHORT).show();
                     }
                 }
             });

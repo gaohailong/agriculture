@@ -362,6 +362,7 @@ public class DetailQuestionActivity extends BaseActivity implements IDetailQuest
             bt_answer.setVisibility(View.GONE);
             tv_is_answer.setText("专家未回答");
         }
+        Log.e("DetailQD","isFav:"+detailQuestionData.isFav());
         if (detailQuestionData.isFav()) {
             iv_collection.setImageResource(R.drawable.collection_fill);
         } else {

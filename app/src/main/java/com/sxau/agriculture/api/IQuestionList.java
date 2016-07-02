@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import retrofit.Call;
 import retrofit.http.GET;
+import retrofit.http.Header;
 import retrofit.http.Query;
 
 /**
@@ -14,5 +15,5 @@ import retrofit.http.Query;
  */
 public interface IQuestionList {
     @GET("questions")
-    Call<ArrayList<QuestionData>> getQuestionList(@Query("page") String page,@Query("pageSize") String pageSize,@Query("category") int category);
+    Call<ArrayList<QuestionData>> getQuestionList(@Header("X-AUTH-TOKEN") String authToken ,@Query("page") String page,@Query("pageSize") String pageSize,@Query("category") int category);
 }
