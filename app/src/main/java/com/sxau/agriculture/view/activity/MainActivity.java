@@ -139,11 +139,11 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_agriculture:
-                phoneNumber = "tel:0351-96365";
+                phoneNumber = "tel:0351-96110";
                 callPhone(v, phoneNumber);
                 break;
             case R.id.ll_healthy:
-                phoneNumber = "tel:0351-96110";
+                phoneNumber = "tel:0351-96365";
                 callPhone(v, phoneNumber);
                 break;
             default:
