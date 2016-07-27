@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
@@ -74,6 +75,7 @@ import retrofit.Retrofit;
 /**
  * 提问页面
  * 获取提交声音的token接口不对
+ *
  * @author 崔志泽
  */
 public class AskQuestionActivity extends BaseActivity implements View.OnClickListener {
@@ -218,14 +220,14 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
                 showPhotoDialog();
                 break;
             case R.id.ib_voice:
-                if (et_title.getVisibility() == View.GONE){
-                    Toast.makeText(context,"一次只能上传一个语音文件，请删除已有文件后再执行操作",Toast.LENGTH_LONG).show();
-                }else {
+                if (et_title.getVisibility() == View.GONE) {
+                    Toast.makeText(context, "一次只能上传一个语音文件，请删除已有文件后再执行操作", Toast.LENGTH_LONG).show();
+                } else {
                     showVoiceDialog();
                 }
                 break;
             case R.id.btn_submit:
-                if (tv_del_voice.getVisibility() == View.VISIBLE){
+                if (tv_del_voice.getVisibility() == View.VISIBLE) {
                     //提交语音问题
                     showProgress(true);
                     new Thread(new Runnable() {
@@ -244,9 +246,9 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
                             }
                         }
                     }).start();
-                }else {
+                } else {
                     //提交文字问题
-                    if (isDataAvailable()){
+                    if (isDataAvailable()) {
                         showProgress(true);
                         new Thread(new Runnable() {
                             @Override
@@ -278,10 +280,10 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
         }
     }
 
-    public void playAudio(){
-        if (mediaPlayer.isPlaying()){
+    public void playAudio() {
+        if (mediaPlayer.isPlaying()) {
             mediaPlayer.pause();
-        }else {
+        } else {
             try {
                 mediaPlayer.reset();
                 mediaPlayer.setDataSource(mFileName);
@@ -339,7 +341,7 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
     }
 
     //获取音频的方法
-    public void showVoiceDialog(){
+    public void showVoiceDialog() {
         View view = getLayoutInflater().inflate(R.layout.popwindow_voice, null);
         TextView btn_cancel = (TextView) view.findViewById(R.id.btn_cancel);
         TextView btn_finish = (TextView) view.findViewById(R.id.btn_finish);
@@ -361,29 +363,41 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
 
         iv_touchvoice.setOnTouchListener(new View.OnTouchListener() {
             boolean hasDone = false;
+
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         Log.e("AskQA", "按下");
+                        try {
                         iv_touchvoice.setImageResource(R.mipmap.ic_voice_ing);
-                        if (hasDone){
-                            //已经录制完成
-                            Toast.makeText(context,"已经录制完成，请点击完成",Toast.LENGTH_SHORT).show();
-                        }else {
-                            tv_voicemsg.setText("正在录音....");
-                            startVoice();
+                            if (hasDone) {
+                                //已经录制完成
+                                Toast.makeText(context, "已经录制完成，请点击完成", Toast.LENGTH_SHORT).show();
+                            } else {
+                                startVoice();
+                                tv_voicemsg.setText("正在录音....");
+                            }
+                        } catch (java.lang.IllegalStateException e) {
+                            Snackbar.make(iv_touchvoice,"没有开启语音权限！",Snackbar.LENGTH_LONG).show();
+//                            Toast.makeText(context, "没有开启语音权限！", Toast.LENGTH_SHORT).show();
+                            iv_touchvoice.setImageResource(R.mipmap.ic_voice_no);
                         }
                         return true;
                     case MotionEvent.ACTION_UP:
-                        Log.e("AskQA", "弹起");
-                        iv_touchvoice.setImageResource(R.mipmap.ic_voice_fill);
-                        tv_voicemsg.setText("录音完成");
-                        if (!hasDone){
-                            stopVoice();
+                        try{
+                            Log.e("AskQA", "弹起");
+                            iv_touchvoice.setImageResource(R.mipmap.ic_voice_fill);
+                            if (!hasDone) {
+                            tv_voicemsg.setText("录音完成");
+                                stopVoice();
+                            }
+                            hasDone = true;
+                        }catch (java.lang.IllegalStateException e){
+                            iv_touchvoice.setImageResource(R.mipmap.ic_voice_no);
+                            tv_voicemsg.setText("录音失败");
+                            hasDone = false;
                         }
-                        hasDone = true;
-
                         return true;
                     default:
                         break;
@@ -410,18 +424,19 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
     }
 
     //录音完成后续操作
-    public void voiceFinish(){
-        if (mFileName != null){
+    public void voiceFinish() {
+        if (mFileName != null) {
             et_title.setVisibility(View.GONE);
             et_trade_content.setVisibility(View.GONE);
             tv_voice.setVisibility(View.VISIBLE);
             tv_del_voice.setVisibility(View.VISIBLE);
         }
     }
+
     //取消录音后续操作
-    public void voiceCancel(){
+    public void voiceCancel() {
         //判断下状态，若已经有声音文件则不做操作，若没有声音文件，则删除本次的文件
-        if (tv_del_voice.getVisibility() == View.GONE){
+        if (tv_del_voice.getVisibility() == View.GONE) {
             deleteFile(new File(mFileName));
         }
     }
@@ -438,7 +453,6 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
         if (!directory.exists() && !directory.mkdirs()) {
             Log.i("AskQA", "Path to file could not be created");
         }
-        Toast.makeText(getApplicationContext(), "开始录音",Toast.LENGTH_SHORT).show();
         mRecorder = new MediaRecorder();
         mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         mRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
@@ -450,6 +464,7 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
             Log.e("AskQA", "prepare() failed");
         }
         mRecorder.start();
+        Toast.makeText(getApplicationContext(), "开始录音", Toast.LENGTH_SHORT).show();
     }
 
     //停止录音
@@ -462,7 +477,7 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
     }
 
     //删除录音操作
-    public void deleteVoice(File file){
+    public void deleteVoice(File file) {
         deleteFile(file);
         et_title.setVisibility(View.VISIBLE);
         et_trade_content.setVisibility(View.VISIBLE);
@@ -483,7 +498,7 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
             }
             file.delete();
         } else {
-            Log.d("AskQA","文件不存在");
+            Log.d("AskQA", "文件不存在");
         }
     }
 
@@ -518,9 +533,9 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
                     getCategorieinfo();
                     break;
                 case ConstantUtil.SUCCESS_UPLOAD_PICTURE:
-                    if (et_title.getVisibility() == View.VISIBLE){
+                    if (et_title.getVisibility() == View.VISIBLE) {
                         uploadTextQuestion();
-                    }else {
+                    } else {
                         doupdataAudio();
                     }
                     break;
@@ -540,7 +555,7 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
         questionContent = et_trade_content.getText().toString();
         if (imageUriList != null && !imageUriList.isEmpty()) {
             questionImage = StringUtil.changeListToString(imageUriList);
-        }else {
+        } else {
             questionImage = "";
         }
 
@@ -568,11 +583,12 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
         });
 
     }
+
     //提交声音问题
     public void uploadAudioQuestion() {
         if (imageUriList != null && !imageUriList.isEmpty()) {
             questionImage = StringUtil.changeListToString(imageUriList);
-        }else {
+        } else {
             questionImage = "";
         }
 
@@ -582,9 +598,9 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
         map.put("title", "语音问题");
         map.put("content", "语音内容");
         map.put("image", questionImage);
-        map.put("mediaId",audioUrl);
+        map.put("mediaId", audioUrl);
 
-        Log.e("AskQA","mediaId:"+audioUrl);
+        Log.e("AskQA", "mediaId:" + audioUrl);
         Call<JsonObject> call = RetrofitUtil.getRetrofit().create(IAskQuestion.class).sendQuestion(authorToken, map);
         call.enqueue(new Callback<JsonObject>() {
             @Override
@@ -642,12 +658,13 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
         }
     }
 
-    public void doupdataAudio(){
+    public void doupdataAudio() {
         File audioFile = new File(mFileName);
         Uri audioUri = Uri.fromFile(audioFile);
-        uploadAudioFilePath = FileUtilsQiNiu.getPath(this,audioUri);
-        uploadAudio(uploadToken,domain);
+        uploadAudioFilePath = FileUtilsQiNiu.getPath(this, audioUri);
+        uploadAudio(uploadToken, domain);
     }
+
     //获取上传图片权限token
     private void getUploadToken() {
         Call<JsonObject> call = RetrofitUtil.getRetrofit().create(IUploadToken.class).getUploadToken(authorToken);
@@ -680,10 +697,10 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
                 Log.e("UPLOADTOKENForAudio", response.code() + "");
                 if (response.isSuccess()) {
                     JsonObject joResponseBody = response.body();
-                    Log.e("AskQA","JsonObject:"+joResponseBody.toString());
+                    Log.e("AskQA", "JsonObject:" + joResponseBody.toString());
                     JsonObject getData = joResponseBody.getAsJsonObject("success");
                     uploadTokenForAudio = getData.get("message").getAsString();
-                    LogUtil.e("AskQA","uploadTokenForAudio:"+uploadTokenForAudio);
+                    LogUtil.e("AskQA", "uploadTokenForAudio:" + uploadTokenForAudio);
                     domain = ConstantUtil.DOMAIN;
 
                 }
@@ -745,11 +762,11 @@ public class AskQuestionActivity extends BaseActivity implements View.OnClickLis
                 new UpCompletionHandler() {
                     @Override
                     public void complete(String key, ResponseInfo respInfo, JSONObject jsonData) {
-                        Log.e("AskQA","code:"+respInfo.statusCode+"  error:"+respInfo.error);
+                        Log.e("AskQA", "code:" + respInfo.statusCode + "  error:" + respInfo.error);
                         if (respInfo.isOK()) {
                             try {
                                 String fileKey = jsonData.getString("key");
-                                audioUrl = fileKey ;
+                                audioUrl = fileKey;
                                 myHandler.sendEmptyMessage(ConstantUtil.SUCCESS_UPLOAD_AUDIO);
 
                                 Log.e("AudioFileUrl22222222", audioUrl);

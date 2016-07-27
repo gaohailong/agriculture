@@ -262,8 +262,12 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
                             dbUtil.saveAll(homeArticles1);
                             isLoadOver = false;
                         } else {
-                            homeArticles.addAll(homeArticles1);
-                            dbUtil.saveAll(homeArticles);
+                            try{
+                                homeArticles.addAll(homeArticles1);
+                                dbUtil.saveAll(homeArticles);
+                            }catch (NullPointerException e){
+                                e.printStackTrace();
+                            }
                         }
                     } catch (DbException e) {
                         e.printStackTrace();
