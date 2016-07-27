@@ -181,8 +181,9 @@ public class PersonalCenterActivity extends BaseActivity implements View.OnClick
                     doExit();
                 }else {
                     showProgress(false);
+                    doExit();
                     //退出失败
-                    showRequestTimeout();
+//                    showRequestTimeout();
                 }
             }
 
