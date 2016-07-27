@@ -12,15 +12,15 @@
         android:id="@+id/et_trade_title"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:maxLength="45"
+        android:layout_below="@+id/top_trade"
         android:background="@color/white"
         android:gravity="top"
-        android:layout_below="@+id/top_trade"
         android:hint="请输入标题(不能超于45个字)"
         android:lines="1"
-        android:paddingTop="10dp"
+        android:maxLength="45"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
+        android:paddingTop="10dp"
         android:textSize="@dimen/font_title" />
 
     <View
@@ -40,12 +40,12 @@
         android:background="@color/white"
         android:gravity="top"
         android:hint="请输入内容(不能超于255个字)"
-        android:maxLength="255"
         android:lines="4"
-        android:paddingTop="10dp"
+        android:maxLength="255"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:textSize="@dimen/font_title"/>
+        android:paddingTop="10dp"
+        android:textSize="@dimen/font_title" />
 
     <View
         android:id="@+id/v_divide_two"
@@ -58,12 +58,12 @@
         android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:background="@color/white"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/v_divide_two">
+        android:layout_below="@+id/v_divide_two"
+        android:background="@color/white"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
 
         <RadioGroup
             android:id="@+id/rg_trade_category"
@@ -78,9 +78,9 @@
                 android:id="@+id/rb_supply"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:checked="true"
                 android:gravity="center_vertical"
-                android:text="@string/supply"
-                android:checked="true"/>
+                android:text="@string/supply" />
 
             <RadioButton
                 android:id="@+id/rb_demand"
@@ -94,12 +94,11 @@
             android:id="@+id/sp_trade_cotegory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="10dp"
-            android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/iv_info_release_photo"
-            android:layout_toRightOf="@+id/rg_trade_category"
-            />
+            android:layout_toRightOf="@+id/rg_trade_category" />
 
         <ImageView
             android:id="@+id/iv_info_release_photo"
@@ -125,11 +124,10 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/v_divide_two_three"
         android:layout_centerHorizontal="true"
-        android:paddingTop="10dp"
         android:background="@color/white"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-     />
+        android:paddingTop="10dp" />
 
     <LinearLayout
         android:id="@+id/ll_button"
@@ -144,12 +142,12 @@
             android:id="@+id/btn_trade_release"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
+            android:layout_marginBottom="30dp"
             android:layout_marginEnd="10dp"
             android:layout_marginRight="10dp"
             android:background="@drawable/bg_ask_btn_shape"
             android:text="@string/submit"
-            android:textColor="@color/white"
-            android:layout_marginBottom="30dp"/>
+            android:textColor="@color/white" />
 
     </LinearLayout>
 </RelativeLayout>

@@ -19,9 +19,9 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
             android:background="@color/white"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingLeft="10dp">
 
             <!--<TextView-->
             <!--android:id="@+id/tv_voice"-->
@@ -155,8 +155,8 @@
         android:id="@+id/v_divide_two_three"
         android:layout_width="match_parent"
         android:layout_height="15dp"
-        android:background="@color/white"
-        android:layout_below="@+id/relativeLayout" />
+        android:layout_below="@+id/relativeLayout"
+        android:background="@color/white" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler"
