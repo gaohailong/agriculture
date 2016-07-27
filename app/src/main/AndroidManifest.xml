@@ -58,11 +58,10 @@
         <activity android:name="com.sxau.agriculture.view.activity.PictureWebViewActivity" />
         <activity android:name="com.sxau.agriculture.view.activity.DetailQuestionActivity" />
         <activity android:name="com.sxau.agriculture.view.activity.ExpertAnswerActivity" />
-        <activity android:name="com.sxau.agriculture.view.activity.AskQuestionActivity" />
+        <activity android:name="com.sxau.agriculture.view.activity.AskQuestionActivity" android:windowSoftInputMode="adjustPan" />
         <activity android:name="com.sxau.agriculture.view.activity.WebViewActivity" />
         <activity android:name="com.sxau.agriculture.view.activity.WebViewTwoActivity" />
         <activity android:name="com.sxau.agriculture.view.activity.TradeReleaseActivity" android:windowSoftInputMode="adjustPan" />
-
 
         <activity android:name="com.sxau.agriculture.view.activity.ImprovePersonalInfoActivity"/>
         <activity android:name="com.sxau.agriculture.view.activity.LoginActivity" android:launchMode="singleTask" >
