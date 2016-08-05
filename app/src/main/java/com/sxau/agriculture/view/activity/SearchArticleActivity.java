@@ -118,17 +118,23 @@ public class SearchArticleActivity extends BaseActivity implements AdapterView.O
 
 
         initListView();
+        initRefresh();
         RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOADINDG);
     }
 
     public void initRefresh() {
         lv_articles.addFooterView(footerView);
         rl_refresh.setChildView(lv_articles);
-        rl_refresh.setRefreshing(false);
         tv_more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 myHandler.sendEmptyMessage(ConstantUtil.UP_LOAD);
+            }
+        });
+        rl_refresh.setOnRefreshListener(new RefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                rl_refresh.setRefreshing(false);
             }
         });
     }
@@ -146,6 +152,7 @@ public class SearchArticleActivity extends BaseActivity implements AdapterView.O
             switch (msg.what) {
                 case ConstantUtil.INIT_DATA:
                     currentPage = 1;
+                    rl_refresh.setRefreshing(false);
 //                    if (NetUtil.isNetAvailable(context)) {
                     getHomeArticleData(String.valueOf(currentPage), String.valueOf(ConstantUtil.ITEM_NUMBER), true, str_keyword);
 //                    } else {
@@ -159,6 +166,7 @@ public class SearchArticleActivity extends BaseActivity implements AdapterView.O
 //                    }
                     break;
                 case ConstantUtil.GET_NET_DATA:
+                    rl_refresh.setRefreshing(false);
                     adapter.notifyDataSetChanged();
                     if (isLoadOver) {
                         RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOAD_OVER);
@@ -178,7 +186,7 @@ public class SearchArticleActivity extends BaseActivity implements AdapterView.O
     }
 
     public void getHomeArticleData(String page, String pageSize, final boolean isRefresh, String keyWord) {
-        Call<ArrayList<HomeArticle>> call = RetrofitUtil.getRetrofit().create(ISearchArticle_Question.class).getArticleList(keyWord,page, pageSize);
+        Call<ArrayList<HomeArticle>> call = RetrofitUtil.getRetrofit().create(ISearchArticle_Question.class).getArticleList(keyWord, page, pageSize);
         call.enqueue(new Callback<ArrayList<HomeArticle>>() {
             @Override
             public void onResponse(Response<ArrayList<HomeArticle>> response, Retrofit retrofit) {
@@ -268,7 +276,7 @@ public class SearchArticleActivity extends BaseActivity implements AdapterView.O
                     if (NetUtil.isNetAvailable(context)) {
                         myHandler.sendEmptyMessage(ConstantUtil.INIT_DATA);
                         showProgress(true);
-                    }else {
+                    } else {
                         Toast.makeText(context, "当前没有网络，请检查网络设置", Toast.LENGTH_SHORT).show();
                     }
                 } else {
@@ -310,9 +318,9 @@ public class SearchArticleActivity extends BaseActivity implements AdapterView.O
         return onTouchEvent(ev);
     }
 
-    public  boolean isShouldHideInput(View v, MotionEvent event) {
+    public boolean isShouldHideInput(View v, MotionEvent event) {
         if (v != null && (v instanceof EditText)) {
-            int[] leftTop = { 0, 0 };
+            int[] leftTop = {0, 0};
             //获取输入框当前的location位置
             v.getLocationInWindow(leftTop);
             int left = leftTop[0];

@@ -110,6 +110,7 @@ public class SearchQuestionActivity extends BaseActivity implements AdapterView.
 
 
         initListView();
+        initRefresh();
         RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOADINDG);
     }
 
@@ -121,6 +122,12 @@ public class SearchQuestionActivity extends BaseActivity implements AdapterView.
             @Override
             public void onClick(View v) {
                 myHandler.sendEmptyMessage(ConstantUtil.UP_LOAD);
+            }
+        });
+        rl_refresh.setOnRefreshListener(new RefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                rl_refresh.setRefreshing(false);
             }
         });
     }
