@@ -119,7 +119,6 @@ public class SearchArticleActivity extends BaseActivity implements AdapterView.O
 
         initListView();
         initRefresh();
-        RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOADINDG);
     }
 
     public void initRefresh() {
@@ -128,6 +127,7 @@ public class SearchArticleActivity extends BaseActivity implements AdapterView.O
         tv_more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                RefreshBottomTextUtil.setTextMore(tv_more, ConstantUtil.LOADINDG);
                 myHandler.sendEmptyMessage(ConstantUtil.UP_LOAD);
             }
         });
