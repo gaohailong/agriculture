@@ -14,6 +14,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -35,6 +37,9 @@ import com.sxau.agriculture.utils.NetUtil;
 import com.sxau.agriculture.utils.RefreshBottomTextUtil;
 import com.sxau.agriculture.utils.RetrofitUtil;
 import com.sxau.agriculture.utils.StringUtil;
+import com.sxau.agriculture.view.activity.MainActivity;
+import com.sxau.agriculture.view.activity.SearchArticleActivity;
+import com.sxau.agriculture.view.activity.SearchQuestionActivity;
 import com.sxau.agriculture.view.activity.WebViewActivity;
 import com.sxau.agriculture.view.activity.WebViewTwoActivity;
 import com.sxau.agriculture.widgets.RefreshLayout;
@@ -50,10 +55,6 @@ import retrofit.Retrofit;
 
 /**
  * 主界面的Fragment
- * 问题：
- * 1、连续点击底部"没有更多”会出现报错:解决思路：报错为数组越界异常估计思路和3一样。
- * 2、点击加载更多，若到底部会出现：先显示没有更多后出现列表添加：解决思路：当列表显示完成后，载改变文字的内容
- * 3、点击下拉刷新时候再点击item会报异常：解决思路：下拉刷新不允许点击
  *
  * @author 崔志泽
  */
@@ -74,6 +75,8 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
     private TextView tv_more;
     private View footerLayout;
     private FrameLayout fl_adv;
+    private Button btn_searchArticle;
+    private Button btn_searchQuestion;
     //常量及集合定义部分
     private ArrayList<String> imagePath;
     private ArrayList<HomeArticle> homeArticles;
@@ -101,6 +104,8 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
             tv_more = (TextView) footerLayout.findViewById(R.id.tv_more);
             tv_title = (TextView) mView.findViewById(R.id.tv_title);
             fl_adv = (FrameLayout) mView.findViewById(R.id.fl_adv);
+            btn_searchArticle = (Button) mView.findViewById(R.id.btn_searchArticle);
+            btn_searchQuestion = (Button) mView.findViewById(R.id.btn_searchQuestion);
 
             currentPage = 1;
             isLoadOver = false;
@@ -114,6 +119,25 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
             if (NetUtil.isNetAvailable(context)) {
                 lv_push.setOnItemClickListener(this);
             }
+            btn_searchArticle.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, SearchArticleActivity.class);
+                    context.startActivity(intent);
+                    ((MainActivity)context).overridePendingTransition(R.anim.push_up_in,
+                            R.anim.push_up_out);
+                }
+            });
+
+            btn_searchQuestion.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, SearchQuestionActivity.class);
+                    context.startActivity(intent);
+                    ((MainActivity)context).overridePendingTransition(R.anim.push_up_in,
+                            R.anim.push_up_out);
+                }
+            });
 
             imagePath.add("error");
             dbUtil = DbUtils.create(context);

@@ -201,9 +201,13 @@ public class QuestionListViewFragment extends BaseFragment implements IQuestionL
                     ArrayList<QuestionData> questionDatas1 = new ArrayList<QuestionData>();
                     questionDatas1 = response.body();
                     if (isRefresh) {
-                        questionDatas.clear();
-                        questionDatas.addAll(questionDatas1);
-                        isLoadOver = false;
+                        try {
+                            questionDatas.clear();
+                            questionDatas.addAll(questionDatas1);
+                            isLoadOver = false;
+                        }catch (NullPointerException e){
+                            e.printStackTrace();
+                        }
                     } else {
                         questionDatas.addAll(questionDatas1);
                     }

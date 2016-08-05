@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.sxau.agriculture.view.activity.SearchArticleActivity">
+
+    <com.sxau.agriculture.utils.TitleBarTwo
+        android:id="@+id/top_search"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
+
+    <LinearLayout
+        android:id="@+id/ll_search"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_below="@+id/top_search"
+        android:background="@color/whittintGrey">
+
+        <EditText
+            android:id="@+id/et_search"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_margin="10dp"
+            android:layout_weight="4"
+            android:background="@drawable/et_bakcground"
+            android:drawableLeft="@mipmap/ic_search_et"
+            android:hint="搜索文章"
+            android:padding="6dp"
+            android:textColor="#000000"
+            android:inputType="text"
+            android:imeOptions="actionDone"
+            android:textColorHint="#d7d7d7" />
+        <!--搜索按钮-->
+
+        <LinearLayout
+            android:id="@+id/ll_search_btn"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_marginRight="10dp"
+            android:layout_weight="0.8"
+            android:orientation="horizontal"
+            android:visibility="visible">
+
+            <Button
+                android:id="@+id/btn_search"
+                android:layout_width="55dp"
+                android:layout_height="35dp"
+                android:layout_gravity="right|center_vertical"
+                android:background="@drawable/btn_search_bg"
+                android:text="搜索"
+                android:textColor="@color/white"
+                android:textSize="@dimen/margin_16dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <com.sxau.agriculture.widgets.RefreshLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/srl_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll_search">
+
+        <com.sxau.agriculture.widgets.WrapHeightListView
+            android:id="@+id/lv_articles"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </com.sxau.agriculture.widgets.RefreshLayout>
+</RelativeLayout>
