@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.sxau.agriculture.view.activity.SearchArticleActivity">
+
+    <com.sxau.agriculture.utils.TitleBarTwo
+        android:id="@+id/top_search"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
+
+    <LinearLayout
+        android:id="@+id/ll_search"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_below="@+id/top_search"
+        android:background="@color/whittintGrey">
+
+        <EditText
+            android:id="@+id/et_search"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/et_bakcground"
+            android:drawableLeft="@mipmap/ic_search_et"
+            android:hint="搜索文章"
+            android:padding="6dp"
+            android:textColor="#000000"
+            android:textColorHint="#d7d7d7" />
+    </LinearLayout>
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></ListView>
+</RelativeLayout>
